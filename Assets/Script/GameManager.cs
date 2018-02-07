@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void GenerateMonsters(int numberOfMonster)
     {
-        
+
     }
 
     public void nextturn()
