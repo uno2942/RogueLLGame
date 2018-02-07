@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour {
 
-
     List<itemInformation>[] itemlist = new List<itemInformation>[ 3 ];
 
     public class itemInformation {
@@ -15,11 +14,6 @@ public class ItemManager : MonoBehaviour {
             itemName = itemNameInput;
             isIdentified = isIdentifiedInput;
         }
-
-        /*public itemInformation(Item item) {
-            
-        }
-        */
     }
 
     // Use this for initialization

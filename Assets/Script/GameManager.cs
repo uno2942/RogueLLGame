@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     private int currentTurn = 0;
     private bool currentSituation = true; //true : 싸움
-
+    
     public GameObject playerObject;
     private Player player;
+    public GameObject ratPrefab;
+
+    private Vector2[] monsterGenTransform;
     // Use this for initialization
     void Start()
     {
         player = playerObject.GetComponent ("Player") as Player;
+        monsterGenTransform = new Vector2 [6];
+        monsterGenTransform [0] = new Vector2 (0, 2);
+        monsterGenTransform [1] = new Vector2 (-2, 2);
+        monsterGenTransform [2] = new Vector2 (2, 2);
+        monsterGenTransform [3] = new Vector2 (-3, 2);
+        monsterGenTransform [4] = new Vector2 (0, 2);
+        monsterGenTransform [5] = new Vector2 (3, 2);
     }
 
     // Update is called once per frame
@@ -47,7 +56,22 @@ public class GameManager : MonoBehaviour
 
     public void GenerateMonsters(int numberOfMonster)
     {
-
+        switch(numberOfMonster)
+        {
+            case 0: break;
+            case 1:
+                Instantiate (ratPrefab, monsterGenTransform[0], Quaternion.identity);
+                break;
+            case 2:
+                Instantiate (ratPrefab, monsterGenTransform [1], Quaternion.identity);
+                Instantiate (ratPrefab, monsterGenTransform [2], Quaternion.identity);
+                break;
+            case 3:
+                Instantiate (ratPrefab, monsterGenTransform [3], Quaternion.identity);
+                Instantiate (ratPrefab, monsterGenTransform [4], Quaternion.identity);
+                Instantiate (ratPrefab, monsterGenTransform [5], Quaternion.identity);
+                break;
+        }
     }
 
     public void nextturn()
