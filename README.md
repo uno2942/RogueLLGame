@@ -1,2 +1,1 @@
-# RogueLikeLikegame
-RogueLikeLike
+# RogueLikeLikeGame
