@@ -14,7 +14,7 @@ public class Rat : Enemy {
     }
     private void OnMouseUpAsButton()
     {
-        Debug.Log ("몬스터 공격");
+        Debug.Log( "asdf" );
         gameManager.AttackToEnemy (this);
         gameManager.EnemyTurn ();
         gameManager.nextturn ();

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private int currentTurn = 0;
-    private bool currentSituation = true; //true : 싸움
+    private int currentTurn;
+    private bool currentSituation; //true : 싸움
     
     public GameObject playerObject;
     private Player player;
@@ -23,11 +23,21 @@ public class GameManager : MonoBehaviour
         monsterGenTransform [3] = new Vector2 (-3, 2);
         monsterGenTransform [4] = new Vector2 (0, 2);
         monsterGenTransform [5] = new Vector2 (3, 2);
+        currentTurn = 0;
+        currentSituation = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        /*if( 0 == enemyList.Length ) {
+            currentSituation = false;
+        } else {
+
+        } 
+        */
+        //일단 문이 닫혀 있는 걸로 적어 놓을게요.
 
     }
 
@@ -81,14 +91,11 @@ public class GameManager : MonoBehaviour
     }
     public void EnemyTurn()
     {
-
-        Debug.Log ("적턴 시작");
         GameObject [] enemyList = GameObject.FindGameObjectsWithTag ("Enemy");
         Debug.Log (enemyList.Length);
         for(int i=0;i<enemyList.Length;i++ )
         {
             AttackToPlayer (enemyList [i].GetComponent<Enemy>());
         }
-        Debug.Log ("적턴 끝");
     }
 }
