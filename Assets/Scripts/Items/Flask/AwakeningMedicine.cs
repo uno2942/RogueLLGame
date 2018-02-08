@@ -9,6 +9,7 @@ public class AwakeningMedicine : Flask {
 	// Use this for initialization
 	void Start () {
         name = "AwakeningMedicine";
+        status = StatusCheck.StatusEnum.Awaken;
 
     }
 	
