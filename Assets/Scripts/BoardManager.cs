@@ -12,7 +12,6 @@ public class BoardManager : MonoBehaviour {
     public GameObject doorPrefab;
     public Camera gameCamera;
     public Player playerobejct;
-    private BoardManager boardManager;
 
     private int xPos, yPos;
     private int whichFloor;
@@ -43,6 +42,8 @@ public class BoardManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
+
         GameObject doorObject = Instantiate( doorPrefab, new Vector2( 7, 0 ), Quaternion.identity ) as GameObject;
         Door door = doorObject.GetComponent<Door>();
         door.direction = Direction.Right;

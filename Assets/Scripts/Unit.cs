@@ -7,11 +7,13 @@ public class Unit : MonoBehaviour {
     protected int defense;
     protected int hp;
     protected GameManager gameManager; 
-    private List<Status> statusList;
+    protected StatusCheck statusList;
 
     private void Awake()
     {
         gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
+        statusList = new StatusCheck ();
+        statusList.Initialize (this);
     }
     public int Attack
     {
@@ -36,17 +38,37 @@ public class Unit : MonoBehaviour {
         }
     }
     
-    public void changeAttack(int delta)
+    public void ChangeAttack(int delta)
     {
         attack += delta;
     }
-    public void changeHp(int delta)
+    public void ChangeHp(int delta)
     {
         hp += delta;
     }
-    public void changeDefense(int delta)
+    public void ChangeDefense(int delta)
     {
         defense += delta;
+    }
+
+    public void AddStatus(StatusCheck.StatusEnum se)
+    {
+        statusList.AddStatus (se);
+    }
+    public void DeleteStatus(StatusCheck.StatusEnum se)
+    {
+        statusList.DeleteStatus (se);
+    }
+
+
+    public void debugStatus()
+    {
+        statusList.debugStatus ();
+    }
+
+    public void UpdateStatus()
+    {
+        statusList.UpdateStatus ();
     }
 }
 
