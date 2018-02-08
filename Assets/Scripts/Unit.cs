@@ -6,13 +6,12 @@ public class Unit : MonoBehaviour {
     protected int attack;
     protected int defense;
     protected int hp;
-    public GameObject gameManagerObject;
     protected GameManager gameManager; 
     private List<Status> statusList;
 
-    private void Start()
+    private void Awake()
     {
-        gameManager = gameManagerObject.GetComponent<GameManager>();
+        gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
     }
     public int Attack
     {

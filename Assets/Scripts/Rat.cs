@@ -10,7 +10,6 @@ public class Rat : Enemy {
         attack = 1;
         defense = 1;
         hp = 30;
-        gameManager = gameManagerObject.GetComponent<GameManager> ();
     }
     private void OnMouseUpAsButton()
     {

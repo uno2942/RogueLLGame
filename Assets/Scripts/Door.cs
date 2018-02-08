@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+    public GameObject gameManagerObject;
+    private GameManager gameManager;
     private bool isOpened;
     public bool IsOpened
     {
@@ -38,6 +40,8 @@ public class Door : MonoBehaviour {
     // Use this for initialization
     void Start () {
         boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
+        gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
+        isOpened = true;
     }
 	
 	// Update is called once per frame
@@ -46,8 +50,13 @@ public class Door : MonoBehaviour {
 	}
 
     private void OnMouseUpAsButton() {
-        //if( isOpened )
-            boardManager.MoveNextRoom(direction);
+        Debug.Log (isOpened + " " + gameManager.CurrentSituation);
+        if ( isOpened && !gameManager.CurrentSituation )
+        {
+            boardManager.MoveNextRoom (direction);
+            gameManager.GenerateMonsters (2);
+            gameManager.nextturn ();
+        }
     }
 
 }

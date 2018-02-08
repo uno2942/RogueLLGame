@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour {
 
-    const int verticalMovement = 10;
-    const int horizontalMovement = 18;
+    public const int verticalMovement = 10;
+    public const int horizontalMovement = 18;
 
     public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};
 
@@ -13,6 +13,24 @@ public class BoardManager : MonoBehaviour {
     public Camera gameCamera;
     public Player playerobejct;
     private BoardManager boardManager;
+
+    private int xPos, yPos;
+
+    public int XPos
+    {
+        get
+        {
+            return xPos;
+        }
+    }
+
+    public int YPos
+    {
+        get
+        {
+            return yPos;
+        }
+    }
 
     // Use this for initialization
     void Start() {
@@ -32,6 +50,8 @@ public class BoardManager : MonoBehaviour {
         door = doorObject.GetComponent<Door>();
         door.direction = Direction.DownSide;
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
+
+        xPos = yPos = 0;
     }
 	
 	// Update is called once per frame
@@ -46,18 +66,22 @@ public class BoardManager : MonoBehaviour {
             case Direction.Right:
                 gameCamera.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
                 playerobejct.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
+                xPos++;
                 break;
             case Direction.Left:
                 gameCamera.transform.position -= new Vector3Int( horizontalMovement, 0, 0 );
                 playerobejct.transform.position -= new Vector3Int( horizontalMovement, 0, 0 );
+                xPos--;
                 break;
             case Direction.UpSide:
                 gameCamera.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 playerobejct.transform.position += new Vector3Int( 0, verticalMovement, 0 );
+                yPos++;
                 break;
              case Direction.DownSide:
                 gameCamera.transform.position -= new Vector3Int(0, verticalMovement, 0 );
                 playerobejct.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
+                yPos--;
                 break;
             }
 
