@@ -20,9 +20,6 @@ public class Can : Item {
     }
     //set은 private
 
-    public Can( string itemName, string itemProperty = "Null", int hungerChange = 0 ) : base(itemName, itemProperty) {
-        this.hungerChange = hungerChange;
-    }
 
     // Use this for initialization
     void Start () {

@@ -12,18 +12,9 @@ public class Armor : Item {
         {
             return defensivePower;
         }
-
-        private set
-        {
-            defensivePower = value;
-        }
     }
     //set은 private
-
-    public Armor( string itemName, int defensivePower) : base(itemName) {
-        this.defensivePower = defensivePower;
-    }
-
+    
     // Use this for initialization
     void Start () {
 		

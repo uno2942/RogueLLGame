@@ -22,6 +22,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Vector2[] MonsterGenLocation
+    {
+        get
+        {
+            return monsterGenLocation;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
