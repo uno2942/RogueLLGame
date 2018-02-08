@@ -7,6 +7,7 @@ public class RelievingMedicine : Flask {
 	// Use this for initialization
 	void Start () {
         name = "RelievingMedicine";
+        status = StatusCheck.StatusEnum.Relieve;
     }
 	
 	// Update is called once per frame

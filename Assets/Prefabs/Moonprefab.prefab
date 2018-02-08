@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114232501350744130}
   - component: {fileID: 61728482600064252}
   m_Layer: 0
-  m_Name: MoonPrefab
+  m_Name: Moonprefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450a967c8b14f0948921210cf512575b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManagerObject: {fileID: 0}
   direction: 0
 --- !u!212 &212455165650869478
 SpriteRenderer:

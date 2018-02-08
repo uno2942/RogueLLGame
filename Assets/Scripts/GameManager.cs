@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
         isMental = false;
+        itemManager.DropItem( new Vector2( 0, 0 ) );
     }
 
     // Update is called once per frame

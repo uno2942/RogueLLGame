@@ -9,7 +9,6 @@ public class ItemManager : MonoBehaviour {
         Ethanol1stFloor, Water1stFloor, DiscardMedicine1stFloor, RingerSolution1stFloor, ParalyzingMedicine1stFloor, LiquidFlameMedicine1stFloor, AwakeningMedicine1stFloor, RelievingMedicine1stFloor, DetoxificatingMedicine1stFloor,
         Ethanol2ndFloor, Water2ndFloor, DiscardMedicine2ndFloor, RingerSolution2ndFloor, ParalyzingMedicine2ndFloor, LiquidFlameMedicine2ndFloor, AwakeningMedicine2ndFloor, RelievingMedicine2ndFloor, DetoxificatingMedicine2ndFloor,
         Ethanol3rdFloor, Water3rdFloor, DiscardMedicine3rdFloor, RingerSolution3rdFloor, ParalyzingMedicine3rdFloor, LiquidFlameMedicine3rdFloor, AwakeningMedicine3rdFloor, RelievingMedicine3rdFloor, DetoxificatingMedicine3rdFloor
-      , NumOfLabel
     };
     private const int floorMax = 3;
     
@@ -33,15 +32,17 @@ public class ItemManager : MonoBehaviour {
     void Start() {
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
-
-        for( int i = 0; i < (int) Label.NumOfLabel; i++ ) {
-            IsIdentified.Add( (Label) i, false );
+        
+        foreach(Label i in System.Enum.GetValues( typeof( Label ) ) ) {
+            IsIdentified.Add( i, false );
         }
 
-        for( int i = 0; i < weaponPrefabs.Length; i++ )
-            weaponPrefabs[ i ].AddComponent<SpriteRenderer>().sprite=weaponSprite[i];
+        for( int i = 0; i < weaponPrefabs.Length; i++ ) {
+            Debug.Log( weaponPrefabs.Length );
+            weaponPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = weaponSprite[ i ];
+        }
         for( int i = 0; i < armorPrefabs.Length; i++ )
-            armorPrefabs[ i ].AddComponent<SpriteRenderer>().sprite = armorSprite[ i ];
+            armorPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = armorSprite[ i ];
         InitializePrefabsRandomly( foodPrefabs, foodSprite );
         InitializePrefabsRandomly( flaskPrefabs, flaskSprite );
     }
@@ -52,7 +53,7 @@ public class ItemManager : MonoBehaviour {
     }
 
     //IsIdentified 함수 input parameter를 다양화 해야하는가.
-    void ItemInfoIdentification( string ItemInfoName ) {
+    void ItemIdentification( string ItemInfoName ) {
 
     }
 
@@ -60,8 +61,8 @@ public class ItemManager : MonoBehaviour {
 
     }
     */
-    public void DropItemInfo( Vector3 position ) {
-        int index= Random.Range( 0, 4 );
+    public void DropItem(Vector2 position ) {
+        Instantiate( weaponPrefabs[ 0 ], position, Quaternion.identity );
     }
 
 
@@ -76,7 +77,7 @@ public class ItemManager : MonoBehaviour {
         GenerateRandomSequence( ref PrefabIndex );
         GenerateRandomSequence( ref SpriteIndex );
         for( int i = 0; i < len; i++ )
-            Prefabs[ i ].AddComponent<SpriteRenderer>().sprite = Sprite[ i ];
+            Prefabs[ i ].GetComponent<SpriteRenderer>().sprite = Sprite[ i ];
     }
 
     void GenerateRandomSequence( ref int[] index ) {
