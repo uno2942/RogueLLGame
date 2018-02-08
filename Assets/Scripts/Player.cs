@@ -24,14 +24,22 @@ public class Player : Unit {
         mp = 120;
         hungry = 100;
     }
-    public void changeMp(int delta)
+    public void ChangeMp(int delta)
     {
         mp += delta;
     }
 
-    public void changeHungry(int delta)
+    public void ChangeHungry(int delta)
     {
         hungry += delta;
     }
 
+    public bool isRelieve()
+    {
+        return statusList.isRelieve ();
+    }
+    public bool isAwaken()
+    {
+        return statusList.isAwaken ();
+    }
 }

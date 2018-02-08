@@ -6,12 +6,12 @@ public class GameManager : MonoBehaviour
 {
     private int currentTurn;
     private bool currentSituation; //true : 싸움
-    
+    private bool isMental, isAwaken, isRelieve;
     public GameObject playerObject;
     private Player player;
     public GameObject ratPrefab;
     private BoardManager boardManager;
-
+    private ItemManager itemManager;
     private Vector2[] monsterGenLocation;
 
     public bool CurrentSituation
@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
         currentTurn = 0;
         currentSituation = false;
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+        itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
+        isMental = false;
     }
 
     // Update is called once per frame
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
     public void AttackToEnemy(Enemy enemy)
     {
         int damage = 10;
-        enemy.changeHp (-damage);
+        enemy.ChangeHp (-damage);
         if ( enemy.Hp <= 0 )
         {
             Destroy (enemy.gameObject);
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
     {
         if ( enemy.Hp <= 0 ) return false;
         int damage = 1;
-        player.changeHp (-damage);
+        player.ChangeHp (-damage);
         if(player.Hp<=0)
         {
             Destroy (player.gameObject);
@@ -104,8 +106,49 @@ public class GameManager : MonoBehaviour
 
     public void nextturn()
     {
-        Debug.Log ("Turn " + currentTurn + "  내 체력 : " + player.Hp);
+        bool prevAwaken = isAwaken;
         currentTurn++;
+        if (!isMental && player.Mp <= 40 )
+        {
+            player.ChangeMp (-player.Mp);
+            isMental = true;
+            player.AddStatus (StatusCheck.StatusEnum.Mental);
+        }
+        else if(isMental && player.Mp>=60)
+        {
+            isMental = false;
+            player.DeleteStatus (StatusCheck.StatusEnum.Mental);
+        }
+        else if(isMental)
+        {
+            player.ChangeMp (1);
+        }
+
+        if(player.Hungry ==100)
+        {
+            player.ChangeHp (-player.Hp);
+        }
+        else if( player.Hungry >= 80)
+        {
+            player.DeleteStatus (StatusCheck.StatusEnum.Hunger);
+            player.AddStatus (StatusCheck.StatusEnum.Starve);
+        }
+        else if(player.Hungry>=50)
+        {
+            player.DeleteStatus (StatusCheck.StatusEnum.Starve);
+            player.AddStatus (StatusCheck.StatusEnum.Hunger);
+        }
+
+
+        player.ChangeHungry (1);
+        if ( player.isRelieve () ) player.ChangeMp (3);
+        player.UpdateStatus ();
+        isRelieve = player.isRelieve ();
+        isAwaken = player.isAwaken ();
+        if ( isAwaken != prevAwaken ) player.ChangeMp (-10);
+
+            Debug.Log ("현재 " + currentTurn + "턴 : 전투상태 " + currentSituation + " 내상태 " + player.Hp + " / " + player.Mp);
+        player.debugStatus ();
     }
     public void EnemyTurn()
     {
@@ -120,9 +163,8 @@ public class GameManager : MonoBehaviour
 
         if(enemyNum==0)
         {
+            //itemManager.dropItem (1);
             currentSituation = false;
         }
-        
-
     }
 }
