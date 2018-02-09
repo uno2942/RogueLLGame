@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Water : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void Drink( Player player ) {
+        player.ChangeMp( 5 );
+    }
+    // Use this for initialization
+    void Start () {
         name = "Water";
     }
 	

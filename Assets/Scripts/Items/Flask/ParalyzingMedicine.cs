@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ParalyzingMedicine : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void Drink( Player player ) {
+    }
+
+    // Use this for initialization
+    void Start () {
         name = "ParalyzingMedicine";
     }
 	

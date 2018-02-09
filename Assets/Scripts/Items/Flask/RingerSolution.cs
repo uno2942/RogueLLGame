@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class RingerSolution : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void Drink( Player player ) {
+        player.ChangeHp( 50 );
+        player.ChangeHungry( -40 );
+    }
+    // Use this for initialization
+    void Start () {
         name = "RingerSolution";
     }
 	

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class AwakeningMedicine : Flask {
 
+    public override void Drink( Player player ) {
 
+        player.AddStatus( StatusCheck.StatusEnum.Awaken );
+    }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         name = "AwakeningMedicine";
-        status = StatusCheck.StatusEnum.Awaken;
 
     }
 	

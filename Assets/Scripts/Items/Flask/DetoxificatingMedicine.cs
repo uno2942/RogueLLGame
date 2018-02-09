@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class DetoxificatingMedicine : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void Drink( Player player ) {
+        player.DeleteStatus( StatusCheck.StatusEnum.Poison );
+    }
+    // Use this for initialization
+    void Start () {
         name = "DetoxificatingMedicine";
     }
 	
