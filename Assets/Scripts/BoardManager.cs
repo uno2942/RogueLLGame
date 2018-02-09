@@ -16,6 +16,10 @@ public class BoardManager : MonoBehaviour {
     private int xPos, yPos;
     private int whichFloor;
 
+    public Vector2 NowPos()
+    {
+        return new Vector2 (xPos * horizontalMovement, yPos * verticalMovement);
+    }
     public int XPos
     {
         get
