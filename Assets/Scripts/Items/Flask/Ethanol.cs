@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Ethanol : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void DoAction( Player player ) {
+        player.ChangeHp( -10 );
+        player.ChangeMp( 15 );
+    }
+
+    // Use this for initialization
+    void Start () {
         name = "Ethanol";
-        hpChange = -10;
-        mpChange = 15;
     }
 	
 	// Update is called once per frame

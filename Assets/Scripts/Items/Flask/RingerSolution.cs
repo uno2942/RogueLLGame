@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class RingerSolution : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void DoAction( Player player ) {
+        player.ChangeHp( 50 );
+        player.ChangeHungry( -40 );
+    }
+    // Use this for initialization
+    void Start () {
         name = "RingerSolution";
-        hpChange = 50;
-        hungerChange = -40;
     }
 	
 	// Update is called once per frame

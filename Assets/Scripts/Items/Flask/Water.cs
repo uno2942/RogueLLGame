@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Water : Flask {
 
-	// Use this for initialization
-	void Start () {
+    public override void DoAction( Player player ) {
+        player.ChangeMp( 5 );
+    }
+    // Use this for initialization
+    void Start () {
         name = "Water";
-        mpChange = 5;
     }
 	
 	// Update is called once per frame
