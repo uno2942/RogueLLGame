@@ -4,21 +4,8 @@ using UnityEngine;
 
 public class Item : MonoBehaviour {
     
-    private string property;
-    private new string name;
-
-    public string Property
-    {
-        get
-        {
-            return property;
-        }
-
-        private set
-        {
-            property = value;
-        }
-    }
+    protected new string name;
+    public ItemManager.Label label;
     //set은 private
     public string Name
     {
@@ -34,8 +21,13 @@ public class Item : MonoBehaviour {
     }
     //set은 private
 
-    public Item( string itemName, string itemProperty = "Null" ) { name = itemName; property = itemProperty; }
-    // Use this for initialization
+    private void OnMouseUpAsButton()
+    {
+        Debug.Log ("안녕");
+        Player player = GameObject.Find ("Player").GetComponent<Player> ();
+        player.PickItem (label);
+        Destroy (gameObject);
+    }
     void Start () {
 		
 	}

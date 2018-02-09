@@ -22,6 +22,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Vector2[] MonsterGenLocation
+    {
+        get
+        {
+            return monsterGenLocation;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -163,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         if(enemyNum==0)
         {
-            //itemManager.dropItem (1);
+            itemManager.DropItem (boardManager.NowPos());
             currentSituation = false;
         }
     }

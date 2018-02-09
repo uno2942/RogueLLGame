@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: b465ca33008aebe4f89f419cdd2b2c5b
-timeCreated: 1518004998
+guid: b2e45adba59e01147a5005272d43f7cc
+timeCreated: 1518077271
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - doorPrefab: {instanceID: 0}
-  - gameCamera: {instanceID: 0}
-  - playerobejct: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

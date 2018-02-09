@@ -14,7 +14,12 @@ public class BoardManager : MonoBehaviour {
     public Player playerobejct;
 
     private int xPos, yPos;
+    private int whichFloor;
 
+    public Vector2 NowPos()
+    {
+        return new Vector2 (xPos * horizontalMovement, yPos * verticalMovement);
+    }
     public int XPos
     {
         get
@@ -28,6 +33,14 @@ public class BoardManager : MonoBehaviour {
         get
         {
             return yPos;
+        }
+    }
+
+    public int WhichFloor
+    {
+        get
+        {
+            return whichFloor;
         }
     }
 
@@ -53,6 +66,7 @@ public class BoardManager : MonoBehaviour {
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
+        whichFloor = 0;
     }
 	
 	// Update is called once per frame

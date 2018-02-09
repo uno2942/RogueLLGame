@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : Item {
+public class PlayerUI : MonoBehaviour {
 
-    int defensivePower;
-
-    public int DefensivePower
-    {
-        get
-        {
-            return defensivePower;
-        }
-    }
-    //set은 private
-    
+    public GameObject inventoryItemPrefab;
     // Use this for initialization
     void Start () {
 		

@@ -42,7 +42,7 @@ public class Unit : MonoBehaviour {
     {
         attack += delta;
     }
-    public void ChangeHp(int delta)
+    public virtual void ChangeHp(int delta)
     {
         hp += delta;
     }

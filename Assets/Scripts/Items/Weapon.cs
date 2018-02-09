@@ -12,17 +12,9 @@ public class Weapon : Item {
         {
             return attackPower;
         }
-
-        private set
-        {
-            attackPower = value;
-        }
     }
     //set은 private
 
-    public Weapon( string itemName, int attackPower ) : base(itemName) {
-        this.attackPower = attackPower;
-    }
     // Use this for initialization
     void Start () {
 		
