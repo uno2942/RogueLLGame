@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
             Destroy (enemy.gameObject);
             Debug.Log ("적 사망");
         }
-        
     }
 
     public bool AttackToPlayer(Enemy enemy)
@@ -106,6 +105,7 @@ public class GameManager : MonoBehaviour
 
     public void nextturn()
     {
+        Debug.Log (player.Hp);
         bool prevAwaken = isAwaken;
         currentTurn++;
         if (!isMental && player.Mp <= 40 )

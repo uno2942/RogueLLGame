@@ -18,11 +18,12 @@ public class Player : Unit {
 
     private void Start()
     {
+        Debug.Log ("생성");
         attack = 1;
         defense = 1;
         hp = 120;
         mp = 120;
-        hungry = 100;
+        hungry = 0;
     }
     public void ChangeMp(int delta)
     {
