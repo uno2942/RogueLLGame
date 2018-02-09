@@ -12,9 +12,4 @@ public class LiquidFlameMedicine : Flask {
     void Start () {
         name = "LiquidFlameMedicine";
     }
-
-    public override void DoAction(Player player)
-    {
-        player.AddStatus (StatusCheck.StatusEnum.Burn);
-    }
 }
