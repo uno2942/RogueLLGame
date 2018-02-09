@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LiquidFlameMedicine : Flask {
 
-    public override void DoAction( Player player ) {
+    public override void Drink( Player player ) {
         player.AddStatus( StatusCheck.StatusEnum.Burn );
     }
 

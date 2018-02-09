@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RingerSolution : Flask {
 
-    public override void DoAction( Player player ) {
+    public override void Drink( Player player ) {
         player.ChangeHp( 50 );
         player.ChangeHungry( -40 );
     }

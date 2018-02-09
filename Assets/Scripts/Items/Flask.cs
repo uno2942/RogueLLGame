@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flask : Item {
 
-    public virtual void DoAction( Player player ) {
+    public virtual void Drink( Player player ) {
     }
     // Use this for initialization
     void Start () {

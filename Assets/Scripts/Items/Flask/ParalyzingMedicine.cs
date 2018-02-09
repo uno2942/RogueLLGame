@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParalyzingMedicine : Flask {
 
-    public override void DoAction( Player player ) {
+    public override void Drink( Player player ) {
     }
 
     // Use this for initialization
