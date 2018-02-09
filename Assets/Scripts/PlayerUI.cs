@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiscardedMedicine : Flask {
+public class PlayerUI : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        name = "DiscardedMedicine";
-
-    }
+    public GameObject inventoryItemPrefab;
+    // Use this for initialization
+    void Start () {
+		
+	}
 	
 	// Update is called once per frame
 	void Update () {

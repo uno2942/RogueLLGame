@@ -9,9 +9,9 @@ public class LiquidFlameMedicine : Flask {
         name = "LiquidFlameMedicine";
         status = StatusCheck.StatusEnum.Burn;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public override void DoAction(Player player)
+    {
+        player.AddStatus (StatusCheck.StatusEnum.Burn);
+    }
 }

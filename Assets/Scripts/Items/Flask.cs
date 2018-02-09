@@ -3,54 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Flask : Item {
-
-    protected int hpChange;
-    protected int mpChange;
-    protected int hungerChange;
-    protected StatusCheck.StatusEnum status;
-
-    public int HPChange
+    public virtual void DoAction(Player player)
     {
-        get
-        {
-            return hpChange;
-        }
     }
-    //set은 private
-    public int MPChange
-    {
-        get
-        {
-            return mpChange;
-        }
-    }
-    //set은 private
-    public int HungerChange
-    {
-        get
-        {
-            return hungerChange;
-        }
-
-    }
-
-    protected StatusCheck.StatusEnum Status
-    {
-        get
-        {
-            return status;
-        }
-    }
-
-    //set은 private
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

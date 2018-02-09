@@ -7,7 +7,6 @@ public class Water : Flask {
 	// Use this for initialization
 	void Start () {
         name = "Water";
-        mpChange = 5;
     }
 	
 	// Update is called once per frame

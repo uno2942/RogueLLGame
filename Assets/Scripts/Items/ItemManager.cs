@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour {
 
     public enum Label {
-        //무기는 0번째 번호
+        Empty, Sword, DelCan, Gown,
         Ethanol1stFloor, Water1stFloor, DiscardMedicine1stFloor, RingerSolution1stFloor, ParalyzingMedicine1stFloor, LiquidFlameMedicine1stFloor, AwakeningMedicine1stFloor, RelievingMedicine1stFloor, DetoxificatingMedicine1stFloor,
         Ethanol2ndFloor, Water2ndFloor, DiscardMedicine2ndFloor, RingerSolution2ndFloor, ParalyzingMedicine2ndFloor, LiquidFlameMedicine2ndFloor, AwakeningMedicine2ndFloor, RelievingMedicine2ndFloor, DetoxificatingMedicine2ndFloor,
         Ethanol3rdFloor, Water3rdFloor, DiscardMedicine3rdFloor, RingerSolution3rdFloor, ParalyzingMedicine3rdFloor, LiquidFlameMedicine3rdFloor, AwakeningMedicine3rdFloor, RelievingMedicine3rdFloor, DetoxificatingMedicine3rdFloor
@@ -65,7 +65,14 @@ public class ItemManager : MonoBehaviour {
         Instantiate( weaponPrefabs[ 0 ], position, Quaternion.identity );
     }
 
-
+    public Sprite LabelToSprite(Label label)
+    {
+        if(label == Label.Sword)
+        {
+            return weaponPrefabs [0].GetComponent<SpriteRenderer> ().sprite;
+        }
+        return null;
+    }
 
 
 
@@ -86,7 +93,6 @@ public class ItemManager : MonoBehaviour {
         for( int i = 0; i < index.Length; i++ ) {
             index[ i ] = i;
             weight[ i ] = Random.Range( 0, 100 ); //문제 생기면 겹치는 거 방지하는 코드 생성
-            Debug.Log( weight[ i ] );
         }
         for( int i = 0; i < index.Length; i++ )
             for( int j = 0; j < i; j++ ) {

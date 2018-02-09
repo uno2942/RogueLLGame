@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiscardedMedicine : Flask {
+public class InventoryItem : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        name = "DiscardedMedicine";
-
-    }
+		
+	}
 	
 	// Update is called once per frame
 	void Update () {

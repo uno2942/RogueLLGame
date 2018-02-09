@@ -21,6 +21,13 @@ public class Item : MonoBehaviour {
     }
     //set은 private
 
+    private void OnMouseUpAsButton()
+    {
+        Debug.Log ("안녕");
+        Player player = GameObject.Find ("Player").GetComponent<Player> ();
+        player.PickItem (label);
+        Destroy (gameObject);
+    }
     void Start () {
 		
 	}
