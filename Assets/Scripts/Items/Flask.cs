@@ -6,6 +6,9 @@ public class Flask : Item {
 
     public virtual void Drink( Player player ) {
     }
+    public virtual void ThrownTo(Enemy enemy) {
+
+    }
     // Use this for initialization
     void Start () {
 		

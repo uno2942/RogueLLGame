@@ -8,6 +8,9 @@ public class LiquidFlameMedicine : Flask {
         player.AddStatus( StatusCheck.StatusEnum.Burn );
     }
 
+    public override void ThrownTo( Enemy enemy ) {
+        enemy.AddStatus( StatusCheck.StatusEnum.Burn );
+    }
     // Use this for initialization
     void Start () {
         name = "LiquidFlameMedicine";

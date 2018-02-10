@@ -25,7 +25,9 @@ public class ItemManager : MonoBehaviour {
         else return ItemType.Flask;
     }
     private const int floorMax = 3;
-    
+
+    Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
+
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
     public GameObject[] foodPrefabs;
@@ -40,7 +42,7 @@ public class ItemManager : MonoBehaviour {
     public BoardManager boardmanager;
     public GameManager gamemanager;
 
-    Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
+    
 
     // Use this for initialization
     void Start() {

@@ -6,7 +6,9 @@ public class ParalyzingMedicine : Flask {
 
     public override void Drink( Player player ) {
     }
-
+    public override void ThrownTo( Enemy enemy ) {
+        enemy.AddStatus( StatusCheck.StatusEnum.Burn ); //paralyzed
+    }
     // Use this for initialization
     void Start () {
         name = "ParalyzingMedicine";
