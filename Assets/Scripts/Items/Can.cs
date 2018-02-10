@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class Can : Item {
 
-    public int hungerChange;
-
-    public int HungerChange
-    {
-        get
-        {
-            return hungerChange;
-        }
-
-        private set
-        {
-            hungerChange = value;
-        }
+    public void Eat(Player player) {
+        player.ChangeHungry( -20 );
+        Random.InitState( (int) System.DateTime.Now.Ticks );
+        int isRotten = Random.Range( 0, 2 );
+        if( isRotten == 1 )
+            player.AddStatus( StatusCheck.StatusEnum.Poison );
     }
     //set은 private
 

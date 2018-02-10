@@ -26,7 +26,7 @@ public class ItemManager : MonoBehaviour {
     }
     private const int floorMax = 3;
 
-    Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
+    private Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
 
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
@@ -69,14 +69,14 @@ public class ItemManager : MonoBehaviour {
     }
 
     //IsIdentified 함수 input parameter를 다양화 해야하는가.
-    void ItemIdentification( string ItemInfoName ) {
-
+    public void ItemIdentify( Label label ) {
+        IsIdentified[ label ] = true;
     }
-
-    /*void ItemInfoIdentification(ItemInfo ItemInfo ) {
-
+    
+    public bool GetItemIdentificationInfo(Label label) {
+        return IsIdentified[ label ];
     }
-    */
+    
     public void DropItem(Vector2 position ) {
         Instantiate( weaponPrefabs[ 0 ], position, Quaternion.identity );
     }
@@ -90,9 +90,6 @@ public class ItemManager : MonoBehaviour {
         return null;
     }
 
-
-    
-
     void InitializePrefabsRandomly( GameObject[] Prefabs, Sprite[] Sprite ) {
         int len = Prefabs.Length;
         int[] PrefabIndex = new int[ len ];
@@ -102,7 +99,6 @@ public class ItemManager : MonoBehaviour {
         for( int i = 0; i < len; i++ )
             Prefabs[ i ].GetComponent<SpriteRenderer>().sprite = Sprite[ i ];
     }
-
     void GenerateRandomSequence( ref int[] index ) {
         Random.InitState( (int) System.DateTime.Now.Ticks );
         float[] weight = new float[ index.Length ];
@@ -118,7 +114,6 @@ public class ItemManager : MonoBehaviour {
                 }
             }
     }
-
     void Swap(ref float a, ref float b) {
         float temp = a;
         a = b;
