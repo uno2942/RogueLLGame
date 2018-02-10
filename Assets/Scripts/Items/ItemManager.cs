@@ -10,6 +10,20 @@ public class ItemManager : MonoBehaviour {
         Ethanol2ndFloor, Water2ndFloor, DiscardMedicine2ndFloor, RingerSolution2ndFloor, ParalyzingMedicine2ndFloor, LiquidFlameMedicine2ndFloor, AwakeningMedicine2ndFloor, RelievingMedicine2ndFloor, DetoxificatingMedicine2ndFloor,
         Ethanol3rdFloor, Water3rdFloor, DiscardMedicine3rdFloor, RingerSolution3rdFloor, ParalyzingMedicine3rdFloor, LiquidFlameMedicine3rdFloor, AwakeningMedicine3rdFloor, RelievingMedicine3rdFloor, DetoxificatingMedicine3rdFloor
     };
+
+    public enum ItemType
+    {
+        Empty, Weapon, Armor, Food, Flask
+    };
+
+    public static ItemType LabelToType(Label lab)
+    {
+        if ( lab == Label.Empty ) return ItemType.Empty;
+        else if ( lab == Label.Sword ) return ItemType.Weapon;
+        else if ( lab == Label.DelCan ) return ItemType.Food;
+        else if ( lab == Label.Gown ) return ItemType.Armor;
+        else return ItemType.Flask;
+    }
     private const int floorMax = 3;
     
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
@@ -75,7 +89,7 @@ public class ItemManager : MonoBehaviour {
     }
 
 
-
+    
 
     void InitializePrefabsRandomly( GameObject[] Prefabs, Sprite[] Sprite ) {
         int len = Prefabs.Length;

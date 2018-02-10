@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rat : Enemy {
+public class Dog : Enemy {
     private void Start()
     {
         Debug.Log ("시작시작111");

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItem : MonoBehaviour {
+public class DialogBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

@@ -58,4 +58,8 @@ public class Player : Unit {
     {
         inventoryList.AddItem (label);
     }
+    public ItemManager.Label GetLabel(int index)
+    {
+        return inventoryList.LabelList [index];
+    }
 }

@@ -11,6 +11,14 @@ public class Inventory : MonoBehaviour {
     private GameObject [] inventoryObject;
     public ItemManager itemManager;
 
+    public ItemManager.Label [] LabelList
+    {
+        get
+        {
+            return labelList;
+        }
+    }
+
     void Start () {
     }
 	
@@ -27,13 +35,13 @@ public class Inventory : MonoBehaviour {
         for ( int i = 0; i < 6; i++ )
         {
             inventoryObject [i] = Instantiate (inventoryItemPrefab, new Vector2 (-8, i * 1.5f - 4), Quaternion.identity);
-            inventoryObject [i].transform.parent = GameObject.Find ("PlayerUI").transform;
+            inventoryObject [i].transform.parent = GameObject.Find ("InventoryUI").transform;
             inventoryObject [i + size / 2] = Instantiate (inventoryItemPrefab, new Vector2 (8, i * 1.5f - 4), Quaternion.identity);
-            inventoryObject [i + size / 2].transform.parent = GameObject.Find ("PlayerUI").transform;
+            inventoryObject [i + size / 2].transform.parent = GameObject.Find ("InventoryUI").transform;
             labelList [i] = labelList [i + 6] = ItemManager.Label.Empty;
         }
     }
-
+    
     public void AddItem(ItemManager.Label label)
     {
         int location;
@@ -47,6 +55,7 @@ public class Inventory : MonoBehaviour {
         {
             labelList [location] = label;
             inventoryObject [location].GetComponent<SpriteRenderer> ().sprite = itemManager.LabelToSprite (label);
+            inventoryObject [location].GetComponent<InventoryItem> ().Index = location;
         }
         else
         {
