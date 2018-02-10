@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlaskDialogBox : MonoBehaviour {
+public class FlaskDialogBox : DialogBox {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    protected override void Init() {
+        for( int i = 0; i < buttons.Length; i++ ) {
+            if( buttons[ i ].name == "Drink" )
+                buttons[ i ].onClick.AddListener( DrinkCommand );
+            else if( buttons[ i ].name == "Throw" )
+                buttons[ i ].onClick.AddListener( ThrowCommand );
+            else if( buttons[ i ].name == "Dump" )
+                buttons[ i ].onClick.AddListener( DumpCommand );
+            else
+                buttons[ i ].onClick.AddListener( null );
+        }
+    }
+    private void DrinkCommand() {
+
+    }
+    private void ThrowCommand() {
+
+    }
 }

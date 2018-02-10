@@ -62,4 +62,9 @@ public class Inventory : MonoBehaviour {
             Debug.Log ("아이템이 꽉찼다.");
         }
     }
+
+    public void DeleteItem(ItemManager.Label label) {
+
+    }
 }
+

@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoodDialogBox : MonoBehaviour {
+public class FoodDialogBox : DialogBox {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    protected override void Init() {
+        for(int i=0; i<buttons.Length; i++ ) {
+            if( buttons[ i ].name == "Eat" )
+                buttons[ i ].onClick.AddListener( EatCommand );
+            else if( buttons[ i ].name == "Dump" )
+                buttons[ i ].onClick.AddListener( DumpCommand );
+            else
+                buttons[ i ].onClick.AddListener( null );
+        }
+    }
+    private void EatCommand() {
+
+    }
 }
