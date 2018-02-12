@@ -42,7 +42,6 @@ public class InventoryItem : MonoBehaviour {
             dBox = (gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform )).GetComponent<WeaponArmorDialogBox>();
             dBox.inventoryItem = this;
             WeaponArmorDialogBox W = dBox as WeaponArmorDialogBox;
-            W.isEquipped = isEquipped;
             
         }
         else if ( nowType == ItemManager.ItemType.Food )

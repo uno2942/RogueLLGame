@@ -78,9 +78,8 @@ public class Player : Unit {
         if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Can can = inventoryList.itemManager.LabelToItem( label) as Can;
             can.EattenBy( this );
+            DumpItem( index );
         }
-        DumpItem( index );
-    
     }
 
     public void DrinkItem( int index ) {
@@ -88,8 +87,9 @@ public class Player : Unit {
         if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
             flask.DrunkBy( this );
+            inventoryList.itemManager.ItemIdentify( label );
+            DumpItem( index );
         }
-        DumpItem( index );
     }
     public void ThrowItem( int index ) {
         ItemManager.Label label = GetLabel( index );
@@ -100,12 +100,29 @@ public class Player : Unit {
         DumpItem( index );
     }
     public void EquipItem( int index ) {
-        
-
+        ItemManager.Label label = GetLabel( index );
+        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Object weaponorarmor = inventoryList.itemManager.LabelToItem( label );
+            if( weaponorarmor is Weapon ) {
+                Debug.Log( weaponorarmor.GetType() );
+                Debug.Log( ( (Weapon) weaponorarmor ).AttackPower );
+                ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
+            } else
+                ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
+            //장착되었으니 뭔갈 해야함.
+        }
+        Debug.Log( attack );
     }
 
     public void UnequipItem( int index ) {
-
-
+        ItemManager.Label label = GetLabel( index );
+        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Object weaponorarmor = inventoryList.itemManager.LabelToItem( label );
+            if( weaponorarmor is Weapon ) {
+                ChangeAttack( -(( Weapon) weaponorarmor ).AttackPower );
+            } else
+                ChangeDefense( -((Armor) weaponorarmor ).DefensivePower );
+            //장착되었으니 뭔갈 해야함.
+        }
     }
 }

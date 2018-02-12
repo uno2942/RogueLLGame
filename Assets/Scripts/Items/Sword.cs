@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Sword : Weapon {
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         attackPower = 10;
 	}
 	
