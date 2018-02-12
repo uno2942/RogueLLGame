@@ -55,7 +55,7 @@ public class Inventory : MonoBehaviour {
         {
             labelList [location] = label;
             inventoryObject [location].GetComponent<SpriteRenderer> ().sprite = itemManager.LabelToSprite (label);
-            inventoryObject [location].GetComponent<InventoryItem> ().Index = location;
+            inventoryObject [location].GetComponent<InventoryItem> ().Index = location; //남길지 말지 
         }
         else
         {

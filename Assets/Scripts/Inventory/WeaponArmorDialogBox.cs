@@ -10,9 +10,9 @@ public class WeaponArmorDialogBox : DialogBox {
             for( int i = 0; i < buttons.Length; i++ ) {
             if( buttons[ i ].name == "EquipandUnequip" ) {
                 if( isEquipped == false )
-                    buttons[ i ].onClick.AddListener( Equip );
+                    buttons[ i ].onClick.AddListener( EquipCommand );
                 else
-                    buttons[ i ].onClick.AddListener( Unequip );
+                    buttons[ i ].onClick.AddListener( UnequipCommand );
             }
             else if( buttons[ i ].name == "Dump" )
                 buttons[ i ].onClick.AddListener( DumpCommand );
@@ -20,10 +20,13 @@ public class WeaponArmorDialogBox : DialogBox {
                 buttons[ i ].onClick.AddListener( null );
             }
     }
-    private void Equip() {
-
+    public void GetIsEquiped(ref bool isEquipped) {
+        
     }
-    private void Unequip() {
-
+    private void EquipCommand() {
+        inventoryItem.EquipCommand();
+    }
+    private void UnequipCommand() {
+        inventoryItem.UnequipCommand();
     }
 }

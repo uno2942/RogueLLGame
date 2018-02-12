@@ -4,21 +4,8 @@ using UnityEngine;
 
 public class Item : MonoBehaviour {
     
-    protected new string name;
     public ItemManager.Label label;
     //set은 private
-    public string Name
-    {
-        get
-        {
-            return name;
-        }
-
-        private set
-        {
-            name = value;
-        }
-    }
     //set은 private
 
     private void OnMouseUpAsButton()

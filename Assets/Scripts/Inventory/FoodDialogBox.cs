@@ -15,6 +15,6 @@ public class FoodDialogBox : DialogBox {
         }
     }
     private void EatCommand() {
-
+        inventoryItem.EatCommand();
     }
 }

@@ -17,9 +17,9 @@ public class FlaskDialogBox : DialogBox {
         }
     }
     private void DrinkCommand() {
-
+        inventoryItem.DrinkCommand();
     }
     private void ThrowCommand() {
-
+        inventoryItem.ThrowCommand();
     }
 }

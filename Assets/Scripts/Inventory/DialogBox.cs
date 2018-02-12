@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class DialogBox : MonoBehaviour {
 
     protected Button[] buttons;
-    public int index;
+    public InventoryItem inventoryItem;
 	// Use this for initialization
 	void Start () {
         buttons = gameObject.GetComponents<Button>();
@@ -20,6 +20,6 @@ public class DialogBox : MonoBehaviour {
 
     }
     protected void DumpCommand() {
-
+        inventoryItem.DumpCommand();
     }
 }

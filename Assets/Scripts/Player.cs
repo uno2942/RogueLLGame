@@ -58,8 +58,34 @@ public class Player : Unit {
     {
         inventoryList.AddItem (label);
     }
+
     public ItemManager.Label GetLabel(int index)
     {
         return inventoryList.LabelList [index];
+    }
+
+    public void DumpItem( ItemManager.Label label ) {
+        inventoryList.DeleteItem( label );
+    }
+
+    public void EatItem( ItemManager.Label label ) {
+        DumpItem( label );
+    }
+
+    public void DrinkItem( ItemManager.Label label ) {
+        DumpItem( label );
+    }
+    public void ThrowItem(ItemManager.Label label ) {
+
+        DumpItem( label );
+    }
+    public void EquipItem(ItemManager.Label label ) {
+        
+
+    }
+
+    public void UnequipItem( ItemManager.Label label ) {
+
+
     }
 }
