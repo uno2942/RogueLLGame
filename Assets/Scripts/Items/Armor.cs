@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Armor : Item {
 
-    int defensivePower;
+    protected int defensivePower;
 
     public int DefensivePower
     {

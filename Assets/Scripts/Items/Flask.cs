@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flask : Item {
 
-    public virtual void Drink( Player player ) {
+    public virtual void DrunkBy( Player player ) {
     }
     public virtual void ThrownTo(Enemy enemy) {
 

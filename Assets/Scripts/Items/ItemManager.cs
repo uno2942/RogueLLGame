@@ -28,6 +28,7 @@ public class ItemManager : MonoBehaviour {
 
     private Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
 
+    private Dictionary<Label, Item> labelDic;
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
     public GameObject[] foodPrefabs;
@@ -46,9 +47,11 @@ public class ItemManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        labelDic = new Dictionary<Label, Item>();
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
-        
+
+        InitLabelDic(labelDic);
         foreach(Label i in System.Enum.GetValues( typeof( Label ) ) ) {
             IsIdentified.Add( i, false );
         }
@@ -67,6 +70,28 @@ public class ItemManager : MonoBehaviour {
     void Update() {
 
     }
+
+    public Item LabelToItem(Label label) {
+        return labelDic[ label ];
+    }
+
+    private void InitLabelDic( Dictionary<Label, Item> labelDic) {
+
+        labelDic[ Label.Sword ] = new Sword();
+        //Flask Initiation
+        labelDic[ Label.AwakeningMedicine1stFloor ] = labelDic[ Label.AwakeningMedicine2ndFloor ] = labelDic[ Label.AwakeningMedicine3rdFloor ] = new AwakeningMedicine();
+        labelDic[ Label.DetoxificatingMedicine1stFloor ] = labelDic[ Label.DetoxificatingMedicine2ndFloor ] = labelDic[ Label.DetoxificatingMedicine3rdFloor ] = new DetoxificatingMedicine();
+        labelDic[ Label.DiscardMedicine1stFloor ] = labelDic[ Label.DiscardMedicine2ndFloor ] = labelDic[ Label.DiscardMedicine3rdFloor ] = new DiscardedMedicine();
+        labelDic[ Label.Ethanol1stFloor ] = labelDic[ Label.Ethanol2ndFloor ] = labelDic[ Label.Ethanol3rdFloor ] = new Ethanol();
+        labelDic[ Label.LiquidFlameMedicine1stFloor ] = labelDic[ Label.LiquidFlameMedicine2ndFloor ] = labelDic[ Label.LiquidFlameMedicine3rdFloor ] = new LiquidFlameMedicine();
+        labelDic[ Label.ParalyzingMedicine1stFloor ] = labelDic[ Label.ParalyzingMedicine2ndFloor ] = labelDic[ Label.ParalyzingMedicine3rdFloor ] = new ParalyzingMedicine();
+        labelDic[ Label.RelievingMedicine1stFloor ] = labelDic[ Label.RelievingMedicine2ndFloor ] = labelDic[ Label.RelievingMedicine3rdFloor ] = new RelievingMedicine();
+        labelDic[ Label.RingerSolution1stFloor ] = labelDic[ Label.RingerSolution2ndFloor ] = labelDic[ Label.RingerSolution3rdFloor ] = new RingerSolution();
+        labelDic[ Label.Water1stFloor ] = labelDic[ Label.Water2ndFloor ] = labelDic[ Label.Water3rdFloor ] = new Water();
+        
+    }
+
+
 
     //IsIdentified 함수 input parameter를 다양화 해야하는가.
     public void ItemIdentify( Label label ) {

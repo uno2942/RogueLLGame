@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Can : Item {
 
-    public void Eat(Player player) {
+    public void EattenBy( Player player) {
         player.ChangeHungry( -20 );
         Random.InitState( (int) System.DateTime.Now.Ticks );
         int isRotten = Random.Range( 0, 2 );

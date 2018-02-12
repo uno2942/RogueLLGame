@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RelievingMedicine : Flask {
 
-    public override void Drink( Player player ) {
+    public override void DrunkBy( Player player ) {
         player.AddStatus( StatusCheck.StatusEnum.Relieve );
     }
 

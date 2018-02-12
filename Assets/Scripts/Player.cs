@@ -56,6 +56,7 @@ public class Player : Unit {
 
     public void PickItem(ItemManager.Label label)
     {
+        Debug.Log( label );
         inventoryList.AddItem (label);
     }
 
@@ -64,27 +65,46 @@ public class Player : Unit {
         return inventoryList.LabelList [index];
     }
 
-    public void DumpItem( ItemManager.Label label ) {
-        inventoryList.DeleteItem( label );
+
+
+
+
+    public void DumpItem( int index ) {
+        inventoryList.DeleteItem( index );
     }
 
-    public void EatItem( ItemManager.Label label ) {
-        DumpItem( label );
+    public void EatItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Can can = inventoryList.itemManager.LabelToItem( label) as Can;
+            can.EattenBy( this );
+        }
+        DumpItem( index );
+    
     }
 
-    public void DrinkItem( ItemManager.Label label ) {
-        DumpItem( label );
+    public void DrinkItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
+            flask.DrunkBy( this );
+        }
+        DumpItem( index );
     }
-    public void ThrowItem(ItemManager.Label label ) {
-
-        DumpItem( label );
+    public void ThrowItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
+           // flask.ThrownTo( );
+        }
+        DumpItem( index );
     }
-    public void EquipItem(ItemManager.Label label ) {
+    public void EquipItem( int index ) {
         
 
     }
 
-    public void UnequipItem( ItemManager.Label label ) {
+    public void UnequipItem( int index ) {
 
 
     }

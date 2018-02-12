@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon : Item {
 
-    int attackPower;
+    protected int attackPower;
 
     public int AttackPower
     {

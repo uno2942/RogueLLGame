@@ -47,7 +47,6 @@ public class Inventory : MonoBehaviour {
         int location;
         for ( location = 0; location < size; location++ )
         {
-            Debug.Log (inventoryObject);
             if ( labelList [location] == ItemManager.Label.Empty ) break;
         }
 
@@ -63,8 +62,9 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    public void DeleteItem(ItemManager.Label label) {
-
+    public void DeleteItem(int index) {
+        Destroy( inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite );
+        labelList[ index ] = ItemManager.Label.Empty;
     }
 }
 
