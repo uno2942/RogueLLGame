@@ -163,7 +163,6 @@ public class GameManager : MonoBehaviour
     {
         int enemyNum = 0;
         GameObject [] enemyList = GameObject.FindGameObjectsWithTag ("Enemy");
-        Debug.Log (enemyList.Length);
         for(int i=0;i<enemyList.Length;i++ )
         {
             if( AttackToPlayer (enemyList [i].GetComponent<Enemy> ()) )

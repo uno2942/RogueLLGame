@@ -60,7 +60,7 @@ public class Inventory : MonoBehaviour {
         }
         else
         {
-            Debug.Log ("아이템이 꽉찼다.");
+            Debug.Log ("인벤토리가 꽉 찼다.");
             return false;
         }
     }

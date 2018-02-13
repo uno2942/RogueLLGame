@@ -101,7 +101,6 @@ public class InventoryItem : MonoBehaviour {
         player.UnequipItem( index );
         isEquipped = false;
     }
-
     public void ThrowCommand() {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;

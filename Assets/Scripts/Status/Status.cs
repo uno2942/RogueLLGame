@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Status : MonoBehaviour {
+public class Status {
     private int remainTurn;
     private bool isActive;
     protected Unit unit;
@@ -47,10 +47,10 @@ public class Status : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    public Status() {
         remainTurn = 0;
         isActive = false;
-	}
+    }
 	
     public virtual void DoAction()
     {

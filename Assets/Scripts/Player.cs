@@ -105,7 +105,7 @@ public class Player : Unit {
             Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
             gameManager.Throw( label );
 
-            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
+//            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
                 inventoryList.itemManager.ItemIdentify( label );
 
             gameManager.EnemyTurn();
@@ -125,7 +125,6 @@ public class Player : Unit {
             gameManager.EnemyTurn();
             gameManager.nextturn();
         }
-        Debug.Log( attack );
     }
 
     public void UnequipItem( int index, bool GoNextTurn=true ) {
@@ -142,6 +141,5 @@ public class Player : Unit {
                 gameManager.nextturn();
             }
         }
-        Debug.Log( attack );
     }
 }
