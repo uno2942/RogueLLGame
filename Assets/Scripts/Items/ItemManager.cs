@@ -28,7 +28,7 @@ public class ItemManager : MonoBehaviour {
 
     private Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
 
-    private Dictionary<Label, Item> labelDic;
+    private Dictionary<Label, ItemAction> labelDic;
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
     public GameObject[] foodPrefabs;
@@ -47,7 +47,7 @@ public class ItemManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        labelDic = new Dictionary<Label, Item>();
+        labelDic = new Dictionary<Label, ItemAction>();
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
 
@@ -71,11 +71,11 @@ public class ItemManager : MonoBehaviour {
 
     }
 
-    public Item LabelToItem(Label label) {
+    public ItemAction LabelToItem(Label label) {
         return labelDic[ label ];
     }
 
-    private void InitLabelDic( Dictionary<Label, Item> labelDic) {
+    private void InitLabelDic( Dictionary<Label, ItemAction> labelDic) {
 
         labelDic[ Label.Sword ] = new Sword();
         //Flask Initiation

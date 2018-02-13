@@ -8,14 +8,5 @@ public class Ethanol : Flask {
         player.ChangeHp( -10 );
         player.ChangeMp( 15 );
     }
-
-    // Use this for initialization
-    void Start () {
-        name = "Ethanol";
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    
 }

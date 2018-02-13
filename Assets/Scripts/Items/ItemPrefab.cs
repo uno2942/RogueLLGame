@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour {
+public class ItemPrefab : MonoBehaviour {
     
     public ItemManager.Label label;
     //set은 private
@@ -10,10 +10,8 @@ public class Item : MonoBehaviour {
 
     private void OnMouseUpAsButton()
     {
-        Debug.Log ("안녕");
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
-        player.PickItem (label);
-        Destroy (gameObject);
+        player.PickItem (label, gameObject);
     }
     void Start () {
 		

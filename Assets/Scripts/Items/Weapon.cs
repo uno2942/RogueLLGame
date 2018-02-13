@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Item {
+public class Weapon : ItemAction {
 
     protected int attackPower;
 
@@ -14,14 +14,4 @@ public class Weapon : Item {
         }
     }
     //set은 private
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

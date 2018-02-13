@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4275759767763258}
   - component: {fileID: 212008943960730972}
   - component: {fileID: 61607187367681518}
-  - component: {fileID: 114986704204178568}
+  - component: {fileID: 114945846392364020}
   m_Layer: 0
   m_Name: ExcaliburPrefab
   m_TagString: Untagged
@@ -67,7 +67,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 2.28}
   m_EdgeRadius: 0
---- !u!114 &114986704204178568
+--- !u!114 &114945846392364020
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1234404473408220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b63e357c545c0a44874cb793403dde2, type: 3}
+  m_Script: {fileID: 11500000, guid: 82e7a84b158b57844a025fc245e26a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   label: 1

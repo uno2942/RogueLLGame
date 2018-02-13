@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private int currentTurn;
+    private int prevMonsterNum;
     private bool currentSituation; //true : 싸움
     private bool isMental, isAwaken, isRelieve;
     public GameObject playerObject;
@@ -169,10 +170,24 @@ public class GameManager : MonoBehaviour
                 enemyNum ++ ;
         }
 
-        if(enemyNum==0)
+        if( enemyNum == 0 && prevMonsterNum != 0 ) 
         {
             itemManager.DropItem (boardManager.NowPos());
             currentSituation = false;
         }
+        prevMonsterNum = enemyNum;
+    }
+
+    public void Throw(ItemManager.Label label) {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        for( int i = 0; i < enemyList.Length; i++ ) {
+            ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
+        }
+    }
+
+    private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
+        Flask flask = itemManager.LabelToItem( label ) as Flask;
+        flask.ThrownTo( enemy );
+
     }
 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : Weapon {
-    public Sword() {
-        attackPower = 10;
-    }
+public class ItemAction {
+    
 }
