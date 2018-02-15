@@ -8,7 +8,7 @@ public class DialogBox : MonoBehaviour {
     public InventoryItem inventoryItem;
 	// Use this for initialization
 	void Start () {
-        buttons = gameObject.GetComponents<Button>();
+        buttons = gameObject.GetComponentsInChildren<Button>();
         Init();
     }
 	

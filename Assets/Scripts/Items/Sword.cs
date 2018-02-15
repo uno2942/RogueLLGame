@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Sword : Weapon {
-
-	// Use this for initialization
-	void Start () {
+    public override int AttackPower
+    {
+        get
+        {
+            return attackPower;
+        }
+    }
+    // Use this for initialization
+    void Start () {
         attackPower = 10;
 	}
 	

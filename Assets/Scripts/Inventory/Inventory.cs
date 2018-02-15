@@ -63,7 +63,7 @@ public class Inventory : MonoBehaviour {
     }
 
     public void DeleteItem(int index) {
-        Destroy( inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite );
+        inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
         labelList[ index ] = ItemManager.Label.Empty;
     }
 }
