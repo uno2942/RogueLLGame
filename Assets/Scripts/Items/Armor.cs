@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : Item {
+public class Armor : ItemAction {
 
     protected int defensivePower;
 
@@ -13,15 +13,4 @@ public class Armor : Item {
             return defensivePower;
         }
     }
-    //set은 private
-    
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

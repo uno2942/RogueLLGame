@@ -8,15 +8,4 @@ public class AwakeningMedicine : Flask {
 
         player.AddStatus( StatusCheck.StatusEnum.Awaken );
     }
-
-    // Use this for initialization
-    void Start () {
-        name = "AwakeningMedicine";
-
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

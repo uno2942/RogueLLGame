@@ -17,7 +17,6 @@ public class Player : Unit {
 
     void Start()
     {
-        Debug.Log ("생성");
         attack = 1;
         defense = 1;
         hp = 120;
@@ -54,10 +53,11 @@ public class Player : Unit {
         return statusList.isAwaken ();
     }
 
-    public void PickItem(ItemManager.Label label)
+    public void PickItem(ItemManager.Label label, GameObject _gameobject)
     {
-        Debug.Log( label );
-        inventoryList.AddItem (label);
+        if( inventoryList.AddItem( label ) == true ) {
+        Destroy( _gameobject );
+        }
     }
 
     public ItemManager.Label GetLabel(int index)
@@ -65,12 +65,16 @@ public class Player : Unit {
         return inventoryList.LabelList [index];
     }
 
-
+    public Inventory GetInventoryList() {
+        return inventoryList;
+    }
 
 
 
     public void DumpItem( int index ) {
         inventoryList.DeleteItem( index );
+        gameManager.EnemyTurn();
+        gameManager.nextturn();
     }
 
     public void EatItem( int index ) {
@@ -79,6 +83,8 @@ public class Player : Unit {
             Can can = inventoryList.itemManager.LabelToItem( label) as Can;
             can.EattenBy( this );
             DumpItem( index );
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
         }
     }
 
@@ -89,40 +95,51 @@ public class Player : Unit {
             flask.DrunkBy( this );
             inventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
         }
     }
     public void ThrowItem( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
-           // flask.ThrownTo( );
+            gameManager.Throw( label );
+
+//            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
+                inventoryList.itemManager.ItemIdentify( label );
+
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
         }
         DumpItem( index );
     }
     public void EquipItem( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Object weaponorarmor = inventoryList.itemManager.LabelToItem( label );
+            ItemAction weaponorarmor = inventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                Debug.Log( weaponorarmor.GetType() );
-                Debug.Log( ( (Weapon) weaponorarmor ).AttackPower );
                 ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
             } else
                 ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
-            //장착되었으니 뭔갈 해야함.
+            //장착되었으니 UI에서 뭔갈 해야함.
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
         }
-        Debug.Log( attack );
     }
 
-    public void UnequipItem( int index ) {
+    public void UnequipItem( int index, bool GoNextTurn=true ) {
         ItemManager.Label label = GetLabel( index );
         if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Object weaponorarmor = inventoryList.itemManager.LabelToItem( label );
+            ItemAction weaponorarmor = inventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
                 ChangeAttack( -(( Weapon) weaponorarmor ).AttackPower );
             } else
                 ChangeDefense( -((Armor) weaponorarmor ).DefensivePower );
-            //장착되었으니 뭔갈 해야함.
+            //장착되었으니 UI에서 뭔갈 해야함.
+            if( GoNextTurn ) {
+                gameManager.EnemyTurn();
+                gameManager.nextturn();
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour {
 
     // Use this for initialization
     public int size = 12;
+    public bool isDialogBoxOn;
     private GameObject inventoryItemPrefab;
     private ItemManager.Label [] labelList;
     private GameObject [] inventoryObject;
@@ -42,7 +43,7 @@ public class Inventory : MonoBehaviour {
         }
     }
     
-    public void AddItem(ItemManager.Label label)
+    public bool AddItem(ItemManager.Label label)
     {
         int location;
         for ( location = 0; location < size; location++ )
@@ -55,10 +56,12 @@ public class Inventory : MonoBehaviour {
             labelList [location] = label;
             inventoryObject [location].GetComponent<SpriteRenderer> ().sprite = itemManager.LabelToSprite (label);
             inventoryObject [location].GetComponent<InventoryItem> ().Index = location; //남길지 말지 
+            return true;
         }
         else
         {
-            Debug.Log ("아이템이 꽉찼다.");
+            Debug.Log ("인벤토리가 꽉 찼다.");
+            return false;
         }
     }
 

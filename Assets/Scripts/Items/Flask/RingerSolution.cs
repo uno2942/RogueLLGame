@@ -8,13 +8,4 @@ public class RingerSolution : Flask {
         player.ChangeHp( 50 );
         player.ChangeHungry( -40 );
     }
-    // Use this for initialization
-    void Start () {
-        name = "RingerSolution";
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
