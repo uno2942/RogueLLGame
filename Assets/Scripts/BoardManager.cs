@@ -2,24 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** \brief The Manager class to controll whole gameboard.
+ * \details This is an code for boardmanager, which is gameobject, and control the poition of player, camera in unity, and the door.
+ */
 public class BoardManager : MonoBehaviour {
-
+    /** \brief This specifies how much the player moves when the player clicks a door.
+     */
+     //@{
     public const int verticalMovement = 10;
     public const int horizontalMovement = 18;
-
+    //@}
+    /** Direction enum variable setting direction of movement when the player clicked the door.
+     */
     public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};
-
     public GameObject doorPrefab;
     public Camera gameCamera;
     public Player playerobejct;
 
     private int xPos, yPos;
     private int whichFloor;
-
     public Vector2 NowPos()
     {
         return new Vector2 (xPos * horizontalMovement, yPos * verticalMovement);
     }
+    /**
+ * The current position of the player.
+ */
+    //@{
     public int XPos
     {
         get
@@ -43,8 +52,10 @@ public class BoardManager : MonoBehaviour {
             return whichFloor;
         }
     }
-
-    // Use this for initialization
+    //@}
+    /**
+     * @todo We need make map parsing and door implementation and remove codes in this function. 
+     */
     void Start() {
 
 
@@ -73,7 +84,9 @@ public class BoardManager : MonoBehaviour {
 	void Update () {
 		
 	}
-
+    /**
+     * When player clicked the door, door call this function with the direction the door having. It moves the player and the camera.
+     */
     public void MoveNextRoom(Direction direction) {
         //if(map is valid)
         {

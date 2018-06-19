@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MenBung : MonoBehaviour {
-
+    /** \todo We need to change the class name and implement functions.
+     */
 	// Use this for initialization
 	void Start () {
 		

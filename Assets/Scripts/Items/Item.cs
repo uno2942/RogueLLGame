@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : MonoBehaviour {
-    
+
     protected new string name;
+    /** Each item has its label
+     */
     public ItemManager.Label label;
     //set은 private
+    /** Each item has name
+     */
     public string Name
     {
         get
@@ -19,8 +23,9 @@ public class Item : MonoBehaviour {
             name = value;
         }
     }
-    //set은 private
 
+    /** When the item gameobject is clicked, it is called, and make player pick it.
+     */
     private void OnMouseUpAsButton()
     {
         Debug.Log ("안녕");

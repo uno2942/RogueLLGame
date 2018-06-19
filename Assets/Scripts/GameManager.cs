@@ -2,18 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
+    /**
+     * It contains number of passed turns from the beginning of the game.
+     */
     private int currentTurn;
+
     private bool currentSituation; //true : 싸움
+                                   /**
+                                    * This variables are tentatively implemented.
+                                    * The coder can make a function dealing with the condition of the player and separate this varialbes to the function.
+                                    */
+    //@{
     private bool isMental, isAwaken, isRelieve;
+    //@}
+    /**
+     * It interacts with other Manager gameobject and player gameobject.
+     */
+    //@{
     public GameObject playerObject;
     private Player player;
-    public GameObject ratPrefab;
     private BoardManager boardManager;
     private ItemManager itemManager;
-    private Vector2[] monsterGenLocation;
+    //@}
+    /**
+     * This variables are tentatively implemented.
+     */
+    public GameObject ratPrefab;
 
+    private Vector2[] monsterGenLocation;
+    /**
+ * It checks whether the player is in battle or not.
+ * If it is true, the player is in battle.
+ */
     public bool CurrentSituation
     {
         get
@@ -21,7 +42,9 @@ public class GameManager : MonoBehaviour
             return currentSituation;
         }
     }
-
+    /** 
+ * It contains the fixed location of monster in the field.
+ */
     public Vector2[] MonsterGenLocation
     {
         get
@@ -31,6 +54,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Use this for initialization
+
+    /**
+        * It initiate the monsterGenLocation and currentTurn to 0 (resp. situtation to false)
+        */
     void Start()
     {
         player = playerObject.GetComponent ("Player") as Player;
@@ -49,6 +76,8 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
+    /** It consistently check whether there is a enemy gameobject in the map.
+     */
     void Update()
     {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
@@ -58,10 +87,15 @@ public class GameManager : MonoBehaviour
 
         } 
         */
-        //일단 문이 닫혀 있는 걸로 적어 놓을게요.
+    //일단 문이 닫혀 있는 걸로 적어 놓을게요.
 
-    }
-
+}
+    /**
+     * When player click an enemy, this function is called.
+     * It deals with the decrease of enemy HP and check whether the enemy die after this attack \since the dead enemy should not attack to player.
+     * If the enemy died, the gameobject is destoried.
+     * \see Rat::OnMouseUpAsButton (It can be modified.)
+     */
     public void AttackToEnemy(Enemy enemy)
     {
         int damage = 10;
@@ -72,7 +106,11 @@ public class GameManager : MonoBehaviour
             Debug.Log ("적 사망");
         }
     }
-
+    /**
+     * The selected enemy in the parameter attacks to the player.
+     * If the player's HP is less or equal to 0, the player die and the gameobject is destoried.
+     * \see EnemyTurn
+     */
     public bool AttackToPlayer(Enemy enemy)
     {
         if ( enemy.Hp <= 0 ) return false;
@@ -85,7 +123,10 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
-
+    /**
+     * It generates monsters on the board with fixed number of monsters given by parameter.
+     * \see Door::OnMouseUpAsButton
+     */
     public void GenerateMonsters(int numberOfMonster)
     {
         Vector2 nowPos = new Vector2 (boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement);
@@ -110,7 +151,12 @@ public class GameManager : MonoBehaviour
             currentSituation = true;
         }
     }
-
+    /** After the player and enemies' turn, it put all the ... and advance the turn.
+     * The currentTurn increases by 1 and condition of player is added and deleted, and the effect of the condition is invoked in this function.
+     * There is a debug log showing the turn numbers.
+     * \see Rat::OnMouseUpAsButton and
+     * \see Door:OnMouseUpAsButton
+     */
     public void nextturn()
     {
         Debug.Log (player.Hp);
@@ -158,6 +204,12 @@ public class GameManager : MonoBehaviour
             Debug.Log ("현재 " + currentTurn + "턴 : 전투상태 " + currentSituation + " 내상태 " + player.Hp + " / " + player.Mp);
         player.debugStatus ();
     }
+
+    /** After the player turn, enemies attack to player.
+     * It finds all the enemies in the board and make them attack to player.
+     * If there are enemies, it turns currentSituation true. If not, it turns currentSituation false.
+     * \see Rat::OnMouseUpAsButton
+     */
     public void EnemyTurn()
     {
         int enemyNum = 0;

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryItem : MonoBehaviour {
-
+    /** It is empty class.
+     */
 	// Use this for initialization
 	void Start () {
 		

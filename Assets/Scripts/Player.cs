@@ -4,17 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Player : Unit {
 
-    private const int invenSize = 12;
 
     private int mp;
     private int hungry;
+    /**
+     * Player class have inventory gameobject to put items into inventory.
+     */
     private Inventory inventoryList;
-    private int equippedItem;
-
+    /**
+     * Player's mp and hungry degree.
+     * Note that HP variable is in Unit class.
+     */
+     //{@
     public int Mp { get { return mp; } }
     public int Hungry { get { return hungry; } }
-    public int EquippedItem { get { return equippedItem; } }
-
+    //@}
+    /**
+     *Initialize the variables in Player class.
+     *In this function, initialize HPBar, MPBar and inventory.
+     */
     void Start()
     {
         Debug.Log ("생성");
@@ -28,7 +36,10 @@ public class Player : Unit {
         GameObject.Find ("PlayerHPBar").GetComponent<Slider> ().value = hp;
         GameObject.Find ("PlayerMPBar").GetComponent<Slider> ().value = mp;
     }
-
+    /**
+     * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
+     */
+     //{@
     public override void ChangeHp(int delta)
     {
         hp += delta;
@@ -39,7 +50,7 @@ public class Player : Unit {
         mp += delta;
         GameObject.Find ("PlayerMPBar").GetComponent<Slider> ().value = mp;
     }
-
+    //@}
     public void ChangeHungry(int delta)
     {
         hungry += delta;
@@ -53,7 +64,10 @@ public class Player : Unit {
     {
         return statusList.isAwaken ();
     }
-
+    /**
+     * When item is clicked, this function invoked.
+     * \see Item::OnMouseUpAsButton
+     */
     public void PickItem(ItemManager.Label label)
     {
         inventoryList.AddItem (label);

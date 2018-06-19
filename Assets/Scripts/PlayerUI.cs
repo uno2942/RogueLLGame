@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/** Empty class
+ */
 public class PlayerUI : MonoBehaviour {
 
     public GameObject inventoryItemPrefab;
