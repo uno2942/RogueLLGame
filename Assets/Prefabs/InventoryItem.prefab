@@ -78,6 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a735ae99e791f4c8b0339ca64b6b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEquipped: 0
+  dialogBox:
+  - {fileID: 1787598285715860, guid: 4b805cc8f1abd014ab10febd0864319b, type: 2}
+  - {fileID: 1724632491192574, guid: 9ee4c87a1897c88478255839756976ea, type: 2}
+  - {fileID: 1141193089543456, guid: a9a3fbde75033b240a2a179c92c7eaf2, type: 2}
 --- !u!212 &212300208992587198
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -111,7 +116,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9de6a3b5c60d3b6449e6704217dcc15b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

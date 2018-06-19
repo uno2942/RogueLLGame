@@ -5,10 +5,10 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
 
     // Use this for initialization
-
     /** The size of inventory is 12.
      */
-    public const int size = 12;
+    public int size = 12;
+    public bool isDialogBoxOn;
     /**
      * Note that *inventoryItemPregab is for background of inventory, not for item prefab*.
      */
@@ -22,6 +22,14 @@ public class Inventory : MonoBehaviour {
      * It contains itemManager gameObject in the scene.
      */
     public ItemManager itemManager;
+
+    public ItemManager.Label [] LabelList
+    {
+        get
+        {
+            return labelList;
+        }
+    }
 
     void Start () {
     }
@@ -45,14 +53,14 @@ public class Inventory : MonoBehaviour {
         for ( int i = 0; i < 6; i++ )
         {
             inventoryObject [i] = Instantiate (inventoryItemPrefab, new Vector2 (-8, i * 1.5f - 4), Quaternion.identity);
-            inventoryObject [i].transform.parent = GameObject.Find ("PlayerUI").transform;
+            inventoryObject [i].transform.parent = GameObject.Find ("InventoryUI").transform;
             inventoryObject [i + size / 2] = Instantiate (inventoryItemPrefab, new Vector2 (8, i * 1.5f - 4), Quaternion.identity);
-            inventoryObject [i + size / 2].transform.parent = GameObject.Find ("PlayerUI").transform;
+            inventoryObject [i + size / 2].transform.parent = GameObject.Find ("InventoryUI").transform;
             labelList [i] = labelList [i + 6] = ItemManager.Label.Empty;
         }
     }
 
-    /**
+        /**
      * When player add an item, it find the location where the item should be and put the item by assigning appropriate sprite and label.
      * The sprite for the label is taken by the function itemManager.LabelToSprite.
      * \param label When player licked item, the gameObject calls this function with label of the item.
@@ -60,12 +68,11 @@ public class Inventory : MonoBehaviour {
      * \see Item::OnMouseUpAsButton
      * There is a debug log function.
      */
-    public void AddItem(ItemManager.Label label)
+    public bool AddItem(ItemManager.Label label)
     {
         int location;
         for ( location = 0; location < size; location++ )
         {
-            Debug.Log (inventoryObject);
             if ( labelList [location] == ItemManager.Label.Empty ) break;
         }
 
@@ -73,10 +80,19 @@ public class Inventory : MonoBehaviour {
         {
             labelList [location] = label;
             inventoryObject [location].GetComponent<SpriteRenderer> ().sprite = itemManager.LabelToSprite (label);
+            inventoryObject [location].GetComponent<InventoryItem> ().Index = location; //남길지 말지 
+            return true;
         }
         else
         {
-            Debug.Log ("아이템이 꽉찼다.");
+            Debug.Log ("인벤토리가 꽉 찼다.");
+            return false;
         }
     }
+
+    public void DeleteItem(int index) {
+        inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
+        labelList[ index ] = ItemManager.Label.Empty;
+    }
 }
+

@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flask : Item {
+public class Flask : ItemAction {
 
-    public virtual void Drink( Player player ) {
+    public virtual void DrunkBy( Player player ) {
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public virtual void ThrownTo(Enemy enemy) {
+
+    }
 }

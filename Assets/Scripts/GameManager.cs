@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
      * It contains number of passed turns from the beginning of the game.
      */
     private int currentTurn;
-
+    private int prevMonsterNum;
     private bool currentSituation; //true : 싸움
                                    /**
                                     * This variables are tentatively implemented.
@@ -214,17 +214,30 @@ public class GameManager : MonoBehaviour {
     {
         int enemyNum = 0;
         GameObject [] enemyList = GameObject.FindGameObjectsWithTag ("Enemy");
-        Debug.Log (enemyList.Length);
         for(int i=0;i<enemyList.Length;i++ )
         {
             if( AttackToPlayer (enemyList [i].GetComponent<Enemy> ()) )
                 enemyNum ++ ;
         }
 
-        if(enemyNum==0)
+        if( enemyNum == 0 && prevMonsterNum != 0 ) 
         {
             itemManager.DropItem (boardManager.NowPos());
             currentSituation = false;
         }
+        prevMonsterNum = enemyNum;
+    }
+
+    public void Throw(ItemManager.Label label) {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        for( int i = 0; i < enemyList.Length; i++ ) {
+            ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
+        }
+    }
+
+    private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
+        Flask flask = itemManager.LabelToItem( label ) as Flask;
+        flask.ThrownTo( enemy );
+
     }
 }

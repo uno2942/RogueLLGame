@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour {
+public class ItemPrefab : MonoBehaviour {
 
-    protected new string name;
+    protected new string name;//Why it is deleted?
     /** Each item has its label
      */
     public ItemManager.Label label;
@@ -24,14 +24,13 @@ public class Item : MonoBehaviour {
         }
     }
 
+
     /** When the item gameobject is clicked, it is called, and make player pick it.
      */
     private void OnMouseUpAsButton()
     {
-        Debug.Log ("안녕");
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
-        player.PickItem (label);
-        Destroy (gameObject);
+        player.PickItem (label, gameObject);
     }
     void Start () {
 		
