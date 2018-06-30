@@ -2,25 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Burn : Status {
-    public override void DoAction()
-    {
-        if ( !IsActive ) return;
-        unit.ChangeHp (-5);
-        RemainTurn--;
-        if(RemainTurn == 0)
-        {
-            Inactivate ();
-        }
+public class Burn : Buff {
+
+    public Burn(int _count) : base( _count) { //count is not deinfed.
     }
-    public override void Activate()
-    {
-        IsActive = true;
-        RemainTurn = 5;
+
+    public override int BuffWork() {
+        return -3;
     }
-    public override void Inactivate()
-    {
-        IsActive = false;
-        RemainTurn = 0;
-    }
+
+    public override int passiveBuffAtk() { return -2; }
+
+    public override int passiveBuffDef() { return -2; }
+
+    public override float passiveBuffFinal() { return 1f; }
 }

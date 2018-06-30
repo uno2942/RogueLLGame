@@ -30,7 +30,7 @@ public class ItemPrefab : MonoBehaviour {
     private void OnMouseUpAsButton()
     {
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
-        player.PickItem (label, gameObject);
+        player.Action.PickItem (label, gameObject);
     }
     void Start () {
 		

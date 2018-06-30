@@ -13,5 +13,12 @@ public class Weapon : ItemAction {
             return attackPower;
         }
     }
+
+    public virtual void Check() {
+
+    }
+    public virtual void Attack(Enemy enemy) {
+
+    }
     //set은 private
 }

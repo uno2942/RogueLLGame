@@ -4,21 +4,41 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Player : Unit {
 
-
     private int mp;
     private int hungry;
-    /**
-     * Player class have inventory gameobject to put items into inventory.
-     */
     private Inventory inventoryList;
+    private PlayerAction action;
     /**
      * Player's mp and hungry degree.
      * Note that HP variable is in Unit class.
      */
-     //{@
+    //{@
     public int Mp { get { return mp; } }
     public int Hungry { get { return hungry; } }
     //@}
+    public PlayerAction Action
+    {
+        get
+        {
+            return action;
+        }
+    }
+
+    public Inventory InventoryList
+    {
+        get
+        {
+            return inventoryList;
+        }
+    }
+
+    public Weapon weapon;
+    public Armor armor;
+    /**
+    * Player class have inventory gameobject to put items into inventory.
+    */
+
+
     /**
      *Initialize the variables in Player class.
      *In this function, initialize HPBar, MPBar and inventory.
@@ -34,6 +54,7 @@ public class Player : Unit {
         inventoryList.Initialize ();
         GameObject.Find ("PlayerHPBar").GetComponent<Slider> ().value = hp;
         GameObject.Find ("PlayerMPBar").GetComponent<Slider> ().value = mp;
+        action = new PlayerAction();
     }
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
@@ -55,46 +76,29 @@ public class Player : Unit {
         hungry += delta;
     }
 
-    public bool isRelieve()
-    {
-        return statusList.isRelieve ();
-    }
-    public bool isAwaken()
-    {
-        return statusList.isAwaken ();
-    }
-    /**
-     * When item is clicked, this function invoked.
-     * \see Item::OnMouseUpAsButton
-     */
-    public void PickItem(ItemManager.Label label, GameObject _gameobject)
-    {
-        if( inventoryList.AddItem( label ) == true ) {
-        Destroy( _gameobject );
-        }
-    }
+
 
     public ItemManager.Label GetLabel(int index)
     {
-        return inventoryList.LabelList [index];
+        return InventoryList.LabelList [index];
     }
 
     public Inventory GetInventoryList() {
-        return inventoryList;
+        return InventoryList;
     }
 
 
 
     public void DumpItem( int index ) {
-        inventoryList.DeleteItem( index );
+        InventoryList.DeleteItem( index );
         gameManager.EnemyTurn();
         gameManager.nextturn();
     }
 
     public void EatItem( int index ) {
         ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Can can = inventoryList.itemManager.LabelToItem( label) as Can;
+        if( InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Can can = InventoryList.itemManager.LabelToItem( label) as Can;
             can.EattenBy( this );
             DumpItem( index );
             gameManager.EnemyTurn();
@@ -104,10 +108,10 @@ public class Player : Unit {
 
     public void DrinkItem( int index ) {
         ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
+        if( InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Flask flask = InventoryList.itemManager.LabelToItem( label ) as Flask;
             flask.DrunkBy( this );
-            inventoryList.itemManager.ItemIdentify( label );
+            InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
             gameManager.EnemyTurn();
             gameManager.nextturn();
@@ -115,12 +119,12 @@ public class Player : Unit {
     }
     public void ThrowItem( int index ) {
         ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
+        if( InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Flask flask = InventoryList.itemManager.LabelToItem( label ) as Flask;
             gameManager.Throw( label );
 
 //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
-                inventoryList.itemManager.ItemIdentify( label );
+                InventoryList.itemManager.ItemIdentify( label );
 
             gameManager.EnemyTurn();
             gameManager.nextturn();
@@ -129,8 +133,8 @@ public class Player : Unit {
     }
     public void EquipItem( int index ) {
         ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            ItemAction weaponorarmor = inventoryList.itemManager.LabelToItem( label );
+        if( InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            ItemAction weaponorarmor = InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
                 ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
             } else
@@ -143,8 +147,8 @@ public class Player : Unit {
 
     public void UnequipItem( int index, bool GoNextTurn=true ) {
         ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            ItemAction weaponorarmor = inventoryList.itemManager.LabelToItem( label );
+        if( InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            ItemAction weaponorarmor = InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
                 ChangeAttack( -(( Weapon) weaponorarmor ).AttackPower );
             } else
@@ -155,5 +159,13 @@ public class Player : Unit {
                 gameManager.nextturn();
             }
         }
+    }
+
+    public override int FinalAttackPower() {
+        return base.FinalAttackPower()+weapon.AttackPower;
+    }
+
+    public override int FinalDefensePower() {
+        return base.FinalDefensePower()+armor.DefensivePower;
     }
 }
