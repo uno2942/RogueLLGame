@@ -7,9 +7,11 @@ public class Poison : Buff {
     public Poison(int _count) : base(_count) {//턴 수가 안 정해져 있음.
                                                     
     }
-
-    public override int BuffWork() {
-        return -1;
+    /**
+ * @todo I need to change enemy's attack part.
+ */
+    public override void BuffWork( Player player ) {
+        player.ChangeHp( -1 );
     }
     public override int passiveBuffAtk() {
         return 0;

@@ -7,9 +7,10 @@ public class Paralyzed : Buff {
     Paralyzed( int _count ) : base( _count ) {
 
     }
-
-    public override int BuffWork() {
-        return -3;
+    /**
+ * @todo I need to change enemy's attack part.
+ */
+    public override void BuffWork( Player player ) {
     }
     public override int passiveBuffAtk() {
         return 0;

@@ -8,8 +8,8 @@ public class Starve : Buff {
 
     }
 
-    public override int BuffWork() {
-        return -1;
+    public override void BuffWork( Player player ) {
+        player.ChangeHp(-1);
     }
 
     public override int passiveBuffAtk() {

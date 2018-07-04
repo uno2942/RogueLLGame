@@ -94,5 +94,21 @@ public class Inventory : MonoBehaviour {
         inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
         labelList[ index ] = ItemManager.Label.Empty;
     }
+
+    public bool CheckItem(  ItemManager.Label _label ) {
+        for(int i=0; i<size; i++ ) {
+            if( _label == labelList[ i ] )
+                return true;
+        }
+        return false;
+    }
+
+    public bool CheckItem( ItemManager.ItemCategory _category ) {
+        for( int i = 0; i < size; i++ ) {
+            if( ItemManager.CategoryToLabel(_category) == labelList[ i ] )
+                return true;
+        }
+        return false;
+    }
 }
 

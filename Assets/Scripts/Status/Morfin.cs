@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Morfin : Buff {
 
-    Morfin(int _count) : base(_count) {
+    public Morfin(int _count) : base(_count) {
 
     }
 
-    public override int BuffWork() {
-        return 0;
+    public override void BuffWork( Player player ) {
     }
     public override int passiveBuffAtk() {
         return -7;

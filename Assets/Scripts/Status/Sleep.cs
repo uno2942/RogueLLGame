@@ -9,10 +9,9 @@ public class Sleep : Buff {
     }
 
     /**
-     * Sleeping buff increases HP by 3 and MP by 12, but the function should return only one parameter(in lower version C#), so I'll only return HP increase.
+     * @todo I need to change enemy's attack part.
      */
-    public override int BuffWork() {
-        return 3;
+    public override void BuffWork( Player player ) {
     }
     public override int passiveBuffAtk() {
         return 0;

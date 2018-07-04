@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour {
     protected int attack;
     protected int defense;
     protected int maxhp;
-    protected int hp;
+    protected float hp;
     protected GameManager gameManager;
     protected List<Buff> bufflist;
     /**
@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour {
     /**
     * \brief 현재 체력
     */
-    public int Hp
+    public float Hp
     {
         get
         {
@@ -77,7 +77,7 @@ public class Unit : MonoBehaviour {
     public void ChangeDefense( int delta ) {
         defense += delta;
     }
-    public virtual void ChangeHp(int delta)
+    public virtual void ChangeHp( float delta )
     {
         hp += delta;
     }

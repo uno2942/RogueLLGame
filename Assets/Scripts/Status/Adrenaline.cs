@@ -8,8 +8,7 @@ public class Adrenaline : Buff {
 
     }
 
-    public override int BuffWork() {
-        return 0;
+    public override void BuffWork( Player player ) {
     }
     public override int passiveBuffAtk() {
         return -7;

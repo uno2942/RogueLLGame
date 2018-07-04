@@ -17,9 +17,14 @@ public class ItemManager : MonoBehaviour {
         Ethanol3rdFloor, Water3rdFloor, DiscardMedicine3rdFloor, RingerSolution3rdFloor, ParalyzingMedicine3rdFloor, LiquidFlameMedicine3rdFloor, AwakeningMedicine3rdFloor, RelievingMedicine3rdFloor, DetoxificatingMedicine3rdFloor
     };
 
+    public enum ItemCategory {
+        Empty, Sword, Delcan, Gown, CureAll, Hallucinogen, LiquidFlameMedicine, CaffeinDrug, VitaminTablet, Soup, Sugar, Poison, Salt,
+        Water, MuscleRelaxant, SleepingPill, MorfinDrug, AdrenalineDrug, RingerLiquid, Can, Drug, Bandage, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
+    }
+    
     public enum ItemType
     {
-        Empty, Weapon, Armor, Food, Flask
+        Empty, Weapon, Armor, Food, Drug
     };
 
     public static ItemType LabelToType(Label lab)
@@ -28,28 +33,33 @@ public class ItemManager : MonoBehaviour {
         else if ( lab == Label.Sword ) return ItemType.Weapon;
         else if ( lab == Label.DelCan ) return ItemType.Food;
         else if ( lab == Label.Gown ) return ItemType.Armor;
-        else return ItemType.Flask;
+        else return ItemType.Drug;
+    }
+
+    public static Label CategoryToLabel(ItemCategory category) {
+
     }
     private const int floorMax = 3;
     /** To check whether the item is identified, we use dictionary.
      */
     private Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
-
-    private Dictionary<Label, ItemAction> labelDic;
+    /** It connects item labels with item class
+     */
+    private Dictionary<Label, Item> labelDic;
     /** The item prefabs.
      * For weapons, armors and foods, the prefab and sprite should coincide.
-     * For flask, it does not have to because we need to distribute the sprite randomly.
+     * For Drug, it does not have to because we need to distribute the sprite randomly.
      */
     //{@
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
     public GameObject[] foodPrefabs;
-    public GameObject[] flaskPrefabs;
+    public GameObject[] drugPrefabs;
 
     public Sprite[] weaponSprite;
     public Sprite[] armorSprite;
     public Sprite[] foodSprite;
-    public Sprite[] flaskSprite;
+    public Sprite[] drugSprite;
     //@}
 
     public BoardManager boardmanager;
@@ -60,7 +70,7 @@ public class ItemManager : MonoBehaviour {
      * Set all the label not identified and put sprite to prefabs.
      */
     void Start() {
-        labelDic = new Dictionary<Label, ItemAction>();
+        labelDic = new Dictionary<Label, Item>();
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
 
@@ -76,7 +86,7 @@ public class ItemManager : MonoBehaviour {
         for( int i = 0; i < armorPrefabs.Length; i++ )
             armorPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = armorSprite[ i ];
         InitializePrefabsRandomly( foodPrefabs, foodSprite );
-        InitializePrefabsRandomly( flaskPrefabs, flaskSprite );
+        InitializePrefabsRandomly( drugPrefabs, drugSprite );
     }
 
     // Update is called once per frame
@@ -84,14 +94,14 @@ public class ItemManager : MonoBehaviour {
 
     }
 
-    public ItemAction LabelToItem(Label label) {
+    public Item LabelToItem(Label label) {
         return labelDic[ label ];
     }
 
-    private void InitLabelDic( Dictionary<Label, ItemAction> labelDic) {
+    private void InitLabelDic( Dictionary<Label, Item> labelDic) {
 
         labelDic[ Label.Sword ] = new Sword();
-        //Flask Initiation
+        //Drug Initiation
         labelDic[ Label.AwakeningMedicine1stFloor ] = labelDic[ Label.AwakeningMedicine2ndFloor ] = labelDic[ Label.AwakeningMedicine3rdFloor ] = new AwakeningMedicine();
         labelDic[ Label.DetoxificatingMedicine1stFloor ] = labelDic[ Label.DetoxificatingMedicine2ndFloor ] = labelDic[ Label.DetoxificatingMedicine3rdFloor ] = new DetoxificatingMedicine();
         labelDic[ Label.DiscardMedicine1stFloor ] = labelDic[ Label.DiscardMedicine2ndFloor ] = labelDic[ Label.DiscardMedicine3rdFloor ] = new DiscardedMedicine();
@@ -131,7 +141,7 @@ public class ItemManager : MonoBehaviour {
     }
 
     /**
-     * It mixes sprite of flask randomly and set it to prefabs.
+     * It mixes sprite of Drug randomly and set it to prefabs.
      */
     void InitializePrefabsRandomly( GameObject[] Prefabs, Sprite[] Sprite ) {
         int len = Prefabs.Length;

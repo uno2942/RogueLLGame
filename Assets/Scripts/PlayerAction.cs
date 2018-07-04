@@ -6,13 +6,23 @@ public class PlayerAction {
 
     public enum Direction {Up, Down, Right, Left};
     public Player player;
-    
+    private ItemManager itemManager;
+    private GameManager gameManager;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
+        itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
+        gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
     }
-    
-    
-    
+
+
+    public ItemManager.Label GetLabel( int index ) {
+        return player.InventoryList.LabelList[ index ];
+    }
+
+    public Inventory GetInventoryList() {
+        return player.InventoryList;
+    }
+
     /**
      * Player의 공격력과 상태를 기반으로 최종피해를 정한다.enemy의 체력을 깎고 Player.Weapon.Attack 메서드를 호출한다\
      * 공격 전 플레이어의 buff 상태와 착용한 무기를 확인하고,(방어구는 공격에 영향을 미치지 않는다.) 이를 공격력에 반영하여 공격 데미지를 결정한다.
@@ -40,8 +50,8 @@ public class PlayerAction {
         */
     }
     /**
- * 현재 위치정보를 기반으로 항을 변경한다
- */
+    * 현재 위치정보를 기반으로 항을 변경한다
+    */
     public void Move( Direction direction ) {
 
     }
@@ -50,17 +60,102 @@ public class PlayerAction {
     * When item is clicked, this function invoked.
     * \see ItemPrefab::OnMouseUpAsButton
     */
+    public void DumpItem( int index ) {
+        player.InventoryList.DeleteItem( index );
+        gameManager.EnemyTurn();
+        gameManager.nextturn();
+    }
+
+    public void EatItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Can can = player.InventoryList.itemManager.LabelToItem( label ) as Can;
+            can.EattenBy( player );
+            DumpItem( index );
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
+        }
+    }
+
+    public void DrinkItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Drug drug = player.InventoryList.itemManager.LabelToItem( label ) as Drug;
+            drug.DrunkBy( player );
+            player.InventoryList.itemManager.ItemIdentify( label );
+            DumpItem( index );
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
+        }
+    }
+
     public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
         if( player.InventoryList.AddItem( label ) == true ) {
             GameObject.Destroy( _gameobject );
         }
     }
-    public void ThrowAwayItem( Inventory inven ) {
+    public void ThrowAwayItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Drug drug = player.InventoryList.itemManager.LabelToItem( label ) as Drug;
+            gameManager.Throw( label );
+
+            //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
+            player.InventoryList.itemManager.ItemIdentify( label );
+
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
+        }
+        DumpItem( index );
     }
-        /**
-         * item을 사용하고 효과에 따른 메서드를 실행한다
-         */
-    public void UseItem( Inventory inven ) {
+
+    public void EquipItem( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
+            if( weaponorarmor is Weapon ) {
+                player.ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
+            } else
+                player.ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
+            //장착되었으니 UI에서 뭔갈 해야함.
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
+        }
+    }
+
+    public void UnequipItem( int index, bool GoNextTurn = true ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
+            if( weaponorarmor is Weapon ) {
+                player.ChangeAttack( -( (Weapon) weaponorarmor ).AttackPower );
+            } else
+                player.ChangeDefense( -( (Armor) weaponorarmor ).DefensivePower );
+            //장착되었으니 UI에서 뭔갈 해야함.
+            if( GoNextTurn ) {
+                gameManager.EnemyTurn();
+                gameManager.nextturn();
+            }
+        }
+    }
+
+    public void TakeDrug( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Drug drug = player.InventoryList.itemManager.LabelToItem( label ) as Drug;
+            drug.DrunkBy( player );
+            player.InventoryList.itemManager.ItemIdentify( label );
+            DumpItem( index );
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
+        }
+    }
+
+    /**
+     * item을 사용하고 효과에 따른 메서드를 실행한다
+     */
+    public void UseItem( ItemManager.Label label ) {
+        itemManager.LabelToItem( label );
     }
     public void Rest() {
     }

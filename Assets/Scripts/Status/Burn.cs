@@ -7,8 +7,8 @@ public class Burn : Buff {
     public Burn(int _count) : base( _count) { //count is not deinfed.
     }
 
-    public override int BuffWork() {
-        return -3;
+    public override void BuffWork(Player player) {
+        player.ChangeHp( -3 );
     }
 
     public override int passiveBuffAtk() { return -2; }

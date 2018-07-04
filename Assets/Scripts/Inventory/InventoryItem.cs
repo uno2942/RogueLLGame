@@ -34,7 +34,7 @@ public class InventoryItem : MonoBehaviour {
     }
 
     void OnMouseUpAsButton() {
-        if( false == player.GetInventoryList().isDialogBoxOn ) {
+        if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType( player.GetLabel( index ) );
             if( nowType == ItemManager.ItemType.Weapon || nowType == ItemManager.ItemType.Armor ) {
@@ -43,16 +43,16 @@ public class InventoryItem : MonoBehaviour {
                 WeaponArmorDialogBox W = dBox as WeaponArmorDialogBox;
                 ChangeButtonText( W );
 
-                player.GetInventoryList().isDialogBoxOn = true;
+                player.Action.GetInventoryList().isDialogBoxOn = true;
 
             } else if( nowType == ItemManager.ItemType.Food ) {
                 dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<FoodDialogBox>();
                 dBox.inventoryItem = this;
-                player.GetInventoryList().isDialogBoxOn = true;
-            } else if( nowType == ItemManager.ItemType.Flask ) {
-                dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<FlaskDialogBox>();
+                player.Action.GetInventoryList().isDialogBoxOn = true;
+            } else if( nowType == ItemManager.ItemType.Drug ) {
+                dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<DrugDialogBox>();
                 dBox.inventoryItem = this;
-                player.GetInventoryList().isDialogBoxOn = true;
+                player.Action.GetInventoryList().isDialogBoxOn = true;
             } else return;
         } else
             return;
@@ -73,7 +73,7 @@ public class InventoryItem : MonoBehaviour {
 
     public void DumpCommand() {
         Destroy(gObject);
-        player.GetInventoryList().isDialogBoxOn = false;
+        player.Action.GetInventoryList().isDialogBoxOn = false;
         if( true == isEquipped )
             player.UnequipItem( index, false );
         isEquipped = false;
@@ -81,29 +81,38 @@ public class InventoryItem : MonoBehaviour {
     }
     public void EatCommand() {
         Destroy( gObject );
-        player.GetInventoryList().isDialogBoxOn = false;
+        player.Action.GetInventoryList().isDialogBoxOn = false;
         player.EatItem( index );
     }
-    public void DrinkCommand() {
+    public void TakeCommand() {
         Destroy( gObject );
-        player.GetInventoryList().isDialogBoxOn = false;
+        player.Action.GetInventoryList().isDialogBoxOn = false;
         player.DrinkItem( index );
     }
+
+    public void TakeDrugCommand() {
+        if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
+            Destroy( gObject );
+            player.Action.GetInventoryList().isDialogBoxOn = false;
+            player.TakeDrug( index );
+        }  
+    }
+
     public void EquipCommand() {
         Destroy( gObject );//삭제?
-        player.GetInventoryList().isDialogBoxOn = false;
+        player.Action.GetInventoryList().isDialogBoxOn = false;
         player.EquipItem( index );
         isEquipped = true;
     }
     public void UnequipCommand() {
         Destroy( gObject );
-        player.GetInventoryList().isDialogBoxOn = false;
+        player.Action.GetInventoryList().isDialogBoxOn = false;
         player.UnequipItem( index );
         isEquipped = false;
     }
     public void ThrowCommand() {
         Destroy( gObject );
-        player.GetInventoryList().isDialogBoxOn = false;
+        player.Action.GetInventoryList().isDialogBoxOn = false;
         player.ThrowItem( index );
     }
 

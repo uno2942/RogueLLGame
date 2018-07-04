@@ -8,10 +8,10 @@ public class Bleed : Buff {
     }
 
     /**
-     * It returns -5 for damage. In the case except attacking and moving, it need to be modified to -2.
+     * @todo 플레이어가 이동/공격 중인지 확인해주어야 한다.
      */
-    public override int BuffWork() {
-        return -5;
+    public override void BuffWork( Player player ) {
+        player.ChangeHp( -5 );
     }
 
     public override int passiveBuffAtk() {
