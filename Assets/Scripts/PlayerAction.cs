@@ -66,18 +66,30 @@ public class PlayerAction {
         gameManager.nextturn();
     }
 
-    public void EatItem( int index ) {
+    public void UseItem( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Can can = player.InventoryList.itemManager.LabelToItem( label ) as Can;
-            can.EattenBy( player );
+            Expendable can = player.InventoryList.itemManager.LabelToItem( label ) as Expendable;
+            can.UsedBy( player );
             DumpItem( index );
             gameManager.EnemyTurn();
             gameManager.nextturn();
         }
     }
 
-    public void DrinkItem( int index ) {
+    public void EatCapsule( int index ) {
+        ItemManager.Label label = GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
+            capsule.EattenBy( player );
+            player.InventoryList.itemManager.ItemIdentify( label );
+            DumpItem( index );
+            gameManager.EnemyTurn();
+            gameManager.nextturn();
+        }
+    }
+
+    public void InjectItem( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;

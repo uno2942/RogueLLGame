@@ -6,7 +6,7 @@ public class Player : Unit {
 
     private float mp;
     private int hungry;
-    private const int maxMp;
+    private const int maxmp=100;
     private Inventory inventoryList;
     private PlayerAction action;
     /**
@@ -15,7 +15,7 @@ public class Player : Unit {
      */
     //{@
     public float Mp { get { return mp; } }
-    public int MaxMp { get { return maxMp; } }
+    public int MaxMp { get { return maxmp; } }
     public int Hungry { get { return hungry; } }
     //@}
     public PlayerAction Action
@@ -48,8 +48,9 @@ public class Player : Unit {
     void Start() {
         attack = 1;
         defense = 1;
-        hp = 120;
-        mp = 120;
+        maxhp = 100;
+        hp = maxhp;
+        mp = maxmp;
         hungry = 0;
         inventoryList = new Inventory();
         inventoryList.Initialize();
@@ -73,12 +74,7 @@ public class Player : Unit {
     public void ChangeHungry( int delta ) {
         hungry += delta;
     }
-
-
-
-
-
-
+    
     /**
     * Legacy code
     * @see PlayerAction
@@ -88,13 +84,11 @@ public class Player : Unit {
         action.DumpItem( index );
     }
 
-    public void EatItem( int index ) {
-        action.EatItem( index );
+    public void UseItem( int index ) {
+        action.UseItem( index );
     }
-
-
-    public void DrinkItem( int index ) {
-        action.DrinkItem( index );
+    public void InjectItem(int index ) {
+        action.InjectItem( index );
     }
 
     public void ThrowItem( int index ) {
@@ -110,8 +104,8 @@ public class Player : Unit {
     /**
      * @todo I need to implement this part
      */
-    public void TakeCapsule( int index ) {
-        action.TakeCapsule( index );
+    public void EatCapsule( int index ) {
+        action.EatCapsule( index );
     }
     //@}
 }

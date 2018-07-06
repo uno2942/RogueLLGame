@@ -79,25 +79,27 @@ public class InventoryItem : MonoBehaviour {
         isEquipped = false;
         player.DumpItem( index );
     }
-    public void EatCommand() {
+    public void UseCommand() {
         Destroy( gObject );
         player.Action.GetInventoryList().isDialogBoxOn = false;
-        player.EatItem( index );
-    }
-    public void TakeCommand() {
-        Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
-        player.DrinkItem( index );
+        player.UseItem( index );
     }
 
-    public void TakeCapsuleCommand() {
+    public void EatCapsuleCommand() {
         if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
             player.Action.GetInventoryList().isDialogBoxOn = false;
-            player.TakeCapsule( index );
+            player.EatCapsule( index );
         }  
     }
 
+    public void InjectCommand() {
+        if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
+            Destroy( gObject );
+            player.Action.GetInventoryList().isDialogBoxOn = false;
+            player.InjectItem( index );
+        }
+    }
     public void EquipCommand() {
         Destroy( gObject );//삭제?
         player.Action.GetInventoryList().isDialogBoxOn = false;

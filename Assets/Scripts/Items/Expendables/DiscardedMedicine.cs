@@ -4,7 +4,7 @@ using UnityEngine;
 /**
  * @todo We need to implement the code that make Medicine combining two DiscardedMedicine.
  */
-public class DiscardedMedicine : Else {
+public class DiscardedMedicine : Expendable {
 
     public override bool UsedBy( Player player ) {
         player.ChangeMp( -10 );
