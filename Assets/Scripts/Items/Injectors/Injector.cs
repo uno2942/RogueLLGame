@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Injector : Item {
 
-    public virtual bool DrunkBy( Player player ) {
+    public virtual bool InjectedBy( Player player ) {
         return true;
     }
 }

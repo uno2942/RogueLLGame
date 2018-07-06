@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CaffeinDrug : Drug {
+public class CaffeinCapsule : Capsule {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         player.ChangeMp( 25 );
         player.AddBuff( new Caffeine( 30 ) );
         return true;

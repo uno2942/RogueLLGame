@@ -49,8 +49,8 @@ public class InventoryItem : MonoBehaviour {
                 dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<FoodDialogBox>();
                 dBox.inventoryItem = this;
                 player.Action.GetInventoryList().isDialogBoxOn = true;
-            } else if( nowType == ItemManager.ItemType.Drug ) {
-                dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<DrugDialogBox>();
+            } else if( nowType == ItemManager.ItemType.Capsule ) {
+                dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
                 dBox.inventoryItem = this;
                 player.Action.GetInventoryList().isDialogBoxOn = true;
             } else return;
@@ -90,11 +90,11 @@ public class InventoryItem : MonoBehaviour {
         player.DrinkItem( index );
     }
 
-    public void TakeDrugCommand() {
+    public void TakeCapsuleCommand() {
         if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
             player.Action.GetInventoryList().isDialogBoxOn = false;
-            player.TakeDrug( index );
+            player.TakeCapsule( index );
         }  
     }
 

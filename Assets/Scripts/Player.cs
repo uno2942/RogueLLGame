@@ -110,8 +110,8 @@ public class Player : Unit {
     /**
      * @todo I need to implement this part
      */
-    public void TakeDrug( int index ) {
-        action.TakeDrug( index );
+    public void TakeCapsule( int index ) {
+        action.TakeCapsule( index );
     }
     //@}
 }

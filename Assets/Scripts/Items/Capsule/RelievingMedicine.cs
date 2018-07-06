@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RelievingMedicine : Drug {
+public class RelievingMedicine : Capsule {
 
-    public override void DrunkBy( Player player ) {
+    public override void EattenBy( Player player ) {
         player.AddStatus( StatusCheck.StatusEnum.Relieve );
     }
 }

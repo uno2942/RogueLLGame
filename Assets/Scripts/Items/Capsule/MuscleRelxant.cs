@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * I need to count the used times of this drug.
+ * I need to count the used times of this capsule.
  */
-public class MuscleRelxant : Drug {
+public class MuscleRelxant : Capsule {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         player.ChangeAttack( 1 );
         return true;
     }

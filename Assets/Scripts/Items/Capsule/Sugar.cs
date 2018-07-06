@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sugar : Drug {
+public class Sugar : Capsule {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         player.ChangeHp( 5 );
         player.ChangeMp( 10 );
         return true;
     }
     
-    }
 }

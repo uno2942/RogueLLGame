@@ -90,7 +90,8 @@ public class Unit : MonoBehaviour {
      */
     public void AddBuff(Buff buff)
     {
-        bufflist.Add(buff);
+        if( Equals( bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) )
+            bufflist.Add(buff);
     }
     /**
      * @todo I need to check whether this code is legable.

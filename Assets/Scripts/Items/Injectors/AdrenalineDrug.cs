@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdrenalineDrug : Drug {
+public class AdrenalineCapsule : Injector {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool InjectedBy( Player player ) {
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Morfin ) ) ), null ) ) {
             player.ChangeMp( -10 );
             player.AddBuff( new Adrenaline( 10 ) );

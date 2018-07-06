@@ -236,8 +236,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
-        Drug drug = itemManager.LabelToItem( label ) as Drug;
-        drug.ThrownTo( enemy );
+        Capsule capsule = itemManager.LabelToItem( label ) as Capsule;
+        capsule.ThrownTo( enemy );
 
     }
 }

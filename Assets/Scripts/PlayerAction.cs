@@ -80,8 +80,8 @@ public class PlayerAction {
     public void DrinkItem( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Drug drug = player.InventoryList.itemManager.LabelToItem( label ) as Drug;
-            drug.DrunkBy( player );
+            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
+            capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
             gameManager.EnemyTurn();
@@ -97,7 +97,7 @@ public class PlayerAction {
     public void ThrowAwayItem( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Drug drug = player.InventoryList.itemManager.LabelToItem( label ) as Drug;
+            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             gameManager.Throw( label );
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
@@ -139,11 +139,11 @@ public class PlayerAction {
         }
     }
 
-    public void TakeDrug( int index ) {
+    public void TakeCapsule( int index ) {
         ItemManager.Label label = GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Drug drug = player.InventoryList.itemManager.LabelToItem( label ) as Drug;
-            drug.DrunkBy( player );
+            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
+            capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
             gameManager.EnemyTurn();

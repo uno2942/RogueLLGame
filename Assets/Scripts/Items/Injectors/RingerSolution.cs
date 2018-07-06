@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RingerSolution : Drug {
+public class RingerSolution : Injector {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool InjectedBy( Player player ) {
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) )
             player.ChangeMp( 10 );
         else

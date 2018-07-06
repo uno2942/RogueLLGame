@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CureAll : Drug {
+public class CureAll : Capsule {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         if( player.Hp != player.MaxHp )
             player.ChangeHp( player.MaxHp );
         else

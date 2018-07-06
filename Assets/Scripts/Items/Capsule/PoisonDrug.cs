@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoisonDrug : Drug {
+public class PoisonCapsule : Capsule {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         player.AddBuff( new Poison( 30 ) );
         return true;
     }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiquidFlameMedicine : Drug {
+public class LiquidFlameMedicine : Capsule {
     /**
      * @todo yes.
      */
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         player.AddBuff( new Burn( 10 ) );
         //Find enemy in the room
         for( int i = 0; i < enemynum; i++ )

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Drug : Item {
+public class Capsule : Item {
 
-    public virtual bool DrunkBy( Player player ) {
+    public virtual bool EattenBy( Player player ) {
         return true;
     }
     public virtual bool ThrownTo(Enemy enemy) {

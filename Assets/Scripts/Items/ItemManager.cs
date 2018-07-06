@@ -18,13 +18,13 @@ public class ItemManager : MonoBehaviour {
     };
 
     public enum ItemCategory {
-        Empty, Sword, Delcan, Gown, CureAll, Hallucinogen, LiquidFlameMedicine, CaffeinDrug, VitaminTablet, Soup, Sugar, Poison, Salt,
-        Water, MuscleRelaxant, SleepingPill, MorfinDrug, AdrenalineDrug, RingerLiquid, Can, Drug, Bandage, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
+        Empty, Sword, Delcan, Gown, CureAll, Hallucinogen, LiquidFlameMedicine, CaffeinCapsule, VitaminTablet, Soup, Sugar, Poison, Salt,
+        Water, MuscleRelaxant, SleepingPill, MorfinCapsule, AdrenalineCapsule, RingerLiquid, Can, Capsule, Bandage, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
     }
     
     public enum ItemType
     {
-        Empty, Weapon, Armor, Food, Drug
+        Empty, Weapon, Armor, Food, Capsule
     };
 
     public static ItemType LabelToType(Label lab)
@@ -33,7 +33,7 @@ public class ItemManager : MonoBehaviour {
         else if ( lab == Label.Sword ) return ItemType.Weapon;
         else if ( lab == Label.DelCan ) return ItemType.Food;
         else if ( lab == Label.Gown ) return ItemType.Armor;
-        else return ItemType.Drug;
+        else return ItemType.Capsule;
     }
 
     public static Label CategoryToLabel(ItemCategory category) {
@@ -48,18 +48,18 @@ public class ItemManager : MonoBehaviour {
     private Dictionary<Label, Item> labelDic;
     /** The item prefabs.
      * For weapons, armors and foods, the prefab and sprite should coincide.
-     * For Drug, it does not have to because we need to distribute the sprite randomly.
+     * For Capsule, it does not have to because we need to distribute the sprite randomly.
      */
     //{@
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
     public GameObject[] foodPrefabs;
-    public GameObject[] drugPrefabs;
+    public GameObject[] capsulePrefabs;
 
     public Sprite[] weaponSprite;
     public Sprite[] armorSprite;
     public Sprite[] foodSprite;
-    public Sprite[] drugSprite;
+    public Sprite[] capsuleSprite;
     //@}
 
     public BoardManager boardmanager;
@@ -86,7 +86,7 @@ public class ItemManager : MonoBehaviour {
         for( int i = 0; i < armorPrefabs.Length; i++ )
             armorPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = armorSprite[ i ];
         InitializePrefabsRandomly( foodPrefabs, foodSprite );
-        InitializePrefabsRandomly( drugPrefabs, drugSprite );
+        InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
 
     // Update is called once per frame
@@ -101,7 +101,7 @@ public class ItemManager : MonoBehaviour {
     private void InitLabelDic( Dictionary<Label, Item> labelDic) {
 
         labelDic[ Label.Sword ] = new Sword();
-        //Drug Initiation
+        //Capsule Initiation
         labelDic[ Label.AwakeningMedicine1stFloor ] = labelDic[ Label.AwakeningMedicine2ndFloor ] = labelDic[ Label.AwakeningMedicine3rdFloor ] = new AwakeningMedicine();
         labelDic[ Label.DetoxificatingMedicine1stFloor ] = labelDic[ Label.DetoxificatingMedicine2ndFloor ] = labelDic[ Label.DetoxificatingMedicine3rdFloor ] = new DetoxificatingMedicine();
         labelDic[ Label.DiscardMedicine1stFloor ] = labelDic[ Label.DiscardMedicine2ndFloor ] = labelDic[ Label.DiscardMedicine3rdFloor ] = new DiscardedMedicine();
@@ -141,7 +141,7 @@ public class ItemManager : MonoBehaviour {
     }
 
     /**
-     * It mixes sprite of Drug randomly and set it to prefabs.
+     * It mixes sprite of Capsule randomly and set it to prefabs.
      */
     void InitializePrefabsRandomly( GameObject[] Prefabs, Sprite[] Sprite ) {
         int len = Prefabs.Length;

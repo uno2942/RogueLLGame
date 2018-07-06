@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VitaminTablet : Drug {
+public class VitaminTablet : Capsule {
 
-    public override bool DrunkBy( Player player ) {
+    public override bool EattenBy( Player player ) {
         player.ChangeHp( 15 );
         player.ChangeMp( 15 );
         return true;
