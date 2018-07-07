@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poison : Status {
+public class Poison : Buff {
 
-    public override void DoAction()
-    {
-        if ( !IsActive ) return;
-        unit.ChangeHp (-1);
-        RemainTurn--;
-        if ( RemainTurn == 0 )
-        {
-            Inactivate ();
-        }
+    public Poison(int _count) : base(_count) {//턴 수가 안 정해져 있음.
+                                                    
     }
-    public override void Activate()
-    {
-        IsActive = true;
-        RemainTurn = 10;
+    /**
+ * @todo I need to change enemy's attack part.
+ */
+    public override void BuffWork( Player player ) {
+        player.ChangeHp( -1 );
     }
-    public override void Inactivate()
-    {
-        IsActive = false;
-        RemainTurn = 0;
+    public override int passiveBuffAtk() {
+        return 0;
+    }
+
+    public override int passiveBuffDef() {
+        return 0;
+    }
+
+    public override float passiveBuffFinal() {
+        return 1f;
     }
 }

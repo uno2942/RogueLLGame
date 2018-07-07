@@ -236,8 +236,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
-        Flask flask = itemManager.LabelToItem( label ) as Flask;
-        flask.ThrownTo( enemy );
+        Capsule capsule = itemManager.LabelToItem( label ) as Capsule;
+        capsule.ThrownTo( enemy );
 
     }
 }

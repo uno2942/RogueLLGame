@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bleed : Status {
-    public override void DoAction()
-    {
-        if ( !IsActive ) return;
-        unit.ChangeHp (-5);
-        RemainTurn--;
-        if ( RemainTurn == 0 )
-        {
-            Inactivate ();
-        }
+public class Bleed : Buff {
+
+    public Bleed(int _count) : base( _count ) {
     }
-    public override void Activate()
-    {
-        IsActive = true;
-        RemainTurn = 5;
+
+    /**
+     * @todo 플레이어가 이동/공격 중인지 확인해주어야 한다.
+     */
+    public override void BuffWork( Player player ) {
+        player.ChangeHp( -5 );
     }
-    public override void Inactivate()
-    {
-        IsActive = false;
-        RemainTurn = 0;
+
+    public override int passiveBuffAtk() {
+        return 0;
+    }
+    public override int passiveBuffDef() {
+        return 0;
+    }
+    public override float passiveBuffFinal() {
+        return 1f;
     }
 }

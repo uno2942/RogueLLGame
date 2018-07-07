@@ -11,45 +11,84 @@ public class ItemManager : MonoBehaviour {
      * \details All the items should have a label, and the items in different floor should have different label \since the player can carry items from previous floor.
      */
     public enum Label {
-        Empty, Sword, DelCan, Gown,
-        Ethanol1stFloor, Water1stFloor, DiscardMedicine1stFloor, RingerSolution1stFloor, ParalyzingMedicine1stFloor, LiquidFlameMedicine1stFloor, AwakeningMedicine1stFloor, RelievingMedicine1stFloor, DetoxificatingMedicine1stFloor,
-        Ethanol2ndFloor, Water2ndFloor, DiscardMedicine2ndFloor, RingerSolution2ndFloor, ParalyzingMedicine2ndFloor, LiquidFlameMedicine2ndFloor, AwakeningMedicine2ndFloor, RelievingMedicine2ndFloor, DetoxificatingMedicine2ndFloor,
-        Ethanol3rdFloor, Water3rdFloor, DiscardMedicine3rdFloor, RingerSolution3rdFloor, ParalyzingMedicine3rdFloor, LiquidFlameMedicine3rdFloor, AwakeningMedicine3rdFloor, RelievingMedicine3rdFloor, DetoxificatingMedicine3rdFloor
+        Empty, Sword, Gown,
+        CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, ParalyzingMedicine1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
+        CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, ParalyzingMedicine2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
+        CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, ParalyzingMedicine3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
+        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
     };
 
+    public enum ItemCategory {
+        Empty, Sword, Gown, CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant, ParalyzingMedicine, PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
+        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Capsule, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
+    }
+    
     public enum ItemType
     {
-        Empty, Weapon, Armor, Food, Flask
+        Empty, Weapon, Armor, Expenables, Capsule, Injector, Card
     };
 
     public static ItemType LabelToType(Label lab)
     {
-        if ( lab == Label.Empty ) return ItemType.Empty;
-        else if ( lab == Label.Sword ) return ItemType.Weapon;
-        else if ( lab == Label.DelCan ) return ItemType.Food;
-        else if ( lab == Label.Gown ) return ItemType.Armor;
-        else return ItemType.Flask;
+        if( lab == Label.Empty ) return ItemType.Empty;
+        else if( lab == Label.Sword ) return ItemType.Weapon;
+        else if( lab == Label.Gown ) return ItemType.Armor;
+        else if( lab == Label.MorfinCapsule || lab == Label.AdrenalineCapsule || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab==Label.Medicine || lab == Label.DiscardedMedicine) return ItemType.Expenables;
+        else return ItemType.Capsule;
+    }
+
+    public static ItemCategory LabelToCategory( Label label ) {
+        if( label == Label.Empty ) return ItemCategory.Empty;
+        else if( label == Label.Sword ) return ItemCategory.Sword;
+        else if( label == Label.Gown ) return ItemCategory.Gown;
+        else if( label == Label.MorfinCapsule ) return ItemCategory.MorfinCapsule;
+        else if( label == Label.AdrenalineCapsule ) return ItemCategory.AdrenalineCapsule;
+        else if( label == Label.RingerSolution ) return ItemCategory.RingerSolution;
+        else if( label == Label.Can ) return ItemCategory.Can;
+        else if( label == Label.Water ) return ItemCategory.Water;
+        else if( label == Label.Bandage ) return ItemCategory.Bandage;
+        else if( label == Label.Medicine ) return ItemCategory.Medicine;
+        else if( label == Label.DiscardedMedicine ) return ItemCategory.DiscardedMedicine;
+        else if( label == Label.WhiteCard ) return ItemCategory.WhiteCard;
+        else if( label == Label.BlackCard ) return ItemCategory.BlackCard;
+        else if( label == Label.YellowCard ) return ItemCategory.YellowCard;
+        else if( label == Label.CaffeinCapsule1 || label == Label.CaffeinCapsule2 || label == Label.CaffeinCapsule3 ) return ItemCategory.CaffeinCapsule;
+        else if( label == Label.CureAll1 || label == Label.CureAll2 || label == Label.CureAll3 ) return ItemCategory.CureAll;
+        else if( label == Label.Hallucinogen1 || label == Label.Hallucinogen2 || label == Label.Hallucinogen3 ) return ItemCategory.Hallucinogen;
+        else if( label == Label.LiquidFlameMedicine1 || label == Label.LiquidFlameMedicine2 || label == Label.LiquidFlameMedicine3 ) return ItemCategory.LiquidFlameMedicine;
+        else if( label == Label.MuscleRelaxant1 || label == Label.MuscleRelaxant2 || label == Label.MuscleRelaxant3 ) return ItemCategory.MuscleRelaxant;
+        else if( label == Label.ParalyzingMedicine1 || label == Label.ParalyzingMedicine2 || label == Label.ParalyzingMedicine3 ) return ItemCategory.ParalyzingMedicine;
+        else if( label == Label.PoisonCapsule1 || label == Label.PoisonCapsule2 || label == Label.PoisonCapsule3 ) return ItemCategory.PoisonCapsule;
+        else if( label == Label.Salt1 || label == Label.Salt2 || label == Label.Salt3 ) return ItemCategory.Salt;
+        else if( label == Label.SleepingPill1 || label == Label.SleepingPill2 || label == Label.SleepingPill3 ) return ItemCategory.SleepingPill;
+        else if( label == Label.Soup1 || label == Label.Soup2 || label == Label.Soup3 ) return ItemCategory.Soup;
+        else if( label == Label.Sugar1 || label == Label.Sugar2 || label == Label.Sugar3 ) return ItemCategory.Sugar;
+        else if( label == Label.VitaminTablet1 || label == Label.VitaminTablet2 || label == Label.VitaminTablet3 ) return ItemCategory.VitaminTablet;
+        else return ItemCategory.Empty; //Throw exception을 어떻게 하는지 모르겠어요.
+
+
     }
     private const int floorMax = 3;
     /** To check whether the item is identified, we use dictionary.
      */
     private Dictionary<Label, bool> IsIdentified = new Dictionary<Label, bool>();
-
-    private Dictionary<Label, ItemAction> labelDic;
+    /** It connects item labels with item class
+     */
+    private Dictionary<Label, Item> labelDic;
     /** The item prefabs.
      * For weapons, armors and foods, the prefab and sprite should coincide.
-     * For flask, it does not have to because we need to distribute the sprite randomly.
+     * For Capsule, it does not have to because we need to distribute the sprite randomly.
      */
     //{@
     public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
     public GameObject[] armorPrefabs;
     public GameObject[] foodPrefabs;
-    public GameObject[] flaskPrefabs;
+    public GameObject[] capsulePrefabs;
 
     public Sprite[] weaponSprite;
     public Sprite[] armorSprite;
     public Sprite[] foodSprite;
-    public Sprite[] flaskSprite;
+    public Sprite[] capsuleSprite;
     //@}
 
     public BoardManager boardmanager;
@@ -60,7 +99,7 @@ public class ItemManager : MonoBehaviour {
      * Set all the label not identified and put sprite to prefabs.
      */
     void Start() {
-        labelDic = new Dictionary<Label, ItemAction>();
+        labelDic = new Dictionary<Label, Item>();
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
 
@@ -76,7 +115,7 @@ public class ItemManager : MonoBehaviour {
         for( int i = 0; i < armorPrefabs.Length; i++ )
             armorPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = armorSprite[ i ];
         InitializePrefabsRandomly( foodPrefabs, foodSprite );
-        InitializePrefabsRandomly( flaskPrefabs, flaskSprite );
+        InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
 
     // Update is called once per frame
@@ -84,24 +123,39 @@ public class ItemManager : MonoBehaviour {
 
     }
 
-    public ItemAction LabelToItem(Label label) {
+    public Item LabelToItem(Label label) {
         return labelDic[ label ];
     }
 
-    private void InitLabelDic( Dictionary<Label, ItemAction> labelDic) {
+    private void InitLabelDic( Dictionary<Label, Item> labelDic) {
 
         labelDic[ Label.Sword ] = new Sword();
-        //Flask Initiation
-        labelDic[ Label.AwakeningMedicine1stFloor ] = labelDic[ Label.AwakeningMedicine2ndFloor ] = labelDic[ Label.AwakeningMedicine3rdFloor ] = new AwakeningMedicine();
-        labelDic[ Label.DetoxificatingMedicine1stFloor ] = labelDic[ Label.DetoxificatingMedicine2ndFloor ] = labelDic[ Label.DetoxificatingMedicine3rdFloor ] = new DetoxificatingMedicine();
-        labelDic[ Label.DiscardMedicine1stFloor ] = labelDic[ Label.DiscardMedicine2ndFloor ] = labelDic[ Label.DiscardMedicine3rdFloor ] = new DiscardedMedicine();
-        labelDic[ Label.Ethanol1stFloor ] = labelDic[ Label.Ethanol2ndFloor ] = labelDic[ Label.Ethanol3rdFloor ] = new Ethanol();
-        labelDic[ Label.LiquidFlameMedicine1stFloor ] = labelDic[ Label.LiquidFlameMedicine2ndFloor ] = labelDic[ Label.LiquidFlameMedicine3rdFloor ] = new LiquidFlameMedicine();
-        labelDic[ Label.ParalyzingMedicine1stFloor ] = labelDic[ Label.ParalyzingMedicine2ndFloor ] = labelDic[ Label.ParalyzingMedicine3rdFloor ] = new ParalyzingMedicine();
-        labelDic[ Label.RelievingMedicine1stFloor ] = labelDic[ Label.RelievingMedicine2ndFloor ] = labelDic[ Label.RelievingMedicine3rdFloor ] = new RelievingMedicine();
-        labelDic[ Label.RingerSolution1stFloor ] = labelDic[ Label.RingerSolution2ndFloor ] = labelDic[ Label.RingerSolution3rdFloor ] = new RingerSolution();
-        labelDic[ Label.Water1stFloor ] = labelDic[ Label.Water2ndFloor ] = labelDic[ Label.Water3rdFloor ] = new Water();
-        
+        labelDic[ Label.Gown ] = new Gown();
+        //Capsule Initiation
+        labelDic[ Label.MorfinCapsule ] = new MorfinCapsule();
+        labelDic[ Label.AdrenalineCapsule ] = new AdrenalineCapsule();
+        labelDic[ Label.RingerSolution ] = new RingerSolution();
+        labelDic[ Label.Can ] = new Can();
+        labelDic[ Label.Water ] = new Water();
+        labelDic[ Label.Bandage ] = new Bandage();
+        labelDic[ Label.Medicine ] = new Medicine();
+        labelDic[ Label.DiscardedMedicine ] = new DiscardedMedicine();
+        labelDic[ Label.WhiteCard ] = new WhiteCard();
+        labelDic[ Label.BlackCard ] = new BlackCard();
+        labelDic[ Label.YellowCard ] = new YellowCard();
+        labelDic[ Label.CaffeinCapsule1 ] = labelDic[ Label.CaffeinCapsule2 ] = labelDic[ Label.CaffeinCapsule3 ] = new CaffeinCapsule();
+        labelDic[ Label.CureAll1 ] = labelDic[ Label.CureAll2 ] = labelDic[ Label.CureAll3 ] = new CureAll();
+        labelDic[ Label.Hallucinogen1 ] = labelDic[ Label.Hallucinogen2 ] = labelDic[ Label.Hallucinogen3 ] = new Hallucinogen();
+        labelDic[ Label.LiquidFlameMedicine1 ] = labelDic[ Label.LiquidFlameMedicine2 ] = labelDic[ Label.LiquidFlameMedicine3 ] = new LiquidFlameMedicine();
+        labelDic[ Label.MuscleRelaxant1 ] = labelDic[ Label.MuscleRelaxant2 ] = labelDic[ Label.MuscleRelaxant3 ] = new MuscleRelaxant();
+        labelDic[ Label.ParalyzingMedicine1 ] = labelDic[ Label.ParalyzingMedicine2 ] = labelDic[ Label.ParalyzingMedicine3 ] = new ParalyzingMedicine();
+        labelDic[ Label.PoisonCapsule1 ] = labelDic[ Label.PoisonCapsule2 ] = labelDic[ Label.PoisonCapsule3 ] = new PoisonCapsule();
+        labelDic[ Label.Salt1 ] = labelDic[ Label.Salt2 ] = labelDic[ Label.Salt3 ] = new Salt();
+        labelDic[ Label.SleepingPill1 ] = labelDic[ Label.SleepingPill2 ] = labelDic[ Label.SleepingPill3 ] = new SleepingPill();
+        labelDic[ Label.Soup1 ] = labelDic[ Label.Soup2 ] = labelDic[ Label.Soup3 ] = new Soup();
+        labelDic[ Label.Sugar1 ] = labelDic[ Label.Sugar2 ] = labelDic[ Label.Sugar3 ] = new Sugar();
+        labelDic[ Label.VitaminTablet1 ] = labelDic[ Label.VitaminTablet2 ] = labelDic[ Label.VitaminTablet3 ] = new VitaminTablet();
+
     }
 
 
@@ -131,7 +185,7 @@ public class ItemManager : MonoBehaviour {
     }
 
     /**
-     * It mixes sprite of flask randomly and set it to prefabs.
+     * It mixes sprite of Capsule randomly and set it to prefabs.
      */
     void InitializePrefabsRandomly( GameObject[] Prefabs, Sprite[] Sprite ) {
         int len = Prefabs.Length;

@@ -4,156 +4,108 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Player : Unit {
 
-
-    private int mp;
+    private float mp;
     private int hungry;
-    /**
-     * Player class have inventory gameobject to put items into inventory.
-     */
+    private const int maxmp=100;
     private Inventory inventoryList;
+    private PlayerAction action;
     /**
      * Player's mp and hungry degree.
      * Note that HP variable is in Unit class.
      */
-     //{@
-    public int Mp { get { return mp; } }
+    //{@
+    public float Mp { get { return mp; } }
+    public int MaxMp { get { return maxmp; } }
     public int Hungry { get { return hungry; } }
     //@}
+    public PlayerAction Action
+    {
+        get
+        {
+            return action;
+        }
+    }
+
+    public Inventory InventoryList
+    {
+        get
+        {
+            return inventoryList;
+        }
+    }
+
+    public Weapon weapon;
+    public Armor armor;
+    /**
+    * Player class have inventory gameobject to put items into inventory.
+    */
+
+
     /**
      *Initialize the variables in Player class.
      *In this function, initialize HPBar, MPBar and inventory.
      */
-    void Start()
-    {
+    void Start() {
         attack = 1;
         defense = 1;
-        hp = 120;
-        mp = 120;
+        maxhp = 100;
+        hp = maxhp;
+        mp = maxmp;
         hungry = 0;
-        inventoryList = new Inventory ();
-        inventoryList.Initialize ();
-        GameObject.Find ("PlayerHPBar").GetComponent<Slider> ().value = hp;
-        GameObject.Find ("PlayerMPBar").GetComponent<Slider> ().value = mp;
+        inventoryList = new Inventory();
+        inventoryList.Initialize();
+        GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
+        GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
+        action = new PlayerAction();
     }
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
      */
-     //{@
-    public override void ChangeHp(int delta)
-    {
+    //{@
+    public override void ChangeHp( float delta ) {
         hp += delta;
-        GameObject.Find ("PlayerHPBar").GetComponent<Slider> ().value = hp;
+        GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
     }
-    public void ChangeMp(int delta)
-    {
+    public void ChangeMp( float delta ) {
         mp += delta;
-        GameObject.Find ("PlayerMPBar").GetComponent<Slider> ().value = mp;
+        GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
     }
     //@}
-    public void ChangeHungry(int delta)
-    {
+    public void ChangeHungry( int delta ) {
         hungry += delta;
     }
-
-    public bool isRelieve()
-    {
-        return statusList.isRelieve ();
-    }
-    public bool isAwaken()
-    {
-        return statusList.isAwaken ();
-    }
+    
     /**
-     * When item is clicked, this function invoked.
-     * \see Item::OnMouseUpAsButton
-     */
-    public void PickItem(ItemManager.Label label, GameObject _gameobject)
-    {
-        if( inventoryList.AddItem( label ) == true ) {
-        Destroy( _gameobject );
-        }
-    }
-
-    public ItemManager.Label GetLabel(int index)
-    {
-        return inventoryList.LabelList [index];
-    }
-
-    public Inventory GetInventoryList() {
-        return inventoryList;
-    }
-
-
-
+    * Legacy code
+    * @see PlayerAction
+    */
+    //{@
     public void DumpItem( int index ) {
-        inventoryList.DeleteItem( index );
-        gameManager.EnemyTurn();
-        gameManager.nextturn();
+        action.DumpItem( index );
     }
 
-    public void EatItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Can can = inventoryList.itemManager.LabelToItem( label) as Can;
-            can.EattenBy( this );
-            DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
-        }
+    public void UseItem( int index ) {
+        action.UseItem( index );
+    }
+    public void InjectItem(int index ) {
+        action.InjectItem( index );
     }
 
-    public void DrinkItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
-            flask.DrunkBy( this );
-            inventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
-        }
-    }
     public void ThrowItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Flask flask = inventoryList.itemManager.LabelToItem( label ) as Flask;
-            gameManager.Throw( label );
-
-//            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
-                inventoryList.itemManager.ItemIdentify( label );
-
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
-        }
-        DumpItem( index );
+        action.ThrowAwayItem( index );
     }
     public void EquipItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            ItemAction weaponorarmor = inventoryList.itemManager.LabelToItem( label );
-            if( weaponorarmor is Weapon ) {
-                ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
-            } else
-                ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
-            //장착되었으니 UI에서 뭔갈 해야함.
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
-        }
+        action.EquipItem( index );
     }
 
-    public void UnequipItem( int index, bool GoNextTurn=true ) {
-        ItemManager.Label label = GetLabel( index );
-        if( inventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            ItemAction weaponorarmor = inventoryList.itemManager.LabelToItem( label );
-            if( weaponorarmor is Weapon ) {
-                ChangeAttack( -(( Weapon) weaponorarmor ).AttackPower );
-            } else
-                ChangeDefense( -((Armor) weaponorarmor ).DefensivePower );
-            //장착되었으니 UI에서 뭔갈 해야함.
-            if( GoNextTurn ) {
-                gameManager.EnemyTurn();
-                gameManager.nextturn();
-            }
-        }
+    public void UnequipItem( int index, bool GoNextTurn = true ) {
+        action.UnequipItem( index, GoNextTurn );
     }
+    /**
+     * @todo I need to implement this part
+     */
+    public void EatCapsule( int index ) {
+        action.EatCapsule( index );
+    }
+    //@}
 }

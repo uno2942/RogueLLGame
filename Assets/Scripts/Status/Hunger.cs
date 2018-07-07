@@ -2,6 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hunger : Status {
-    
+public class Hunger : Buff {
+
+    public Hunger() : base( -1 ) {
+
+    }
+
+    public override void BuffWork( Player player ) {
+    }
+
+    public override int passiveBuffAtk() {
+        return 0;
+    }
+    public override int passiveBuffDef() {
+        return 0;
+    }
+    public override float passiveBuffFinal() {
+        return 1f;
+    }
 }
