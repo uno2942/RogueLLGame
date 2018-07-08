@@ -14,10 +14,10 @@ public class Weapon : Item {
         }
     }
 
-    public virtual void Check() {
+    public virtual void Check(Player player) {
 
     }
-    public virtual void Attack(Enemy enemy) {
+    public virtual void Attack(Enemy enemy,Player player) {
 
     }
     //set은 private

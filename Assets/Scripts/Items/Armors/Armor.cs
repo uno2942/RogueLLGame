@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : Item {
+public class Armor : Equip{
 
     protected int defensivePower;
 
@@ -13,4 +13,7 @@ public class Armor : Item {
             return defensivePower;
         }
     }
+
+    public virtual void Check(Player player);
+    public virtual void Hitted(Enemy enemy, Player player);
 }

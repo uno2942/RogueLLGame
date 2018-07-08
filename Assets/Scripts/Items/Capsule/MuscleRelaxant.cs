@@ -7,8 +7,16 @@ using UnityEngine;
  */
 public class MuscleRelaxant : Capsule {
 
+
     public override bool EattenBy( Player player ) {
-        player.ChangeAttack( 1 );
-        return true;
+        //if (player.musclecount < 5)
+     //   {
+            player.ChangeAttack(1);
+            //player.Counts.muscle++;
+      //  }
+      //  else
+            //dead mechanism
+
+            return true;
     }
 }

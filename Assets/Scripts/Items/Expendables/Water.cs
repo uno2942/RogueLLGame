@@ -9,8 +9,15 @@ public class Water : Expendable {
             player.ChangeMp( 10 );
         else
             player.ChangeMp( 5 );
-        if( !Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Burn ) ) ), null ) )
-            player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Burn ) ) ) );
         return true;
     }
+    
+    public override bool ExpandUseBy(Player player)
+    {
+
+        if (!Equals(player.Bufflist.Find(x => x.GetType().Equals(typeof(Burn))), null))
+            player.DeleteBuff(player.Bufflist.Find(x => x.GetType().Equals(typeof(Burn))));
+        return true;
+    }
+
 }
