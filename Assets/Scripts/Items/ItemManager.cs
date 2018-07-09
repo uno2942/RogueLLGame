@@ -80,14 +80,11 @@ public class ItemManager : MonoBehaviour {
      * For Capsule, it does not have to because we need to distribute the sprite randomly.
      */
     //{@
-    public GameObject[] weaponPrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
+    public GameObject[] weaponPrefabs;
     public GameObject[] armorPrefabs;
-    public GameObject[] foodPrefabs;
-    public GameObject[] capsulePrefabs;
-
-    public Sprite[] weaponSprite;
-    public Sprite[] armorSprite;
-    public Sprite[] foodSprite;
+    public GameObject[] expendablesPrefabs;
+    public GameObject[] capsulePrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
+    
     public Sprite[] capsuleSprite;
     //@}
 
@@ -108,13 +105,6 @@ public class ItemManager : MonoBehaviour {
             IsIdentified.Add( i, false );
         }
 
-        for( int i = 0; i < weaponPrefabs.Length; i++ ) {
-            Debug.Log( weaponPrefabs.Length );
-            weaponPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = weaponSprite[ i ];
-        }
-        for( int i = 0; i < armorPrefabs.Length; i++ )
-            armorPrefabs[ i ].GetComponent<SpriteRenderer>().sprite = armorSprite[ i ];
-        InitializePrefabsRandomly( foodPrefabs, foodSprite );
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
 
@@ -155,7 +145,6 @@ public class ItemManager : MonoBehaviour {
         labelDic[ Label.Soup1 ] = labelDic[ Label.Soup2 ] = labelDic[ Label.Soup3 ] = new Soup();
         labelDic[ Label.Sugar1 ] = labelDic[ Label.Sugar2 ] = labelDic[ Label.Sugar3 ] = new Sugar();
         labelDic[ Label.VitaminTablet1 ] = labelDic[ Label.VitaminTablet2 ] = labelDic[ Label.VitaminTablet3 ] = new VitaminTablet();
-
     }
 
 
@@ -201,7 +190,7 @@ public class ItemManager : MonoBehaviour {
      * \see InitializePrefabsRandomly
      */
     //{@
-    void GenerateRandomSequence( ref int[] index ) {
+    public static void GenerateRandomSequence( ref int[] index ) {
         Random.InitState( (int) System.DateTime.Now.Ticks );
         float[] weight = new float[ index.Length ];
         for( int i = 0; i < index.Length; i++ ) {
@@ -216,12 +205,12 @@ public class ItemManager : MonoBehaviour {
                 }
             }
     }
-    void Swap(ref float a, ref float b) {
+    static void Swap(ref float a, ref float b) {
         float temp = a;
         a = b;
         b = temp;
     }
-    void Swap( ref int a, ref int b ) {
+    static void Swap( ref int a, ref int b ) {
         int temp = a;
         a = b;
         b = temp;
