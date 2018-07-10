@@ -6,6 +6,7 @@ public class Club : Weapon
 {
     public Club()
     {
+        name = this.GetType().ToString();
         attackPower = 9;
         rank = "common";
     }

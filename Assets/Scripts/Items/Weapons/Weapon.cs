@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Item {
+public class Weapon : Equip {
 
     protected int attackPower;
-
     public int AttackPower
     {
         get

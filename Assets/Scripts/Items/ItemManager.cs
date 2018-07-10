@@ -15,17 +15,17 @@ public class ItemManager : MonoBehaviour {
         CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, ParalyzingMedicine1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
         CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, ParalyzingMedicine2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
         CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, ParalyzingMedicine3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
-        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
+        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
 
     public enum ItemCategory {
         Empty, Sword, Gown, CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant, ParalyzingMedicine, PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
-        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Capsule, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard
+        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Capsule, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     }
     
     public enum ItemType
     {
-        Empty, Weapon, Armor, Expenables, Capsule, Injector, Card
+        Empty, Weapon, Armor, Expenables, Capsule, Injector, Card, EndOfEnum
     };
 
     public static ItemType LabelToType(Label lab)

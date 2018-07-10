@@ -5,6 +5,7 @@ using UnityEngine;
 public class FullPlated : Armor {
     public FullPlated()
     {
+        name = this.GetType().ToString();
         deffensivepower = 20;
         rank = "legendary";
     }

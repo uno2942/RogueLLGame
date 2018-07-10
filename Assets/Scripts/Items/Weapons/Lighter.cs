@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lighter : Weapon { 
     public Lighter()
     {
+        name = this.GetType().ToString();
         attackPower = 2;
         rank = "rare";
     }

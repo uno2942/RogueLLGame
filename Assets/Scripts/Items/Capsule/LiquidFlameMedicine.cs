@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LiquidFlameMedicine : Capsule {
+    public LiquidFlameMedicine() {
+        name = this.GetType().ToString();
+    }
     /**
      * @todo yes.
      */

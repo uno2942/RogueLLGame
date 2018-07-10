@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BloodJacket : Armor
 {
-
     public BloodJacket()
     {
+        name = this.GetType().ToString();
         if (Equals(player.Bufflist.Find(x => x.GetType().Equals(typeof(Hallucinated)), null)))
         {
             deffensivepower = 16;

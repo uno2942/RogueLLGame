@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CureAll : Capsule {
-
+    public CureAll() {
+        name = this.GetType().ToString();
+    }
     public override bool EattenBy( Player player ) {
         if( player.Hp != player.MaxHp )
             player.ChangeHp( player.MaxHp );

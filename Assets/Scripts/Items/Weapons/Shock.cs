@@ -7,6 +7,7 @@ public class Shock : Weapon {
     private int count;
     public Shock()
     {
+        name = this.GetType().ToString();
         count = 0;
         attackPower = 15;
         rank = "legendary";

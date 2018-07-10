@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class YellowCard : Item {
 
-    public void YellowCard() {
-
+    public YellowCard() {
+        name = this.GetType().ToString();
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

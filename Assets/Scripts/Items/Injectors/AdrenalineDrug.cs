@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AdrenalineCapsule : Injector {
-
+    public AdrenalineCapsule() {
+        name = this.GetType().ToString();
+    }
     public override bool InjectedBy( Player player ) {
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Morfin ) ) ), null ) ) {
             player.ChangeMp( -10 );
