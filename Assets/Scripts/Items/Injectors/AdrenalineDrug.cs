@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdrenalineCapsule : Injector {
-    public AdrenalineCapsule() {
+public class AdrenalineDrug : Injector {
+    public AdrenalineDrug() {
         name = this.GetType().ToString();
     }
     public override bool InjectedBy( Player player ) {

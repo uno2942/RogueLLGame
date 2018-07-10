@@ -11,17 +11,20 @@ public class ItemManager : MonoBehaviour {
      * \details All the items should have a label, and the items in different floor should have different label \since the player can carry items from previous floor.
      */
     public enum Label {
-        Empty, Sword, Gown,
+        Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
+        BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
         CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, ParalyzingMedicine1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
         CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, ParalyzingMedicine2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
         CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, ParalyzingMedicine3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
-        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
+        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
 
     public enum ItemCategory {
-        Empty, Sword, Gown, CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant, ParalyzingMedicine, PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
-        MorfinCapsule, AdrenalineCapsule, RingerSolution, Can, Water, Capsule, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
-    }
+        Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
+        BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
+        CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant, ParalyzingMedicine, PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
+        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
+    };
     
     public enum ItemType
     {
@@ -31,18 +34,32 @@ public class ItemManager : MonoBehaviour {
     public static ItemType LabelToType(Label lab)
     {
         if( lab == Label.Empty ) return ItemType.Empty;
-        else if( lab == Label.Sword ) return ItemType.Weapon;
-        else if( lab == Label.Gown ) return ItemType.Armor;
-        else if( lab == Label.MorfinCapsule || lab == Label.AdrenalineCapsule || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab==Label.Medicine || lab == Label.DiscardedMedicine) return ItemType.Expenables;
+        else if( lab == Label.AutoHandgun || lab == Label.BlackKnife || lab == Label.Club || lab == Label.Hammer || lab == Label.Lighter || lab == Label.Mess || lab == Label.Nuckle || lab == Label.SharpDagger || lab == Label.Shock) return ItemType.Weapon;
+        else if (lab == Label.BloodJacket || lab == Label.CleanDoctorCloth || lab == Label.DamagedDoctorCloth|| lab == Label.FullPlated || lab == Label.Padding || lab == Label.Patient || lab == Label.Tshirts) return ItemType.Armor;
+        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab==Label.Medicine || lab == Label.DiscardedMedicine) return ItemType.Expenables;
         else return ItemType.Capsule;
     }
 
     public static ItemCategory LabelToCategory( Label label ) {
         if( label == Label.Empty ) return ItemCategory.Empty;
-        else if( label == Label.Sword ) return ItemCategory.Sword;
-        else if( label == Label.Gown ) return ItemCategory.Gown;
-        else if( label == Label.MorfinCapsule ) return ItemCategory.MorfinCapsule;
-        else if( label == Label.AdrenalineCapsule ) return ItemCategory.AdrenalineCapsule;
+        else if( label == Label.AutoHandgun ) return ItemCategory.AutoHandgun;
+        else if (label == Label.BlackKnife) return ItemCategory.BlackKnife;
+        else if (label == Label.Club) return ItemCategory.Club;
+        else if (label == Label.Hammer) return ItemCategory.Hammer;
+        else if (label == Label.Lighter) return ItemCategory.Lighter;
+        else if (label == Label.Mess) return ItemCategory.Mess;
+        else if (label == Label.Nuckle) return ItemCategory.Nuckle;
+        else if (label == Label.SharpDagger) return ItemCategory.SharpDagger;
+        else if (label == Label.Shock) return ItemCategory.Shock;
+        else if ( label == Label.BloodJacket) return ItemCategory.BloodJacket;
+        else if (label == Label.CleanDoctorCloth) return ItemCategory.CleanDoctorCloth;
+        else if (label == Label.DamagedDoctorCloth) return ItemCategory.DamagedDoctorCloth;
+        else if (label == Label.FullPlated) return ItemCategory.FullPlated;
+        else if (label == Label.Padding) return ItemCategory.Padding;
+        else if (label == Label.Patient) return ItemCategory.Patient;
+        else if (label == Label.Tshirts) return ItemCategory.Tshirts;
+        else if ( label == Label.MorfinDrug) return ItemCategory.MorfinDrug;
+        else if( label == Label.AdrenalineDrug ) return ItemCategory.AdrenalineDrug;
         else if( label == Label.RingerSolution ) return ItemCategory.RingerSolution;
         else if( label == Label.Can ) return ItemCategory.Can;
         else if( label == Label.Water ) return ItemCategory.Water;
@@ -119,11 +136,25 @@ public class ItemManager : MonoBehaviour {
 
     private void InitLabelDic( Dictionary<Label, Item> labelDic) {
 
-        labelDic[ Label.Sword ] = new Sword();
-        labelDic[ Label.Gown ] = new Gown();
+        labelDic[ Label.AutoHandgun ] = new AutoHandgun();
+        labelDic[ Label.BlackKnife ] = new BlackKnife();
+        labelDic[ Label.Club ] = new Club();
+        labelDic[ Label.Hammer ] = new Hammer();
+        labelDic[ Label.Lighter ] = new Lighter();
+        labelDic[ Label.Mess ] = new Mess();
+        labelDic[ Label.Nuckle ] = new Nuckle();
+        labelDic[ Label.SharpDagger ] = new SharpDagger();
+        labelDic[ Label.Shock ] = new Shock();
+        labelDic[ Label.BloodJacket ] = new BloodJacket();
+        labelDic[ Label.CleanDoctorCloth ] = new CleanDoctorCloth();
+        labelDic[ Label.DamagedDoctorCloth ] = new DamagedDoctorCloth();
+        labelDic[ Label.FullPlated ] = new FullPlated();
+        labelDic[ Label.Padding ] = new Padding();
+        labelDic[ Label.Patient ] = new Patient();
+        labelDic[ Label.Tshirts ] = new Tshirts();
         //Capsule Initiation
-        labelDic[ Label.MorfinCapsule ] = new MorfinCapsule();
-        labelDic[ Label.AdrenalineCapsule ] = new AdrenalineCapsule();
+        labelDic[ Label.MorfinDrug ] = new MorfinDrug();
+        labelDic[ Label.AdrenalineDrug ] = new AdrenalineDrug();
         labelDic[ Label.RingerSolution ] = new RingerSolution();
         labelDic[ Label.Can ] = new Can();
         labelDic[ Label.Water ] = new Water();
