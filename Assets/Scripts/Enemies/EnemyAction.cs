@@ -18,7 +18,7 @@ public class EnemyAction
 * \\ 모든 몹이 공통으로 사용하는 attack 함수로 데미지를 가한 후 특성화된 virtual debuff 발동
 * \\ 인자로 Enemy를 받아야 한다(Player는 getcomponent로 접근)
 */
-    public bool Attack()
+    public virtual bool attackBy(Enemy enemy)
     {
         if( enemyItself.Hp <= 0 )
             return false;
@@ -54,10 +54,8 @@ public class EnemyAction
      * \ 
      */
     
-
-
     /** 
-* \special action for boss monsters
+* \special action for boss monsters : shld call always at enemy's turn
 */
     public virtual void Other()
     {
