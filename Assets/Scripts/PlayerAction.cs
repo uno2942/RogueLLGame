@@ -15,10 +15,6 @@ public class PlayerAction {
     }
 
 
-    public ItemManager.Label GetLabel( int index ) {
-        return player.InventoryList.LabelList[ index ];
-    }
-
     public Inventory GetInventoryList() {
         return player.InventoryList;
     }
@@ -41,13 +37,15 @@ public class PlayerAction {
             temp = 1;
         enemy.ChangeHp( -(int)temp );
         if( enemy.Hp <= 0 )
-            GameObject.Destroy( enemy );
+            GameObject.Destroy( enemy.gameObject );
         /*
         if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
             temp += 1;
         }
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
         */
+        Debug.Log( "공격 끝" );
+        gameManager.EndPlayerTurn();
     }
     /**
     * 현재 위치정보를 기반으로 항을 변경한다
@@ -62,42 +60,38 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EnemyTurn();
-        gameManager.nextturn();
+        gameManager.EndPlayerTurn();
     }
 
     public void UseItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Expendable can = player.InventoryList.itemManager.LabelToItem( label ) as Expendable;
             can.UsedBy( player );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
 
     public void EatCapsule( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
 
     public void InjectItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
 
@@ -107,7 +101,7 @@ public class PlayerAction {
         }
     }
     public void ThrowAwayItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             gameManager.Throw( label );
@@ -115,14 +109,13 @@ public class PlayerAction {
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
             player.InventoryList.itemManager.ItemIdentify( label );
 
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
         DumpItem( index );
     }
 
     public void EquipItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
@@ -130,13 +123,12 @@ public class PlayerAction {
             } else
                 player.ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
             //장착되었으니 UI에서 뭔갈 해야함.
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
 
     public void UnequipItem( int index, bool GoNextTurn = true ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
@@ -145,21 +137,19 @@ public class PlayerAction {
                 player.ChangeDefense( -( (Armor) weaponorarmor ).DefensivePower );
             //장착되었으니 UI에서 뭔갈 해야함.
             if( GoNextTurn ) {
-                gameManager.EnemyTurn();
-                gameManager.nextturn();
+                gameManager.EndPlayerTurn();
             }
         }
     }
 
     public void TakeCapsule( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
 

@@ -18,8 +18,9 @@ public class Human : Enemy
         maxhp = 24;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new EnemyAction();
+        action = new EnemyAction(this);
         debuff = null;
+        player = GameObject.Find( "Player" ).GetComponent<Player>();
     }
 
 
@@ -50,10 +51,10 @@ public class Human : Enemy
     public override void dropItem()
     {
         float dropPercent;
-        if (action.player.InventoryList.CheckItem(ItemManager.Label.AdrenalineCapsule) == false
-            && action.player.InventoryList.CheckItem(ItemManager.Label.MorfinCapsule) == false)
+        if (player.InventoryList.CheckItem(ItemManager.Label.AdrenalineDrug) == false
+            && player.InventoryList.CheckItem(ItemManager.Label.MorfinDrug) == false)
         {
-            if (action.player.Bufflist.Exists(x => x.GetType().Equals(typeof(Hallucinated))))
+            if (player.Bufflist.Exists(x => x.GetType().Equals(typeof(Hallucinated))))
             {
                 dropPercent = 1.01f;
             }

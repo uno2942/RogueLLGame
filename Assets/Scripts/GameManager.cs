@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour {
                                     * The coder can make a function dealing with the condition of the player and separate this varialbes to the function.
                                     */
     //@{
-    private bool isMental, isAwaken, isRelieve;
+    public bool isHallucinated=false;
+    public bool isHungry = false;
+    public bool isStarved = false;
     //@}
     /**
      * It interacts with other Manager gameobject and player gameobject.
@@ -72,7 +74,6 @@ public class GameManager : MonoBehaviour {
         currentSituation = false;
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
-        isMental = false;
     }
 
     // Update is called once per frame
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour {
      */
     void Update()
     {
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+    //    GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         /*if( 0 == enemyList.Length ) {
             currentSituation = false;
         } else {
@@ -96,16 +97,6 @@ public class GameManager : MonoBehaviour {
      * If the enemy died, the gameobject is destoried.
      * \see Rat::OnMouseUpAsButton (It can be modified.)
      */
-    public void AttackToEnemy(Enemy enemy)
-    {
-        int damage = 10;
-        enemy.ChangeHp (-damage);
-        if ( enemy.Hp <= 0 )
-        {
-            Destroy (enemy.gameObject);
-            Debug.Log ("적 사망");
-        }
-    }
     /**
      * The selected enemy in the parameter attacks to the player.
      * If the player's HP is less or equal to 0, the player die and the gameobject is destoried.
@@ -157,76 +148,104 @@ public class GameManager : MonoBehaviour {
      * \see Rat::OnMouseUpAsButton and
      * \see Door:OnMouseUpAsButton
      */
-    public void nextturn()
-    {
-        Debug.Log (player.Hp);
-        bool prevAwaken = isAwaken;
-        currentTurn++;
-        if (!isMental && player.Mp <= 40 )
-        {
-            player.ChangeMp (-player.Mp);
-            isMental = true;
-            player.AddStatus (StatusCheck.StatusEnum.Mental);
-        }
-        else if(isMental && player.Mp>=60)
-        {
-            isMental = false;
-            player.DeleteStatus (StatusCheck.StatusEnum.Mental);
-        }
-        else if(isMental)
-        {
-            player.ChangeMp (1);
-        }
 
-        if(player.Hungry ==100)
-        {
-            player.ChangeHp (-player.Hp);
-        }
-        else if( player.Hungry >= 80)
-        {
-            player.DeleteStatus (StatusCheck.StatusEnum.Hunger);
-            player.AddStatus (StatusCheck.StatusEnum.Starve);
-        }
-        else if(player.Hungry>=50)
-        {
-            player.DeleteStatus (StatusCheck.StatusEnum.Starve);
-            player.AddStatus (StatusCheck.StatusEnum.Hunger);
-        }
-
-
-        player.ChangeHungry (1);
-        if ( player.isRelieve () ) player.ChangeMp (3);
-        player.UpdateStatus ();
-        isRelieve = player.isRelieve ();
-        isAwaken = player.isAwaken ();
-        if ( isAwaken != prevAwaken ) player.ChangeMp (-10);
-
-            Debug.Log ("현재 " + currentTurn + "턴 : 전투상태 " + currentSituation + " 내상태 " + player.Hp + " / " + player.Mp);
-        player.debugStatus ();
+    public void EndPlayerTurn() {
+        CheckPlayerStatus();
     }
 
+    private void CheckPlayerStatus() {
+        //정신력 체크
+        player.ChangeMp( -0.5f );
+        if( player.Mp <= 30 && !isHallucinated ) {
+            player.SetMpZero();
+            player.Bufflist.Add( new Hallucinated(-1));
+            isHallucinated = true;
+        }
+
+        if( isHallucinated ) {
+            player.ChangeMp( 1.2f );
+            if( player.Mp >= 60 )
+                player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ) );
+        }
+        //상태이상 체크
+        player.ChangeHungry( 1 );
+        if( player.Hungry >= 80 && !isStarved && isHungry ) {
+            player.Bufflist.Add( new Starve() );
+            isStarved = true;
+        } 
+        else if( player.Hungry >= 50 && !isHungry ) {
+            player.Bufflist.Add( new Hunger() );
+            isHungry = true;
+        } 
+        else if( player.Hungry < 80 && isStarved ) {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Starve ) ) ) );
+            isStarved = false;
+        }
+        else if(player.Hungry<50 && isHungry) {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hunger ) ) ) );
+            isHungry = false;
+        }
+        
+        foreach( Buff buff in player.Bufflist ) {
+            buff.BuffWorkTo( player );
+            if( buff.Count == 0 )
+                player.Bufflist.Remove( buff );
+        }
+        Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
+        EnemyTurn();
+    }
+
+    private void EnemyTurn() {
+        int enemyNum = 0;
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        for( int i = 0; i < enemyList.Length; i++ ) {
+            if( enemyList[ i ].GetComponent<Enemy>().Action.Attack() )
+                enemyNum++;
+        }
+        Debug.Log( enemyNum );
+
+        for( int i = 0; i < enemyNum; i++ ) {
+            AttackToPlayer( enemyList[ i ].GetComponent<Enemy>() );
+        }
+        CheckEnemyStatus();
+    }
+
+    public void CheckEnemyStatus() {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        Enemy enemyTemp;
+        int enemyNum=0;
+
+        foreach( GameObject gObject in enemyList ) {
+            enemyTemp = gObject.GetComponent<Enemy>();
+            foreach( Buff buff in enemyTemp.Bufflist ) {
+                buff.BuffWorkTo( player );
+                if( buff.Count == 0 )
+                    enemyTemp.Bufflist.Remove( buff );
+            }
+            if( enemyTemp.Hp >= 0 )
+                enemyNum++;
+        }
+
+        if( enemyNum == 0 && prevMonsterNum != 0 ) {
+            itemManager.DropItem( boardManager.NowPos() );
+            currentSituation = false;
+        }
+        prevMonsterNum = enemyNum;
+    }
+
+
+    private bool IsDead() {
+        if( player.Hp <= 0 || player.Hungry >= 100 )
+            return true;
+        else
+            return false;
+    }
     /** After the player turn, enemies attack to player.
      * It finds all the enemies in the board and make them attack to player.
      * If there are enemies, it turns currentSituation true. If not, it turns currentSituation false.
      * \see Rat::OnMouseUpAsButton
      */
-    public void EnemyTurn()
-    {
-        int enemyNum = 0;
-        GameObject [] enemyList = GameObject.FindGameObjectsWithTag ("Enemy");
-        for(int i=0;i<enemyList.Length;i++ )
-        {
-            if( AttackToPlayer (enemyList [i].GetComponent<Enemy> ()) )
-                enemyNum ++ ;
-        }
-
-        if( enemyNum == 0 && prevMonsterNum != 0 ) 
-        {
-            itemManager.DropItem (boardManager.NowPos());
-            currentSituation = false;
-        }
-        prevMonsterNum = enemyNum;
-    }
+    
 
     public void Throw(ItemManager.Label label) {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );

@@ -6,7 +6,7 @@ public class FullPlated : Armor {
     public FullPlated()
     {
         name = this.GetType().ToString();
-        deffensivepower = 20;
+        defensivePower = 20;
         rank = "legendary";
     }
 

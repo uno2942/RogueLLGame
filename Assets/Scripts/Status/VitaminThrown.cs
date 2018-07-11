@@ -10,7 +10,8 @@ public class VitaminThrown : Buff {
     /**
  * @todo I need to change enemy's attack part.
  */
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Player player ) {
+        count--;
     }
     public override int passiveBuffAtk() {
         return -5;

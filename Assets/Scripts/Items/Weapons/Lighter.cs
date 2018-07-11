@@ -10,7 +10,7 @@ public class Lighter : Weapon {
         rank = "rare";
     }
 
-    public override void Attack(Player player, Enemy enemy)
+    public override void Attack(Enemy enemy)
     {
             enemy.AddBuff(new Burn(5));
     }

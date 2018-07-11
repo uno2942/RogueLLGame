@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CleanDoctorCloth : Armor
-{
-    public CleanDoctorCloth()
-    {
+public class DefaultWeapon : Weapon {
+    public DefaultWeapon() {
         name = this.GetType().ToString();
-        defensivePower = 7;
-        rank = "rare";
+        attackPower = 3;
+        rank = "common";
     }
 }

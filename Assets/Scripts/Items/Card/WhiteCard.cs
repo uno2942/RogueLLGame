@@ -6,5 +6,5 @@ public class WhiteCard : Item {
 
     public WhiteCard() {
         name = this.GetType().ToString();
-    
+    }
 }

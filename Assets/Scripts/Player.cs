@@ -57,6 +57,8 @@ public class Player : Unit {
         GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
         GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
         action = new PlayerAction();
+        weapon = new DefaultWeapon();
+        armor = new DefaultArmor();
     }
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
@@ -68,6 +70,10 @@ public class Player : Unit {
     }
     public void ChangeMp( float delta ) {
         mp += delta;
+        if( mp < 0 ) {
+            hp += mp;
+            mp = 0;
+        }
         GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
     }
     //@}
@@ -75,6 +81,15 @@ public class Player : Unit {
         hungry += delta;
     }
     
+    public void SetMpZero() {
+        if( mp < 0 ) {
+            hp += mp;
+        }
+        mp = 0;
+    }
+    public void SetMpBy30() {
+        mp = 30;
+    }
     /**
     * Legacy code
     * @see PlayerAction
@@ -108,4 +123,20 @@ public class Player : Unit {
         action.EatCapsule( index );
     }
     //@}
+
+    public override int FinalAttackPower() {
+        int attacktemp = attack+weapon.AttackPower;
+        foreach( Buff buff in Bufflist ) {
+            attacktemp += buff.passiveBuffAtk();
+        }
+        return attacktemp;
+    }
+
+    public override int FinalDefensePower() {
+        int defensetemp = defense+armor.DefensivePower;
+        foreach( Buff buff in Bufflist ) {
+            defensetemp += buff.passiveBuffDef();
+        }
+        return defensetemp;
+    }
 }

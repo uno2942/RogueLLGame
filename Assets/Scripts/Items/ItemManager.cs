@@ -13,16 +13,16 @@ public class ItemManager : MonoBehaviour {
     public enum Label {
         Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
         BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
-        CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, ParalyzingMedicine1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
-        CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, ParalyzingMedicine2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
-        CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, ParalyzingMedicine3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
+        CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
+        CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
+        CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
         MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
 
     public enum ItemCategory {
         Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
         BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
-        CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant, ParalyzingMedicine, PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
+        CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant,PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
         MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
     
@@ -74,7 +74,6 @@ public class ItemManager : MonoBehaviour {
         else if( label == Label.Hallucinogen1 || label == Label.Hallucinogen2 || label == Label.Hallucinogen3 ) return ItemCategory.Hallucinogen;
         else if( label == Label.LiquidFlameMedicine1 || label == Label.LiquidFlameMedicine2 || label == Label.LiquidFlameMedicine3 ) return ItemCategory.LiquidFlameMedicine;
         else if( label == Label.MuscleRelaxant1 || label == Label.MuscleRelaxant2 || label == Label.MuscleRelaxant3 ) return ItemCategory.MuscleRelaxant;
-        else if( label == Label.ParalyzingMedicine1 || label == Label.ParalyzingMedicine2 || label == Label.ParalyzingMedicine3 ) return ItemCategory.ParalyzingMedicine;
         else if( label == Label.PoisonCapsule1 || label == Label.PoisonCapsule2 || label == Label.PoisonCapsule3 ) return ItemCategory.PoisonCapsule;
         else if( label == Label.Salt1 || label == Label.Salt2 || label == Label.Salt3 ) return ItemCategory.Salt;
         else if( label == Label.SleepingPill1 || label == Label.SleepingPill2 || label == Label.SleepingPill3 ) return ItemCategory.SleepingPill;
@@ -85,6 +84,7 @@ public class ItemManager : MonoBehaviour {
 
 
     }
+
     private const int floorMax = 3;
     /** To check whether the item is identified, we use dictionary.
      */
@@ -169,7 +169,6 @@ public class ItemManager : MonoBehaviour {
         labelDic[ Label.Hallucinogen1 ] = labelDic[ Label.Hallucinogen2 ] = labelDic[ Label.Hallucinogen3 ] = new Hallucinogen();
         labelDic[ Label.LiquidFlameMedicine1 ] = labelDic[ Label.LiquidFlameMedicine2 ] = labelDic[ Label.LiquidFlameMedicine3 ] = new LiquidFlameMedicine();
         labelDic[ Label.MuscleRelaxant1 ] = labelDic[ Label.MuscleRelaxant2 ] = labelDic[ Label.MuscleRelaxant3 ] = new MuscleRelaxant();
-        labelDic[ Label.ParalyzingMedicine1 ] = labelDic[ Label.ParalyzingMedicine2 ] = labelDic[ Label.ParalyzingMedicine3 ] = new ParalyzingMedicine();
         labelDic[ Label.PoisonCapsule1 ] = labelDic[ Label.PoisonCapsule2 ] = labelDic[ Label.PoisonCapsule3 ] = new PoisonCapsule();
         labelDic[ Label.Salt1 ] = labelDic[ Label.Salt2 ] = labelDic[ Label.Salt3 ] = new Salt();
         labelDic[ Label.SleepingPill1 ] = labelDic[ Label.SleepingPill2 ] = labelDic[ Label.SleepingPill3 ] = new SleepingPill();
@@ -197,7 +196,7 @@ public class ItemManager : MonoBehaviour {
      */
     public Sprite LabelToSprite(Label label)
     {
-        if(label == Label.Sword)
+        if(label == Label.AutoHandgun)
         {
             return weaponPrefabs [0].GetComponent<SpriteRenderer> ().sprite;
         }

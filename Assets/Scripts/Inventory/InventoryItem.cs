@@ -36,7 +36,7 @@ public class InventoryItem : MonoBehaviour {
     void OnMouseUpAsButton() {
         if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
-            ItemManager.ItemType nowType = ItemManager.LabelToType( player.GetLabel( index ) );
+            ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );
             if( nowType == ItemManager.ItemType.Weapon || nowType == ItemManager.ItemType.Armor ) {
                 dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<WeaponArmorDialogBox>();
                 dBox.inventoryItem = this;
@@ -45,8 +45,8 @@ public class InventoryItem : MonoBehaviour {
 
                 player.Action.GetInventoryList().isDialogBoxOn = true;
 
-            } else if( nowType == ItemManager.ItemType.Food ) {
-                dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<FoodDialogBox>();
+            } else if( nowType == ItemManager.ItemType.Expenables ) {
+                dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
                 dBox.inventoryItem = this;
                 player.Action.GetInventoryList().isDialogBoxOn = true;
             } else if( nowType == ItemManager.ItemType.Capsule ) {

@@ -78,6 +78,7 @@ public class BoardManager : MonoBehaviour {
         doorObject = Instantiate( doorPrefab, new Vector2( 0, -5 ), Quaternion.identity ) as GameObject;
         door = doorObject.GetComponent<Door>();
         door.direction = Direction.DownSide;
+
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;

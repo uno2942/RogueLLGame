@@ -103,12 +103,16 @@ public class Inventory : MonoBehaviour {
         return false;
     }
 
-    public bool CheckItem( ItemManager.ItemCategory _category ) {
+    public bool CheckItem(ItemManager.ItemCategory itemCategory ) {
         for( int i = 0; i < size; i++ ) {
-            if( ItemManager.CategoryToLabel(_category) == labelList[ i ] )
+            if( itemCategory == ItemManager.LabelToCategory( labelList[ i ] ) )
                 return true;
         }
         return false;
+    }
+
+    public ItemManager.Label GetLabel( int index ) {
+        return LabelList[ index ];
     }
 }
 

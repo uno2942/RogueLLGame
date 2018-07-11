@@ -16,7 +16,7 @@ public class Weapon : Equip {
     public virtual void Check(Player player) {
 
     }
-    public virtual void Attack(Enemy enemy,Player player) {
+    public virtual void Attack(Enemy enemy ) {
 
     }
     //set은 private

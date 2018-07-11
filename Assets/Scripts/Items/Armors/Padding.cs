@@ -7,7 +7,7 @@ public class Padding : Armor
     public Padding()
     {
         name = this.GetType().ToString();
-        deffensivepower = 9;
+        defensivePower = 9;
         rank = "rare";
     }
 

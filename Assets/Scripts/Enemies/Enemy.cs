@@ -19,6 +19,15 @@ public class Enemy : Unit
 * \Which action does Enemy do?
 */
     protected EnemyAction action;
+    public EnemyAction Action
+    {
+        get
+        {
+            return action;
+        }
+    }
+
+    protected Player player;
 
     protected Buff debuff;
     protected float debuffPercent;
@@ -36,6 +45,7 @@ public class Enemy : Unit
 
     public int Level { get { return level; } }
 
+    
 
 
     /** \change enemy's Status by isHallucinated

@@ -7,8 +7,9 @@ public class Renewal : Buff {
     public Renewal(int _count): base(_count) {
 
     }
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Player player ) {
         player.ChangeHp( 5 );
+        count--;
     }
 
     public override int passiveBuffAtk() {

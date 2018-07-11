@@ -10,8 +10,9 @@ public class Hammer : Weapon {
         rank = "rare";
     }
 
-    public override void Attack(Player player, Enemy enemy)
+    public override void Attack( Enemy enemy)
     {
+        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
         player.ChangeHungry(-1);
     }
 }

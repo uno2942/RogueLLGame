@@ -18,8 +18,9 @@ public class Dog : Enemy
         maxhp = 15;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new EnemyAction();
+        action = new EnemyAction(this);
         debuff = new Bleed(3);
+        player = GameObject.Find( "Player" ).GetComponent<Player>();
     }
 
 

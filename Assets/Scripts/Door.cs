@@ -73,8 +73,8 @@ private void OnMouseUpAsButton() {
    if ( isOpened && !gameManager.CurrentSituation )
    {
        boardManager.MoveNextRoom (direction);
-       gameManager.GenerateMonsters (2);
-       gameManager.nextturn ();
+       gameManager.EndPlayerTurn();
+       gameManager.GenerateMonsters( 2 );
    }
 }
 

@@ -12,8 +12,10 @@ public class LiquidFlameMedicine : Capsule {
     public override bool EattenBy( Player player ) {
         player.AddBuff( new Burn( 10 ) );
         //Find enemy in the room
-        for( int i = 0; i < enemynum; i++ )
+        /* 
+         for( int i = 0; i < enemynum; i++ )
             enemy[ i ].AddBuff( new Burn( 10 ) );
+            */
         return true;
     }
 

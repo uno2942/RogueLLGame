@@ -17,7 +17,4 @@ public class Armor : Equip{
     public virtual void Check(Player player ) {
 
     }
-    public virtual void Hitted(Enemy enemy, Player player ) {
-
-    }
 }

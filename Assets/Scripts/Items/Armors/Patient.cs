@@ -7,7 +7,7 @@ public class Patient : Armor {
     public Patient()
     {
         name = this.GetType().ToString();
-        deffensivepower = 3;
+        defensivePower = 3;
         rank = "common";
     }
 
