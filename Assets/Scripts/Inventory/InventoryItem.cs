@@ -98,7 +98,7 @@ public class InventoryItem : MonoBehaviour {
     }
 
     public void EatCapsuleCommand() {
-        if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
+        if( true == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
             player.Action.GetInventoryList().isDialogBoxOn = false;
             player.EatCapsule( index );

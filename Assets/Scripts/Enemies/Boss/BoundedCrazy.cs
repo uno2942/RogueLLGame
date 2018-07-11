@@ -13,7 +13,7 @@ public class BoundedCrazy : Enemy {
         maxhp = 160;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new BoundedCrazyAction();
+        action = new BoundedCrazyAction( this );
         debuff = null;
     }
 

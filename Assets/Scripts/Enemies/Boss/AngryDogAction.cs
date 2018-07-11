@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAction
-{
+public class AngryDogAction : EnemyAction {
 
-    /** 
-* \access on player to decrease player's hp
-*/
-    protected Player player;
-    protected Enemy enemyItself;
-    public EnemyAction(Enemy enemy) {
-        player = GameObject.Find( "Player" ).GetComponent<Player>();
-        enemyItself = enemy;
+    /** \nothing to do 
+     */
+    public AngryDogAction(Enemy enemy) : base(enemy){
     }
-    /** 
-* \\ 모든 몹이 공통으로 사용하는 attack 함수로 데미지를 가한 후 특성화된 virtual debuff 발동
-* \\ 인자로 Enemy를 받아야 한다(Player는 getcomponent로 접근)
-*/
-    public virtual bool Attack()
+    public override void Other()
     {
+        
+    }
+    
+    /** \Double/triple Attack, heal itself
+     */
+    public override bool Attack() {
         if( enemyItself.Hp <= 0 )
             return false;
         else {
@@ -40,26 +36,20 @@ public class EnemyAction
             }
             if( temp <= 1.0f )
                 temp = 1;
-            player.ChangeHp( -(int) temp );
 
-            float i = Random.value;
-            if( i < enemyItself.DebuffPercent() ) {
-                player.AddBuff( enemyItself.Debuff() );
-            }
+            //triple attack: shld check player's hallucinated 
+            player.ChangeHp( -(int) temp );
+            enemyItself.ChangeHp( (int) temp / 3 );
+            player.ChangeHp( -(int) temp );
+            enemyItself.ChangeHp( (int) temp / 3 );
+            //if(player.isHallucinated == true)
+            player.ChangeHp( -(int) temp );
+            enemyItself.ChangeHp( (int) temp / 3 );
+
+
+            if( player.Hp <= 0 )
+                GameObject.Destroy( player );
             return true;
         }
     }
-
-    /**
-     * \ 
-     */
-    
-    /** 
-* \special action for boss monsters : shld call always at enemy's turn
-*/
-    public virtual void Other()
-    {
-
-    }
-
 }

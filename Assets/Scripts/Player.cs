@@ -66,6 +66,8 @@ public class Player : Unit {
     //{@
     public override void ChangeHp( float delta ) {
         hp += delta;
+        if( hp >= 100 )
+            hp = 100;
         GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
     }
     public void ChangeMp( float delta ) {
@@ -74,11 +76,15 @@ public class Player : Unit {
             hp += mp;
             mp = 0;
         }
+        if( mp >= 100 )
+            mp = 100;
         GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
     }
     //@}
     public void ChangeHungry( int delta ) {
         hungry += delta;
+        if( hungry < 0 )
+            hungry = 0;
     }
     
     public void SetMpZero() {

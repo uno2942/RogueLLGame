@@ -192,7 +192,17 @@ public class ItemManager : MonoBehaviour {
     }
     
     public void DropItem(Vector2 position ) {
-        Instantiate( capsulePrefabs[ 1 ], position, Quaternion.identity );
+        int choose = Random.Range( 0, 5 );
+        if( choose == 5 )
+            choose = 4;
+        if( choose < 2 )
+            Instantiate( capsulePrefabs[ choose ], position, Quaternion.identity );
+        else if( choose == 2 )
+            Instantiate( weaponPrefabs[ 0 ], position, Quaternion.identity );
+        else if(choose==3)
+            Instantiate( expendablesPrefabs[ 0 ], position, Quaternion.identity );
+        else if(choose==4)
+            Instantiate( expendablesPrefabs[ 1 ], position, Quaternion.identity );
     }
     /**
      * It returns sprite about the label.
@@ -208,6 +218,12 @@ public class ItemManager : MonoBehaviour {
         } 
         else if( label == Label.LiquidFlameMedicine1 ) {
             return capsulePrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
+        } 
+        else if( label == Label.Water ) {
+            return expendablesPrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
+        } 
+        else if( label == Label.Can ) {
+            return expendablesPrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
         }
         return null;
     }
@@ -219,10 +235,11 @@ public class ItemManager : MonoBehaviour {
         int len = Prefabs.Length;
         int[] PrefabIndex = new int[ len ];
         int[] SpriteIndex = new int[ len ];
+        Random.InitState( (int) System.DateTime.Now.Ticks );
         GenerateRandomSequence( ref PrefabIndex );
         GenerateRandomSequence( ref SpriteIndex );
         for( int i = 0; i < len; i++ )
-            Prefabs[ i ].GetComponent<SpriteRenderer>().sprite = Sprite[ i ];
+            Prefabs[ PrefabIndex[ i ] ].GetComponent<SpriteRenderer>().sprite = Sprite[ SpriteIndex[ i ] ];
     }
 
     /** Subfunctions for InitializePrefabsRandomly function
@@ -230,7 +247,6 @@ public class ItemManager : MonoBehaviour {
      */
     //{@
     public static void GenerateRandomSequence( ref int[] index ) {
-        Random.InitState( (int) System.DateTime.Now.Ticks );
         float[] weight = new float[ index.Length ];
         for( int i = 0; i < index.Length; i++ ) {
             index[ i ] = i;

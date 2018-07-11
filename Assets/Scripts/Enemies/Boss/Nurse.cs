@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HospitalDirector : Enemy {
+public class Nurse : Enemy {
 
     private void Start()
     {
-        Debug.Log("최종보스 정신병원 원장 등장");
+        Debug.Log("간호사 등장");
         level = 1;
-        attack = 10; //shld be decided by level and setting file
-        defense = 10;
-        maxhp = 160;
+        attack = 11; //shld be decided by level and setting file
+        defense = 2;
+        maxhp = 230;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new HospitalDirectorAction();
+        action = new NurseAction(this);
         debuff = null;
     }
 
@@ -25,22 +25,17 @@ public class HospitalDirector : Enemy {
         //read setting file and change
         if (isHallucinated == true)
         {
-            attack = 18;
-            defense = 18;
+            attack = 16;
+            defense = 2;
 
         }
         else
         {
-            attack = 10;
-            defense = 10;
+            attack = 11;
+            defense = 2;
         }
     }
 
+    
 
-    /** \this mob drops CureAll
-     */
-    public override void dropItem()
-    {
-        //add CureAll on Room
-    }
 }

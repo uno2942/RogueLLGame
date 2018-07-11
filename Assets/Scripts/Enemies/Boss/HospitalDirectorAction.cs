@@ -2,24 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAction
-{
+public class HospitalDirectorAction : EnemyAction {
 
-    /** 
-* \access on player to decrease player's hp
-*/
-    protected Player player;
-    protected Enemy enemyItself;
-    public EnemyAction(Enemy enemy) {
-        player = GameObject.Find( "Player" ).GetComponent<Player>();
-        enemyItself = enemy;
+    /** \shld check Player's action before and change MP
+     *  \Maybe this work can be done in Boss Room
+     */
+
+
+    public HospitalDirectorAction( Enemy enemy ) : base( enemy ) {
     }
-    /** 
-* \\ 모든 몹이 공통으로 사용하는 attack 함수로 데미지를 가한 후 특성화된 virtual debuff 발동
-* \\ 인자로 Enemy를 받아야 한다(Player는 getcomponent로 접근)
-*/
-    public virtual bool Attack()
+
+    public override void Other()
     {
+        /* 
+        if(false) // player did attack
+        {
+            player.ChangeMp(-10);
+        }
+        if (false) // player did rest
+        {
+            player.ChangeMp(4);
+        }
+        */
+    }
+
+    /** \override to limit max damage
+     */
+    public override bool Attack()
+    {
+        int maxTmp = 4;
+        //if(player.isHallucinated == true) maxTmp = 8;
+
         if( enemyItself.Hp <= 0 )
             return false;
         else {
@@ -40,26 +53,13 @@ public class EnemyAction
             }
             if( temp <= 1.0f )
                 temp = 1;
+            if( temp >= maxTmp ) temp = maxTmp;
             player.ChangeHp( -(int) temp );
 
-            float i = Random.value;
-            if( i < enemyItself.DebuffPercent() ) {
-                player.AddBuff( enemyItself.Debuff() );
-            }
+            if( player.Hp <= 0 )
+                GameObject.Destroy( player );
             return true;
         }
-    }
-
-    /**
-     * \ 
-     */
-    
-    /** 
-* \special action for boss monsters : shld call always at enemy's turn
-*/
-    public virtual void Other()
-    {
-
     }
 
 }

@@ -58,10 +58,17 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
 
     /**
+     * @todo I need to delete this int
+     */
+    public int tempForPresentation = 0;
+
+
+    /**
         * It initiate the monsterGenLocation and currentTurn to 0 (resp. situtation to false)
         */
-    void Start()
-    {
+    void Start() {
+        GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = false;
+
         player = playerObject.GetComponent ("Player") as Player;
         monsterGenLocation = new Vector2 [6];
         monsterGenLocation [0] = new Vector2 (0, 2);

@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Nurse : Enemy {
+public class AngryDog : Enemy {
 
     private void Start()
     {
-        Debug.Log("간호사 등장");
+        Debug.Log("분노의 맹견 등장");
         level = 1;
-        attack = 11; //shld be decided by level and setting file
+        attack = 6; //shld be decided by level and setting file
         defense = 2;
         maxhp = 230;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new NurseAction();
+        action = new AngryDogAction(this);
         debuff = null;
     }
 
@@ -25,17 +25,14 @@ public class Nurse : Enemy {
         //read setting file and change
         if (isHallucinated == true)
         {
-            attack = 16;
+            attack = 12;
             defense = 2;
 
         }
         else
         {
-            attack = 11;
+            attack = 6;
             defense = 2;
         }
     }
-
-    
-
 }

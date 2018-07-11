@@ -12,70 +12,79 @@ public class Door : MonoBehaviour {
      * \details gameManger to generate monsters and boardManager to move map.
      * \see OnMouseUpAsButton
      */
-     //@{
-private BoardManager boardManager;
-public BoardManager.Direction direction;
-private GameManager gameManager;
+    //@{
+    private BoardManager boardManager;
+    public BoardManager.Direction direction;
+    private GameManager gameManager;
     //@}
-private bool isOpened;
+    private bool isOpened;
     /**
  * \brief Check whether the door is opend.
  */
     public bool IsOpened
-{
-   get
-   {
-       return isOpened;
-   }
+    {
+        get
+        {
+            return isOpened;
+        }
 
-   set
-   {
-       isOpened = value;
-   }
-}
+        set
+        {
+            isOpened = value;
+        }
+    }
     /**
  * \brief bool value whether the door requires key.
  */
     public bool IsRequireKey
-{
-   get
-   {
-       return isRequireKey;
-   }
+    {
+        get
+        {
+            return isRequireKey;
+        }
 
-   set
-   {
-       isRequireKey = value;
-   }
-}
-private bool isRequireKey;
+        set
+        {
+            isRequireKey = value;
+        }
+    }
+    private bool isRequireKey;
 
 
-// Use this for initialization
-/**
- * put proper gameobeject to boardManager and gameManager variables
- */
-void Start () {
-   boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
-   gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
-   isOpened = true;
-}
+    // Use this for initialization
+    /**
+     * put proper gameobeject to boardManager and gameManager variables
+     */
+    void Start() {
+        boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
+        gameManager = GameObject.Find( "GameManager" ).GetComponent<GameManager>();
+        isOpened = true;
+    }
 
-// Update is called once per frame
-void Update () {
-   
-}
+    // Update is called once per frame
+    void Update() {
+
+    }
     /**
      * When the door is clicked, this function is called, and if the door can be opened, it moves player and generate monsters by calling functions in gameManager and boardManager.
      */
-private void OnMouseUpAsButton() {
-   Debug.Log (isOpened + " " + gameManager.CurrentSituation);
-   if ( isOpened && !gameManager.CurrentSituation )
-   {
-       boardManager.MoveNextRoom (direction);
-       gameManager.EndPlayerTurn();
-       gameManager.GenerateMonsters( 2 );
-   }
-}
+    private void OnMouseUpAsButton() {
+        Debug.Log( isOpened + " " + gameManager.CurrentSituation );
+        if( isOpened && !gameManager.CurrentSituation ) {
+            boardManager.MoveNextRoom( direction );
+            gameManager.EndPlayerTurn();
+            if( gameManager.tempForPresentation == 0 )
+                gameManager.GenerateMonsters( 2 );
+            else if( gameManager.tempForPresentation == 1 )
+                GameObject.Find( "ItemManager" ).GetComponent<ItemManager>().DropItem( boardManager.NowPos() );
+            else if( gameManager.tempForPresentation == 2 )
+                GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = true;
+            else if( gameManager.tempForPresentation == 3 ) {
+                GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = false;
+                gameManager.GenerateMonsters( 2 );
+            }
+            gameManager.tempForPresentation++;
+        }
+    }
 
 }

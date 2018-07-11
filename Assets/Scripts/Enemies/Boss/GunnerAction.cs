@@ -8,12 +8,14 @@ public class GunnerAction : EnemyAction {
      *  \ shld fix: chan
      */
 
-    Enemy enemyItself;
+    public GunnerAction( Enemy enemy ) : base( enemy ) {
+    }
+
     int counter = 4;
     bool buffCalled = false;
     
 
-    public override void other()
+    public override void Other()
     {
         if(enemyItself.Hp < 40 && buffCalled == false)
         {

@@ -119,6 +119,14 @@ public class Inventory : MonoBehaviour {
         return LabelList[ index ];
     }
 
+    public int Getindex(ItemManager.Label label ) {
+        for( int i = 0; i < size; i++ ) {
+            if( label == labelList[ i ] )
+                return i;
+        }
+        return -1;
+    }
+
     public void IdentifyAllTheInventoryItem() {
         for( int i = 0; i < size; i++ ) {
             if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )

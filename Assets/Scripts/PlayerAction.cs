@@ -80,6 +80,7 @@ public class PlayerAction {
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
+            DumpItem( player.InventoryList.Getindex( ItemManager.Label.Water ) );
             gameManager.EndPlayerTurn();
         }
     }
