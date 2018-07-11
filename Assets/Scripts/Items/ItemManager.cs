@@ -34,9 +34,10 @@ public class ItemManager : MonoBehaviour {
     public static ItemType LabelToType(Label lab)
     {
         if( lab == Label.Empty ) return ItemType.Empty;
-        else if( lab == Label.AutoHandgun || lab == Label.BlackKnife || lab == Label.Club || lab == Label.Hammer || lab == Label.Lighter || lab == Label.Mess || lab == Label.Nuckle || lab == Label.SharpDagger || lab == Label.Shock) return ItemType.Weapon;
-        else if (lab == Label.BloodJacket || lab == Label.CleanDoctorCloth || lab == Label.DamagedDoctorCloth|| lab == Label.FullPlated || lab == Label.Padding || lab == Label.Patient || lab == Label.Tshirts) return ItemType.Armor;
-        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab==Label.Medicine || lab == Label.DiscardedMedicine) return ItemType.Expenables;
+        else if( lab == Label.AutoHandgun || lab == Label.BlackKnife || lab == Label.Club || lab == Label.Hammer || lab == Label.Lighter || lab == Label.Mess || lab == Label.Nuckle || lab == Label.SharpDagger || lab == Label.Shock ) return ItemType.Weapon;
+        else if( lab == Label.BloodJacket || lab == Label.CleanDoctorCloth || lab == Label.DamagedDoctorCloth || lab == Label.FullPlated || lab == Label.Padding || lab == Label.Patient || lab == Label.Tshirts ) return ItemType.Armor;
+        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab == Label.Medicine || lab == Label.DiscardedMedicine ) return ItemType.Expenables;
+        else if( lab == Label.BlackCard || lab == Label.YellowCard || lab == Label.WhiteCard ) return ItemType.Card;
         else return ItemType.Capsule;
     }
 
@@ -101,7 +102,8 @@ public class ItemManager : MonoBehaviour {
     public GameObject[] armorPrefabs;
     public GameObject[] expendablesPrefabs;
     public GameObject[] capsulePrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
-    
+    public GameObject cardPrefab;
+
     public Sprite[] capsuleSprite;
     //@}
 
@@ -204,27 +206,27 @@ public class ItemManager : MonoBehaviour {
         else if(choose==4)
             Instantiate( expendablesPrefabs[ 1 ], position, Quaternion.identity );
     }
+
+    public void DropCard( Vector2 position ) {
+        Instantiate( cardPrefab, position, Quaternion.identity );
+    }
     /**
      * It returns sprite about the label.
      */
     public Sprite LabelToSprite(Label label)
     {
-        if(label == Label.AutoHandgun)
-        {
-            return weaponPrefabs [0].GetComponent<SpriteRenderer> ().sprite;
-        }
-        else if(label==Label.CaffeinCapsule1) {
+        if( label == Label.AutoHandgun ) {
+            return weaponPrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
+        } else if( label == Label.CaffeinCapsule1 ) {
             return capsulePrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
-        } 
-        else if( label == Label.LiquidFlameMedicine1 ) {
+        } else if( label == Label.LiquidFlameMedicine1 ) {
             return capsulePrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
-        } 
-        else if( label == Label.Water ) {
+        } else if( label == Label.Water ) {
             return expendablesPrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
-        } 
-        else if( label == Label.Can ) {
+        } else if( label == Label.Can ) {
             return expendablesPrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
-        }
+        } else if( label == Label.BlackCard )
+            return cardPrefab.GetComponent<SpriteRenderer>().sprite;
         return null;
     }
 

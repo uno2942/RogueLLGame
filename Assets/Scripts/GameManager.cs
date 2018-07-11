@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
      * This variables are tentatively implemented.
      */
     public GameObject ratPrefab;
-
+    public GameObject boundedCrazyPrefab;
     private Vector2[] monsterGenLocation;
     /**
  * It checks whether the player is in battle or not.
@@ -149,6 +149,11 @@ public class GameManager : MonoBehaviour {
             currentSituation = true;
         }
     }
+
+    public void GenerateBoss() {
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+        Instantiate( boundedCrazyPrefab, nowPos + monsterGenLocation[ 0 ], Quaternion.identity );
+    }
     /** After the player and enemies' turn, it put all the ... and advance the turn.
      * The currentTurn increases by 1 and condition of player is added and deleted, and the effect of the condition is invoked in this function.
      * There is a debug log showing the turn numbers.
@@ -238,7 +243,10 @@ public class GameManager : MonoBehaviour {
         }
 
         if( enemyNum == 0 && prevMonsterNum != 0 ) {
-            itemManager.DropItem( boardManager.NowPos() );
+            if( Equals(enemyList[0].GetComponent<Enemy>().GetType(), typeof(BoundedCrazy)) )
+                itemManager.DropCard( boardManager.NowPos() );
+            else
+                itemManager.DropItem( boardManager.NowPos() );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
@@ -247,8 +255,12 @@ public class GameManager : MonoBehaviour {
             Debug.Log( "포닉스 불닭행" );
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
+        AlltheTurnEnd();
     }
 
+    public void AlltheTurnEnd() {
+
+    }
 
     private bool IsDead() {
         if( player.Hp <= 0 || player.Hungry >= 100 )

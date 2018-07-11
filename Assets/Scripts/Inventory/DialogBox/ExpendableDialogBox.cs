@@ -10,11 +10,14 @@ public class ExpendableDialogBox : DialogBox {
                 buttons[ i ].onClick.AddListener( UseCommand );
             else if( buttons[ i ].name == "Dump" )
                 buttons[ i ].onClick.AddListener( DumpCommand );
-            else
-                buttons[ i ].onClick.AddListener( null );
+            else if( buttons[ i ].name == "Cancel" )
+                buttons[ i ].onClick.AddListener( CancelCommand );
         }
     }
     private void UseCommand() {
         inventoryItem.UseCommand();
+    }
+    private void CancelCommand() {
+        inventoryItem.CancelCommand();
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour {
+public class Inventory {
 
     // Use this for initialization
     /** The size of inventory is 12.
@@ -52,9 +52,9 @@ public class Inventory : MonoBehaviour {
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
         for ( int i = 0; i < 6; i++ )
         {
-            inventoryObject [i] = Instantiate (inventoryItemPrefab, new Vector2 (-8, i * 1.5f - 4), Quaternion.identity);
+            inventoryObject [i] = GameObject.Instantiate (inventoryItemPrefab, new Vector2 (-8, i * 1.5f - 4), Quaternion.identity);
             inventoryObject [i].transform.parent = GameObject.Find ("InventoryUI").transform;
-            inventoryObject [i + size / 2] = Instantiate (inventoryItemPrefab, new Vector2 (8, i * 1.5f - 4), Quaternion.identity);
+            inventoryObject [i + size / 2] = GameObject.Instantiate (inventoryItemPrefab, new Vector2 (8, i * 1.5f - 4), Quaternion.identity);
             inventoryObject [i + size / 2].transform.parent = GameObject.Find ("InventoryUI").transform;
             labelList [i] = labelList [i + 6] = ItemManager.Label.Empty;
         }
@@ -131,6 +131,8 @@ public class Inventory : MonoBehaviour {
         for( int i = 0; i < size; i++ ) {
             if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )
                 inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ i ].ToString();
+            else if( labelList[ i ] != ItemManager.Label.Empty )
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???";
                 }
     }
 }

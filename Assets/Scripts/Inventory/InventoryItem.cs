@@ -34,8 +34,16 @@ public class InventoryItem : MonoBehaviour {
     }
 
     void OnMouseUpAsButton() {
-
-        if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
+        juinnim juinnim = GameObject.Find( "Juinnim" ).GetComponent<juinnim>();
+        ItemManager itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
+        if( juinnim.identify == false && juinnim.ismet == true )
+            if( ItemManager.LabelToType( player.InventoryList.GetLabel( index ) ) == ItemManager.ItemType.Capsule && itemManager.GetItemIdentificationInfo( player.InventoryList.GetLabel( index ) ) == false ) {
+                itemManager.ItemIdentify( player.InventoryList.GetLabel( index ) );
+                juinnim.identify = true;
+                GameObject.Find( "GameManager" ).GetComponent<GameManager>().EndPlayerTurn();
+                return;
+            }
+            if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );
             switch( nowType ) {
@@ -130,5 +138,8 @@ public class InventoryItem : MonoBehaviour {
         player.ThrowItem( index );
     }
 
-
+    public void CancelCommand() {
+        Destroy( gObject );
+        player.Action.GetInventoryList().isDialogBoxOn = false;
+    }
 }

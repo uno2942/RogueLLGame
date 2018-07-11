@@ -77,12 +77,13 @@ public class Door : MonoBehaviour {
                 gameManager.GenerateMonsters( 2 );
             else if( gameManager.tempForPresentation == 1 )
                 GameObject.Find( "ItemManager" ).GetComponent<ItemManager>().DropItem( boardManager.NowPos() );
-            else if( gameManager.tempForPresentation == 2 )
-                GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = true;
             else if( gameManager.tempForPresentation == 3 ) {
-                GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = false;
                 gameManager.GenerateMonsters( 2 );
             }
+            else if( gameManager.tempForPresentation == 4 ) {
+                gameManager.GenerateBoss();
+            }
+            GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = false;
             gameManager.tempForPresentation++;
         }
     }

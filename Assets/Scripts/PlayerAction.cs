@@ -81,6 +81,7 @@ public class PlayerAction {
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
             DumpItem( player.InventoryList.Getindex( ItemManager.Label.Water ) );
+            player.InventoryList.IdentifyAllTheInventoryItem();
             gameManager.EndPlayerTurn();
         }
     }
@@ -99,6 +100,7 @@ public class PlayerAction {
     public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
         if( player.InventoryList.AddItem( label ) == true ) {
             GameObject.Destroy( _gameobject );
+            player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }
     public void ThrowAwayItem( int index ) {
@@ -109,7 +111,7 @@ public class PlayerAction {
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
             player.InventoryList.itemManager.ItemIdentify( label );
-
+            player.InventoryList.IdentifyAllTheInventoryItem();
             gameManager.EndPlayerTurn();
         }
         DumpItem( index );
@@ -120,9 +122,9 @@ public class PlayerAction {
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
+                player.weapon = weaponorarmor as Weapon;
             } else
-                player.ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
+                player.armor = weaponorarmor as Armor;
             //장착되었으니 UI에서 뭔갈 해야함.
             gameManager.EndPlayerTurn();
         }
@@ -133,9 +135,9 @@ public class PlayerAction {
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.ChangeAttack( -( (Weapon) weaponorarmor ).AttackPower );
+                player.weapon = null;
             } else
-                player.ChangeDefense( -( (Armor) weaponorarmor ).DefensivePower );
+                player.armor = null;
             //장착되었으니 UI에서 뭔갈 해야함.
             if( GoNextTurn ) {
                 gameManager.EndPlayerTurn();

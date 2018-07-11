@@ -10,14 +10,19 @@ public class BoundedCrazy : Enemy {
         level = 1;
         attack = 6; //shld be decided by level and setting file
         defense = 0;
-        maxhp = 160;
+        maxhp = 80;
         hp = maxhp;
         debuffPercent = 0.0f;
         action = new BoundedCrazyAction( this );
+        player = GameObject.Find( "Player" ).GetComponent<Player>();
         debuff = null;
     }
 
-    
+
+    private void OnMouseUpAsButton() {
+        player.Action.Attack( this );
+        Debug.Log( "플레이어 공격" );
+    }
 
     /** \change enemy's Status by level and isHallucinated
      */

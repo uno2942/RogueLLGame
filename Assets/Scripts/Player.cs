@@ -132,6 +132,7 @@ public class Player : Unit {
 
     public override int FinalAttackPower() {
         int attacktemp = attack+weapon.AttackPower;
+        Debug.Log( attacktemp );
         foreach( Buff buff in Bufflist ) {
             attacktemp += buff.passiveBuffAtk();
         }
