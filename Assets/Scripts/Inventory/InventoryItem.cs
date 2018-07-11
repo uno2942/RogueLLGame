@@ -7,7 +7,7 @@ public class InventoryItem : MonoBehaviour {
     private int index;
     public bool isEquipped;
     private Player player;
-    public GameObject[] dialogBox; //0: 무기갑주, 1: 음식, 2: 플라스크
+    public GameObject[] dialogBox; //0: Weapon and Armor, 1: Expendable, 2: Capsule, 3. Injectors, 4. Card
     GameObject gObject;
     public int Index
     {
@@ -34,26 +34,37 @@ public class InventoryItem : MonoBehaviour {
     }
 
     void OnMouseUpAsButton() {
+
         if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );
-            if( nowType == ItemManager.ItemType.Weapon || nowType == ItemManager.ItemType.Armor ) {
-                dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<WeaponArmorDialogBox>();
-                dBox.inventoryItem = this;
-                WeaponArmorDialogBox W = dBox as WeaponArmorDialogBox;
-                ChangeButtonText( W );
+            switch( nowType ) {
+            case ItemManager.ItemType.Weapon:
+            case ItemManager.ItemType.Armor: {
+                    dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<WeaponArmorDialogBox>();
+                    dBox.inventoryItem = this;
+                    WeaponArmorDialogBox W = dBox as WeaponArmorDialogBox;
+                    ChangeButtonText( W );
 
-                player.Action.GetInventoryList().isDialogBoxOn = true;
+                    player.Action.GetInventoryList().isDialogBoxOn = true;
+                    break;
+                }
+            case ItemManager.ItemType.Expenables: {
+                    dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
+                    dBox.inventoryItem = this;
+                    player.Action.GetInventoryList().isDialogBoxOn = true;
+                    break;
+                }
+            case ItemManager.ItemType.Capsule: {
+                    dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
+                    dBox.inventoryItem = this;
+                    player.Action.GetInventoryList().isDialogBoxOn = true;
+                    break;
+                }
+            default:
+                return;
 
-            } else if( nowType == ItemManager.ItemType.Expenables ) {
-                dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
-                dBox.inventoryItem = this;
-                player.Action.GetInventoryList().isDialogBoxOn = true;
-            } else if( nowType == ItemManager.ItemType.Capsule ) {
-                dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0, 2 ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
-                dBox.inventoryItem = this;
-                player.Action.GetInventoryList().isDialogBoxOn = true;
-            } else return;
+            }
         } else
             return;
     }
@@ -79,6 +90,7 @@ public class InventoryItem : MonoBehaviour {
         isEquipped = false;
         player.DumpItem( index );
     }
+
     public void UseCommand() {
         Destroy( gObject );
         player.Action.GetInventoryList().isDialogBoxOn = false;

@@ -119,7 +119,10 @@ public class ItemManager : MonoBehaviour {
 
         InitLabelDic(labelDic);
         foreach(Label i in System.Enum.GetValues( typeof( Label ) ) ) {
-            IsIdentified.Add( i, false );
+            if( LabelToType( i ) == ItemType.Capsule )
+                IsIdentified.Add( i, false );
+            else
+                IsIdentified.Add( i, true );
         }
 
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
@@ -189,7 +192,7 @@ public class ItemManager : MonoBehaviour {
     }
     
     public void DropItem(Vector2 position ) {
-        Instantiate( weaponPrefabs[ 0 ], position, Quaternion.identity );
+        Instantiate( capsulePrefabs[ 1 ], position, Quaternion.identity );
     }
     /**
      * It returns sprite about the label.
@@ -199,6 +202,12 @@ public class ItemManager : MonoBehaviour {
         if(label == Label.AutoHandgun)
         {
             return weaponPrefabs [0].GetComponent<SpriteRenderer> ().sprite;
+        }
+        else if(label==Label.CaffeinCapsule1) {
+            return capsulePrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
+        } 
+        else if( label == Label.LiquidFlameMedicine1 ) {
+            return capsulePrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
         }
         return null;
     }

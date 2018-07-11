@@ -63,23 +63,9 @@ public class BoardManager : MonoBehaviour {
      */
     void Start() {
 
-        GameObject doorObject = Instantiate( doorPrefab, new Vector2( 7, 0 ), Quaternion.identity ) as GameObject;
-        Door door = doorObject.GetComponent<Door>();
-        door.direction = Direction.Right;
+        GenerateDoor(0, 0);
 
-        doorObject = Instantiate( doorPrefab, new Vector2( -7, 0 ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.Left;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( 0, 5 ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.UpSide;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( 0, -5 ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.DownSide;
-
-        playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
+         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
         whichFloor = 0;
@@ -209,6 +195,23 @@ public class BoardManager : MonoBehaviour {
                 break;
             }
 
+            DestroyDoor();
+           
+
+            switch( direction ) {
+            case Direction.Right:
+                GenerateDoor(14, 0);
+                break;
+            case Direction.Left:
+                GenerateDoor( -14, 0 );
+                break;
+            case Direction.UpSide:
+                GenerateDoor( 0, 10 );
+                break;
+            case Direction.DownSide:
+                GenerateDoor( 0, -10 );
+                break;
+            }
         }
     }
 
@@ -302,6 +305,32 @@ public class BoardManager : MonoBehaviour {
                     return i;
                     }
             return -1;
+        }
+    }
+
+    void GenerateDoor(int x, int y) {
+
+        GameObject doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0+y ), Quaternion.identity ) as GameObject;
+        Door door = doorObject.GetComponent<Door>();
+        door.direction = Direction.Right;
+
+        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x - 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0 + y ), Quaternion.identity ) as GameObject;
+        door = doorObject.GetComponent<Door>();
+        door.direction = Direction.Left;
+
+        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + x, GameObject.Find( "PlayerUI" ).transform.position.y + 5 + y ), Quaternion.identity ) as GameObject;
+        door = doorObject.GetComponent<Door>();
+        door.direction = Direction.UpSide;
+
+        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + x, GameObject.Find( "PlayerUI" ).transform.position.y - 5 + y ), Quaternion.identity ) as GameObject;
+        door = doorObject.GetComponent<Door>();
+        door.direction = Direction.DownSide;
+    }
+
+    void DestroyDoor() {
+        GameObject[] gObjects = GameObject.FindGameObjectsWithTag( "Door" );
+        foreach (GameObject gObject in gObjects ) {
+            Destroy( gObject );
         }
     }
 }

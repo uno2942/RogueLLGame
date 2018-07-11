@@ -46,10 +46,6 @@ public class EnemyAction
             if( i < enemyItself.DebuffPercent() ) {
                 player.AddBuff( enemyItself.Debuff() );
             }
-
-            if( player.Hp <= 0 )
-                GameObject.Destroy( player );
-
             return true;
         }
     }

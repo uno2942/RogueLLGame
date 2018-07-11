@@ -81,6 +81,9 @@ public class Inventory : MonoBehaviour {
             labelList [location] = label;
             inventoryObject [location].GetComponent<SpriteRenderer> ().sprite = itemManager.LabelToSprite (label);
             inventoryObject [location].GetComponent<InventoryItem> ().Index = location; //남길지 말지 
+
+            if( itemManager.GetItemIdentificationInfo( labelList[ location ] ) )
+                inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
             return true;
         }
         else
@@ -93,6 +96,7 @@ public class Inventory : MonoBehaviour {
     public void DeleteItem(int index) {
         inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
         labelList[ index ] = ItemManager.Label.Empty;
+        inventoryObject[ index ].GetComponentInChildren<UnityEngine.UI.Text>().text = "Empty";
     }
 
     public bool CheckItem(  ItemManager.Label _label ) {
@@ -113,6 +117,13 @@ public class Inventory : MonoBehaviour {
 
     public ItemManager.Label GetLabel( int index ) {
         return LabelList[ index ];
+    }
+
+    public void IdentifyAllTheInventoryItem() {
+        for( int i = 0; i < size; i++ ) {
+            if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ i ].ToString();
+                }
     }
 }
 

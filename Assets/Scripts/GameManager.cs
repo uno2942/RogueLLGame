@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour {
         if ( enemy.Hp <= 0 ) return false;
         int damage = 1;
         player.ChangeHp (-damage);
-        if(player.Hp<=0)
+        if(IsDead())
         {
             Destroy (player.gameObject);
             Debug.Log ("포닉스 불닭행");
@@ -192,6 +192,10 @@ public class GameManager : MonoBehaviour {
                 player.Bufflist.Remove( buff );
         }
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
+        if( IsDead() ) {
+            Destroy( player.gameObject );
+            Debug.Log( "포닉스 불닭행" );
+        };
         EnemyTurn();
     }
 
@@ -231,6 +235,11 @@ public class GameManager : MonoBehaviour {
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
+        if( IsDead() ) {
+            Destroy( player.gameObject );
+            Debug.Log( "포닉스 불닭행" );
+        };
+        player.InventoryList.IdentifyAllTheInventoryItem();
     }
 
 
@@ -252,11 +261,12 @@ public class GameManager : MonoBehaviour {
         for( int i = 0; i < enemyList.Length; i++ ) {
             ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
         }
+        if( ItemManager.LabelToCategory( label ) == ItemManager.ItemCategory.LiquidFlameMedicine )
+            player.AddBuff( new Burn( 10 ) );
     }
 
     private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
         Capsule capsule = itemManager.LabelToItem( label ) as Capsule;
         capsule.ThrownTo( enemy );
-
     }
 }
