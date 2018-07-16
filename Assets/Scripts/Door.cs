@@ -73,19 +73,9 @@ public class Door : MonoBehaviour {
         if( isOpened && !gameManager.CurrentSituation ) {
             boardManager.MoveNextRoom( direction );
             gameManager.EndPlayerTurn();
-            if( gameManager.tempForPresentation == 0 )
-                gameManager.GenerateMonsters( 2 );
-            else if( gameManager.tempForPresentation == 1 )
-                GameObject.Find( "ItemManager" ).GetComponent<ItemManager>().DropItem( boardManager.NowPos() );
-            else if( gameManager.tempForPresentation == 3 ) {
-                gameManager.GenerateMonsters( 2 );
-            }
-            else if( gameManager.tempForPresentation == 4 ) {
-                gameManager.GenerateBoss();
-            }
-            GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = false;
-            gameManager.tempForPresentation++;
+            gameManager.GenerateMonsters( 2 );
         }
     }
+
 
 }

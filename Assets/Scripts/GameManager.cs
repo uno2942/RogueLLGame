@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour {
      * This variables are tentatively implemented.
      */
     public GameObject ratPrefab;
-    public GameObject boundedCrazyPrefab;
     private Vector2[] monsterGenLocation;
     /**
  * It checks whether the player is in battle or not.
@@ -58,17 +57,9 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
 
     /**
-     * @todo I need to delete this int
-     */
-    public int tempForPresentation = 0;
-
-
-    /**
         * It initiate the monsterGenLocation and currentTurn to 0 (resp. situtation to false)
         */
     void Start() {
-        GameObject.Find( "InventoryUI" ).GetComponentInChildren<UnityEngine.UI.Text>().enabled = false;
-
         player = playerObject.GetComponent ("Player") as Player;
         monsterGenLocation = new Vector2 [6];
         monsterGenLocation [0] = new Vector2 (0, 2);
@@ -148,11 +139,6 @@ public class GameManager : MonoBehaviour {
         {
             currentSituation = true;
         }
-    }
-
-    public void GenerateBoss() {
-        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
-        Instantiate( boundedCrazyPrefab, nowPos + monsterGenLocation[ 0 ], Quaternion.identity );
     }
     /** After the player and enemies' turn, it put all the ... and advance the turn.
      * The currentTurn increases by 1 and condition of player is added and deleted, and the effect of the condition is invoked in this function.
@@ -242,6 +228,10 @@ public class GameManager : MonoBehaviour {
                 enemyNum++;
         }
 
+        /**
+         * 보스를 잡은 경우 카드를 떨어트린다.
+         * @todo 더 짜야한다.
+         */
         if( enemyNum == 0 && prevMonsterNum != 0 ) {
             if( Equals(enemyList[0].GetComponent<Enemy>().GetType(), typeof(BoundedCrazy)) )
                 itemManager.DropCard( boardManager.NowPos() );
