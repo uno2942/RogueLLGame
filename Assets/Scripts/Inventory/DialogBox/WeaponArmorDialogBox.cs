@@ -12,7 +12,7 @@ public class WeaponArmorDialogBox : DialogBox {
             else if( buttons[ i ].name == "Dump" )
                 buttons[ i ].onClick.AddListener( DumpCommand );
             else if(buttons[i].name=="Cancel")
-                buttons[ i ].onClick.AddListener( Cancelcommand );
+                buttons[ i ].onClick.AddListener( CancelCommand );
             }
     }
     private void EquipOrUnequipCommand() {
@@ -21,7 +21,7 @@ public class WeaponArmorDialogBox : DialogBox {
         else
             inventoryItem.UnequipCommand();
     }
-    private void Cancelcommand() {
+    private void CancelCommand() {
         inventoryItem.CancelCommand();
     }
 }
