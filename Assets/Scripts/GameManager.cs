@@ -1,25 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 게임 전반(턴, 몬스터 등)을 관리하는 코드
+ */
 public class GameManager : MonoBehaviour {
+
+    private int currentTurn; /**< It contains number of passed turns from the beginning of the game. */
+    
+    private int prevMonsterNum;/**<
+                                * 이전 턴에서의 몬스터 수를 저장한다. 이는 플레이어가 몬스터를 잡은 직후를 체크하기 위함이다.
+                                * 예를 들어 현재 몬스터의 수가 0이고, 이전 몬스터의 수가 0이 아니면 이는 플레이어가 몬스터를 전부 잡은 것을 의미한다.
+                                */
+    private bool currentSituation;
+    public bool CurrentSituation
+    {
+        get
+        {
+            return currentSituation;
+        }
+    }    /**<
+                                         * 현재 플레이어가 전투 중인지 확인한다.
+                                         * true일 경우 플레이어는 전투 중이다. 이를 통해 문의 개폐 여부 등을 제어한다.
+                                         * \see Door::OnMouseUpAsButton
+                                         */
     /**
-     * It contains number of passed turns from the beginning of the game.
-     */
-    private int currentTurn;
-    private int prevMonsterNum;
-    private bool currentSituation; //true : 싸움
-                                   /**
-                                    * This variables are tentatively implemented.
-                                    * The coder can make a function dealing with the condition of the player and separate this varialbes to the function.
-                                    */
+    * Player의 bufflist를 매번 확인하는 수고를 덜기 위한 변수.
+    */
     //@{
     public bool isHallucinated=false;
     public bool isHungry = false;
     public bool isStarved = false;
     //@}
+    
     /**
-     * It interacts with other Manager gameobject and player gameobject.
+     * 게임 전반을 관리해야 하기 때문에 다른 매니저와 플레이어와 상호작용 할 수 있도록 하는 변수
      */
     //@{
     public GameObject playerObject;
@@ -30,35 +45,25 @@ public class GameManager : MonoBehaviour {
     /**
      * This variables are tentatively implemented.
      */
+     //@{
     public GameObject ratPrefab;
     private Vector2[] monsterGenLocation;
-    /**
- * It checks whether the player is in battle or not.
- * If it is true, the player is in battle.
- */
-    public bool CurrentSituation
-    {
-        get
-        {
-            return currentSituation;
-        }
-    }
-    /** 
- * It contains the fixed location of monster in the field.
- */
+    //@}
+
+
     public Vector2[] MonsterGenLocation
     {
         get
         {
             return monsterGenLocation;
         }
-    }
+    } /**< It contains the fixed location of monster in the field. */
 
     // Use this for initialization
 
     /**
-        * It initiate the monsterGenLocation and currentTurn to 0 (resp. situtation to false)
-        */
+    * It initiate the monsterGenLocation and currentTurn to 0 (resp. situtation to false)
+    */
     void Start() {
         player = playerObject.GetComponent ("Player") as Player;
         monsterGenLocation = new Vector2 [6];
@@ -140,17 +145,31 @@ public class GameManager : MonoBehaviour {
             currentSituation = true;
         }
     }
-    /** After the player and enemies' turn, it put all the ... and advance the turn.
-     * The currentTurn increases by 1 and condition of player is added and deleted, and the effect of the condition is invoked in this function.
-     * There is a debug log showing the turn numbers.
-     * \see Rat::OnMouseUpAsButton and
-     * \see Door:OnMouseUpAsButton
+    /**
+     * 프로토 타입을 만들 때 사용한 함수.
+     * @todo 더 구현해야 한다.
      */
+    public void GenerateBoss() {
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+    }
 
+    /**
+     * 이 함수는 플레어어의 턴을 종류하는 역할을 한다.
+     * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+     * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+     * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+     * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+     */
     public void EndPlayerTurn() {
         CheckPlayerStatus();
     }
-
+    /**
+     * 이 함수는 플레이어의 정신력과 배고픔을 먼저 체크하여 환각과 굶주림 판정을 한 후, 플레이어의 버프를 체크하여 효과를 부여한다.
+     * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+     * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+     * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+     * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+     */
     private void CheckPlayerStatus() {
         //정신력 체크
         player.ChangeMp( -0.5f );
@@ -196,7 +215,13 @@ public class GameManager : MonoBehaviour {
         };
         EnemyTurn();
     }
-
+    /**
+    * 적들이 플레이어를 공격하는 함수이다.
+    * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+    * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+    * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+    * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+    */
     private void EnemyTurn() {
         int enemyNum = 0;
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
@@ -211,7 +236,13 @@ public class GameManager : MonoBehaviour {
         }
         CheckEnemyStatus();
     }
-
+    /**
+    * 적들에 걸린 상태이상(버프)를 체크하여 효과를 입히는 함수이다.
+    * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+    * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+    * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+    * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+    */
     public void CheckEnemyStatus() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         Enemy enemyTemp;
@@ -228,10 +259,6 @@ public class GameManager : MonoBehaviour {
                 enemyNum++;
         }
 
-        /**
-         * 보스를 잡은 경우 카드를 떨어트린다.
-         * @todo 더 짜야한다.
-         */
         if( enemyNum == 0 && prevMonsterNum != 0 ) {
             if( Equals(enemyList[0].GetComponent<Enemy>().GetType(), typeof(BoundedCrazy)) )
                 itemManager.DropCard( boardManager.NowPos() );
@@ -247,11 +274,17 @@ public class GameManager : MonoBehaviour {
         player.InventoryList.IdentifyAllTheInventoryItem();
         AlltheTurnEnd();
     }
-
+    /**
+     * 이 함수는 턴의 맨 마지막을 가르킨다.
+     * 이 함수는 비어있지만, 필요한 이유는 턴 동안 아무것도 안 하는 함수도 필요할지 모르기 때문이다.
+     */
     public void AlltheTurnEnd() {
 
     }
-
+    /**
+     * 플레이어가 사망하였는 확인한다.
+     * \return true일 경우 플레이어가 사망한 것이다.
+     */
     private bool IsDead() {
         if( player.Hp <= 0 || player.Hungry >= 100 )
             return true;

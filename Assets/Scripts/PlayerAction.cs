@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 플레이어가 할 수 있는 Action들의 집합 클래스
+ */
 public class PlayerAction {
 
     public enum Direction {Up, Down, Right, Left};
@@ -54,15 +56,18 @@ public class PlayerAction {
 
     }
     /**
-     * 플레이어 위치의 방에서 아이템을 제거하고 플레이어의 인벤토리에 추가한다.
-    * When item is clicked, this function invoked.
-    * \see ItemPrefab::OnMouseUpAsButton
+     * 아이템을 버린다.
+     * \see Player::DumpItem
+     * \see InventoryItem::DumpCommand
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
         gameManager.EndPlayerTurn();
     }
-
+    /**
+     * \see InventoryItem::UseItem
+     * \see Player::UseItem
+     */
     public void UseItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
@@ -72,7 +77,10 @@ public class PlayerAction {
             gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+ * \see InventoryItem::EatCapsuleCommand
+ * \see Player::EatCapsule
+ */
     public void EatCapsule( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
@@ -85,7 +93,10 @@ public class PlayerAction {
             gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+* \see InventoryItem::InjectCommand
+* \see Player::InjectItem
+*/
     public void InjectItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
@@ -96,13 +107,19 @@ public class PlayerAction {
             gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+* \see ItemPrefab::OnMouseUpAsButton
+*/
     public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
         if( player.InventoryList.AddItem( label ) == true ) {
             GameObject.Destroy( _gameobject );
             player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }
+    /**
+* \see InventoryItem::ThrowCommand
+* \see Player::ThrowItem
+*/
     public void ThrowAwayItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
@@ -116,7 +133,10 @@ public class PlayerAction {
         }
         DumpItem( index );
     }
-
+    /**
+* \see InventoryItem::EquipCommand
+* \see Player::EquipItem
+*/
     public void EquipItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
@@ -129,7 +149,10 @@ public class PlayerAction {
             gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+* \see InventoryItem::UnequipCommand
+* \see Player::UnequipItem
+*/
     public void UnequipItem( int index, bool GoNextTurn = true ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
@@ -145,6 +168,9 @@ public class PlayerAction {
         }
     }
 
+    /**
+     * @todo I need to delete this function?
+     */
     public void TakeCapsule( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {

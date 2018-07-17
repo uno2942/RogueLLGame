@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/**
+ * \brief 맵을 구성하는 맵 타일에 해당하는 데이터를 가지는 클래스
+ */
 public class MapTile {
     private int x;
     private int y;

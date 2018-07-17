@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 문 게임 오브젝트에 붙어서 문의 기능을 관리하는 클래스
+ */
 public class Door : MonoBehaviour {
     /**
      * I don't know why it is here.
@@ -76,6 +78,5 @@ public class Door : MonoBehaviour {
             gameManager.GenerateMonsters( 2 );
         }
     }
-
 
 }

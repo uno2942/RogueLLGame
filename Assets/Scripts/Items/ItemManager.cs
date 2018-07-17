@@ -18,14 +18,18 @@ public class ItemManager : MonoBehaviour {
         CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
         MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
-
+    /**
+     * 아이템 카테고리는 층에 관계없이 아이템을 관리하기 위한 열거형이다.
+     */
     public enum ItemCategory {
         Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
         BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
         CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant,PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
         MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
-    
+    /**
+     * 아이템을 종류에 따라 크게 묶는 열거형이다.
+     */
     public enum ItemType
     {
         Empty, Weapon, Armor, Expenables, Capsule, Injector, Card, EndOfEnum
@@ -112,7 +116,7 @@ public class ItemManager : MonoBehaviour {
 
     // Use this for initialization
     /**
-     * Set all the label not identified and put sprite to prefabs.
+     * LabelDic 을 초기화하고, 캡슐을 제외한 아이템의 감정 상태를 true 로 초기화 한다.
      */
     void Start() {
         labelDic = new Dictionary<Label, Item>();
@@ -135,6 +139,8 @@ public class ItemManager : MonoBehaviour {
 
     }
 
+    /** 라벨에 해당하는 아이템을 반환한다.
+     */
     public Item LabelToItem(Label label) {
         return labelDic[ label ];
     }
@@ -192,7 +198,8 @@ public class ItemManager : MonoBehaviour {
     public bool GetItemIdentificationInfo(Label label) {
         return IsIdentified[ label ];
     }
-    
+    /** 아이템을 position 에 놓는다.
+     */
     public void DropItem(Vector2 position ) {
         int choose = Random.Range( 0, 5 );
         if( choose == 5 )
@@ -207,6 +214,8 @@ public class ItemManager : MonoBehaviour {
             Instantiate( expendablesPrefabs[ 1 ], position, Quaternion.identity );
     }
 
+    /** 카드를 position 에 떨어트린다.
+     */
     public void DropCard( Vector2 position ) {
         Instantiate( cardPrefab, position, Quaternion.identity );
     }

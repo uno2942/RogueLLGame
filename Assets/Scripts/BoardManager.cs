@@ -7,32 +7,46 @@ using System.Linq;
  * \details This is an code for boardmanager, which is gameobject, and control the poition of player, camera in unity, and the door.
  */
 public class BoardManager : MonoBehaviour {
-    /** \brief This specifies how much the player moves when the player clicks a door.
-     */
-     //@{
-    public const int verticalMovement = 10;
-    public const int horizontalMovement = 18;
-    //@}
-    /** Direction enum variable setting direction of movement when the player clicked the door.
-     */
-    public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};
-    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, End, EndOfEnum};
-    public enum NPCType { Empty, DrugExpert, InjectorCollector, DrugVecder, Psychiatrist, EmergencyBox, EndOfEnum };
+
+    public const int verticalMovement = 10; /**< The vertical length of a board in the game. */
+    public const int horizontalMovement = 18;/**< The vertical length of a board in the game. */
+
+
+    public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
+                                                                          \details 문마다 이 열거형 변수를 가지고 있으며
+                                                                                   문이 클릭되었을 때, 이 변수 방향으로
+                                                                                    플레이어를 이동시킨다.
+                                                                          \see Door*/
+    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, End, EndOfEnum}; /**< \brief 방의 종류에 대한 열거형 
+                                                                                                                    \details 맵 파일을 파싱해서 읽은 데이터는
+                                                                                                                    이 파일에서 처리해 맵을 만들며, 이 때 방의
+                                                                                                                    종류에 따라 방에 놓여지는 게임 오브젝트가 다르기
+                                                                                                                    때문에 이 방의 종류를 저장하기 위한 열거형이다.
+                                                                                                                    */
+    public enum NPCType { Empty, DrugExpert, InjectorCollector, DrugVecder, Psychiatrist, EmergencyBox, EndOfEnum };/**< \brief NPC의 종류에 대한 열거형 
+                                                                                                                    \details NPC의 종류에 대한 열거형으로
+                                                                                                                    이를 기반으로 NPC 게임 오브젝트를 게임에
+                                                                                                                    뿌린다.
+                                                                                                                    */
     public GameObject doorPrefab;
-    public Camera gameCamera;
+    public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
     public Player playerobejct;
-    private List<MapTile> floor; //get 한정으로 할지 고민
-    private List<List<MapTile>> map;
-    private MapParser parser;
-    private int xPos, yPos;
+
+    private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
+    private List<List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
+    private MapParser parser; /**< 맵 파서이다. */
+
+    private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
+    private int yPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int whichFloor;
-    public Vector2 NowPos()
+    public Vector2 NowPos() 
     {
         return new Vector2 (xPos * horizontalMovement, yPos * verticalMovement);
-    }
+    } /**< 실제 구현에서 플레이어 위치를 반환하는 함수이다. */
+
     /**
- * The current position of the player.
- */
+    * \brief 플레이어의 위치를 반환하는 속성이다.
+    */
     //@{
     public int XPos
     {
@@ -58,12 +72,14 @@ public class BoardManager : MonoBehaviour {
         }
     }
     //@}
+
     /**
+     * \brief 사용자의 위치를 초기화한 후, 맵 파일을 파싱한 후 맵을 생성한다.
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
     void Start() {
 
-        GenerateDoor(0, 0);
+        GenerateDoor(0, 0); // 임시로 존재하는 코드.
 
          playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
@@ -167,7 +183,7 @@ public class BoardManager : MonoBehaviour {
 		
 	}
     /**
-     * When player clicked the door, door call this function with the direction the door having. It moves the player and the camera.
+     * 플레이어가 문을 클릭했을 때 문 프리팹이 이 함수를 콜한다. 이 함수는 플레이어와 카메라를 이동시킨다.
      */
     public void MoveNextRoom(Direction direction) {
         //if(map is valid)
@@ -215,6 +231,10 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
+    /**
+     * NPC가 존재할 수 있는 맵 타일에 NPC를 생성한다.
+     * @todo 해야한다.
+     */
     private void GenerateNPCInMapTile(MapTile mapTile) {
         int index=0;
         switch( mapTile.roomType ) {
@@ -248,6 +268,10 @@ public class BoardManager : MonoBehaviour {
             break;
         }
     }
+    /**
+    * 적이 존재할 수 있는 맵 타일에 적을 생성한다.
+    * @todo 해야한다.
+    */
     private void GenerateEmepyInMapTile( MapTile mapTile ) {
         /*
         int index = 0;
@@ -281,7 +305,10 @@ public class BoardManager : MonoBehaviour {
         }
         */
     }
-    
+    /**
+     * 아이템이 존재할 수 있는 맵에 아이템을 생성한다.
+     * @todo 해야한다. 적이 존재하는 곳에 적이 드랍하는 아이템을 미리 뿌려놓을지 택해야 함.
+     */
     private void GenerateItemInMapTile( MapTile mapTile ) {
 /*
         int index = (int) Random.Range( 1, (int) ItemManager.ItemCategory.EndOfEnum);
@@ -290,7 +317,6 @@ public class BoardManager : MonoBehaviour {
         mapTile.itemList.Add(( ItemManager.ItemCategory) index);
 */
     }
-
 
     public static int RandomGenerator(float[] percent) {
         if( percent.Sum() != 1f )
@@ -308,6 +334,10 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
+    /**
+     * 문 (프리팹)을 생성한다.
+     * @todo 지금은 사방에 문을 생성하게 하지만, 맵 타일이 붙어 있는 곳에만 생성하도록 해야한다.
+     */
     void GenerateDoor(int x, int y) {
 
         GameObject doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0+y ), Quaternion.identity ) as GameObject;
@@ -326,7 +356,9 @@ public class BoardManager : MonoBehaviour {
         door = doorObject.GetComponent<Door>();
         door.direction = Direction.DownSide;
     }
-
+    /**
+     * 플레이어가 이동하면 문을 클릭해서 이동했을 때 원래 있던 문을 삭제하기 위한 함수
+     */
     void DestroyDoor() {
         GameObject[] gObjects = GameObject.FindGameObjectsWithTag( "Door" );
         foreach (GameObject gObject in gObjects ) {

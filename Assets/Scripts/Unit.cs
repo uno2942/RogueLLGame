@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 플레이어와 적의 베이스 클래스
+ */
 public class Unit : MonoBehaviour {
 
 
@@ -11,19 +13,15 @@ public class Unit : MonoBehaviour {
     protected float hp;
     protected GameManager gameManager;
     protected List<Buff> bufflist;
-    /**
-     * \brief 공격력
-     */
+
     public int Attack
     {
         get
         {
             return attack;
         }
-    }
-    /**
-    * \brief 방어력
-    */
+    }    /**<  \brief 공격력 */
+
     public int Defense
     {
         get
@@ -31,27 +29,23 @@ public class Unit : MonoBehaviour {
             return defense;
         }
 
-    }
-    /**
-    * \brief 현재 체력
-    */
+    }    /**<    * \brief 방어력    */
+
     public float Hp
     {
         get
         {
             return hp;
         }
-    }
-    /**
-    * \brief 최대 체력
-    */
+    }    /**<    * \brief 현재 체력    */
+    
     public int MaxHp
     {
         get
         {
             return maxhp;
         }
-    }
+    }/**<    \brief 최대 체력    */
     public List<Buff> Bufflist
     {
         get
@@ -69,24 +63,27 @@ public class Unit : MonoBehaviour {
         bufflist = new List<Buff>();
     }
 
-    
+    /** 유닛의 공격력을 영구적으로 증가시키는 함수 */
     public void ChangeAttack(int delta)
     {
         attack += delta;
     }
+    /** 유닛의 방어력을 영구적으로 증가시키는 함수 */
     public void ChangeDefense( int delta ) {
         defense += delta;
     }
+    /** 유닛의 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeHp( float delta )
     {
         hp += delta;
     }
+    /** 유닛의 최대 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeMaxHp( int delta ) {
         hp += delta;
     }
 
     /**
-     * buff instance 안에 이미 buff가 지속되는 count가 들어가 있다.)
+     * 유닛의 Bufflist에 버프를 넣는 함수
      */
     public void AddBuff(Buff buff)
     {
@@ -94,6 +91,7 @@ public class Unit : MonoBehaviour {
             bufflist.Add(buff);
     }
     /**
+     * 유닛의 BuffList에 버프를 빼는 함수(버프 1개만 뺀다. 버프 카운트가 다를 때에 대한 코드는 구현되어 있지 않다.)
      * @todo I need to check whether this code is legable.
      */
     public void DeleteBuff(Buff buff)
@@ -102,7 +100,8 @@ public class Unit : MonoBehaviour {
     }
 
     /**
-     * @todo we need to implement this funciton.
+     * 디버그용 코드
+     * @todo 아무것도 없다.
      */
     public void DebugStatus()
     {
@@ -117,6 +116,7 @@ public class Unit : MonoBehaviour {
         return attacktemp;
     }
 
+    /** 유닛의 공격력+유닛의 상태 이상을 기반으로 유닛의 공격력을 반환 */
     public virtual int FinalDefensePower() {
         int defensetemp = defense;
         foreach( Buff buff in Bufflist ) {
@@ -125,6 +125,7 @@ public class Unit : MonoBehaviour {
         return defensetemp;
     }
 
+    /** 유닛의 방어력+유닛의 상태 이상을 기반으로 유닛의 방어력을 반환 */
     public float FinalMagnification() {
         float magnification = 1;
 

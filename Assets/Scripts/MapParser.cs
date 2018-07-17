@@ -4,10 +4,13 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 using System;
+/**
+ * \brief 맵 파일을 파싱하는 클래스
+ */
 public class MapParser {
 
     /**
-     * @todo 첫 번째 열은 버려야 함.
+     * @todo 첫 번째 열은 버려야 함.(데이터에 대한 설명을 담고 있음.)
      */
     public void parse( ref List<List<MapTile>> mapTiles ) {
         var mapData = File.ReadAllLines( Application.dataPath + "/Resources" + "Map1.txt" );

@@ -16,8 +16,8 @@ public class Enemy : Unit
 */
     protected int level;
     /** 
-* \Which action does Enemy do?
-*/
+    * Which action does Enemy do?
+    */
     protected EnemyAction action;
     public EnemyAction Action
     {
