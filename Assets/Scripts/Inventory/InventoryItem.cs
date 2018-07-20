@@ -38,7 +38,7 @@ public class InventoryItem : MonoBehaviour {
      * 인벤토리 아이템을 플레이어가 클릭했을 때 각 아이템의 라벨에 해당하는 선택 상자를 띄워준다.
      */
     void OnMouseUpAsButton() {
-            if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
+            if( false == player.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );
             switch( nowType ) {
@@ -49,19 +49,19 @@ public class InventoryItem : MonoBehaviour {
                     WeaponArmorDialogBox W = dBox as WeaponArmorDialogBox;
                     ChangeButtonText( W );
 
-                    player.Action.GetInventoryList().isDialogBoxOn = true;
+                    player.GetInventoryList().isDialogBoxOn = true;
                     break;
                 }
             case ItemManager.ItemType.Expenables: {
                     dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
                     dBox.inventoryItem = this;
-                    player.Action.GetInventoryList().isDialogBoxOn = true;
+                    player.GetInventoryList().isDialogBoxOn = true;
                     break;
                 }
             case ItemManager.ItemType.Capsule: {
                     dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
                     dBox.inventoryItem = this;
-                    player.Action.GetInventoryList().isDialogBoxOn = true;
+                    player.GetInventoryList().isDialogBoxOn = true;
                     break;
                 }
             default:
@@ -93,7 +93,7 @@ public class InventoryItem : MonoBehaviour {
      */
     public void DumpCommand() {
         Destroy(gObject);
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
         if( true == isEquipped )
             player.UnequipItem( index, false );
         isEquipped = false;
@@ -106,7 +106,7 @@ public class InventoryItem : MonoBehaviour {
  */
     public void UseCommand() {
         Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
         player.UseItem( index );
     }
     /**
@@ -116,7 +116,7 @@ public class InventoryItem : MonoBehaviour {
     public void EatCapsuleCommand() {
         if( true == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
-            player.Action.GetInventoryList().isDialogBoxOn = false;
+            player.GetInventoryList().isDialogBoxOn = false;
             player.EatCapsule( index );
         }  
     }
@@ -127,7 +127,7 @@ public class InventoryItem : MonoBehaviour {
     public void InjectCommand() {
         if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
-            player.Action.GetInventoryList().isDialogBoxOn = false;
+            player.GetInventoryList().isDialogBoxOn = false;
             player.InjectItem( index );
         }
     }
@@ -138,7 +138,7 @@ public class InventoryItem : MonoBehaviour {
 */
     public void EquipCommand() {
         Destroy( gObject );//삭제?
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
         player.EquipItem( index );
         isEquipped = true;
     }
@@ -148,7 +148,7 @@ public class InventoryItem : MonoBehaviour {
 */
     public void UnequipCommand() {
         Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
         player.UnequipItem( index );
         isEquipped = false;
     }
@@ -158,7 +158,7 @@ public class InventoryItem : MonoBehaviour {
 */
     public void ThrowCommand() {
         Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
         player.ThrowItem( index );
     }
     /**
@@ -167,6 +167,6 @@ public class InventoryItem : MonoBehaviour {
 */
     public void CancelCommand() {
         Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
     }
 }

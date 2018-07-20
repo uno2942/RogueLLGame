@@ -26,7 +26,7 @@ public class Stair : MonoBehaviour {
         if( player.InventoryList.CheckItem( ItemManager.Label.BlackCard ) ) {
             dBox = ( gObject = Instantiate( cardDialogBox, new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CardDialogBox>();
 
-            player.Action.GetInventoryList().isDialogBoxOn = true;
+            player.GetInventoryList().isDialogBoxOn = true;
         }
     }
     /**
@@ -35,7 +35,7 @@ public class Stair : MonoBehaviour {
      */
     public void GotoNextFloor() {
         Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
         player.InventoryList.DeleteItem( player.InventoryList.Getindex( ItemManager.Label.BlackCard ));
         GameObject.Find( "GameManager" ).GetComponent<GameManager>().EndPlayerTurn();
             
@@ -45,6 +45,6 @@ public class Stair : MonoBehaviour {
      */
     public void Cancle() {
         Destroy( gObject );
-        player.Action.GetInventoryList().isDialogBoxOn = false;
+        player.GetInventoryList().isDialogBoxOn = false;
     }
 }

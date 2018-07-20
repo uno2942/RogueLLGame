@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paralyzed : Buff {
+public class Stunned : Buff {
 
-    public Paralyzed( int _count ) : base( _count ) {
+    public Stunned( int _count ) : base( _count ) {
 
     }
     /**
  * @todo I need to change enemy's attack part.
  */
-    public override void BuffWorkTo( Player player ) {
+    public override void BuffWorkTo( Unit unit ) {
         count--;
     }
     public override int passiveBuffAtk() {

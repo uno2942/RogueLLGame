@@ -8,8 +8,9 @@ public class Starve : Buff {
 
     }
 
-    public override void BuffWorkTo( Player player ) {
-        player.ChangeHp(-1);
+    public override void BuffWorkTo( Unit unit ) {
+        if(unit is Player)
+            unit.ChangeHp(-1);
         count--;
     }
 

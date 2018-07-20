@@ -14,7 +14,7 @@ public class RestButton : MonoBehaviour {
 	void Start () {
         GameManager gameManager = GameObject.Find( "GameManager" ).GetComponent<GameManager>();
         Button button = gameObject.GetComponent<Button>();
-        button.onClick.AddListener( gameManager.EndPlayerTurn );
+        button.onClick.AddListener( GameObject.Find("Player").GetComponent<Player>().PlayerAction.Rest );
 	}
 	
 	// Update is called once per frame

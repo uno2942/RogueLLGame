@@ -6,11 +6,12 @@ using UnityEngine;
  */
 public class Unit : MonoBehaviour {
 
-
+    public enum Action { Move, Rest, Attack, Hitted}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
+    
     protected int attack;
     protected int defense;
     protected int maxhp;
-    protected float hp;
+    protected int hp;
     protected GameManager gameManager;
     protected List<Buff> bufflist;
 
@@ -31,7 +32,7 @@ public class Unit : MonoBehaviour {
 
     }    /**<    * \brief 방어력    */
 
-    public float Hp
+    public int Hp
     {
         get
         {
@@ -73,7 +74,7 @@ public class Unit : MonoBehaviour {
         defense += delta;
     }
     /** 유닛의 체력을 영구적으로 증가시키는 함수 */
-    public virtual void ChangeHp( float delta )
+    public virtual void ChangeHp( int delta )
     {
         hp += delta;
     }
@@ -97,15 +98,6 @@ public class Unit : MonoBehaviour {
     public void DeleteBuff(Buff buff)
     {
         bufflist.Remove( bufflist.Find( x => x.GetType().Equals( buff.GetType() ) ) );
-    }
-
-    /**
-     * 디버그용 코드
-     * @todo 아무것도 없다.
-     */
-    public void DebugStatus()
-    {
-
     }
 
     public virtual int FinalAttackPower() {

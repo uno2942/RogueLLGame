@@ -8,7 +8,8 @@ public class Caffeine : Buff {
 
     }
 
-    public override void BuffWorkTo( Player player ) {
+    public override void BuffWorkTo( Unit unit ) {
+        Player player = unit as Player;
         player.ChangeMp(-1.2f);
         count--;
     }

@@ -10,8 +10,8 @@ public class Poison : Buff {
     /**
  * @todo I need to change enemy's attack part.
  */
-    public override void BuffWorkTo( Player player ) {
-        player.ChangeHp( -1 );
+    public override void BuffWorkTo( Unit unit ) {
+        unit.ChangeHp( -1 );
         count--;
     }
     public override int passiveBuffAtk() {

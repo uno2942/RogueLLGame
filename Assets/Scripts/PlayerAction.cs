@@ -17,9 +17,7 @@ public class PlayerAction {
     }
 
 
-    public Inventory GetInventoryList() {
-        return player.InventoryList;
-    }
+
 
     /**
      * Player의 공격력과 상태를 기반으로 최종피해를 정한다.enemy의 체력을 깎고 Player.Weapon.Attack 메서드를 호출한다\
@@ -189,6 +187,8 @@ public class PlayerAction {
         itemManager.LabelToItem( label );
     }
     public void Rest() {
+        player.ChangeHp( 1 );
+        gameManager.EndPlayerTurn();
     }
     /**
      *상태이상에 의해 아무것도 하지 않음

@@ -41,7 +41,7 @@ public class HospitalDirectorAction : EnemyAction {
             if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) ) {
                 temp += 1.0f;
             }
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Paralyzed ) ) ) ) {
+            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Stunned ) ) ) ) {
                 temp += 3.0f;
             }
 

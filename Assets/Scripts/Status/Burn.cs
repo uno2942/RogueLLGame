@@ -8,8 +8,8 @@ public class Burn : Buff {
     
         count--;}
 
-    public override void BuffWorkTo(Player player) {
-        player.ChangeHp( -3 );
+    public override void BuffWorkTo(Unit unit) {
+        unit.ChangeHp( -3 );
         count--;
     }
 

@@ -22,7 +22,7 @@ public class Rat : Enemy
         maxhp = 3;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new EnemyAction(this);
+        enemyAction = new EnemyAction(this);
         debuff = new Poison(2);
         player = GameObject.Find( "Player" ).GetComponent<Player>();
     }
@@ -31,7 +31,7 @@ public class Rat : Enemy
  * When player clicked this gameobject, player attack to this enemy, and turn of the game flows.
  */
     private void OnMouseUpAsButton() {
-        player.Action.Attack( this );
+        player.PlayerAction.Attack( this );
         Debug.Log( "플레이어 공격" );
     }
 

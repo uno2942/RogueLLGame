@@ -18,7 +18,7 @@ public class Human : Enemy
         maxhp = 24;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new EnemyAction(this);
+        enemyAction = new EnemyAction(this);
         debuff = null;
         player = GameObject.Find( "Player" ).GetComponent<Player>();
     }

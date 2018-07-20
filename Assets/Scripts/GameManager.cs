@@ -28,9 +28,6 @@ public class GameManager : MonoBehaviour {
     * Player의 bufflist를 매번 확인하는 수고를 덜기 위한 변수.
     */
     //@{
-    public bool isHallucinated=false;
-    public bool isHungry = false;
-    public bool isStarved = false;
     //@}
     
     /**
@@ -84,6 +81,10 @@ public class GameManager : MonoBehaviour {
      */
     void Update()
     {
+        if(player.isStunned==true) {
+            CheckPlayerStatus();
+            player.stunned.BuffWorkTo(player); // 카운트 깍는 용
+        }
     //    GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         /*if( 0 == enemyList.Length ) {
             currentSituation = false;
@@ -172,37 +173,42 @@ public class GameManager : MonoBehaviour {
      */
     private void CheckPlayerStatus() {
         //정신력 체크
-        player.ChangeMp( -0.5f );
-        if( player.Mp <= 30 && !isHallucinated ) {
+        DecreaseMpByTurn();
+        if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
             player.Bufflist.Add( new Hallucinated(-1));
-            isHallucinated = true;
+            player.isHallucinated = true;
         }
 
-        if( isHallucinated ) {
-            player.ChangeMp( 1.2f );
-            if( player.Mp >= 60 )
+        if( player.isHallucinated && player.Mp >= 60 ) {
                 player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ) );
+                player.SetMpBy100();
+            player.isHallucinated = false;
         }
         //상태이상 체크
-        player.ChangeHungry( 1 );
-        if( player.Hungry >= 80 && !isStarved && isHungry ) {
-            player.Bufflist.Add( new Starve() );
-            isStarved = true;
-        } 
-        else if( player.Hungry >= 50 && !isHungry ) {
+        IncreaseHungryByTurn();
+        if( player.Hungry >= 100 && !player.isHungry ) {
             player.Bufflist.Add( new Hunger() );
-            isHungry = true;
+            player.isHungry = true;
+        }
+        if( player.Hungry >= 130 && !player.isStarved && player.isHungry ) {
+            player.Bufflist.Add( new Starve() );
+            player.isStarved = true;
         } 
-        else if( player.Hungry < 80 && isStarved ) {
+        else if( player.Hungry < 130 && player.isStarved ) {
             player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Starve ) ) ) );
-            isStarved = false;
+            player.isStarved = false;
         }
-        else if(player.Hungry<50 && isHungry) {
+        if(player.Hungry<100 && player.isHungry ) {
             player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hunger ) ) ) );
-            isHungry = false;
+            player.isHungry = false;
         }
-        
+        if( player.Hungry < 50 ) {
+            player.Bufflist.Add( new Full( -1 ) );
+        } else {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
+        }
+
         foreach( Buff buff in player.Bufflist ) {
             buff.BuffWorkTo( player );
             if( buff.Count == 0 )
@@ -226,7 +232,7 @@ public class GameManager : MonoBehaviour {
         int enemyNum = 0;
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         for( int i = 0; i < enemyList.Length; i++ ) {
-            if( enemyList[ i ].GetComponent<Enemy>().Action.Attack() )
+            if( enemyList[ i ].GetComponent<Enemy>().EnemyAction.Attack() )
                 enemyNum++;
         }
         Debug.Log( enemyNum );
@@ -251,7 +257,7 @@ public class GameManager : MonoBehaviour {
         foreach( GameObject gObject in enemyList ) {
             enemyTemp = gObject.GetComponent<Enemy>();
             foreach( Buff buff in enemyTemp.Bufflist ) {
-                buff.BuffWorkTo( player );
+                buff.BuffWorkTo( enemyTemp );
                 if( buff.Count == 0 )
                     enemyTemp.Bufflist.Remove( buff );
             }
@@ -260,7 +266,7 @@ public class GameManager : MonoBehaviour {
         }
 
         if( enemyNum == 0 && prevMonsterNum != 0 ) {
-            if( Equals(enemyList[0].GetComponent<Enemy>().GetType(), typeof(BoundedCrazy)) )
+            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
                 itemManager.DropCard( boardManager.NowPos() );
             else
                 itemManager.DropItem( boardManager.NowPos() );
@@ -279,7 +285,13 @@ public class GameManager : MonoBehaviour {
      * 이 함수는 비어있지만, 필요한 이유는 턴 동안 아무것도 안 하는 함수도 필요할지 모르기 때문이다.
      */
     public void AlltheTurnEnd() {
-
+        if( !( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ), null ) ) && player.prevIsStunned == false ) {
+            player.isStunned = true;
+            player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
+        } else if( player.stunned.Count == 0 ) {
+            player.isStunned = false;
+            player.Bufflist.Remove( player.stunned );
+        }
     }
     /**
      * 플레이어가 사망하였는 확인한다.
@@ -310,5 +322,53 @@ public class GameManager : MonoBehaviour {
     private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
         Capsule capsule = itemManager.LabelToItem( label ) as Capsule;
         capsule.ThrownTo( enemy );
+    }
+    /**
+     * 매 턴에서 상태 이상 체크 시 플레이어의 허기 지수를 올리는 함수입니다.
+     */
+    private void IncreaseHungryByTurn() {
+        int times=1;
+        if( player.isFull )
+            times *= 2;
+        if( Equals( player.weapon.GetType(), typeof( FullPlated ) ) )
+            times *= 5;
+        player.ChangeHungry( 1 * times );
+    }
+    /**
+     * 매 턴에서 상태 이상 체크 시 플레이어의 정신력 지수를 바꾸는 함수입니다.
+     * 층 별로 정신력 지수가 바뀌는 정도와 플레이어가 가지고 있는 무기/갑옷에 따른 정신력 변화만 처리합니다.(공격 시 바뀌는 정신력 지수는 여기서 처리 하지 않음.)
+     */
+    private void DecreaseMpByTurn() {
+        if( !player.isHallucinated ) {
+            switch( boardManager.WhichFloor ) {
+            case 0:
+            case 1: player.ChangeMp( -0.5f ); break;
+            case 2:
+            case 3: player.ChangeMp( -1f ); break;
+            case 4:
+            case 5: player.ChangeMp( -1.4f ); break;
+            }
+        }
+        else {
+            switch( boardManager.WhichFloor ) {
+            case 0:
+            case 1: 
+            case 2: player.ChangeMp( 1.2f ); break;
+            case 3:
+            case 4:
+            case 5: player.ChangeMp( 0.8f ); break;
+            }
+        }
+        if( Equals( player.weapon.GetType(), typeof( BloodJacket ) ) )
+            player.ChangeMp( -0.8f );
+        else if( Equals( player.weapon.GetType(), typeof( CleanDoctorCloth ) ) )
+            player.ChangeMp( 1 );
+    }
+
+    public float GaussianDistribution(int a, int b) {
+        float X;
+        System.Math.
+        Random.InitState( (int) System.DateTime.Now.Ticks );
+        System.Math.Exp(Random.Range( a, b )-(b-a));
     }
 }

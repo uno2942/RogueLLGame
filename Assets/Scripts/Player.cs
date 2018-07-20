@@ -10,8 +10,16 @@ public class Player : Unit {
     private float mp;
     private int hungry;
     private const int maxmp=100;
+
+    public bool isStunned=false;
+    public bool prevIsStunned = false;
+    public bool isHallucinated = false;
+    public bool isHungry = false;
+    public bool isStarved = false;
+    public bool isFull = false;
+    public Stunned stunned;
     private Inventory inventoryList;
-    private PlayerAction action; /**< 플레이어가 할 수 있는 action을 담고 있는 PlayerAction 인스턴스를 저장한다. */
+    private PlayerAction playerAction; /**< 플레이어가 할 수 있는 action을 담고 있는 PlayerAction 인스턴스를 저장한다. */
     /**
      * Player's mp and hungry degree.
      * Note that HP variable is in Unit class.
@@ -21,11 +29,11 @@ public class Player : Unit {
     public int MaxMp { get { return maxmp; } }
     public int Hungry { get { return hungry; } }
     //@}
-    public PlayerAction Action
+    public PlayerAction PlayerAction
     {
         get
         {
-            return action;
+            return playerAction;
         }
     }
 
@@ -53,12 +61,12 @@ public class Player : Unit {
         maxhp = 100;
         hp = maxhp;
         mp = maxmp;
-        hungry = 0;
+        hungry = 50;
         inventoryList = new Inventory();
         inventoryList.Initialize();
         GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
         GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
-        action = new PlayerAction();
+        playerAction = new PlayerAction();
         weapon = new DefaultWeapon();
         armor = new DefaultArmor();
     }
@@ -66,8 +74,12 @@ public class Player : Unit {
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
      */
 
+    public Inventory GetInventoryList() {
+        return InventoryList;
+    }
+
     public override void ChangeHp( float delta ) {
-        hp += delta;
+        hp += (int)delta;
         if( hp >= 100 )
             hp = 100;
         GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
@@ -75,7 +87,7 @@ public class Player : Unit {
     public void ChangeMp( float delta ) {
         mp += delta;
         if( mp < 0 ) {
-            hp += mp;
+            hp += (int)mp;
             mp = 0;
         }
         if( mp >= 100 )
@@ -91,12 +103,16 @@ public class Player : Unit {
     
     public void SetMpZero() {
         if( mp < 0 ) {
-            hp += mp;
+            hp += (int)mp;
         }
         mp = 0;
     }
     public void SetMpBy30() {
         mp = 30;
+    }
+
+    public void SetMpBy100() {
+        mp = 100;
     }
     /**
     * 플레이어가 하는 액션을 PlayerAction 인스턴스로 보내주는 함수. 이전에 짠 코드들과 호환성을 위한 코드이다.
@@ -104,31 +120,31 @@ public class Player : Unit {
     */
     //{@
     public void DumpItem( int index ) {
-        action.DumpItem( index );
+        playerAction.DumpItem( index );
     }
 
     public void UseItem( int index ) {
-        action.UseItem( index );
+        playerAction.UseItem( index );
     }
     public void InjectItem(int index ) {
-        action.InjectItem( index );
+        playerAction.InjectItem( index );
     }
 
     public void ThrowItem( int index ) {
-        action.ThrowAwayItem( index );
+        playerAction.ThrowAwayItem( index );
     }
     public void EquipItem( int index ) {
-        action.EquipItem( index );
+        playerAction.EquipItem( index );
     }
 
     public void UnequipItem( int index, bool GoNextTurn = true ) {
-        action.UnequipItem( index, GoNextTurn );
+        playerAction.UnequipItem( index, GoNextTurn );
     }
     /**
      * @todo I need to implement this part
      */
     public void EatCapsule( int index ) {
-        action.EatCapsule( index );
+        playerAction.EatCapsule( index );
     }
     //@}
 

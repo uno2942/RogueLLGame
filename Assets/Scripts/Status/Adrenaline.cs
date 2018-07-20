@@ -8,7 +8,7 @@ public class Adrenaline : Buff {
 
     }
 
-    public override void BuffWorkTo( Player player ) {
+    public override void BuffWorkTo( Unit unit ) {
 
         count--;
     }
