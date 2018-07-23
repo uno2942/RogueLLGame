@@ -54,7 +54,7 @@ public class HospitalDirectorAction : EnemyAction {
             if( temp <= 1.0f )
                 temp = 1;
             if( temp >= maxTmp ) temp = maxTmp;
-            player.ChangeHp( -(int) temp );
+            player.ChangeHp( -temp );
 
             if( player.Hp <= 0 )
                 GameObject.Destroy( player );

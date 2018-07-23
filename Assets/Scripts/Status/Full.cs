@@ -11,7 +11,6 @@ public class Full : Buff {
     public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         Player player = unit as Player;
         player.ChangeHp( 2 );
-        player.
     }
    
     public override int passiveBuffAtk() {

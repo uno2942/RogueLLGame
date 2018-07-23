@@ -8,7 +8,7 @@ public class Caffeine : Buff {
 
     }
 
-    public override void BuffWorkTo( Unit unit ) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         Player player = unit as Player;
         player.ChangeMp(-1.2f);
         count--;
@@ -19,7 +19,7 @@ public class Caffeine : Buff {
     public override int passiveBuffDef() {
         return 2;
     }
-    public override float passiveBuffFinal() {
+    public override float BuffAction( Unit.Action action ) {
         return 1f;
     }
 }

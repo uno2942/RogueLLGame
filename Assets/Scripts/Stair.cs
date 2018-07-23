@@ -37,7 +37,7 @@ public class Stair : MonoBehaviour {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         player.InventoryList.DeleteItem( player.InventoryList.Getindex( ItemManager.Label.BlackCard ));
-        GameObject.Find( "GameManager" ).GetComponent<GameManager>().EndPlayerTurn();
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().EndPlayerTurn( Unit.Action.Move );
             
     }
     /**

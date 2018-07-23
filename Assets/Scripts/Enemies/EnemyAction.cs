@@ -40,7 +40,7 @@ public class EnemyAction
             }
             if( temp <= 1.0f )
                 temp = 1;
-            player.ChangeHp( -(int) temp );
+            player.ChangeHp(  temp );
 
             float i = Random.value;
             if( i < enemyItself.DebuffPercent() ) {

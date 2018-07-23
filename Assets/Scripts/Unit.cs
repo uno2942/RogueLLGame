@@ -6,7 +6,7 @@ using UnityEngine;
  */
 public class Unit : MonoBehaviour {
 
-    public enum Action { Move, Rest, Attack, Hitted}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
+    public enum Action { Default, Move, Rest, Attack, Hitted}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
     
     protected int attack;
     protected int defense;
@@ -74,9 +74,9 @@ public class Unit : MonoBehaviour {
         defense += delta;
     }
     /** 유닛의 체력을 영구적으로 증가시키는 함수 */
-    public virtual void ChangeHp( int delta )
+    public virtual void ChangeHp( float delta )
     {
-        hp += delta;
+        hp += (int)delta;
     }
     /** 유닛의 최대 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeMaxHp( int delta ) {
@@ -122,7 +122,7 @@ public class Unit : MonoBehaviour {
         float magnification = 1;
 
         foreach( Buff buff in Bufflist ) {
-            magnification *= buff.passiveBuffFinal();
+            magnification *= buff.BuffAction();
         }
         return magnification;
     }

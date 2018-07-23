@@ -82,8 +82,8 @@ public class GameManager : MonoBehaviour {
     void Update()
     {
         if(player.isStunned==true) {
-            CheckPlayerStatus();
-            player.stunned.BuffWorkTo(player); // 카운트 깍는 용
+            CheckPlayerStatus(Unit.Action.Rest);
+            player.stunned.BuffWorkTo(player, Unit.Action.Rest); // 카운트 깍는 용
         }
     //    GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         /*if( 0 == enemyList.Length ) {
@@ -161,8 +161,8 @@ public class GameManager : MonoBehaviour {
      * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
      * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
      */
-    public void EndPlayerTurn() {
-        CheckPlayerStatus();
+    public void EndPlayerTurn(Unit.Action action) {
+        CheckPlayerStatus( action );
     }
     /**
      * 이 함수는 플레이어의 정신력과 배고픔을 먼저 체크하여 환각과 굶주림 판정을 한 후, 플레이어의 버프를 체크하여 효과를 부여한다.
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour {
      * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
      * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
      */
-    private void CheckPlayerStatus() {
+    private void CheckPlayerStatus( Unit.Action action ) {
         //정신력 체크
         DecreaseMpByTurn();
         if( player.Mp <= 30 && !player.isHallucinated ) {
@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour {
         }
 
         foreach( Buff buff in player.Bufflist ) {
-            buff.BuffWorkTo( player );
+            buff.BuffWorkTo( player, action );
             if( buff.Count == 0 )
                 player.Bufflist.Remove( buff );
         }
@@ -257,7 +257,7 @@ public class GameManager : MonoBehaviour {
         foreach( GameObject gObject in enemyList ) {
             enemyTemp = gObject.GetComponent<Enemy>();
             foreach( Buff buff in enemyTemp.Bufflist ) {
-                buff.BuffWorkTo( enemyTemp );
+                buff.BuffWorkTo( enemyTemp, Unit.Action.Default );
                 if( buff.Count == 0 )
                     enemyTemp.Bufflist.Remove( buff );
             }
@@ -363,12 +363,5 @@ public class GameManager : MonoBehaviour {
             player.ChangeMp( -0.8f );
         else if( Equals( player.weapon.GetType(), typeof( CleanDoctorCloth ) ) )
             player.ChangeMp( 1 );
-    }
-
-    public float GaussianDistribution(int a, int b) {
-        float X;
-        System.Math.
-        Random.InitState( (int) System.DateTime.Now.Ticks );
-        System.Math.Exp(Random.Range( a, b )-(b-a));
     }
 }

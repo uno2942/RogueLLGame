@@ -8,7 +8,7 @@ public class Starve : Buff {
 
     }
 
-    public override void BuffWorkTo( Unit unit ) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         if(unit is Player)
             unit.ChangeHp(-1);
         count--;
@@ -20,5 +20,5 @@ public class Starve : Buff {
 
     public override int passiveBuffDef() { return 0; }
 
-    public override float passiveBuffFinal() { return 1f; }
+    public override float BuffAction( Unit.Action action ) { return 1f; }
 }

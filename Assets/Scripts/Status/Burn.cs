@@ -8,7 +8,7 @@ public class Burn : Buff {
     
         count--;}
 
-    public override void BuffWorkTo(Unit unit) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         unit.ChangeHp( -3 );
         count--;
     }
@@ -17,5 +17,5 @@ public class Burn : Buff {
 
     public override int passiveBuffDef() { return -2; }
 
-    public override float passiveBuffFinal() { return 1f; }
+    public override float BuffAction( Unit.Action action ) { return 1f; }
 }

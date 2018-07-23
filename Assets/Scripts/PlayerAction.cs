@@ -35,7 +35,7 @@ public class PlayerAction {
         }
         if( temp <= 1.0f )
             temp = 1;
-        enemy.ChangeHp( -(int)temp );
+        enemy.ChangeHp( -temp );
         if( enemy.Hp <= 0 )
             GameObject.Destroy( enemy.gameObject );
         /*
@@ -45,7 +45,7 @@ public class PlayerAction {
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
         */
         Debug.Log( "공격 끝" );
-        gameManager.EndPlayerTurn();
+        gameManager.EndPlayerTurn(Unit.Action.Attack);
     }
     /**
     * 현재 위치정보를 기반으로 항을 변경한다
@@ -60,7 +60,7 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EndPlayerTurn();
+        gameManager.EndPlayerTurn( );
     }
     /**
      * \see InventoryItem::UseItem
@@ -188,7 +188,7 @@ public class PlayerAction {
     }
     public void Rest() {
         player.ChangeHp( 1 );
-        gameManager.EndPlayerTurn();
+        gameManager.EndPlayerTurn( Unit.Action.Rest );
     }
     /**
      *상태이상에 의해 아무것도 하지 않음

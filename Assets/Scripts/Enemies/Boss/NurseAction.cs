@@ -47,7 +47,7 @@ public class NurseAction : EnemyAction {
             }
             if( temp <= 1.0f )
                 temp = 1;
-            player.ChangeHp( -(int) temp );
+            player.ChangeHp( -temp );
 
 
             if( temp > 1 ) {

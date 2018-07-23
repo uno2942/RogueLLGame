@@ -74,7 +74,7 @@ public class Door : MonoBehaviour {
         Debug.Log( isOpened + " " + gameManager.CurrentSituation );
         if( isOpened && !gameManager.CurrentSituation ) {
             boardManager.MoveNextRoom( direction );
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Move);
             gameManager.GenerateMonsters( 2 );
         }
     }
