@@ -5,7 +5,8 @@ using UnityEngine;
 public class DamagedDoctorCloth: Armor { 
     public DamagedDoctorCloth()
     {
-        deffensivepower = 5;
+        name = this.GetType().ToString();
+        defensivePower = 5;
         rank = "common";
     }
 }

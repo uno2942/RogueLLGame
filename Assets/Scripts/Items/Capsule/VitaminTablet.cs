@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class VitaminTablet : Capsule {
-
+    public VitaminTablet() {
+        name = this.GetType().ToString();
+    }
     public override bool EattenBy( Player player ) {
         player.ChangeHp( 15 );
         player.ChangeMp( 15 );

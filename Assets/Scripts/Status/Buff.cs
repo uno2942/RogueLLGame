@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 유닛에 작용하는 버프의 베이스 클래스
+ */
 public abstract class Buff {
     protected int count;
 
@@ -12,7 +14,15 @@ public abstract class Buff {
         count = _count;
     }
 
-    public abstract void BuffWork( Player player );
+    public int Count
+    {
+        get
+        {
+            return count;
+        }
+    }
+
+    public abstract void BuffWorkTo( Player player );
     /**
     * 이 함수는 공격력에 추가되는 값을 반환합니다.(ex. 5를 반환할 경우 유닛의 공격력을 5 더합니다.)
     */

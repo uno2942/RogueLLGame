@@ -10,8 +10,9 @@ public class Bleed : Buff {
     /**
      * @todo 플레이어가 이동/공격 중인지 확인해주어야 한다.
      */
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Player player ) {
         player.ChangeHp( -5 );
+        count--;
     }
 
     public override int passiveBuffAtk() {

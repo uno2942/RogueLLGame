@@ -4,27 +4,57 @@ using UnityEngine;
 /**
  * /brief It is the Rat enemy class.
  */
-public class Rat : Enemy {
+public class Rat : Enemy
+{
+    
+    
+
     /** 
      * There is a debug code.
+     * incomplete:: shld be read settings file
      */
     private void Start()
     {
-        Debug.Log ("시작시작111");
+        Debug.Log("쥐 나타남");
         level = 1;
-        attack = 1;
-        defense = 1;
-        hp = 30;
+        attack = 1; //shld be decided by level and setting file
+        defense = 0;
+        maxhp = 3;
+        hp = maxhp;
+        debuffPercent = 0.0f;
+        action = new EnemyAction(this);
+        debuff = new Poison(2);
+        player = GameObject.Find( "Player" ).GetComponent<Player>();
     }
     /** 
  * There is a debug code.
  * When player clicked this gameobject, player attack to this enemy, and turn of the game flows.
  */
-    private void OnMouseUpAsButton()
-    {
-        Debug.Log ("asdf");
-        gameManager.AttackToEnemy (this);
-        gameManager.EnemyTurn ();
-        gameManager.nextturn ();
+    private void OnMouseUpAsButton() {
+        player.Action.Attack( this );
+        Debug.Log( "플레이어 공격" );
     }
+
+    /** \change enemy's Status by level and isHallucinated
+     */
+    public override void changeStatus(bool isHallucinated)
+    {
+        //read setting file and change
+        if (isHallucinated == true)
+        {
+            attack = 2;
+            defense = 0;
+            debuffPercent = 0.25f;
+            debuff = new Poison(3);
+        }
+        else
+        {
+            attack = 1;
+            defense = 0;
+            debuffPercent = 0.0f;
+            debuff = new Poison(2);
+        }
+    }
+
+
 }

@@ -6,7 +6,8 @@ public class CleanDoctorCloth : Armor
 {
     public CleanDoctorCloth()
     {
-        deffensivepower = 7;
+        name = this.GetType().ToString();
+        defensivePower = 7;
         rank = "rare";
     }
 }

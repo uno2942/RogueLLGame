@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Item {
+public class Weapon : Equip {
 
     protected int attackPower;
-
     public int AttackPower
     {
         get
@@ -17,7 +16,7 @@ public class Weapon : Item {
     public virtual void Check(Player player) {
 
     }
-    public virtual void Attack(Enemy enemy,Player player) {
+    public virtual void Attack(Enemy enemy ) {
 
     }
     //set은 private

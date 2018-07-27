@@ -8,8 +8,9 @@ public class Caffeine : Buff {
 
     }
 
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Player player ) {
         player.ChangeMp(-1.2f);
+        count--;
     }
     public override int passiveBuffAtk() {
         return 7;

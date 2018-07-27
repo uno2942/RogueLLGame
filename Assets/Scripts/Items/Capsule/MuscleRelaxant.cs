@@ -6,7 +6,9 @@ using UnityEngine;
  * I need to count the used times of this capsule.
  */
 public class MuscleRelaxant : Capsule {
-
+    public MuscleRelaxant() {
+        name = this.GetType().ToString();
+    }
 
     public override bool EattenBy( Player player ) {
         //if (player.musclecount < 5)

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Paralyzed : Buff {
 
-    Paralyzed( int _count ) : base( _count ) {
+    public Paralyzed( int _count ) : base( _count ) {
 
     }
     /**
  * @todo I need to change enemy's attack part.
  */
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Player player ) {
+        count--;
     }
     public override int passiveBuffAtk() {
         return 0;

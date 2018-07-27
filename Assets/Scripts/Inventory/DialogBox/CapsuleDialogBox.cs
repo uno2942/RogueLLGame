@@ -13,8 +13,8 @@ public class CapsuleDialogBox : DialogBox {
                 buttons[ i ].onClick.AddListener( ThrowCommand );
             else if( buttons[ i ].name == "Dump" )
                 buttons[ i ].onClick.AddListener( DumpCommand );
-            else
-                buttons[ i ].onClick.AddListener( null );
+            else if( buttons[ i ].name == "Cancel" )
+                buttons[ i ].onClick.AddListener( CancelCommand );
         }
     }
     private void EatCapsuleCommand() {
@@ -22,5 +22,8 @@ public class CapsuleDialogBox : DialogBox {
     }
     private void ThrowCommand() {
         inventoryItem.ThrowCommand();
+    }
+    private void CancelCommand() {
+        inventoryItem.CancelCommand();
     }
 }

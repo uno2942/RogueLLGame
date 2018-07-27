@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 플레이어가 할 수 있는 Action들의 집합 클래스
+ */
 public class PlayerAction {
 
     public enum Direction {Up, Down, Right, Left};
@@ -14,10 +16,6 @@ public class PlayerAction {
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
     }
 
-
-    public ItemManager.Label GetLabel( int index ) {
-        return player.InventoryList.LabelList[ index ];
-    }
 
     public Inventory GetInventoryList() {
         return player.InventoryList;
@@ -41,13 +39,15 @@ public class PlayerAction {
             temp = 1;
         enemy.ChangeHp( -(int)temp );
         if( enemy.Hp <= 0 )
-            GameObject.Destroy( enemy );
+            GameObject.Destroy( enemy.gameObject );
         /*
         if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
             temp += 1;
         }
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
         */
+        Debug.Log( "공격 끝" );
+        gameManager.EndPlayerTurn();
     }
     /**
     * 현재 위치정보를 기반으로 항을 변경한다
@@ -56,110 +56,129 @@ public class PlayerAction {
 
     }
     /**
-     * 플레이어 위치의 방에서 아이템을 제거하고 플레이어의 인벤토리에 추가한다.
-    * When item is clicked, this function invoked.
-    * \see ItemPrefab::OnMouseUpAsButton
+     * 아이템을 버린다.
+     * \see Player::DumpItem
+     * \see InventoryItem::DumpCommand
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EnemyTurn();
-        gameManager.nextturn();
+        gameManager.EndPlayerTurn();
     }
-
+    /**
+     * \see InventoryItem::UseItem
+     * \see Player::UseItem
+     */
     public void UseItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Expendable can = player.InventoryList.itemManager.LabelToItem( label ) as Expendable;
             can.UsedBy( player );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+ * \see InventoryItem::EatCapsuleCommand
+ * \see Player::EatCapsule
+ */
     public void EatCapsule( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            DumpItem( player.InventoryList.Getindex( ItemManager.Label.Water ) );
+            player.InventoryList.IdentifyAllTheInventoryItem();
+            gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+* \see InventoryItem::InjectCommand
+* \see Player::InjectItem
+*/
     public void InjectItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+* \see ItemPrefab::OnMouseUpAsButton
+*/
     public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
         if( player.InventoryList.AddItem( label ) == true ) {
             GameObject.Destroy( _gameobject );
+            player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }
+    /**
+* \see InventoryItem::ThrowCommand
+* \see Player::ThrowItem
+*/
     public void ThrowAwayItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             gameManager.Throw( label );
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
             player.InventoryList.itemManager.ItemIdentify( label );
-
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            player.InventoryList.IdentifyAllTheInventoryItem();
+            gameManager.EndPlayerTurn();
         }
         DumpItem( index );
     }
-
+    /**
+* \see InventoryItem::EquipCommand
+* \see Player::EquipItem
+*/
     public void EquipItem( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.ChangeAttack( ( (Weapon) weaponorarmor ).AttackPower );
+                player.weapon = weaponorarmor as Weapon;
             } else
-                player.ChangeDefense( ( (Armor) weaponorarmor ).DefensivePower );
+                player.armor = weaponorarmor as Armor;
             //장착되었으니 UI에서 뭔갈 해야함.
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
-
+    /**
+* \see InventoryItem::UnequipCommand
+* \see Player::UnequipItem
+*/
     public void UnequipItem( int index, bool GoNextTurn = true ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.ChangeAttack( -( (Weapon) weaponorarmor ).AttackPower );
+                player.weapon = null;
             } else
-                player.ChangeDefense( -( (Armor) weaponorarmor ).DefensivePower );
+                player.armor = null;
             //장착되었으니 UI에서 뭔갈 해야함.
             if( GoNextTurn ) {
-                gameManager.EnemyTurn();
-                gameManager.nextturn();
+                gameManager.EndPlayerTurn();
             }
         }
     }
 
+    /**
+     * @todo I need to delete this function?
+     */
     public void TakeCapsule( int index ) {
-        ItemManager.Label label = GetLabel( index );
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EnemyTurn();
-            gameManager.nextturn();
+            gameManager.EndPlayerTurn();
         }
     }
 

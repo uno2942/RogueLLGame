@@ -5,10 +5,12 @@ using UnityEngine;
 public class Burn : Buff {
 
     public Burn(int _count) : base( _count) { //count is not deinfed.
-    }
+    
+        count--;}
 
-    public override void BuffWork(Player player) {
+    public override void BuffWorkTo(Player player) {
         player.ChangeHp( -3 );
+        count--;
     }
 
     public override int passiveBuffAtk() { return -2; }

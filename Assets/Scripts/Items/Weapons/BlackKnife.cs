@@ -5,6 +5,7 @@ using UnityEngine;
 public class BlackKnife : Weapon {
     public BlackKnife()
     {
+        name = this.GetType().ToString();
         attackPower = 2;
         rank = "rare";
     }
@@ -15,7 +16,6 @@ public class BlackKnife : Weapon {
         {
             player.AddBuff(new Hallucinated(-1));
         }
-        if (player.mp > 59) { player.Changemp(-(player.mp - 59)); }
+        if (player.Mp > 59) { player.ChangeMp(-(player.Mp - 59)); }
     }
 }
-

@@ -1,0 +1,12 @@
+﻿Coordinate		Kind
+0	0	H
+0	1	H
+1	0	N
+0	-1	N
+-1	0	N
+0	2	H
+-1	2	R
+0	3	B
+0	4	S
+0	-2	D
+2	0	L

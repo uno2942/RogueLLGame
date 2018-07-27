@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Item {
-    private string name;
+    protected string name;
 
     public string Name
     {
@@ -12,4 +12,5 @@ public class Item {
             return name;
         }
     }
+    
 }

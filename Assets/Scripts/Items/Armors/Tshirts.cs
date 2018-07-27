@@ -5,7 +5,8 @@ using UnityEngine;
 public class Tshirts : Armor {
     public Tshirts()
     {
-        deffensivepower = 2;
+        name = this.GetType().ToString();
+        defensivePower = 2;
         rank = "common";
     }
 }

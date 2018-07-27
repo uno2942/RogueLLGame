@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hallucinogen : Capsule {
-
+    public Hallucinogen() {
+        name = this.GetType().ToString();
+    }
     public override bool EattenBy( Player player ) {
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) ) {
             player.AddBuff( new Hallucinated( -1 ) );
