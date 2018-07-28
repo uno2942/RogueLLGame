@@ -16,7 +16,7 @@ public class CapsuleDespenser : NPC {
 		if (usuability == 100) {
 			
 			Array values = Enum.GetValues(typeof(ItemManager.Label));
-			//if((ItemManager.Label randomBar = (ItemManager.Label)values.GetValue(Random.range(values.Length))==notInCapsuleCategory);
+			//if((ItemManager.Label randomBar = (ItemManager.Label)values.GetValue(UnityEngine.Random.Range(0, values.Length))==notInCapsuleCategory);
 
 
 
@@ -29,5 +29,18 @@ public class CapsuleDespenser : NPC {
 			usuability = 0;
 		}
 	}
-
+    void OnMouseUpAsButton()
+    {
+        TalkingBox dBox;
+        if (usuability == 0)
+        {
+            dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
+            dBox.npc = this;
+        }
+        else
+        {
+            dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<TalkingBox>();
+            dBox.npc = this;
+        }
+    }
 }
