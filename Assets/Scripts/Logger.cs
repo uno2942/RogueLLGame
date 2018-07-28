@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+/**
+ * \brief 콘솔창 GameObject에 붙어 Log를 출력해 주는 역할을 하는 컴포넌트 스크립트
+ */
+
 public class Logger : MonoBehaviour {
 
     public List<string> LogList;
