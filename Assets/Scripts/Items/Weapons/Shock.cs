@@ -7,20 +7,20 @@ public class Shock : Weapon {
     private int count;
     public Shock()
     {
+        name = this.GetType().ToString();
         count = 0;
         attackPower = 15;
         rank = "legendary";
     }
 
-    public ~Shock()
-    { }
-
-    public override void Attack(Player player, Enemy enemy)
+    public override void Attack(Enemy enemy)
     {
-        if (count = 5) { ~this(); }
+        if (count == 5) {
+        }
         else
         {
-            enemy.AddBuff(new Paralyzed(5));
-            count++; }
+            enemy.AddBuff(new Stunned( 5));
+            count++;
+        }
     }
 }

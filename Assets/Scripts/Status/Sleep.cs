@@ -11,7 +11,8 @@ public class Sleep : Buff {
     /**
      * @todo I need to change enemy's attack part.
      */
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
+        count--;
     }
     public override int passiveBuffAtk() {
         return 0;
@@ -19,7 +20,7 @@ public class Sleep : Buff {
     public override int passiveBuffDef() {
         return 0;
     }
-    public override float passiveBuffFinal() {
+    public override float BuffAction( Unit.Action action ) {
         return 4f;
     }
 }

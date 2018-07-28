@@ -1,29 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 플레이어와 적의 베이스 클래스
+ */
 public class Unit : MonoBehaviour {
 
-
+    public enum Action { Default, Move, Rest, Attack, Hitted}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
+    
     protected int attack;
     protected int defense;
     protected int maxhp;
-    protected float hp;
+    protected int hp;
     protected GameManager gameManager;
     protected List<Buff> bufflist;
-    /**
-     * \brief 공격력
-     */
+
     public int Attack
     {
         get
         {
             return attack;
         }
-    }
-    /**
-    * \brief 방어력
-    */
+    }    /**<  \brief 공격력 */
+
     public int Defense
     {
         get
@@ -31,27 +30,23 @@ public class Unit : MonoBehaviour {
             return defense;
         }
 
-    }
-    /**
-    * \brief 현재 체력
-    */
-    public float Hp
+    }    /**<    * \brief 방어력    */
+
+    public int Hp
     {
         get
         {
             return hp;
         }
-    }
-    /**
-    * \brief 최대 체력
-    */
+    }    /**<    * \brief 현재 체력    */
+    
     public int MaxHp
     {
         get
         {
             return maxhp;
         }
-    }
+    }/**<    \brief 최대 체력    */
     public List<Buff> Bufflist
     {
         get
@@ -69,24 +64,27 @@ public class Unit : MonoBehaviour {
         bufflist = new List<Buff>();
     }
 
-    
+    /** 유닛의 공격력을 영구적으로 증가시키는 함수 */
     public void ChangeAttack(int delta)
     {
         attack += delta;
     }
+    /** 유닛의 방어력을 영구적으로 증가시키는 함수 */
     public void ChangeDefense( int delta ) {
         defense += delta;
     }
+    /** 유닛의 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeHp( float delta )
     {
-        hp += delta;
+        hp += (int)delta;
     }
+    /** 유닛의 최대 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeMaxHp( int delta ) {
         hp += delta;
     }
 
     /**
-     * buff instance 안에 이미 buff가 지속되는 count가 들어가 있다.)
+     * 유닛의 Bufflist에 버프를 넣는 함수
      */
     public void AddBuff(Buff buff)
     {
@@ -94,19 +92,12 @@ public class Unit : MonoBehaviour {
             bufflist.Add(buff);
     }
     /**
+     * 유닛의 BuffList에 버프를 빼는 함수(버프 1개만 뺀다. 버프 카운트가 다를 때에 대한 코드는 구현되어 있지 않다.)
      * @todo I need to check whether this code is legable.
      */
     public void DeleteBuff(Buff buff)
     {
         bufflist.Remove( bufflist.Find( x => x.GetType().Equals( buff.GetType() ) ) );
-    }
-
-    /**
-     * @todo we need to implement this funciton.
-     */
-    public void DebugStatus()
-    {
-
     }
 
     public virtual int FinalAttackPower() {
@@ -117,6 +108,7 @@ public class Unit : MonoBehaviour {
         return attacktemp;
     }
 
+    /** 유닛의 공격력+유닛의 상태 이상을 기반으로 유닛의 공격력을 반환 */
     public virtual int FinalDefensePower() {
         int defensetemp = defense;
         foreach( Buff buff in Bufflist ) {
@@ -125,11 +117,12 @@ public class Unit : MonoBehaviour {
         return defensetemp;
     }
 
+    /** 유닛의 방어력+유닛의 상태 이상을 기반으로 유닛의 방어력을 반환 */
     public float FinalMagnification() {
         float magnification = 1;
 
         foreach( Buff buff in Bufflist ) {
-            magnification *= buff.passiveBuffFinal();
+            magnification *= buff.BuffAction();
         }
         return magnification;
     }

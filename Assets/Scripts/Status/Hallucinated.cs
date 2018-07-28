@@ -8,7 +8,8 @@ public class Hallucinated : Buff {
 
     }
 
-    public override void BuffWork( Player player ) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
+        count--;
     }
     public override int passiveBuffAtk() {
         return 0;
@@ -16,7 +17,7 @@ public class Hallucinated : Buff {
     public override int passiveBuffDef() {
         return 0;
     }
-    public override float passiveBuffFinal() {
+    public override float BuffAction( Unit.Action action ) {
         return 1f;
     }
 }

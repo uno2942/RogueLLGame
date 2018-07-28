@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Water : Expendable {
-
+    public Water() {
+        name = this.GetType().ToString();
+    }
     public override bool UsedBy( Player player ) {
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) )
             player.ChangeMp( 10 );

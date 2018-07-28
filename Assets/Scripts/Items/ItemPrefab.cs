@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * \brief 아이템 프리팹에 붙는 클래스
+ */
 public class ItemPrefab : MonoBehaviour {
 
     protected new string name;//Why it is deleted?
@@ -30,7 +32,7 @@ public class ItemPrefab : MonoBehaviour {
     private void OnMouseUpAsButton()
     {
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
-        player.Action.PickItem (label, gameObject);
+        player.PlayerAction.PickItem (label, gameObject);
     }
     void Start () {
 		

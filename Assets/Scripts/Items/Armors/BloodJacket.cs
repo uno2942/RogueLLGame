@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class BloodJacket : Armor
 {
-
     public BloodJacket()
     {
-        if (Equals(player.Bufflist.Find(x => x.GetType().Equals(typeof(Hallucinated)), null)))
-        {
-            deffensivepower = 16;
+        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
+        name = this.GetType().ToString();
+        if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) ){
+            defensivePower = 16;
         }
         else
-            deffensivepower = 2;
+            defensivePower = 2;
         rank = "legendary";
     }
 
     public override void Check(Player player)
     {
-        if (Equals(player.Bufflist.Find(x => x.GetType().Equals(typeof(Hallucinated)), null)))
-        {
-            deffensivepower = 16;
+        if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) ){
+            defensivePower = 16;
         }
         else
-            deffensivepower = 2;
+            defensivePower = 2;
     }
 }

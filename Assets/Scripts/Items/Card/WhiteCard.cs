@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class WhiteCard : Item {
 
-    public void WhiteCard() {
-
+    public WhiteCard() {
+        name = this.GetType().ToString();
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

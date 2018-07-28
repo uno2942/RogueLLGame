@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class BlackCard : Item {
 
-    public void Blackcard() {
-
+    public BlackCard() {
+        name = this.GetType().ToString();
     }
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
