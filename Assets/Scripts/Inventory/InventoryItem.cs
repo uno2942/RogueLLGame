@@ -8,6 +8,9 @@ public class InventoryItem : MonoBehaviour {
 
     private int index;
     public bool isEquipped;
+    public bool InjecCommuni;
+    public bool MedicineCommuni;
+    public NPC npc;
     private Player player;
     public GameObject[] dialogBox; //0: Weapon and Armor, 1: Expendable, 2: Capsule, 3. Injectors, 4. Card
     GameObject gObject;
@@ -32,13 +35,32 @@ public class InventoryItem : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        if (InjecCommuni == true||MedicineCommuni==true)
+        {
+            //반짝반짝 이펙트.
+        }
     }
     /**
      * 인벤토리 아이템을 플레이어가 클릭했을 때 각 아이템의 라벨에 해당하는 선택 상자를 띄워준다.
      */
     void OnMouseUpAsButton() {
-            if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
+        if (InjecCommuni && false == player.Action.GetInventoryList().isDialogBoxOn) {
+            GivemeBox dBox;
+            ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
+            dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<GivemeBox>();
+            dBox.item = this;
+            dBox.npc = this.npc;
+            player.Action.GetInventoryList().isDialogBoxOn = true;
+        }
+        else if (InjecCommuni && false == player.Action.GetInventoryList().isDialogBoxOn)
+        {
+            MedicineBox dBox;
+            ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
+            dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<MedicineBox>();
+            dBox.item = this;
+            player.Action.GetInventoryList().isDialogBoxOn = true;
+        }
+        else if( false == player.Action.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );
             switch( nowType ) {

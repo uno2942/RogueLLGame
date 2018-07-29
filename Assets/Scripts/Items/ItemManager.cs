@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,6 +46,11 @@ public class ItemManager : MonoBehaviour {
         else return ItemType.Capsule;
     }
 
+    public static ItemType CategoryToType(ItemCategory category)
+    {
+        return LabelToType(CategoryToLabel(category, 1));
+    }
+
     public static ItemCategory LabelToCategory( Label label ) {
         if( label == Label.Empty ) return ItemCategory.Empty;
         else if( label == Label.AutoHandgun ) return ItemCategory.AutoHandgun;
@@ -88,6 +94,11 @@ public class ItemManager : MonoBehaviour {
         else return ItemCategory.Empty; //Throw exception을 어떻게 하는지 모르겠어요.
 
 
+    }
+
+    public static Label CategoryToLabel(ItemCategory category, int floor)
+    {
+        return (Label)Enum.Parse(typeof(Label), category.ToString() + ((1 + floor) / 2).ToString());
     }
 
     private const int floorMax = 3;
@@ -201,7 +212,7 @@ public class ItemManager : MonoBehaviour {
     /** 아이템을 position 에 놓는다.
      */
     public void DropItem(Vector2 position ) {
-        int choose = Random.Range( 0, 5 );
+        int choose = UnityEngine.Random.Range( 0, 5 );
         if( choose == 5 )
             choose = 4;
         if( choose < 2 )

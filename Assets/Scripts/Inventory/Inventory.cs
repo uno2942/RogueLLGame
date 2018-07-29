@@ -11,6 +11,8 @@ public class Inventory {
      */
     public int size = 12;
     public bool isDialogBoxOn;
+    public bool InjecCommuni;
+    public bool MedicineCommuni;
     /**
      * Note that *inventoryItemPregab is for background of inventory, not for item prefab*.
      */

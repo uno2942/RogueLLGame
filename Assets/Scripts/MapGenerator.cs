@@ -30,12 +30,7 @@ public class MapGenerator {
         for (i = 0; i < 6; i++)
         {
             mapTiles.Add(Maps[Random.Range(0, 10)]);
-            foreach(MapTile tile in mapTiles[i])
-            {
-                tile.AddEnemy(GenEnemy(tile.roomType, i));
-                tile.AddItem(GenItem(tile.roomType, i));
-                tile.AddNPC(GenNPC(tile.roomType, i));
-            }
+            mapTiles[i] = Generate(mapTiles[i], i);
         }
     }
     private BoardManager.RoomType ConvertLetterToMapType(string str ) {
@@ -54,8 +49,8 @@ public class MapGenerator {
         return BoardManager.RoomType.Empty;
     }
     private void GenMapObject(List<List<MapTile>> mapTiles) { }
-    private List<Enemy> GenEnemy(BoardManager.RoomType type, int floor) { }
-    private List<Item> GenItem(BoardManager.RoomType type, int floor) { }
-    private List<NPC> GenNPC(BoardManager.RoomType type, int floor) { }
+    private List<MapTile> Generate(List<MapTile> map, int floor) {
+        return map;
+    }
 
 }

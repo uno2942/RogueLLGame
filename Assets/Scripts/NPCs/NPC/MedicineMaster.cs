@@ -9,20 +9,21 @@ public class MedicineMaster : NPC {
 		usuability = 100;
 	}
 
-	public override void talk(Player player, ItemManager.Label label){
+	public void extalk(Player player, ItemManager.Label label){
 		player.InventoryList.itemManager.ItemIdentify (label);
 	}
 
     void OnMouseUpAsButton()
     {
-        TalkingBox dBox;
         if (usuability == 0)
         {
+            CantTalkBox dBox;
             dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
             dBox.npc = this;
         }
         else
         {
+            TalkingBox dBox;
             dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<TalkingBox>();
             dBox.npc = this;
         }

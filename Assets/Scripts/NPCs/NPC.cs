@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class NPC:MonoBehaviour {
     
-    private Player player;
+    public Player player;
     public GameObject[] dialogBox;
-    GameObject gObject;
+    public GameObject gObject;
     protected string name;
     public float usuability;
 
@@ -24,27 +24,14 @@ public class NPC:MonoBehaviour {
         player = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
     public virtual void OnMouseUpAsButton()
     {
 
     }
 
-    public virtual void UseCommand()
+    public virtual void talk(Player player)
     {
 
     }
-
-
-	public virtual void talk (Player player, ItemManager.Label label)
-    {
-
-    }
+   
 }
