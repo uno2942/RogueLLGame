@@ -18,7 +18,7 @@ public class Logger : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void AddLog (string _log) {
+	public void AddLog (string _log) {
         string log = logger.text;
         log += string.Format("/n{0}", _log);
 	}
