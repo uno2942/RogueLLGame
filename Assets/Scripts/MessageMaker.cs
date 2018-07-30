@@ -351,7 +351,7 @@ public class MessageMaker : MonoBehaviour {
         {
             if (itemmanager.GetItemIdentificationInfo(item) == false)
             {
-                s = "알 수 없는 알약을 얻었습니다.";
+                s = "미식별 알약을 얻었습니다.";
             }
             else
             {
@@ -385,7 +385,7 @@ public class MessageMaker : MonoBehaviour {
         {
             if (itemmanager.GetItemIdentificationInfo(item) == false)
             {
-                s = "알 수 없는 알약 " + n + "개를 얻었습니다.";
+                s = "미식별 알약 " + n + "개를 얻었습니다.";
             }
             else
             {
