@@ -17,13 +17,15 @@ using UnityEngine;
 public class MessageMaker : MonoBehaviour {
 
     Logger logger;
+    ItemManager itemmanager;
 
-    void Start () {
-		logger = GameObject.Find("Logger").GetComponent<Logger>();
+    void Start() {
+        logger = GameObject.Find("Logger").GetComponent<Logger>() as Logger;
+        itemmanager = GameObject.Find("ItemManager").GetComponent<ItemManager>() as ItemManager;
     }
 
-/**
-* 인자로 사용하는 유닛 행동의 열거형
+    /**
+    * 인자로 사용하는 유닛 행동의 열거형
 */
     public enum UnitAction
     {
@@ -93,7 +95,20 @@ public class MessageMaker : MonoBehaviour {
         return name;
     }
 
-    private string ObjName()
+    private string AndName(ItemManager.Label label) //캡슐 한정 사용
+    {
+        string s = "s";
+        return s;
+    }
+
+    private string Name(ItemManager.Label label) //캡슐 한정 사용
+    {
+        string s = "s";
+        return s;
+    }
+
+
+    private string ObjName(ItemManager.Label label)
     {
         string name = "s";
         return name;
@@ -120,9 +135,9 @@ public class MessageMaker : MonoBehaviour {
         //switch case by Subject and Action. 
         string s = "Error: MakeAttackMessage가 call되었으나 string이 제대로 생성되지 않았습니다.";
 
-        if(action != UnitAction.Attack) // 잘못된 호출
+        if (action != UnitAction.Attack) // 잘못된 호출
         {
-            Debug.Log("MakeAttackMessage가 잘못된 행동 인자를 받았습니다.");
+            Debug.Log("정의되지 않은 방법으로 MakeAttackMessage를 호출하였습니다.");
             return;
         }
 
@@ -131,7 +146,7 @@ public class MessageMaker : MonoBehaviour {
             s = "";
             s += SubjName(subject);
             s += " "; // "당신은 "
-            s += ObjName(target); 
+            s += ObjName(target);
             s += " 공격하여 "; // "당신은 대상을 "
             s += damage;
             s += "의 피해를 주었습니다."; // "당신은 대상을 공격하여 1의 피해를 주었습니다."
@@ -163,7 +178,7 @@ public class MessageMaker : MonoBehaviour {
 
         if (action != UnitAction.Attack) // 잘못된 호출
         {
-            Debug.Log("MakeAttackMessage가 잘못된 행동 인자를 받았습니다.");
+            Debug.Log("정의되지 않은 방법으로 MakeAttackMessage를 호출하였습니다.");
             return;
         }
 
@@ -235,36 +250,87 @@ public class MessageMaker : MonoBehaviour {
     */
 
     // 보통 아이템 관련 메세지 출력하는 오버로딩 함수
-    public void MakeItemMessage(UnitAction action, ItemManager.ItemCategory item)
+    public void MakeItemMessage(UnitAction action, ItemManager.Label item)
     {
         string s = "";
-        if(action == UnitAction.EatCapsule)
+        if (action == UnitAction.EatCapsule)
         {
-            Debug.Log("MakeItemMessage 인자 사용 오류");
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다." +
+                " EatCapsule로 call시 물 섭취 여부를 true/false로 입력하세요.");
             return;
         }
-        if (action == UnitAction.PickItem || action == UnitAction.TakeCapsule)
+
+        if (action == UnitAction.PickItem || action == UnitAction.TakeCapsule)  //아이템 습득
         {
-            
+            if (itemmanager.GetItemIdentificationInfo(item) == false)
+            {
+                s = "알 수 없는 알약을 얻었습니다.";
+            }
+            else
+            {
+                s = ObjName(item) + " 얻었습니다.";
+            }
+        }
+
+        else if (action == UnitAction.UseItem || action == UnitAction.InjectItem) // 아이템(소모품) 사용
+        {
+            s = ObjName(item) + " 사용했습니다.";
+        }
+        else
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
+            return;
         }
 
         logger.AddLog(s);
     }
 
     //TakeCapsule시 여러 개를 획득할 때 한정으로 사용하는 오버로딩 함수
-    public void MakeItemMessage(UnitAction action, ItemManager.ItemCategory item, int n)
+    public void MakeItemMessage(UnitAction action, ItemManager.Label item, int n)
     {
         string s = "";
+        if (action != UnitAction.TakeCapsule)
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
+            return;
+        }
+        else
+        {
+            if (itemmanager.GetItemIdentificationInfo(item) == false)
+            {
+                s = "알 수 없는 알약 " + n + "개를 얻었습니다.";
+            }
+            else
+            {
+                s += Name(item) + " " + n + "개를 얻었습니다.";
+            }
+        }
         logger.AddLog(s);
     }
 
     //EatCapsule시 한정하여 사용하는 오버로딩 함수, 물을 사용했는지를 인자로 받는다
-    public void MakeItemMessage(UnitAction action, ItemManager.ItemCategory item, bool water)
+    public void MakeItemMessage(UnitAction action, ItemManager.Label item, bool water)
     {
         string s = "";
+        if (action != UnitAction.EatCapsule)
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
+            return;
+        }
+        else
+        {
+            if ( water )
+            {
+                s = ObjName(item) + " 물과 함께 복용했습니다.";
+            }
+            else
+            {
+                s += AndName(item) + " 함께 먹을 물이 없어 억지로 삼켰습니다.";
+            }
+        }
         logger.AddLog(s);
     }
-
+    
 
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
