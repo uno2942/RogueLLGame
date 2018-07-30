@@ -33,6 +33,8 @@ public class MessageMaker : MonoBehaviour {
         UseItem, EatCapsule, InjectItem, //아이템 사용
         PickItem, TakeCapsule, //아이템 획득
         Move, //이동: 카드 에러시 사용
+        NurseHeal, // 간호사 회복
+        GunnerBuff, // 거너 공격력 증가
     }
 
     /**
@@ -200,6 +202,14 @@ public class MessageMaker : MonoBehaviour {
     {
         //switch case by Subject and Action. 
         string s = "보스가 특수한 행동을 합니다.";
+        if (subject.ToString() == "Gunner" && action == UnitAction.GunnerBuff) s = "외팔의 명사수: \"사격 개시...!\"";
+        else if (subject.ToString() == "Nurse" && action == UnitAction.NurseHeal) s = "노련한 간호사: \"크윽...치료가 필요하겠어.\"";
+        else
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeActionMessage를 호출하였습니다.");
+            return;
+        }
+
         logger.AddLog(s);
     }
 
@@ -408,12 +418,10 @@ public class MessageMaker : MonoBehaviour {
         logger.AddLog(s);
     }
     
-
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
     * 상황에 따라 3가지 오버로딩
     */
-
     public void MakeCannotMessage(UnitAction action)
     {
         string s = "";
