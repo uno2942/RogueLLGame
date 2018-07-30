@@ -9,10 +9,10 @@ public class MapTile {
     private int x;
     private int y;
     public BoardManager.RoomType roomType;
-    public List<NPC> NPCList;
+    public List<BoardManager.NPCType> NPCList;
     public List<Enemy> enemyList;
-    public List<Item> itemList;
-    public MapTile(int _x, int _y, BoardManager.RoomType _roomType, List<NPC> _NPCList = default( List<NPC>), List<Enemy> _enemyList=default(List<Enemy>), List<Item> _itemList=default(List<Item>)) {
+    public List<ItemManager.ItemCategory> itemList;
+    public MapTile(int _x, int _y, BoardManager.RoomType _roomType, List<BoardManager.NPCType> _NPCList = default( List<BoardManager.NPCType>), List<Enemy> _enemyList=default(List<Enemy>), List<ItemManager.ItemCategory> _itemList=default(List<ItemManager.ItemCategory>)) {
         x = _x;
         y = _y;
         roomType = _roomType;
@@ -21,18 +21,18 @@ public class MapTile {
         itemList = _itemList;
     }
 
-    public void AddEnemy(List<Enemy> enemy)
+    public void AddEnemy(Enemy enemy)
     {
-        enemyList = enemy;
+        enemyList.Add(enemy);
     }
 
-    public void AddNPC(List<NPC> npc)
+    public void AddNPC(BoardManager.NPCType npc)
     {
-        NPCList = npc;
+        NPCList.Add(npc);
     }
 
-    public void AddItem(List<Item> item)
+    public void AddItem(ItemManager.ItemCategory item)
     {
-        itemList = item;
+        itemList.Add(item);
     }
 }
