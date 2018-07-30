@@ -17,13 +17,15 @@ using UnityEngine;
 public class MessageMaker : MonoBehaviour {
 
     Logger logger;
+    ItemManager itemmanager;
 
-    void Start () {
-		logger = GameObject.Find("Logger").GetComponent<Logger>();
+    void Start() {
+        logger = GameObject.Find("Logger").GetComponent<Logger>() as Logger;
+        itemmanager = GameObject.Find("ItemManager").GetComponent<ItemManager>() as ItemManager;
     }
 
-/**
-* 인자로 사용하는 유닛 행동의 열거형
+    /**
+    * 인자로 사용하는 유닛 행동의 열거형
 */
     public enum UnitAction
     {
@@ -31,13 +33,18 @@ public class MessageMaker : MonoBehaviour {
         UseItem, EatCapsule, InjectItem, //아이템 사용
         PickItem, TakeCapsule, //아이템 획득
         Move, //이동: 카드 에러시 사용
+        NurseHeal, // 간호사 회복
+        GunnerBuff, // 거너 공격력 증가
     }
 
     /**
      * Name : 인자를 받아 플레이어가 볼 인자 이름의 string으로 바꾸어 줌
      * Subj/ObjName : 주어/목적어에 따라 은는이가 를 붙인 string을 반환함
+     * AndName: 와/과 를 붙여서 반환함
      * 
      */
+
+
 
     private string Name(Unit subject)
     {
@@ -93,9 +100,96 @@ public class MessageMaker : MonoBehaviour {
         return name;
     }
 
-    private string ObjName()
+    private string AndName(ItemManager.Label label) //캡슐 한정 사용
     {
-        string name = "s";
+        string name = "";
+        if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약과";
+        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약과";
+        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제와";
+        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약과";
+        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약과";
+        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금과";
+        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프와";
+        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약과";
+
+        else
+        {
+            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+            return "Unnamed Item";
+        }
+
+        return name;
+    }
+
+    private string Name(ItemManager.Label label) //캡슐 한정 사용
+    {
+        string name = "";
+        if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약";
+        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약";
+        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제";
+        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약";
+        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약";
+        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금";
+        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프";
+        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약";
+
+        else
+        {
+            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+            return "Unnamed Item";
+        }
+
+        return name;
+    }
+
+    private string ObjName(ItemManager.Label label)
+    {
+        string name = "";
+        
+        if (label == ItemManager.Label.AutoHandgun) name = "자동권총을";
+        else if (label == ItemManager.Label.BlackKnife) name = "검은 식칼을";
+        else if (label == ItemManager.Label.Club) name = "각목을";
+        else if (label == ItemManager.Label.Hammer) name = "망치를";
+        else if (label == ItemManager.Label.Lighter) name = "라이터를";
+        else if (label == ItemManager.Label.Mess) name = "매스를";
+        else if (label == ItemManager.Label.Nuckle) name = "너클을";
+        else if (label == ItemManager.Label.SharpDagger) name = "단검을";
+        else if (label == ItemManager.Label.Shock) name = "제세동기를";
+        //else if (label == ItemManager.Label.Injector) name = "주사기를"; //미구현
+        
+        else if (label == ItemManager.Label.BloodJacket) name = "피 묻은 가죽 재킷을";
+        else if (label == ItemManager.Label.CleanDoctorCloth) name = "깔끔한 의사 가운을";
+        else if (label == ItemManager.Label.DamagedDoctorCloth) name = "해진 의사 가운을";
+        else if (label == ItemManager.Label.FullPlated) name = "판금 갑옷을";
+        else if (label == ItemManager.Label.Padding) name = "두꺼운 패딩을";
+        else if (label == ItemManager.Label.Patient) name = "환자복을";
+        else if (label == ItemManager.Label.Tshirts) name = "티셔츠를";
+
+        else if (label == ItemManager.Label.MorfinDrug) name = "모르핀을";
+        else if (label == ItemManager.Label.AdrenalineDrug) name = "아드레날린을";
+        else if (label == ItemManager.Label.RingerSolution) name = "링겔액을";
+        else if (label == ItemManager.Label.Can) name = "통조림을";
+        else if (label == ItemManager.Label.Water) name = "물을";
+        else if (label == ItemManager.Label.Bandage) name = "붕대를";
+        else if (label == ItemManager.Label.Medicine) name = "약품을";
+        else if (label == ItemManager.Label.WhiteCard) name = "하얀 키 카드를";
+        else if (label == ItemManager.Label.BlackCard) name = "검정 키 카드를";
+        else if (label == ItemManager.Label.YellowCard) name = "노란 키 카드를";
+
+        else if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약을";
+        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약을";
+        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제를";
+        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약을";
+        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약을";
+        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금을";
+        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프를";
+        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약을";
+
+        else
+        {
+            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+            return "Unnamed Item";
+        }
         return name;
     }
 
@@ -108,6 +202,14 @@ public class MessageMaker : MonoBehaviour {
     {
         //switch case by Subject and Action. 
         string s = "보스가 특수한 행동을 합니다.";
+        if (subject.ToString() == "Gunner" && action == UnitAction.GunnerBuff) s = "외팔의 명사수: \"사격 개시...!\"";
+        else if (subject.ToString() == "Nurse" && action == UnitAction.NurseHeal) s = "노련한 간호사: \"크윽...치료가 필요하겠어.\"";
+        else
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeActionMessage를 호출하였습니다.");
+            return;
+        }
+
         logger.AddLog(s);
     }
 
@@ -120,9 +222,9 @@ public class MessageMaker : MonoBehaviour {
         //switch case by Subject and Action. 
         string s = "Error: MakeAttackMessage가 call되었으나 string이 제대로 생성되지 않았습니다.";
 
-        if(action != UnitAction.Attack) // 잘못된 호출
+        if (action != UnitAction.Attack) // 잘못된 호출
         {
-            Debug.Log("MakeAttackMessage가 잘못된 행동 인자를 받았습니다.");
+            Debug.Log("정의되지 않은 방법으로 MakeAttackMessage를 호출하였습니다.");
             return;
         }
 
@@ -131,7 +233,7 @@ public class MessageMaker : MonoBehaviour {
             s = "";
             s += SubjName(subject);
             s += " "; // "당신은 "
-            s += ObjName(target); 
+            s += ObjName(target);
             s += " 공격하여 "; // "당신은 대상을 "
             s += damage;
             s += "의 피해를 주었습니다."; // "당신은 대상을 공격하여 1의 피해를 주었습니다."
@@ -163,7 +265,7 @@ public class MessageMaker : MonoBehaviour {
 
         if (action != UnitAction.Attack) // 잘못된 호출
         {
-            Debug.Log("MakeAttackMessage가 잘못된 행동 인자를 받았습니다.");
+            Debug.Log("정의되지 않은 방법으로 MakeAttackMessage를 호출하였습니다.");
             return;
         }
 
@@ -235,42 +337,91 @@ public class MessageMaker : MonoBehaviour {
     */
 
     // 보통 아이템 관련 메세지 출력하는 오버로딩 함수
-    public void MakeItemMessage(UnitAction action, ItemManager.ItemCategory item)
+    public void MakeItemMessage(UnitAction action, ItemManager.Label item)
     {
         string s = "";
-        if(action == UnitAction.EatCapsule)
+        if (action == UnitAction.EatCapsule)
         {
-            Debug.Log("MakeItemMessage 인자 사용 오류");
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다." +
+                " EatCapsule로 call시 물 섭취 여부를 true/false로 입력하세요.");
             return;
         }
-        if (action == UnitAction.PickItem || action == UnitAction.TakeCapsule)
+
+        if (action == UnitAction.PickItem || action == UnitAction.TakeCapsule)  //아이템 습득
         {
-            
+            if (itemmanager.GetItemIdentificationInfo(item) == false)
+            {
+                s = "미식별 알약을 얻었습니다.";
+            }
+            else
+            {
+                s = ObjName(item) + " 얻었습니다.";
+            }
+        }
+
+        else if (action == UnitAction.UseItem || action == UnitAction.InjectItem) // 아이템(소모품) 사용
+        {
+            s = ObjName(item) + " 사용했습니다.";
+        }
+        else
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
+            return;
         }
 
         logger.AddLog(s);
     }
 
     //TakeCapsule시 여러 개를 획득할 때 한정으로 사용하는 오버로딩 함수
-    public void MakeItemMessage(UnitAction action, ItemManager.ItemCategory item, int n)
+    public void MakeItemMessage(UnitAction action, ItemManager.Label item, int n)
     {
         string s = "";
+        if (action != UnitAction.TakeCapsule)
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
+            return;
+        }
+        else
+        {
+            if (itemmanager.GetItemIdentificationInfo(item) == false)
+            {
+                s = "미식별 알약 " + n + "개를 얻었습니다.";
+            }
+            else
+            {
+                s += Name(item) + " " + n + "개를 얻었습니다.";
+            }
+        }
         logger.AddLog(s);
     }
 
     //EatCapsule시 한정하여 사용하는 오버로딩 함수, 물을 사용했는지를 인자로 받는다
-    public void MakeItemMessage(UnitAction action, ItemManager.ItemCategory item, bool water)
+    public void MakeItemMessage(UnitAction action, ItemManager.Label item, bool water)
     {
         string s = "";
+        if (action != UnitAction.EatCapsule)
+        {
+            Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
+            return;
+        }
+        else
+        {
+            if ( water )
+            {
+                s = ObjName(item) + " 물과 함께 복용했습니다.";
+            }
+            else
+            {
+                s += AndName(item) + " 함께 먹을 물이 없어 억지로 삼켰습니다.";
+            }
+        }
         logger.AddLog(s);
     }
-
-
+    
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
     * 상황에 따라 3가지 오버로딩
     */
-
     public void MakeCannotMessage(UnitAction action)
     {
         string s = "";
