@@ -73,7 +73,7 @@ public class Player : Unit {
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
      */
-
+     
     public Inventory GetInventoryList() {
         return InventoryList;
     }

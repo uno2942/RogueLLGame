@@ -150,11 +150,15 @@ RectTransform:
 --- !u!1 &158803437
 GameObject:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+=======
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
-  serializedVersion: 6
-  serializedVersion: 5
+>>>>>>> origin/JunghyunDevelop
   m_Component:
   - component: {fileID: 158803438}
   - component: {fileID: 158803440}
@@ -166,11 +170,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!224 &158803438
 RectTransform:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+=======
   m_PrefabParentObject: {fileID: 0}
+>>>>>>> origin/JunghyunDevelop
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 158803437}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -185,11 +192,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!114 &158803439
 MonoBehaviour:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+=======
   m_PrefabParentObject: {fileID: 0}
+>>>>>>> origin/JunghyunDevelop
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 158803437}
   m_Enabled: 1
@@ -219,15 +229,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\uD734\uC2DD"
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!222 &158803440
 CanvasRenderer:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 158803437}
+  m_CullTransparentMesh: 0
+=======
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 158803437}
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_CullTransparentMesh: 0
+>>>>>>> origin/JunghyunDevelop
 --- !u!1 &253318387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1345,10 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1696937736}
+<<<<<<< HEAD
   m_CullTransparentMesh: 0
+=======
+>>>>>>> origin/JunghyunDevelop
 --- !u!1001 &1701188492
 Prefab:
   m_ObjectHideFlags: 0
@@ -1376,10 +1393,13 @@ Prefab:
       value: Ground (6)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
-  m_IsPrefabParent: 0
+<<<<<<< HEAD
   m_SourcePrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
   m_IsPrefabAsset: 0
+=======
+  m_ParentPrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
+  m_IsPrefabParent: 0
+>>>>>>> origin/JunghyunDevelop
 --- !u!1001 &1831622470
 Prefab:
   m_ObjectHideFlags: 0
@@ -1424,18 +1444,25 @@ Prefab:
       value: Ground (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
-  m_IsPrefabParent: 0
+<<<<<<< HEAD
   m_SourcePrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &2014431894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+=======
+  m_ParentPrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2014431894
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
-  serializedVersion: 6
-  serializedVersion: 5
+>>>>>>> origin/JunghyunDevelop
   m_Component:
   - component: {fileID: 2014431895}
   - component: {fileID: 2014431899}
@@ -1449,11 +1476,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!224 &2014431895
 RectTransform:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+=======
   m_PrefabParentObject: {fileID: 0}
+>>>>>>> origin/JunghyunDevelop
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014431894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1469,11 +1499,14 @@ RectTransform:
   m_AnchoredPosition: {x: 562.4, y: 448.2}
   m_SizeDelta: {x: 387.2, y: 183.6}
   m_Pivot: {x: 0.5, y: 0.5}
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!114 &2014431896
 MonoBehaviour:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+=======
   m_PrefabParentObject: {fileID: 0}
+>>>>>>> origin/JunghyunDevelop
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014431894}
   m_Enabled: 1
@@ -1481,11 +1514,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2fe61ce121d944bba071fe87ef9326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!114 &2014431897
 MonoBehaviour:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+=======
   m_PrefabParentObject: {fileID: 0}
+>>>>>>> origin/JunghyunDevelop
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014431894}
   m_Enabled: 1
@@ -1523,11 +1559,14 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!114 &2014431898
 MonoBehaviour:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+=======
   m_PrefabParentObject: {fileID: 0}
+>>>>>>> origin/JunghyunDevelop
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014431894}
   m_Enabled: 1
@@ -1551,15 +1590,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_CorrespondingSourceObject: {fileID: 0}
 --- !u!222 &2014431899
 CanvasRenderer:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2014431894}
+  m_CullTransparentMesh: 0
+=======
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014431894}
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_CullTransparentMesh: 0
+>>>>>>> origin/JunghyunDevelop
 --- !u!1 &2084799014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1815,10 @@ Prefab:
       value: Ground (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
-  m_IsPrefabParent: 0
+<<<<<<< HEAD
   m_SourcePrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
   m_IsPrefabAsset: 0
+=======
+  m_ParentPrefab: {fileID: 100100000, guid: 89d18883aa0c28244b5b0ea24f76a72d, type: 2}
+  m_IsPrefabParent: 0
+>>>>>>> origin/JunghyunDevelop

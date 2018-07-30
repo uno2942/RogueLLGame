@@ -24,11 +24,7 @@ public class GameManager : MonoBehaviour {
                                          * true일 경우 플레이어는 전투 중이다. 이를 통해 문의 개폐 여부 등을 제어한다.
                                          * \see Door::OnMouseUpAsButton
                                          */
-    /**
-    * Player의 bufflist를 매번 확인하는 수고를 덜기 위한 변수.
-    */
-    //@{
-    //@}
+
     
     /**
      * 게임 전반을 관리해야 하기 때문에 다른 매니저와 플레이어와 상호작용 할 수 있도록 하는 변수
@@ -208,7 +204,8 @@ public class GameManager : MonoBehaviour {
         } else {
             player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
         }
-
+        Debug.Log( enemyNum );
+        
         foreach( Buff buff in player.Bufflist ) {
             buff.BuffWorkTo( player, action );
             if( buff.Count == 0 )
