@@ -308,10 +308,7 @@ public class MessageMaker : MonoBehaviour {
     }
 
     /**
-     * 사망 시에 Message를 출력하는 함수
-     * 전투에 의한 사망과 디버프에 의한 사망이 있으며 그에 따라 오버로딩됨.
-     * 첫 인자로는 사망 원인을, 두 번째 인자로는 사망한 유닛을 대입
-     * 정신력 디버프에 의한 체력 감소시 Buff에 Hallucinated를 넣어 호출
+     * 전투로 인한 사망 시에 Message를 출력하는 함수
      */
     public void MakeDeathMessage(Unit subject, Unit deadUnit)
     {
@@ -330,30 +327,6 @@ public class MessageMaker : MonoBehaviour {
             s += SubjName(deadUnit);
             s += " 공격하여 처치했습니다.";
             logger.AddLog(s);
-        }
-    }
-
-    public void MakeDeathMessage(Buff buff, Unit deadUnit)
-    {
-        string s = "";
-        if (deadUnit.ToString() == "Player")
-        {
-            if (buff is Burn) s = "당신은 불타 죽었습니다...";
-            else if (buff is Poison) s = "당신은 독에 의해 죽었습니다...";
-            else if (buff is Starve) s = "당신은 아사했습니다...";
-            else if (buff is Bleed) s = "당신은 과다출혈로 인해 사망했습니다...";
-            else if (buff is Hallucinated) s = "당신은 지나친 환각으로 인해 스스로 목숨을 끊었습니다...";
-            else
-            {
-                Debug.Log("정의되지 않은 방법으로 MakeDeathMessage(Buff, Unit)을 사용하였습니다.");
-                return;
-            }
-
-            logger.AddLog(s); // 글자색 변경 필요!!!!
-        }
-        else
-        {
-            
         }
     }
 
@@ -533,4 +506,5 @@ public class MessageMaker : MonoBehaviour {
         logger.AddLog(s);
     }
 
+    
 }
