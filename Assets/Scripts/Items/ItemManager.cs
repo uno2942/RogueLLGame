@@ -100,6 +100,11 @@ public class ItemManager : MonoBehaviour {
         return (Label)Enum.Parse(typeof(Label), category.ToString() + ((1 + floor) / 2).ToString());
     }
 
+    public static Label CategoryToLabelEqu(ItemCategory category, string rank)
+    {
+        return (Label)Enum.Parse(typeof(Label), category.ToString() + rank);
+    }
+
     private const int floorMax = 3;
     /** To check whether the item is identified, we use dictionary.
      */
@@ -255,7 +260,7 @@ public class ItemManager : MonoBehaviour {
         int len = Prefabs.Length;
         int[] PrefabIndex = new int[ len ];
         int[] SpriteIndex = new int[ len ];
-        Random.InitState( (int) System.DateTime.Now.Ticks );
+        UnityEngine.Random.InitState( (int) System.DateTime.Now.Ticks );
         GenerateRandomSequence( ref PrefabIndex );
         GenerateRandomSequence( ref SpriteIndex );
         for( int i = 0; i < len; i++ )
@@ -270,7 +275,7 @@ public class ItemManager : MonoBehaviour {
         float[] weight = new float[ index.Length ];
         for( int i = 0; i < index.Length; i++ ) {
             index[ i ] = i;
-            weight[ i ] = Random.Range( 0, 100 ); //문제 생기면 겹치는 거 방지하는 코드 생성
+            weight[ i ] = UnityEngine.Random.Range( 0, 100 ); //문제 생기면 겹치는 거 방지하는 코드 생성
         }
         for( int i = 0; i < index.Length; i++ )
             for( int j = 0; j < i; j++ ) {
