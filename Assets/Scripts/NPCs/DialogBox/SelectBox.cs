@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MedicineBox : MonoBehaviour
 {
-    public InventoryItem item;
+    public InventoryItem inventoryItem;
     protected Button[] buttons;
     public MedicineMaster npc;
 
@@ -29,8 +29,8 @@ public class MedicineBox : MonoBehaviour
     public  void UseCommand()
     {
         Destroy(npc.gObject);
-        item.DumpCommand();
-        npc.extalk(npc.player, npc.player.InventoryList.GetLabel(item.Index));
+        inventoryItem.DumpCommand();
+        npc.extalk(npc.player, npc.player.InventoryList.GetLabel( inventoryItem.Index));
     }
 
     private void NoCommand()

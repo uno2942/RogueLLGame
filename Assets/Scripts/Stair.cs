@@ -9,7 +9,6 @@ public class Stair : MonoBehaviour {
     public GameObject cardDialogBox;
     private GameObject gObject;
     Player player;
-    DialogBox dBox;
     // Use this for initialization
     void Start () {
     }
@@ -24,7 +23,7 @@ public class Stair : MonoBehaviour {
     void OnMouseUpAsButton() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         if( player.InventoryList.CheckItem( ItemManager.Label.BlackCard ) ) {
-            dBox = ( gObject = Instantiate( cardDialogBox, new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CardDialogBox>();
+            gObject = Instantiate( cardDialogBox, new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ;
             
             player.GetInventoryList().isDialogBoxOn = true;
         }

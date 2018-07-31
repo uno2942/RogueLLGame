@@ -12,7 +12,6 @@ public class RestButton : MonoBehaviour {
      * \see gameManager.EndPlayerTurn
      */
 	void Start () {
-        GameManager gameManager = GameObject.Find( "GameManager" ).GetComponent<GameManager>();
         Button button = gameObject.GetComponent<Button>();
         button.onClick.AddListener( GameObject.Find("Player").GetComponent<Player>().PlayerAction.Rest );
 	}

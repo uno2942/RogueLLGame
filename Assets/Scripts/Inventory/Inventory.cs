@@ -161,9 +161,9 @@ public class Inventory {
     public void IdentifyAllTheInventoryItem() {
         for( int i = 0; i < size; i++ ) {
             if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ i ].ToString()+"x"+numberOfSameItems.ToString();
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = itemManager.LabelToItem( labelList[ i ] ).Name + "x" + numberOfSameItems[ i ];
             else if( labelList[ i ] != ItemManager.Label.Empty )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???";
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???" + "x" + numberOfSameItems[ i ];
                 }
     }
 }

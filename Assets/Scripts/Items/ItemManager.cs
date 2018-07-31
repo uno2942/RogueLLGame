@@ -145,6 +145,7 @@ public class ItemManager : MonoBehaviour {
             else
                 IsIdentified.Add( i, true );
         }
+        IsIdentified[ Label.Empty ] = false;
 
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
@@ -215,7 +216,7 @@ public class ItemManager : MonoBehaviour {
     /** 아이템을 position 에 놓는다.
      */
     public void DropItem(Vector2 position ) {
-        int choose = Random.Range( 0, 5 );
+        int choose = UnityEngine.Random.Range( 0, 5 );
         if( choose == 5 )
             choose = 4;
         if( choose < 2 )

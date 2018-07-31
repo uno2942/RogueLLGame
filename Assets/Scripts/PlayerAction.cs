@@ -58,7 +58,7 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EndPlayerTurn( );
+        gameManager.EndPlayerTurn(Unit.Action.Default);
     }
     /**
      * \see InventoryItem::UseItem
@@ -70,7 +70,7 @@ public class PlayerAction {
             Expendable can = player.InventoryList.itemManager.LabelToItem( label ) as Expendable;
             can.UsedBy( player );
             DumpItem( index );
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
     /**
@@ -86,7 +86,7 @@ public class PlayerAction {
             DumpItem( index );
             DumpItem( player.InventoryList.Getindex( ItemManager.Label.Water ) );
             player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
     /**
@@ -100,7 +100,7 @@ public class PlayerAction {
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
     /**
@@ -125,7 +125,7 @@ public class PlayerAction {
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
             player.InventoryList.itemManager.ItemIdentify( label );
             player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
         DumpItem( index );
     }
@@ -142,7 +142,7 @@ public class PlayerAction {
             } else
                 player.armor = weaponorarmor as Armor;
             //장착되었으니 UI에서 뭔갈 해야함.
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
     /**
@@ -159,7 +159,7 @@ public class PlayerAction {
                 player.armor = null;
             //장착되었으니 UI에서 뭔갈 해야함.
             if( GoNextTurn ) {
-                gameManager.EndPlayerTurn();
+                gameManager.EndPlayerTurn( Unit.Action.Default );
             }
         }
     }
@@ -174,7 +174,7 @@ public class PlayerAction {
             capsule.EattenBy( player );
             player.InventoryList.itemManager.ItemIdentify( label );
             DumpItem( index );
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
 

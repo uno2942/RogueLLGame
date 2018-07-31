@@ -118,11 +118,11 @@ public class Unit : MonoBehaviour {
     }
 
     /** 유닛의 방어력+유닛의 상태 이상을 기반으로 유닛의 방어력을 반환 */
-    public float FinalMagnification() {
+    public float FinalMagnification(Action action) {
         float magnification = 1;
 
         foreach( Buff buff in Bufflist ) {
-            magnification *= buff.BuffAction();
+            magnification *= buff.BuffAction(action);
         }
         return magnification;
     }

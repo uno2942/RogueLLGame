@@ -24,7 +24,7 @@ public class MapGenerator
         int i;
         for (i = 0; i < 10; i++)
         {
-            var mapData = File.ReadAllLines(Application.dataPath + "/Resources" + "Map" + i + ".txt");
+            var mapData = File.ReadAllLines(Application.dataPath + @"\Resources\" + "Map" + i + ".txt");
             foreach (string str in mapData)
             {
                 var temp = str.Split('\t');

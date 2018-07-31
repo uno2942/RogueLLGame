@@ -14,14 +14,14 @@ public class Full : Buff {
     }
    
     public override int passiveBuffAtk() {
-
+        return 0;
     }
     
     public override int passiveBuffDef() {
-
+        return 0;
     }
     
     public override float BuffAction( Unit.Action action ) {
-
+        return 1f;
     }
 }

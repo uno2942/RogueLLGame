@@ -204,7 +204,6 @@ public class GameManager : MonoBehaviour {
         } else {
             player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
         }
-        Debug.Log( enemyNum );
         
         foreach( Buff buff in player.Bufflist ) {
             buff.BuffWorkTo( player, action );
@@ -285,7 +284,7 @@ public class GameManager : MonoBehaviour {
         if( !( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ), null ) ) && player.prevIsStunned == false ) {
             player.isStunned = true;
             player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
-        } else if( player.stunned.Count == 0 ) {
+        } else if( player.isStunned == false ) {
             player.isStunned = false;
             player.Bufflist.Remove( player.stunned );
         }
