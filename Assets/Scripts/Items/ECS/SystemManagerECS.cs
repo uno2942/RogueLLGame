@@ -18,10 +18,28 @@ public class ItemSystem : ComponentSystem {
         }
     }
 }
-public class HPSystem : ComponentSystem {
+public class StatSystem : ComponentSystem {
     struct group {
-        public HPECS hp;
+        public StatECS statECS;
         public ItemECS item;
+    }
+
+    public void addStat( Player player, StatECS.StatList stat, int delta ) {
+
+        switch( stat ) {
+        case StatECS.StatList.HP:
+            player.ChangeHp( delta );
+            break;
+        case StatECS.StatList.MP:
+            player.ChangeMp( delta );
+            break;
+        case StatECS.StatList.HUNGER:
+            player.ChangeHungry( delta );
+            break;
+        case StatECS.StatList.MAXHP:
+            player.ChangeMaxHp( delta );
+            break;
+        }
     }
 
     protected override void OnUpdate() {
@@ -29,11 +47,10 @@ public class HPSystem : ComponentSystem {
 
         foreach( var e in GetEntities<group>() ) {
             if( e.item.isUse ) {
-                if( e.hp.isUsed ) {
-                    Component.Destroy( e.hp );
+                if( e.statECS.isUsed ) {
+                    Component.Destroy( e.statECS );
                 } else {
-                    player.ChangeHp(e.hp.deltaHP);
-                    e.hp.isUsed = true;
+                    e.statECS.isUsed = true;
                 }
             }
         }
@@ -41,7 +58,8 @@ public class HPSystem : ComponentSystem {
 }
 
 public class BuffSystem : ComponentSystem {
-	public void addBuff(Player player, BuffECS.buffList buff, int count){
+	public void addBuff(Player player, BuffECS.buffList buff, int count) {
+
 		switch(buff){
 		case BuffECS.buffList.ADRENALINE:
 			player.AddBuff(new Adrenaline(count));

@@ -4,7 +4,7 @@ using UnityEngine;
 /**
  * \brief 유닛에 작용하는 버프의 베이스 클래스
  */
-public abstract class Buff :UnityEngine.Object{
+public abstract class Buff {
     protected int count;
 
     /**
