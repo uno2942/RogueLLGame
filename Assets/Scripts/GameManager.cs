@@ -210,7 +210,8 @@ public class GameManager : MonoBehaviour {
             if( buff.Count == 0 )
                 player.Bufflist.Remove( buff );
         }
-        Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
+        Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry);
+        Debug.Log("ATK : " + player.Attack + ", DEF : " + player.Defense);
         if( IsDead() ) {
             Destroy( player.gameObject );
             Debug.Log( "포닉스 불닭행" );

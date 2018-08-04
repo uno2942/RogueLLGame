@@ -39,6 +39,12 @@ public class StatSystem : ComponentSystem {
         case StatECS.StatList.MAXHP:
             player.ChangeMaxHp( delta );
             break;
+        case StatECS.StatList.ATK:
+            player.ChangeAttack(delta);
+            break;
+            case StatECS.StatList.DEF:
+            player.ChangeDefense(delta);
+            break;
         }
     }
 
@@ -50,6 +56,7 @@ public class StatSystem : ComponentSystem {
                 if( e.statECS.isUsed ) {
                     Component.Destroy( e.statECS );
                 } else {
+                    addStat(player, e.statECS.stat, e.statECS.delta);
                     e.statECS.isUsed = true;
                 }
             }

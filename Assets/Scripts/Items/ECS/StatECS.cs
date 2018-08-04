@@ -6,7 +6,9 @@ public class StatECS : MonoBehaviour {
         HP,
         MP,
         HUNGER,
-        MAXHP
+        MAXHP,
+        ATK,
+        DEF
     };
     public StatList stat;
     public int delta;
