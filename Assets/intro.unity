@@ -1089,8 +1089,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: 0
-  delta: -60
+  stats: 
+  deltas: 
   isUsed: 0
 --- !u!1 &1200368995
 GameObject:
@@ -1523,8 +1523,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: 0
-  delta: 0
+  stats: 
+  deltas: 
   isUsed: 0
 --- !u!114 &1940147222
 MonoBehaviour:

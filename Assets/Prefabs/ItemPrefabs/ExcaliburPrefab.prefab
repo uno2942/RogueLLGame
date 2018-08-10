@@ -8,20 +8,24 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1234404473408220}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1234404473408220
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4275759767763258}
   - component: {fileID: 212008943960730972}
   - component: {fileID: 61607187367681518}
   - component: {fileID: 114945846392364020}
+  - component: {fileID: 114345230716823158}
+  - component: {fileID: 114324017753353090}
+  - component: {fileID: 114811185032099426}
+  - component: {fileID: 114165286509873766}
   m_Layer: 0
   m_Name: ExcaliburPrefab
   m_TagString: Untagged
@@ -32,7 +36,7 @@ GameObject:
 --- !u!4 &4275759767763258
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234404473408220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -45,7 +49,7 @@ Transform:
 --- !u!61 &61607187367681518
 BoxCollider2D:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234404473408220}
   m_Enabled: 1
@@ -67,10 +71,61 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 2.28}
   m_EdgeRadius: 0
+--- !u!114 &114165286509873766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1234404473408220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05d1e42779213d45b08a4d4c0e94bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUse: 0
+--- !u!114 &114324017753353090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1234404473408220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56fae4769735224ba1986a56eff9f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buff: 0
+  isUsed: 0
+  count: 0
+--- !u!114 &114345230716823158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1234404473408220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114811185032099426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1234404473408220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: 
+  deltas: 
+  isUsed: 0
 --- !u!114 &114945846392364020
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234404473408220}
   m_Enabled: 1
@@ -82,7 +137,7 @@ MonoBehaviour:
 --- !u!212 &212008943960730972
 SpriteRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234404473408220}
   m_Enabled: 1
@@ -92,6 +147,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -123,3 +179,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

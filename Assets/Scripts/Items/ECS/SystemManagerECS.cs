@@ -7,7 +7,6 @@ public class ItemSystem : ComponentSystem {
     struct group {
         public ItemECS item;
     }
-
     protected override void OnUpdate() {
         Player player = GameObject.Find( "Player" ).GetComponent<Player>();
 
@@ -56,7 +55,8 @@ public class StatSystem : ComponentSystem {
                 if( e.statECS.isUsed ) {
                     Component.Destroy( e.statECS );
                 } else {
-                    addStat(player, e.statECS.stat, e.statECS.delta);
+                    for(int i=0; i<e.statECS.stats.Length; i++)
+                    addStat(player, e.statECS.stats[i], e.statECS.deltas[i]);
                     e.statECS.isUsed = true;
                 }
             }

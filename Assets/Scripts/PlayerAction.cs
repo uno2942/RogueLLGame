@@ -108,7 +108,8 @@ public class PlayerAction {
 */
     public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
         if( player.InventoryList.AddItem( label ) == true ) {
-            GameObject.Destroy( _gameobject );
+            GameObject.Destroy( _gameobject.GetComponent<SpriteRenderer>() );
+            GameObject.Destroy( _gameobject.GetComponent<BoxCollider2D>() );
             player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }

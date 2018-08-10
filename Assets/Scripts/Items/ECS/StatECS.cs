@@ -10,8 +10,8 @@ public class StatECS : MonoBehaviour {
         ATK,
         DEF
     };
-    public StatList stat;
-    public int delta;
+    public StatList[] stats;
+    public int[] deltas;
     public bool isUsed;
 }
 
