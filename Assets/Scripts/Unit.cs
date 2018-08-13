@@ -99,7 +99,9 @@ public class Unit : MonoBehaviour {
     {
         bufflist.Remove( bufflist.Find( x => x.GetType().Equals( buff.GetType() ) ) );
     }
-
+    public bool IsBuffExist(Buff buff){
+        return (bufflist?.Find(x => x.GetType().Equals( buff.GetType()))!=null);
+    }
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
         foreach( Buff buff in Bufflist ) {

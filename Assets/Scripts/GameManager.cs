@@ -6,6 +6,10 @@ using UnityEngine;
  */
 public class GameManager : MonoBehaviour {
 
+    private bool playerTurn;
+    private bool enemyAttackTurn;
+    private bool enemyCheckTurn;
+    private Unit.Action action;
     private int currentTurn; /**< It contains number of passed turns from the beginning of the game. */
     
     private int prevMonsterNum;/**<
@@ -58,6 +62,9 @@ public class GameManager : MonoBehaviour {
     * It initiate the monsterGenLocation and currentTurn to 0 (resp. situtation to false)
     */
     void Start() {
+        playerTurn=true;
+        enemyAttackTurn=false;
+        enemyCheckTurn=false;
         player = playerObject.GetComponent ("Player") as Player;
         monsterGenLocation = new Vector2 [6];
         monsterGenLocation [0] = new Vector2 (0, 2);
@@ -77,6 +84,13 @@ public class GameManager : MonoBehaviour {
      */
     void Update()
     {
+        if(playerTurn==false && enemyAttackTurn==false && enemyCheckTurn==false)
+            CheckPlayerStatus( action );
+        else if(playerTurn==false && enemyAttackTurn==true && enemyCheckTurn==false)
+            EnemyTurn();
+        else if(playerTurn==false && enemyAttackTurn==false && enemyCheckTurn==true)
+            CheckEnemyStatus();
+        //수정
         if(player.isStunned==true) {
             CheckPlayerStatus(Unit.Action.Rest);
             player.stunned.BuffWorkTo(player, Unit.Action.Rest); // 카운트 깍는 용
@@ -157,8 +171,9 @@ public class GameManager : MonoBehaviour {
      * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
      * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
      */
-    public void EndPlayerTurn(Unit.Action action) {
-        CheckPlayerStatus( action );
+    public void EndPlayerTurn(Unit.Action _action) {
+        playerTurn=false;
+        action=_action;
     }
     /**
      * 이 함수는 플레이어의 정신력과 배고픔을 먼저 체크하여 환각과 굶주림 판정을 한 후, 플레이어의 버프를 체크하여 효과를 부여한다.
@@ -167,7 +182,7 @@ public class GameManager : MonoBehaviour {
      * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
      * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
      */
-    private void CheckPlayerStatus( Unit.Action action ) {
+    private void CheckPlayerStatus( Unit.Action _action ) {
         //정신력 체크
         DecreaseMpByTurn();
         if( player.Mp <= 30 && !player.isHallucinated ) {
@@ -206,7 +221,7 @@ public class GameManager : MonoBehaviour {
         }
         
         foreach( Buff buff in player.Bufflist ) {
-            buff.BuffWorkTo( player, action );
+            buff.BuffWorkTo( player, _action );
             if( buff.Count == 0 )
                 player.Bufflist.Remove( buff );
         }
@@ -216,7 +231,7 @@ public class GameManager : MonoBehaviour {
             Destroy( player.gameObject );
             Debug.Log( "포닉스 불닭행" );
         };
-        EnemyTurn();
+        enemyAttackTurn=true;
     }
     /**
     * 적들이 플레이어를 공격하는 함수이다.
@@ -237,7 +252,8 @@ public class GameManager : MonoBehaviour {
         for( int i = 0; i < enemyNum; i++ ) {
             AttackToPlayer( enemyList[ i ].GetComponent<Enemy>() );
         }
-        CheckEnemyStatus();
+        enemyAttackTurn=false;
+        enemyCheckTurn=true;
     }
     /**
     * 적들에 걸린 상태이상(버프)를 체크하여 효과를 입히는 함수이다.
@@ -275,13 +291,14 @@ public class GameManager : MonoBehaviour {
             Debug.Log( "포닉스 불닭행" );
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
-        AlltheTurnEnd();
+        enemyCheckTurn=false;
     }
     /**
      * 이 함수는 턴의 맨 마지막을 가르킨다.
      * 이 함수는 비어있지만, 필요한 이유는 턴 동안 아무것도 안 하는 함수도 필요할지 모르기 때문이다.
      */
     public void AlltheTurnEnd() {
+        //수정 필요
         if( !( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ), null ) ) && player.prevIsStunned == false ) {
             player.isStunned = true;
             player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
@@ -306,19 +323,20 @@ public class GameManager : MonoBehaviour {
      * \see Rat::OnMouseUpAsButton
      */
     
-
+    /**
+    * @todo 던지는 상황에 대한 구현 필요
+     */
     public void Throw(ItemManager.Label label) {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         for( int i = 0; i < enemyList.Length; i++ ) {
             ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
         }
-        if( ItemManager.LabelToCategory( label ) == ItemManager.ItemCategory.LiquidFlameMedicine )
-            player.AddBuff( new Burn( 10 ) );
     }
 
     private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
-        Capsule capsule = itemManager.LabelToItem( label ) as Capsule;
-        capsule.ThrownTo( enemy );
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isUse=true;
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isThrow=true;
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().enemies.Add(enemy);
     }
     /**
      * 매 턴에서 상태 이상 체크 시 플레이어의 허기 지수를 올리는 함수입니다.

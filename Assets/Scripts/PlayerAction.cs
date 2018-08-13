@@ -67,45 +67,12 @@ public class PlayerAction {
     public void UseItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Expendable can = player.InventoryList.itemManager.LabelToItem( label ) as Expendable;
-            can.UsedBy( player );
+            GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isUse=true;
             DumpItem( index );
             gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
-    /**
- * \see InventoryItem::EatCapsuleCommand
- * \see Player::EatCapsule
- */
-    public void EatCapsule( int index ) {
-        ItemManager.Label label = player.InventoryList.GetLabel( index );
-        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
-            capsule.EattenBy( player );
-            player.InventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            DumpItem( player.InventoryList.Getindex( ItemManager.Label.Water ) );
-            player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn( Unit.Action.Default );
-        }
-    }
-    /**
-* \see InventoryItem::InjectCommand
-* \see Player::InjectItem
-*/
-    public void InjectItem( int index ) {
-        ItemManager.Label label = player.InventoryList.GetLabel( index );
-        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
-            capsule.EattenBy( player );
-            player.InventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            gameManager.EndPlayerTurn( Unit.Action.Default );
-        }
-    }
-    /**
-* \see ItemPrefab::OnMouseUpAsButton
-*/
+
     public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
         if( player.InventoryList.AddItem( label ) == true ) {
             GameObject.Destroy( _gameobject.GetComponent<SpriteRenderer>() );
@@ -120,7 +87,6 @@ public class PlayerAction {
     public void ThrowAwayItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             gameManager.Throw( label );
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
@@ -168,16 +134,7 @@ public class PlayerAction {
     /**
      * @todo I need to delete this function?
      */
-    public void TakeCapsule( int index ) {
-        ItemManager.Label label = player.InventoryList.GetLabel( index );
-        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
-            capsule.EattenBy( player );
-            player.InventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            gameManager.EndPlayerTurn( Unit.Action.Default );
-        }
-    }
+
 
     /**
      * item을 사용하고 효과에 따른 메서드를 실행한다

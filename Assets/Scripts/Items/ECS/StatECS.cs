@@ -10,6 +10,8 @@ public class StatECS : MonoBehaviour {
         ATK,
         DEF
     };
+    public bool[] isThrown;
+    public BuffECS.condition[] condition;
     public StatList[] stats;
     public int[] deltas;
     public bool isUsed;

@@ -139,7 +139,7 @@ public class InventoryItem : MonoBehaviour {
         if( true == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
             player.GetInventoryList().isDialogBoxOn = false;
-            player.EatCapsule( index );
+            player.UseItem( index );
         }  
     }
     /**
@@ -150,7 +150,7 @@ public class InventoryItem : MonoBehaviour {
         if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
             Destroy( gObject );
             player.GetInventoryList().isDialogBoxOn = false;
-            player.InjectItem( index );
+            player.UseItem( index );
         }
     }
     /**

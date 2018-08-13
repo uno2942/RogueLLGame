@@ -126,10 +126,6 @@ public class Player : Unit {
     public void UseItem( int index ) {
         playerAction.UseItem( index );
     }
-    public void InjectItem(int index ) {
-        playerAction.InjectItem( index );
-    }
-
     public void ThrowItem( int index ) {
         playerAction.ThrowAwayItem( index );
     }
@@ -143,9 +139,6 @@ public class Player : Unit {
     /**
      * @todo I need to implement this part
      */
-    public void EatCapsule( int index ) {
-        playerAction.EatCapsule( index );
-    }
     //@}
 
     /** 플레이어의 공격력+플레이어가 가진 무기+플레이어의 상태 이상을 기반으로 플레이어의 공격력을 반환 */
