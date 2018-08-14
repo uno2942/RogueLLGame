@@ -7,7 +7,7 @@ using System;
 /**
  * \brief 맵 파일을 파싱하는 클래스
  */
-public class MapGenerator
+public class MapGenerator:MonoBehaviour
 {
 
     /**
@@ -17,6 +17,15 @@ public class MapGenerator
     public ItemManager itemmanager;
 
     public List<List<MapTile>> Maps;
+
+    public GameObject BossSpr;
+    public GameObject NormalRoomSpr;
+    public GameObject HallSpr;
+    public GameObject PStartSpr;
+    public GameObject EquipRoomSpr;
+    public GameObject RestRoomSpr;
+    public GameObject LockedRoomSpr;
+    public GameObject DrugRoomSpr;
 
     public void parse(ref List<List<MapTile>> mapTiles)
     {
@@ -56,7 +65,41 @@ public class MapGenerator
         }
         return BoardManager.RoomType.Empty;
     }
-    private void GenMapObject(List<List<MapTile>> mapTiles) { }
+    private void GenMapObject(List<List<MapTile>> mapTiles) {
+        foreach(List<MapTile> floor in mapTiles)
+        {
+            foreach(MapTile tile in floor)
+            {
+                GameObject tileobj = new GameObject();
+                switch (tile.roomType) {
+                    case BoardManager.RoomType.BossRoom:
+                        tileobj = Instantiate(BossSpr);
+                        break;
+                    case BoardManager.RoomType.NormalRoom:
+                        tileobj = Instantiate(NormalRoomSpr);
+                        break;
+                    case BoardManager.RoomType.Hall:
+                        tileobj = Instantiate(HallSpr);
+                        break;
+                    case BoardManager.RoomType.DrugRoom:
+                        tileobj = Instantiate(DrugRoomSpr);
+                        break;
+                    case BoardManager.RoomType.LockedRoom:
+                        tileobj = Instantiate(LockedRoomSpr);
+                        break;
+                    case BoardManager.RoomType.RestRoom:
+                        tileobj = Instantiate(RestRoomSpr);
+                        break;
+                    case BoardManager.RoomType.Equipment:
+                        tileobj = Instantiate(EquipRoomSpr);
+                        break;
+                    case BoardManager.RoomType.PlayerStart:
+                        tileobj = Instantiate(PStartSpr);
+                        break;
+                }
+            }
+        }
+    }
 
     private List<MapTile> Generate(List<MapTile> map, int floor)
     {
