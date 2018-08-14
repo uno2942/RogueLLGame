@@ -67,16 +67,24 @@ public class PlayerAction {
     public void UseItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isUse=true;
+            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label));
+            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)");
+            
+            foreach(GameObject gObject in GameObject.FindGameObjectsWithTag("ItemPickedUp"))
+            {
+                if(gObject.name==System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)")
+                    {gObject.GetComponent<ItemECS>().isUse=true;
+                    break;
+                    }
+            }
             DumpItem( index );
             gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
 
-    public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
+    public void PickItem( ItemManager.Label label) {
         if( player.InventoryList.AddItem( label ) == true ) {
-            GameObject.Destroy( _gameobject.GetComponent<SpriteRenderer>() );
-            GameObject.Destroy( _gameobject.GetComponent<BoxCollider2D>() );
+            
             player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }

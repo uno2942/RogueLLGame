@@ -140,6 +140,7 @@ public class InventoryItem : MonoBehaviour {
             Destroy( gObject );
             player.GetInventoryList().isDialogBoxOn = false;
             player.UseItem( index );
+            player.UseItem(ItemManager.Label.Water );
         }  
     }
     /**

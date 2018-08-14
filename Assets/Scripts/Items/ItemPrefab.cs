@@ -12,7 +12,10 @@ public class ItemPrefab : MonoBehaviour {
     private void OnMouseUpAsButton()
     {
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
-        player.PlayerAction.PickItem (label, gameObject);
+        player.PlayerAction.PickItem (label);
+        Destroy( gameObject.GetComponent<SpriteRenderer>() );
+        Destroy( gameObject.GetComponent<BoxCollider2D>() );
+        gameObject.tag="ItemPickedUp";
     }
     void Start () {
 		

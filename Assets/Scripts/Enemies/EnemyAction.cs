@@ -17,6 +17,7 @@ public class EnemyAction
     /** 
 * \\ 모든 몹이 공통으로 사용하는 attack 함수로 데미지를 가한 후 특성화된 virtual debuff 발동
 * \\ 인자로 Enemy를 받아야 한다(Player는 getcomponent로 접근)
+* @todo 왜 changeHp(temp)이죠.
 */
     public virtual bool Attack()
     {
@@ -40,7 +41,7 @@ public class EnemyAction
             }
             if( temp <= 1.0f )
                 temp = 1;
-            player.ChangeHp(  temp );
+            player.ChangeHp( -temp );
 
             float i = Random.value;
             if( i < enemyItself.DebuffPercent() ) {

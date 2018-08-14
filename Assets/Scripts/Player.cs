@@ -126,6 +126,11 @@ public class Player : Unit {
     public void UseItem( int index ) {
         playerAction.UseItem( index );
     }
+
+     public void UseItem( ItemManager.Label label ) {
+        playerAction.UseItem( inventoryList.Getindex(label) );
+    }
+
     public void ThrowItem( int index ) {
         playerAction.ThrowAwayItem( index );
     }

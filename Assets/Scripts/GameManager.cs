@@ -111,23 +111,7 @@ public class GameManager : MonoBehaviour {
      * If the enemy died, the gameobject is destoried.
      * \see Rat::OnMouseUpAsButton (It can be modified.)
      */
-    /**
-     * The selected enemy in the parameter attacks to the player.
-     * If the player's HP is less or equal to 0, the player die and the gameobject is destoried.
-     * \see EnemyTurn
-     */
-    public bool AttackToPlayer(Enemy enemy)
-    {
-        if ( enemy.Hp <= 0 ) return false;
-        int damage = 1;
-        player.ChangeHp (-damage);
-        if(IsDead())
-        {
-            Destroy (player.gameObject);
-            Debug.Log ("포닉스 불닭행");
-        }
-        return true;
-    }
+
     /**
      * It generates monsters on the board with fixed number of monsters given by parameter.
      * \see Door::OnMouseUpAsButton
@@ -241,17 +225,10 @@ public class GameManager : MonoBehaviour {
     * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
     */
     private void EnemyTurn() {
-        int enemyNum = 0;
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        for( int i = 0; i < enemyList.Length; i++ ) {
-            if( enemyList[ i ].GetComponent<Enemy>().EnemyAction.Attack() )
-                enemyNum++;
-        }
-        Debug.Log( enemyNum );
-
-        for( int i = 0; i < enemyNum; i++ ) {
-            AttackToPlayer( enemyList[ i ].GetComponent<Enemy>() );
-        }
+        foreach(var enemyObject in enemyList)
+             enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
+        
         enemyAttackTurn=false;
         enemyCheckTurn=true;
     }
@@ -274,15 +251,13 @@ public class GameManager : MonoBehaviour {
                 if( buff.Count == 0 )
                     enemyTemp.Bufflist.Remove( buff );
             }
-            if( enemyTemp.Hp >= 0 )
-                enemyNum++;
         }
-
+        enemyNum=enemyList.Length;
         if( enemyNum == 0 && prevMonsterNum != 0 ) {
-            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
-                itemManager.DropCard( boardManager.NowPos() );
-            else
-                itemManager.DropItem( boardManager.NowPos() );
+//            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
+//                itemManager.DropCard( boardManager.NowPos() );
+//            else
+            itemManager.DropItem( boardManager.NowPos() );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
@@ -292,6 +267,7 @@ public class GameManager : MonoBehaviour {
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
         enemyCheckTurn=false;
+        playerTurn=true;
     }
     /**
      * 이 함수는 턴의 맨 마지막을 가르킨다.
