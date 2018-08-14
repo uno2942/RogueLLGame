@@ -22,6 +22,10 @@ GameObject:
   - component: {fileID: 212682592655819102}
   - component: {fileID: 61328106548998844}
   - component: {fileID: 114375030940916818}
+  - component: {fileID: 114279312130316538}
+  - component: {fileID: 114628335348268690}
+  - component: {fileID: 114731474442491408}
+  - component: {fileID: 114798514458057144}
   m_Layer: 0
   m_Name: LiquidFlameMedicine1
   m_TagString: Untagged
@@ -58,7 +62,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.49, y: 1.49}
+    oldSize: {x: 1.11, y: 0.904}
     newSize: {x: 1.11, y: 0.904}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -67,6 +71,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &114279312130316538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282338423820428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114375030940916818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,6 +94,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   label: 20
+--- !u!114 &114628335348268690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282338423820428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56fae4769735224ba1986a56eff9f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isThrown: 0100
+  conditions: 0000000000000000
+  buff: 0200000002000000
+  count: 0a0000000a000000
+  isUsed: 0
+--- !u!114 &114731474442491408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282338423820428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05d1e42779213d45b08a4d4c0e94bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUse: 0
+  isThrow: 0
+  enemies: []
+--- !u!114 &114798514458057144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282338423820428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isThrown: 0100
+  condition: 0000000000000000
+  stats: 0000000000000000
+  deltas: 0000000000000000
+  isUsed: 0
 --- !u!212 &212682592655819102
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -114,7 +175,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fab2140cb3c1e1a4d84493c3b3c43ecd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c36284b670cdd7479f51b414296be09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
