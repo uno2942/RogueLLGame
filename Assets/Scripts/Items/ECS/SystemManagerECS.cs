@@ -61,8 +61,7 @@ public class StatSystem : ComponentSystem {
                         return player.MaxMp==player.Mp;
                     else
                         return false;
-                    break;
-                default: //Case of "ToPlayer"
+                default: //Case of "ToPlayer" or "Default"
                     return true;
             }
     }
@@ -103,17 +102,27 @@ public class StatSystem : ComponentSystem {
                     {
                         if(e.item.isThrow==false)
                         {
-                            for(int i=0; i<e.statECS.stats.Length; i++)
-                                if(CheckCondition(player, e.statECS.condition[i]))
-                                    addStat(player, e.statECS.stats[i], e.statECS.deltas[i]);
+                            for( int i = 0; i < e.statECS.stats.Length; i++ ) {
+                                if( e.statECS.negate[ i ] == true )
+                                    if( CheckCondition( player, e.statECS.condition[ i ] ) )
+                                        addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                else
+                                    if(! CheckCondition( player, e.statECS.condition[ i ] ) )
+                                        addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                            }
                         }
                         else
                         {
                              for(int i=0; i<e.statECS.stats.Length; i++)
                                 if(e.statECS.isThrown[i]==true)
-                                    foreach(var enemy in e.item.enemies)
-                                       if(CheckCondition(enemy, e.statECS.condition[i]))
-                                          addStat(enemy, e.statECS.stats[i], e.statECS.deltas[i]);
+                                    foreach(var enemy in e.item.enemies) {
+                                        if( e.statECS.negate[ i ] == true )
+                                            if( CheckCondition( player, e.statECS.condition[ i ] ) )
+                                                addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                        else
+                                            if( !CheckCondition( player, e.statECS.condition[ i ] ) )
+                                                addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                    }
                         }
                     }
                     e.statECS.isUsed = true;
@@ -126,51 +135,98 @@ public class StatSystem : ComponentSystem {
 public class BuffSystem : ComponentSystem {
 	public void addBuff(Unit unit, BuffECS.buffList buff, int count) {
 
-		switch(buff){
-		case BuffECS.buffList.ADRENALINE:
-			unit.AddBuff(new Adrenaline(count));
-			break;
-		case BuffECS.buffList.BLEED:
-			unit.AddBuff(new Bleed(count));
-			break;
-		case BuffECS.buffList.BURN:
-			unit.AddBuff(new Burn(count));
-			break;
-		case BuffECS.buffList.CAFFEINE:
-			unit.AddBuff(new Caffeine(count));
-			break;			
-		case BuffECS.buffList.FULL:
-			unit.AddBuff(new Full(count));
-			break;
-		case BuffECS.buffList.HALLUCINATED:
-			unit.AddBuff(new Hallucinated(count));
-			break;			
-		case BuffECS.buffList.HUNGER:
-			unit.AddBuff(new Hunger());
-			break;
-		case BuffECS.buffList.MORFIN:
-			unit.AddBuff(new Morfin(count));
-			break;			
-		case BuffECS.buffList.POISON:
-			unit.AddBuff(new Poison(count));
-			break;
-		case BuffECS.buffList.RENEWAL:
-			unit.AddBuff(new Renewal(count));
-			break;
-		case BuffECS.buffList.SLEEP:
-			unit.AddBuff(new Sleep(count));
-			break;
-		case BuffECS.buffList.STARVE:
-			unit.AddBuff(new Starve());
-			break;
-		case BuffECS.buffList.STUNNED:
-			unit.AddBuff(new Stunned(count));
-			break;
-		case BuffECS.buffList.VITAMINTHROWN:
-			unit.AddBuff(new VitaminThrown(count));
-			break;
-		}
-	}
+        if( count >= 0 ) {
+            switch( buff ) {
+            case BuffECS.buffList.ADRENALINE:
+                unit.AddBuff( new Adrenaline( count ) );
+                break;
+            case BuffECS.buffList.BLEED:
+                unit.AddBuff( new Bleed( count ) );
+                break;
+            case BuffECS.buffList.BURN:
+                unit.AddBuff( new Burn( count ) );
+                break;
+            case BuffECS.buffList.CAFFEINE:
+                unit.AddBuff( new Caffeine( count ) );
+                break;
+            case BuffECS.buffList.FULL:
+                unit.AddBuff( new Full( count ) );
+                break;
+            case BuffECS.buffList.HALLUCINATED:
+                unit.AddBuff( new Hallucinated( count ) );
+                break;
+            case BuffECS.buffList.HUNGER:
+                unit.AddBuff( new Hunger() );
+                break;
+            case BuffECS.buffList.MORFIN:
+                unit.AddBuff( new Morfin( count ) );
+                break;
+            case BuffECS.buffList.POISON:
+                unit.AddBuff( new Poison( count ) );
+                break;
+            case BuffECS.buffList.RENEWAL:
+                unit.AddBuff( new Renewal( count ) );
+                break;
+            case BuffECS.buffList.SLEEP:
+                unit.AddBuff( new Sleep( count ) );
+                break;
+            case BuffECS.buffList.STARVE:
+                unit.AddBuff( new Starve() );
+                break;
+            case BuffECS.buffList.STUNNED:
+                unit.AddBuff( new Stunned( count ) );
+                break;
+            case BuffECS.buffList.VITAMINTHROWN:
+                unit.AddBuff( new VitaminThrown( count ) );
+                break;
+            }
+        } else {
+            switch( buff ) {
+            case BuffECS.buffList.ADRENALINE:
+                unit.DeleteBuff( new Adrenaline( 1 ) );
+                break;
+            case BuffECS.buffList.BLEED:
+                unit.DeleteBuff( new Bleed( 1 ) );
+                break;
+            case BuffECS.buffList.BURN:
+                unit.DeleteBuff( new Burn( 1 ) );
+                break;
+            case BuffECS.buffList.CAFFEINE:
+                unit.DeleteBuff( new Caffeine( 1 ) );
+                break;
+            case BuffECS.buffList.FULL:
+                unit.DeleteBuff( new Full( 1 ) );
+                break;
+            case BuffECS.buffList.HALLUCINATED:
+                unit.DeleteBuff( new Hallucinated( 1 ) );
+                break;
+            case BuffECS.buffList.HUNGER:
+                unit.DeleteBuff( new Hunger() );
+                break;
+            case BuffECS.buffList.MORFIN:
+                unit.DeleteBuff( new Morfin( 1 ) );
+                break;
+            case BuffECS.buffList.POISON:
+                unit.DeleteBuff( new Poison( 1 ) );
+                break;
+            case BuffECS.buffList.RENEWAL:
+                unit.DeleteBuff( new Renewal( 1 ) );
+                break;
+            case BuffECS.buffList.SLEEP:
+                unit.DeleteBuff( new Sleep( 1 ) );
+                break;
+            case BuffECS.buffList.STARVE:
+                unit.DeleteBuff( new Starve() );
+                break;
+            case BuffECS.buffList.STUNNED:
+                unit.DeleteBuff( new Stunned( 1 ) );
+                break;
+            case BuffECS.buffList.VITAMINTHROWN:
+                unit.DeleteBuff( new VitaminThrown( 1 ) );
+                break;
+            }
+        }
+    }
     public bool CheckCondition(Unit unit, BuffECS.condition condition)
     {
             switch(condition)
@@ -210,7 +266,7 @@ public class BuffSystem : ComponentSystem {
                     else
                         return false;
                     break;
-                default: //Case of "ToPlayer"
+                default: //Case of "ToPlayer" or "Default"
                     return true;
             }
     }
@@ -230,17 +286,28 @@ public class BuffSystem : ComponentSystem {
                     {
                         if(e.item.isThrow==false)
                         {
-                            for(int i=0; i<e.buffECS.buff.Length; i++)
-                                if(CheckCondition(player, e.buffECS.conditions[i]))
-                                    addBuff(player, e.buffECS.buff[i], e.buffECS.count[i]);
+                            for( int i = 0; i < e.buffECS.buff.Length; i++ ) {
+                                if( e.buffECS.negate[ i ] == true )
+                                    if( CheckCondition( player, e.buffECS.conditions[ i ] ) )
+                                        addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                    else
+                                    if( !CheckCondition( player, e.buffECS.conditions[ i ] ) )
+                                        addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                            }
+                            
                         }
                         else
                         {
                              for(int i=0; i<e.buffECS.buff.Length; i++)
                                 if(e.buffECS.isThrown[i]==true)
-                                    foreach(var enemy in e.item.enemies)
-                                       if(CheckCondition(enemy, e.buffECS.conditions[i]))
-                                          addBuff(enemy, e.buffECS.buff[i], e.buffECS.count[i]);
+                                    foreach(var enemy in e.item.enemies) {
+                                        if( e.buffECS.negate[ i ] == true )
+                                            if( CheckCondition( player, e.buffECS.conditions[ i ] ) )
+                                                addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                            else
+                                            if( !CheckCondition( player, e.buffECS.conditions[ i ] ) )
+                                                addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                    }
                         }
                     }
                     e.buffECS.isUsed = true;
