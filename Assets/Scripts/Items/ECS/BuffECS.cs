@@ -40,9 +40,9 @@ public class BuffECS : MonoBehaviour {
 	};
 	public bool[] isThrown;
 	public condition[] conditions;
+	public bool[] negate;
 	public buffList[] buff;
 	public int[] count;
 	public bool isUsed;
 
-	
 }
