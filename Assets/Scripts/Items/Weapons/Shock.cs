@@ -16,11 +16,10 @@ public class Shock : Weapon {
     public override void Attack(Enemy enemy)
     {
         if (count == 5) {
-            ///안대요...
         }
         else
         {
-            enemy.AddBuff(new Paralyzed(5));
+            enemy.AddBuff(new Stunned( 5));
             count++;
         }
     }

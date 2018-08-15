@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GivemeBox : TalkingBox
 {
-    public InventoryItem item;
+    public InventoryItem inventoryItem;
 
     protected override void Init()
     {
@@ -20,7 +20,7 @@ public class GivemeBox : TalkingBox
     public override void UseCommand()
     {
         Destroy(npc.gObject);
-        item.DumpCommand();
+        inventoryItem.DumpCommand();
         npc.talk(npc.player);
     }
 

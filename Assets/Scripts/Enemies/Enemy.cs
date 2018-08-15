@@ -18,12 +18,12 @@ public class Enemy : Unit
     /** 
     * Which action does Enemy do?
     */
-    protected EnemyAction action;
-    public EnemyAction Action
+    protected EnemyAction enemyAction;
+    public EnemyAction EnemyAction
     {
         get
         {
-            return action;
+            return enemyAction;
         }
     }
 

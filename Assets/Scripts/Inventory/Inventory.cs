@@ -17,6 +17,8 @@ public class Inventory {
      * Note that *inventoryItemPregab is for background of inventory, not for item prefab*.
      */
     private GameObject inventoryItemPrefab;
+
+    private Dictionary<int, int> numberOfSameItems;
     /**
      * It is to distinguish the item contained in inventory.
      */
@@ -54,6 +56,7 @@ public class Inventory {
         labelList = new ItemManager.Label [size];
         inventoryObject = new GameObject [size];
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
+        numberOfSameItems = new Dictionary<int, int>();
         for ( int i = 0; i < 6; i++ )
         {
             inventoryObject [i] = GameObject.Instantiate (inventoryItemPrefab, new Vector2 (-8, i * 1.5f - 4), Quaternion.identity);
@@ -61,6 +64,8 @@ public class Inventory {
             inventoryObject [i + size / 2] = GameObject.Instantiate (inventoryItemPrefab, new Vector2 (8, i * 1.5f - 4), Quaternion.identity);
             inventoryObject [i + size / 2].transform.parent = GameObject.Find ("InventoryUI").transform;
             labelList [i] = labelList [i + 6] = ItemManager.Label.Empty;
+            numberOfSameItems.Add( i, 0 );
+            numberOfSameItems.Add( i + 6, 0 );
         }
     }
 
@@ -77,18 +82,25 @@ public class Inventory {
         int location;
         for ( location = 0; location < size; location++ )
         {
-            if ( labelList [location] == ItemManager.Label.Empty ) break;
+            if ( labelList [location] == ItemManager.Label.Empty || labelList[location]==label) break;
         }
 
         if ( location < size )
         {
-            labelList [location] = label;
-            inventoryObject [location].GetComponent<SpriteRenderer> ().sprite = itemManager.LabelToSprite (label);
-            inventoryObject [location].GetComponent<InventoryItem> ().Index = location; //남길지 말지 
+            if( labelList[ location ] == ItemManager.Label.Empty ) {
+                labelList[ location ] = label;
+                inventoryObject[ location ].GetComponent<SpriteRenderer>().sprite = itemManager.LabelToSprite( label );
+                inventoryObject[ location ].GetComponent<InventoryItem>().Index = location; //남길지 말지 
 
-            if( itemManager.GetItemIdentificationInfo( labelList[ location ] ) )
-                inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
-            return true;
+                if( itemManager.GetItemIdentificationInfo( labelList[ location ] ) )
+                    inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
+                numberOfSameItems[ location ] = 1;
+                return true;
+            } else if( ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
+                numberOfSameItems[ location ]++;
+                return true;
+            } else
+                return false;
         }
         else
         {
@@ -101,9 +113,12 @@ public class Inventory {
      * 인벤토리에서 index에 해당하는 아이템을 지운다.
      */
     public void DeleteItem(int index) {
-        inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
-        labelList[ index ] = ItemManager.Label.Empty;
-        inventoryObject[ index ].GetComponentInChildren<UnityEngine.UI.Text>().text = "Empty";
+        numberOfSameItems[ index ]--;
+        if( numberOfSameItems[ index ] == 0 ) {
+            inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
+            labelList[ index ] = ItemManager.Label.Empty;
+            inventoryObject[ index ].GetComponentInChildren<UnityEngine.UI.Text>().text = "Empty";
+        }
     }
 
     /** 해당 라벨에 해당하는 아이템이 있는지 확인한다.
@@ -146,9 +161,9 @@ public class Inventory {
     public void IdentifyAllTheInventoryItem() {
         for( int i = 0; i < size; i++ ) {
             if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ i ].ToString();
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = itemManager.LabelToItem( labelList[ i ] ).Name + "x" + numberOfSameItems[ i ];
             else if( labelList[ i ] != ItemManager.Label.Empty )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???";
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???" + "x" + numberOfSameItems[ i ];
                 }
     }
 }

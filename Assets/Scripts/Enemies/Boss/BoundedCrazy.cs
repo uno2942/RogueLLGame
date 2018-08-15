@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundedCrazy : Enemy {
+public class BoundedCrazy : Boss {
 
     private void Start()
     {
@@ -13,14 +13,14 @@ public class BoundedCrazy : Enemy {
         maxhp = 80;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new BoundedCrazyAction( this );
+        enemyAction = new BoundedCrazyAction( this );
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         debuff = null;
     }
 
 
     private void OnMouseUpAsButton() {
-        player.Action.Attack( this );
+        player.PlayerAction.Attack( this );
         Debug.Log( "플레이어 공격" );
     }
 

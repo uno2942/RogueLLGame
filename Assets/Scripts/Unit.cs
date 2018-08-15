@@ -6,11 +6,12 @@ using UnityEngine;
  */
 public class Unit : MonoBehaviour {
 
-
+    public enum Action { Default, Move, Rest, Attack, Hitted}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
+    
     protected int attack;
     protected int defense;
     protected int maxhp;
-    protected float hp;
+    protected int hp;
     protected GameManager gameManager;
     protected List<Buff> bufflist;
 
@@ -31,7 +32,7 @@ public class Unit : MonoBehaviour {
 
     }    /**<    * \brief 방어력    */
 
-    public float Hp
+    public int Hp
     {
         get
         {
@@ -75,7 +76,7 @@ public class Unit : MonoBehaviour {
     /** 유닛의 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeHp( float delta )
     {
-        hp += delta;
+        hp += (int)delta;
     }
     /** 유닛의 최대 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeMaxHp( int delta ) {
@@ -98,16 +99,9 @@ public class Unit : MonoBehaviour {
     {
         bufflist.Remove( bufflist.Find( x => x.GetType().Equals( buff.GetType() ) ) );
     }
-
-    /**
-     * 디버그용 코드
-     * @todo 아무것도 없다.
-     */
-    public void DebugStatus()
-    {
-
+    public bool IsBuffExist(Buff buff){
+        return (bufflist?.Find(x => x.GetType().Equals( buff.GetType()))!=null);
     }
-
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
         foreach( Buff buff in Bufflist ) {
@@ -126,11 +120,11 @@ public class Unit : MonoBehaviour {
     }
 
     /** 유닛의 방어력+유닛의 상태 이상을 기반으로 유닛의 방어력을 반환 */
-    public float FinalMagnification() {
+    public float FinalMagnification(Action action) {
         float magnification = 1;
 
         foreach( Buff buff in Bufflist ) {
-            magnification *= buff.passiveBuffFinal();
+            magnification *= buff.BuffAction(action);
         }
         return magnification;
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Nurse : Enemy {
+public class Nurse : Boss {
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class Nurse : Enemy {
         maxhp = 230;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new NurseAction(this);
+        enemyAction = new NurseAction(this);
         debuff = null;
     }
 

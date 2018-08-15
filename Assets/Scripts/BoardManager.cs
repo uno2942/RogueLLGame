@@ -17,7 +17,7 @@ public class BoardManager : MonoBehaviour {
                                                                                    문이 클릭되었을 때, 이 변수 방향으로
                                                                                     플레이어를 이동시킨다.
                                                                           \see Door*/
-    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, Stair, PlayerStart, Equipment, End, EndOfEnum}; /**< \brief 방의 종류에 대한 열거형 
+    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, PlayerStart, Equipment, End, EndOfEnum}; /**< \brief 방의 종류에 대한 열거형 
                                                                                                                     \details 맵 파일을 파싱해서 읽은 데이터는
                                                                                                                     이 파일에서 처리해 맵을 만들며, 이 때 방의
                                                                                                                     종류에 따라 방에 놓여지는 게임 오브젝트가 다르기
@@ -34,6 +34,7 @@ public class BoardManager : MonoBehaviour {
 
     private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
     private List<List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
+
     private MapGenerator parser; /**< 맵 파서이다. */
 
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
@@ -86,7 +87,7 @@ public class BoardManager : MonoBehaviour {
         xPos = yPos = 0;
         whichFloor = 0;
 
-        parser = new MapParser();
+        parser = new MapGenerator();
         floor = new List<MapTile>();
         map = new List<List<MapTile>>();
         parser.parse( ref map );

@@ -35,7 +35,7 @@ public class NurseAction : EnemyAction {
             if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) ) {
                 temp += 1.0f;
             }
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Paralyzed ) ) ) ) {
+            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Stunned ) ) ) ) {
                 temp += 3.0f;
             }
 
@@ -47,7 +47,7 @@ public class NurseAction : EnemyAction {
             }
             if( temp <= 1.0f )
                 temp = 1;
-            player.ChangeHp( -(int) temp );
+            player.ChangeHp( -temp );
 
 
             if( temp > 1 ) {

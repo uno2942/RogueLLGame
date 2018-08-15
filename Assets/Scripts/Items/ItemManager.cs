@@ -17,7 +17,7 @@ public class ItemManager : MonoBehaviour {
         CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
         CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
         CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
-        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
+        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
     /**
      * 아이템 카테고리는 층에 관계없이 아이템을 관리하기 위한 열거형이다.
@@ -26,7 +26,7 @@ public class ItemManager : MonoBehaviour {
         Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
         BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
         CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant,PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
-        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
+        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
     };
     /**
      * 아이템을 종류에 따라 크게 묶는 열거형이다.
@@ -41,7 +41,7 @@ public class ItemManager : MonoBehaviour {
         if( lab == Label.Empty ) return ItemType.Empty;
         else if( lab == Label.AutoHandgun || lab == Label.BlackKnife || lab == Label.Club || lab == Label.Hammer || lab == Label.Lighter || lab == Label.Mess || lab == Label.Nuckle || lab == Label.SharpDagger || lab == Label.Shock ) return ItemType.Weapon;
         else if( lab == Label.BloodJacket || lab == Label.CleanDoctorCloth || lab == Label.DamagedDoctorCloth || lab == Label.FullPlated || lab == Label.Padding || lab == Label.Patient || lab == Label.Tshirts ) return ItemType.Armor;
-        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab == Label.Medicine || lab == Label.DiscardedMedicine ) return ItemType.Expenables;
+        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab == Label.Medicine  ) return ItemType.Expenables;
         else if( lab == Label.BlackCard || lab == Label.YellowCard || lab == Label.WhiteCard ) return ItemType.Card;
         else return ItemType.Capsule;
     }
@@ -76,7 +76,6 @@ public class ItemManager : MonoBehaviour {
         else if( label == Label.Water ) return ItemCategory.Water;
         else if( label == Label.Bandage ) return ItemCategory.Bandage;
         else if( label == Label.Medicine ) return ItemCategory.Medicine;
-        else if( label == Label.DiscardedMedicine ) return ItemCategory.DiscardedMedicine;
         else if( label == Label.WhiteCard ) return ItemCategory.WhiteCard;
         else if( label == Label.BlackCard ) return ItemCategory.BlackCard;
         else if( label == Label.YellowCard ) return ItemCategory.YellowCard;
@@ -146,6 +145,7 @@ public class ItemManager : MonoBehaviour {
             else
                 IsIdentified.Add( i, true );
         }
+        IsIdentified[ Label.Empty ] = false;
 
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
@@ -187,7 +187,6 @@ public class ItemManager : MonoBehaviour {
         labelDic[ Label.Water ] = new Water();
         labelDic[ Label.Bandage ] = new Bandage();
         labelDic[ Label.Medicine ] = new Medicine();
-        labelDic[ Label.DiscardedMedicine ] = new DiscardedMedicine();
         labelDic[ Label.WhiteCard ] = new WhiteCard();
         labelDic[ Label.BlackCard ] = new BlackCard();
         labelDic[ Label.YellowCard ] = new YellowCard();

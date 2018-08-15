@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AngryDog : Enemy {
+public class AngryDog : Boss {
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class AngryDog : Enemy {
         maxhp = 230;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new AngryDogAction(this);
+        enemyAction = new AngryDogAction(this);
         debuff = null;
     }
 

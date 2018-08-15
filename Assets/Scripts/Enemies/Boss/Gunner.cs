@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gunner : Enemy {
+public class Gunner : Boss {
 
     
 
@@ -16,7 +16,7 @@ public class Gunner : Enemy {
         maxhp = 160;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new GunnerAction( this );
+        enemyAction = new GunnerAction( this );
         debuff = null;
     }
 
