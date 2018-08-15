@@ -65,39 +65,41 @@ public class MapGenerator:MonoBehaviour
         }
         return BoardManager.RoomType.Empty;
     }
-    private void GenMapObject(List<List<MapTile>> mapTiles) {
-        foreach(List<MapTile> floor in mapTiles)
+    
+
+    private void GenMapObject(List<MapTile> floor) {
+        foreach(MapTile tile in floor)
         {
-            foreach(MapTile tile in floor)
-            {
-                GameObject tileobj = new GameObject();
-                switch (tile.roomType) {
-                    case BoardManager.RoomType.BossRoom:
-                        tileobj = Instantiate(BossSpr);
-                        break;
-                    case BoardManager.RoomType.NormalRoom:
-                        tileobj = Instantiate(NormalRoomSpr);
-                        break;
-                    case BoardManager.RoomType.Hall:
-                        tileobj = Instantiate(HallSpr);
-                        break;
-                    case BoardManager.RoomType.DrugRoom:
-                        tileobj = Instantiate(DrugRoomSpr);
-                        break;
-                    case BoardManager.RoomType.LockedRoom:
-                        tileobj = Instantiate(LockedRoomSpr);
-                        break;
-                    case BoardManager.RoomType.RestRoom:
-                        tileobj = Instantiate(RestRoomSpr);
-                        break;
-                    case BoardManager.RoomType.Equipment:
-                        tileobj = Instantiate(EquipRoomSpr);
-                        break;
-                    case BoardManager.RoomType.PlayerStart:
-                        tileobj = Instantiate(PStartSpr);
-                        break;
-                }
+            GameObject tileobj = new GameObject();
+            Vector2 position = new Vector2(14 * tile.x, 10 * tile.y);
+
+            switch (tile.roomType) {
+                case BoardManager.RoomType.BossRoom:
+                    tileobj = Instantiate(BossSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.NormalRoom:
+                    tileobj = Instantiate(NormalRoomSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.Hall:
+                    tileobj = Instantiate(HallSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.DrugRoom:
+                    tileobj = Instantiate(DrugRoomSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.LockedRoom:
+                    tileobj = Instantiate(LockedRoomSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.RestRoom:
+                    tileobj = Instantiate(RestRoomSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.Equipment:
+                    tileobj = Instantiate(EquipRoomSpr, position, Quaternion.identity);
+                    break;
+                case BoardManager.RoomType.PlayerStart:
+                    tileobj = Instantiate(PStartSpr, position, Quaternion.identity);
+                    break;
             }
+            tileobj.transform.localScale = new Vector3(14, 10, 1);
         }
     }
 
