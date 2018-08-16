@@ -7,7 +7,7 @@ using System;
 /**
  * \brief 맵 파일을 파싱하는 클래스
  */
-public class MapGenerator:MonoBehaviour
+public class MapGenerator
 {
 
     /**
@@ -18,37 +18,48 @@ public class MapGenerator:MonoBehaviour
 
     public List<List<MapTile>> Maps;
 
-    public GameObject BossSpr;
-    public GameObject NormalRoomSpr;
-    public GameObject HallSpr;
-    public GameObject PStartSpr;
-    public GameObject EquipRoomSpr;
-    public GameObject RestRoomSpr;
-    public GameObject LockedRoomSpr;
-    public GameObject DrugRoomSpr;
+    private GameObject BossPrefab;
+    private GameObject NormalRoomPrefab;
+    private GameObject HallPrefab;
+    private GameObject PStartPrefab;
+    private GameObject EquipRoomPrefab;
+    private GameObject RestRoomPrefab;
+    private GameObject LockedRoomPrefab;
+    private GameObject DrugRoomPrefab;
 
     public void parse(ref List<List<MapTile>> mapTiles)
     {
+        BossPrefab = (GameObject)UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof(GameObject));
+        NormalRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        HallPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        PStartPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        EquipRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        RestRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
 
+        Maps =new List<List<MapTile>>();
         int i;
         for (i = 0; i < 10; i++)
         {
+            Maps.Add(new List<MapTile>());
             var mapData = File.ReadAllLines(Application.dataPath + @"\Resources\" + "Map" + i + ".txt");
             foreach (string str in mapData)
             {
                 var temp = str.Split('\t');
+                if(temp[0]=="Coordinate")
+                    continue;
                 Maps[i].Add(new MapTile(int.Parse(temp[0]), int.Parse(temp[1]), ConvertLetterToMapType(temp[2])));
             }
         }
 
-
         for (i = 0; i < 6; i++)
         {
             mapTiles.Add(Maps[UnityEngine.Random.Range(0, 10)]);
-            
             mapTiles[i] = Generate(ShuffleList(mapTiles[i]), i + 1);
         }
     }
+
     private BoardManager.RoomType ConvertLetterToMapType(string str)
     {
         switch (str)
@@ -65,9 +76,7 @@ public class MapGenerator:MonoBehaviour
         }
         return BoardManager.RoomType.Empty;
     }
-    
-
-    private void GenMapObject(List<MapTile> floor) {
+    public void GenMapObject(List<MapTile> floor) {
         foreach(MapTile tile in floor)
         {
             GameObject tileobj = new GameObject();
@@ -75,28 +84,28 @@ public class MapGenerator:MonoBehaviour
 
             switch (tile.roomType) {
                 case BoardManager.RoomType.BossRoom:
-                    tileobj = Instantiate(BossSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.NormalRoom:
-                    tileobj = Instantiate(NormalRoomSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( NormalRoomPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.Hall:
-                    tileobj = Instantiate(HallSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.DrugRoom:
-                    tileobj = Instantiate(DrugRoomSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.LockedRoom:
-                    tileobj = Instantiate(LockedRoomSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.RestRoom:
-                    tileobj = Instantiate(RestRoomSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.Equipment:
-                    tileobj = Instantiate(EquipRoomSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.PlayerStart:
-                    tileobj = Instantiate(PStartSpr, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( PStartPrefab, position, Quaternion.identity);
                     break;
             }
             tileobj.transform.localScale = new Vector3(14, 10, 1);
@@ -128,30 +137,32 @@ public class MapGenerator:MonoBehaviour
                 RoomCounts["N1"]++;
         }
 
+        int p = 0;
         foreach (MapTile tile in map)
         {
+            p++;
             switch (tile.roomType)
             {
                 case BoardManager.RoomType.BossRoom:
                     switch (floor)
                     {
                         case 1:
-                            tile.AddEnemy(new BoundedCrazy());
+                            tile.AddEnemy(BoardManager.EnemyType.BoundedCrazy);
                             break;
                         case 2:
-                            tile.AddEnemy(new Gunner());
+                            tile.AddEnemy(BoardManager.EnemyType.Gunner);
                             break;
                         case 3:
-                            tile.AddEnemy(new Nurse());
+                            tile.AddEnemy(BoardManager.EnemyType.Nurse);
                             break;
                         case 4:
-                            tile.AddEnemy(new AngryDog());
+                            tile.AddEnemy(BoardManager.EnemyType.AngryDog);
                             break;
                         case 5:
-                            tile.AddEnemy(new AngryDog());//환자들 만들어야 해.
+                            tile.AddEnemy(BoardManager.EnemyType.AngryDog);//환자들 만들어야 해.
                             break;
                         case 6:
-                            tile.AddEnemy(new HospitalDirector());
+                            tile.AddEnemy(BoardManager.EnemyType.HospitalDirector);
                             break;
                     }
                     break;
@@ -247,7 +258,7 @@ public class MapGenerator:MonoBehaviour
                             tile.AddItem(randomItem(itemCounts));
                             break;
                         case "1_Human+1_Ringer":
-                            tile.AddEnemy(new Human());
+                            tile.AddEnemy(BoardManager.EnemyType.Human);
                             tile.AddItem(ItemManager.ItemCategory.RingerSolution);
                             break;
                         case "1_CureAll+1_Water":
@@ -261,6 +272,7 @@ public class MapGenerator:MonoBehaviour
                     {
                         Array values = Enum.GetValues(typeof(ItemManager.ItemCategory));
                         ItemManager.ItemCategory randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+                        Debug.Log(randombar);
                         while (ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Weapon)
                         {
                             randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
@@ -272,7 +284,7 @@ public class MapGenerator:MonoBehaviour
                         Array values = Enum.GetValues(typeof(ItemManager.ItemCategory));
                         ItemManager.ItemCategory randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
                         while (ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Weapon
-                            ||ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Armor)
+                            && ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Armor)
                         {
                             randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
                         }
@@ -379,6 +391,7 @@ public class MapGenerator:MonoBehaviour
     
     private ItemManager.ItemCategory randomItem(Dictionary<string,int> itemCount)
     {
+        return ItemManager.ItemCategory.Water;
         int percent = UnityEngine.Random.Range(0, 100);
 
         if (0 <= percent && percent < 60)
@@ -459,20 +472,17 @@ public class MapGenerator:MonoBehaviour
         }
     }
 
-    private Enemy randomEnemy()
+    private BoardManager.EnemyType randomEnemy()
     {
         int randomEnemy = UnityEngine.Random.Range(0, 3);
         switch (randomEnemy)
         {
             case 0:
-                Dog dog = new Dog();
-                return dog;
+                return BoardManager.EnemyType.Dog;
             case 1:
-                Rat rat = new Rat();
-                return rat;
+                return BoardManager.EnemyType.Rat;
             default:
-                Human human = new Human();
-                return human;
+                return BoardManager.EnemyType.Human;
         }
     }
 

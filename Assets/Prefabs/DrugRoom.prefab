@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4580826221841628}
   - component: {fileID: 212905369485988724}
   m_Layer: 0
-  m_Name: MedicineStorage
+  m_Name: DrugRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
