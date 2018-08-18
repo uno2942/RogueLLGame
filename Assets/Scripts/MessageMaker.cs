@@ -314,7 +314,7 @@ public class MessageMaker : MonoBehaviour {
     public void MakeDeathMessage(Unit subject, Unit deadUnit)
     {
         string s = "";
-        if (deadUnit.ToString() == "Player")
+        if (deadUnit is Player)
         {
             s += "< color =#ff0000ff>";
             s += Name(subject);
@@ -324,9 +324,9 @@ public class MessageMaker : MonoBehaviour {
         }
         else
         {
-            s += ObjName(subject);
+            s += SubjName(subject);
             s += " ";
-            s += SubjName(deadUnit);
+            s += ObjName(deadUnit);
             s += " 공격하여 처치했습니다.";
             logger.AddLog(s);
         }
