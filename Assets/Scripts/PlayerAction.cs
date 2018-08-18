@@ -10,10 +10,12 @@ public class PlayerAction {
     public Player player;
     private ItemManager itemManager;
     private GameManager gameManager;
+    private MessageMaker messageMaker;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
+        messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
     }
 
 
@@ -34,8 +36,13 @@ public class PlayerAction {
         if( temp <= 1.0f )
             temp = 1;
         enemy.ChangeHp( -temp );
-        if( enemy.Hp <= 0 )
-            GameObject.Destroy( enemy.gameObject );
+        messageMaker.MakeAttackMessage(player, MessageMaker.UnitAction.Attack, enemy, (int)temp);
+
+        if (enemy.Hp <= 0)
+        {
+            messageMaker.MakeDeathMessage(player, enemy);
+            GameObject.Destroy(enemy.gameObject);
+        }
         /*
         if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
             temp += 1;
