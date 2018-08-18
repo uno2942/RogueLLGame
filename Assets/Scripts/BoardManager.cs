@@ -9,7 +9,7 @@ using System.Linq;
 public class BoardManager : MonoBehaviour {
 
     public const int verticalMovement = 10; /**< The vertical length of a board in the game. */
-    public const int horizontalMovement = 18;/**< The vertical length of a board in the game. */
+    public const int horizontalMovement = 14;/**< The vertical length of a board in the game. */
 
 
     public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
@@ -80,9 +80,7 @@ public class BoardManager : MonoBehaviour {
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
     void Start() {
-
-        GenerateDoor(0, 0); // 임시로 존재하는 코드.
-
+        
          playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
@@ -216,21 +214,6 @@ public class BoardManager : MonoBehaviour {
 
             DestroyDoor();
            
-
-            switch( direction ) {
-            case Direction.Right:
-                GenerateDoor(14, 0);
-                break;
-            case Direction.Left:
-                GenerateDoor( -14, 0 );
-                break;
-            case Direction.UpSide:
-                GenerateDoor( 0, 10 );
-                break;
-            case Direction.DownSide:
-                GenerateDoor( 0, -10 );
-                break;
-            }
         }
     }
 
@@ -336,29 +319,7 @@ public class BoardManager : MonoBehaviour {
             return -1;
         }
     }
-
-    /**
-     * 문 (프리팹)을 생성한다.
-     * @todo 지금은 사방에 문을 생성하게 하지만, 맵 타일이 붙어 있는 곳에만 생성하도록 해야한다.
-     */
-    void GenerateDoor(int x, int y) {
-
-        GameObject doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0+y ), Quaternion.identity ) as GameObject;
-        Door door = doorObject.GetComponent<Door>();
-        door.direction = Direction.Right;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x - 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0 + y ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.Left;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + x, GameObject.Find( "PlayerUI" ).transform.position.y + 5 + y ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.UpSide;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + x, GameObject.Find( "PlayerUI" ).transform.position.y - 5 + y ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.DownSide;
-    }
+    
     /**
      * 플레이어가 이동하면 문을 클릭해서 이동했을 때 원래 있던 문을 삭제하기 위한 함수
      */

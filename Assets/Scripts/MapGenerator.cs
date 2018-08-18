@@ -7,13 +7,13 @@ using System;
 /**
  * \brief 맵 파일을 파싱하는 클래스
  */
-public class MapGenerator
-{
+public class MapGenerator {
 
     /**
      * @todo 첫 번째 열은 버려야 함.(데이터에 대한 설명을 담고 있음.)
      */
-
+    private int VMost;
+    private int HMost;
     public ItemManager itemmanager;
 
     public List<List<MapTile>> Maps;
@@ -26,9 +26,53 @@ public class MapGenerator
     private GameObject RestRoomPrefab;
     private GameObject LockedRoomPrefab;
     private GameObject DrugRoomPrefab;
+    private GameObject DoorPrefab;
+    
 
+    public struct Coord{
+        int x, y;
+
+        public Coord(int _x, int _y ) {
+            x = _x;
+            y = _y;
+        }
+
+        public static bool operator ==( Coord c1, Coord c2 ) {
+            if( c1.x == c2.x && c1.y == c2.y )
+                return true;
+            else
+                return false;
+        }
+        public static bool operator !=( Coord c1, Coord c2 ) {
+            if( c1.x == c2.x && c1.y == c2.y )
+                return false;
+            else
+                return true;
+        }
+        public bool Equals(Coord coord ) {
+            if( ReferenceEquals( null, coord ) ) {
+                return false;
+            }
+            if( ReferenceEquals( this, coord ) ) {
+                return true;
+            }
+            return ( coord.x == x ) && ( coord.y == y );
+        }
+        public override bool Equals(object o ) {
+            if( ReferenceEquals( o, null ) == true )
+                return false;
+            if( ReferenceEquals( this, o ) == true )
+                return true;
+            return ( GetType() == o.GetType() ) && Equals( (Coord) o );
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+    }
     public void parse(ref List<List<MapTile>> mapTiles)
     {
+        VMost = HMost = 0;
         BossPrefab = (GameObject)UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof(GameObject));
         NormalRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         HallPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
@@ -37,8 +81,9 @@ public class MapGenerator
         RestRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-
+        DoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Moonprefab.prefab", typeof( GameObject ) );
         Maps =new List<List<MapTile>>();
+
         int i;
         for (i = 0; i < 10; i++)
         {
@@ -50,6 +95,10 @@ public class MapGenerator
                 if(temp[0]=="Coordinate")
                     continue;
                 Maps[i].Add(new MapTile(int.Parse(temp[0]), int.Parse(temp[1]), ConvertLetterToMapType(temp[2])));
+                if( Math.Abs( int.Parse( temp[ 0 ] ) ) > HMost )
+                    HMost = Math.Abs( int.Parse( temp[ 0 ] ) );
+                if( Math.Abs( int.Parse( temp[ 1 ] ) ) > VMost )
+                    VMost = Math.Abs( int.Parse( temp[ 1 ] ) );
             }
         }
 
@@ -76,40 +125,58 @@ public class MapGenerator
         }
         return BoardManager.RoomType.Empty;
     }
+
     public void GenMapObject(List<MapTile> floor) {
-        foreach(MapTile tile in floor)
+        bool[,] doorDic = new bool[4*HMost+2, 4*VMost+2];
+        foreach( MapTile tile in floor)
         {
             GameObject tileobj = new GameObject();
             Vector2 position = new Vector2(14 * tile.x, 10 * tile.y);
-
+            
             switch (tile.roomType) {
                 case BoardManager.RoomType.BossRoom:
                     tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity);
+                tileobj.tag = "BossRoom";
                     break;
                 case BoardManager.RoomType.NormalRoom:
                     tileobj = GameObject.Instantiate( NormalRoomPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "NormalRoom";
+                break;
                 case BoardManager.RoomType.Hall:
                     tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "Hall";
+                break;
                 case BoardManager.RoomType.DrugRoom:
                     tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "DrugRoom";
+                break;
                 case BoardManager.RoomType.LockedRoom:
                     tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "LockedRoom";
+                break;
                 case BoardManager.RoomType.RestRoom:
                     tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "RestRoom";
+                break;
                 case BoardManager.RoomType.Equipment:
                     tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "Equipment";
+                break;
                 case BoardManager.RoomType.PlayerStart:
                     tileobj = GameObject.Instantiate( PStartPrefab, position, Quaternion.identity);
-                    break;
+                tileobj.tag = "PlayerStart";
+                break;
             }
+            Debug.Log( (tile.x + HMost ) * 2 + 1);
+            Debug.Log( ( tile.y + VMost ) * 2 );
             tileobj.transform.localScale = new Vector3(14, 10, 1);
+            doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 ] = false;
+            doorDic[ ( tile.x + HMost ) * 2 - 1, ( tile.y + VMost ) * 2 ] = false;
+            doorDic[ ( tile.x + HMost ) * 2, ( tile.y + VMost ) * 2 + 1 ] = false;
+            doorDic[ ( tile.x + HMost ) * 2, ( tile.y + VMost ) * 2 - 1 ] = false;
         }
+
+        GenDoorOnMapTile( floor, ref doorDic );
     }
 
     private List<MapTile> Generate(List<MapTile> map, int floor)
@@ -391,7 +458,6 @@ public class MapGenerator
     
     private ItemManager.ItemCategory randomItem(Dictionary<string,int> itemCount)
     {
-        return ItemManager.ItemCategory.Water;
         int percent = UnityEngine.Random.Range(0, 100);
 
         if (0 <= percent && percent < 60)
@@ -460,7 +526,7 @@ public class MapGenerator
                 itemCount["Equip"]--;
                 Array values = Enum.GetValues(typeof(ItemManager.ItemCategory));
                 ItemManager.ItemCategory randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
-                while (ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Armor ||
+                while (ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Armor &&
                     ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Weapon)
                 {
                     randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
@@ -509,4 +575,28 @@ public class MapGenerator
         return randomList; //return the new random list
     }
 
+    private void GenDoorOnMapTile( List<MapTile> floor, ref bool[,] doorDic) {
+        Vector2 position;
+        foreach(MapTile maptile in floor) {
+            foreach( MapTile _maptile in floor ) {
+                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y && doorDic[ (maptile.x+HMost) * 2 + 1, (maptile.y+VMost) * 2 ] == false ) {
+                    position = new Vector2( maptile.x * BoardManager.horizontalMovement + BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
+                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag="HorizontalDoor";
+                    doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 ]= true ;
+                } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y && doorDic[ ( maptile.x + HMost ) * 2 - 1, ( maptile.y + VMost ) * 2  ] == false ) {
+                    position = new Vector2( maptile.x * BoardManager.horizontalMovement - BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
+                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "HorizontalDoor";
+                    doorDic[ ( maptile.x + HMost ) * 2 - 1, ( maptile.y + VMost ) * 2 ]= true;
+                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1 && doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 + 1  ] == false ) {
+                    position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement + BoardManager.verticalMovement / 2 );
+                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
+                    doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 + 1 ]= true ;
+                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1 && doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 - 1  ] == false ) {
+                    position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement - BoardManager.verticalMovement / 2 );
+                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
+                    doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 - 1  ] = true;
+                }
+            }
+        }
+    }
 }
