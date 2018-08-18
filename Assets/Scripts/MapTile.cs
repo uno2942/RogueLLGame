@@ -6,22 +6,22 @@ using System;
  * \brief 맵을 구성하는 맵 타일에 해당하는 데이터를 가지는 클래스
  */
 public class MapTile {
-    private int x;
-    private int y;
+    public int x;
+    public int y;
     public BoardManager.RoomType roomType;
     public List<BoardManager.NPCType> NPCList;
-    public List<Enemy> enemyList;
+    public List<BoardManager.EnemyType> enemyList;
     public List<ItemManager.ItemCategory> itemList;
-    public MapTile(int _x, int _y, BoardManager.RoomType _roomType, List<BoardManager.NPCType> _NPCList = default( List<BoardManager.NPCType>), List<Enemy> _enemyList=default(List<Enemy>), List<ItemManager.ItemCategory> _itemList=default(List<ItemManager.ItemCategory>)) {
+    public MapTile(int _x, int _y, BoardManager.RoomType _roomType) {
         x = _x;
         y = _y;
         roomType = _roomType;
-        NPCList = _NPCList;
-        enemyList = _enemyList;
-        itemList = _itemList;
+        NPCList=new List<BoardManager.NPCType>();
+        enemyList=new List<BoardManager.EnemyType>();
+        itemList=new List<ItemManager.ItemCategory>();
     }
 
-    public void AddEnemy(Enemy enemy)
+    public void AddEnemy(BoardManager.EnemyType enemy)
     {
         enemyList.Add(enemy);
     }

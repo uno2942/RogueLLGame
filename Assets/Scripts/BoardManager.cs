@@ -9,7 +9,7 @@ using System.Linq;
 public class BoardManager : MonoBehaviour {
 
     public const int verticalMovement = 10; /**< The vertical length of a board in the game. */
-    public const int horizontalMovement = 18;/**< The vertical length of a board in the game. */
+    public const int horizontalMovement = 14;/**< The vertical length of a board in the game. */
 
 
     public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
@@ -17,17 +17,18 @@ public class BoardManager : MonoBehaviour {
                                                                                    문이 클릭되었을 때, 이 변수 방향으로
                                                                                     플레이어를 이동시킨다.
                                                                           \see Door*/
-    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, PlayerStart, Equipment, End, EndOfEnum}; /**< \brief 방의 종류에 대한 열거형 
+    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, PlayerStart, Equipment, End}; /**< \brief 방의 종류에 대한 열거형 
                                                                                                                     \details 맵 파일을 파싱해서 읽은 데이터는
                                                                                                                     이 파일에서 처리해 맵을 만들며, 이 때 방의
                                                                                                                     종류에 따라 방에 놓여지는 게임 오브젝트가 다르기
                                                                                                                     때문에 이 방의 종류를 저장하기 위한 열거형이다.
                                                                                                                     */
-    public enum NPCType { Empty, DrugExpert, InjectorCollector, DrugVecder, Psychiatrist, EmergencyBox, EndOfEnum };/**< \brief NPC의 종류에 대한 열거형 
+    public enum NPCType { Empty, DrugExpert, InjectorCollector, DrugVecder, Psychiatrist, EmergencyBox };/**< \brief NPC의 종류에 대한 열거형 
                                                                                                                     \details NPC의 종류에 대한 열거형으로
                                                                                                                     이를 기반으로 NPC 게임 오브젝트를 게임에
                                                                                                                     뿌린다.
                                                                                                                     */
+    public enum EnemyType {Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse};
     public GameObject doorPrefab;
     public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
     public Player playerobejct;
@@ -79,9 +80,7 @@ public class BoardManager : MonoBehaviour {
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
     void Start() {
-
-        GenerateDoor(0, 0); // 임시로 존재하는 코드.
-
+        
          playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
@@ -92,95 +91,96 @@ public class BoardManager : MonoBehaviour {
         map = new List<List<MapTile>>();
         parser.parse( ref map );
 
+        parser.GenMapObject(map[0]);
 
+        /*
+                Random.InitState( (int) System.DateTime.Now.Ticks );
 
+                var IEmapTiles = from mapTile in floor
+                                 where mapTile.roomType == BoardManager.RoomType.NormalRoom
+                                 select mapTile;
+                foreach( MapTile mapTile in IEmapTiles ) {
 
-        Random.InitState( (int) System.DateTime.Now.Ticks );
+                    int EnemyorNPCorItem = Random.Range( 0, 10 );
+                    if( EnemyorNPCorItem == 9 ) EnemyorNPCorItem -= 1;
 
-        var IEmapTiles = from mapTile in floor
-                         where mapTile.roomType == BoardManager.RoomType.NormalRoom
-                         select mapTile;
-        foreach( MapTile mapTile in IEmapTiles ) {
+                    switch( EnemyorNPCorItem ) {
+                    case 0:
+                        GenerateNPCInMapTile( mapTile ); break;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        GenerateEmepyInMapTile( mapTile ); break;
+                    case 7:
+                    case 8:
+                    case 9: GenerateItemInMapTile( mapTile ); break;
+                    }
+                }
 
-            int EnemyorNPCorItem = Random.Range( 0, 10 );
-            if( EnemyorNPCorItem == 9 ) EnemyorNPCorItem -= 1;
+                IEmapTiles = from mapTile in floor
+                             where mapTile.roomType == BoardManager.RoomType.LockedRoom
+                             select mapTile;
+                foreach( MapTile mapTile in IEmapTiles ) {
 
-            switch( EnemyorNPCorItem ) {
-            case 0:
-                GenerateNPCInMapTile( mapTile ); break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-                GenerateEmepyInMapTile( mapTile ); break;
-            case 7:
-            case 8:
-            case 9: GenerateItemInMapTile( mapTile ); break;
-            }
-        }
+                    int EnemyorNPCorItem = Random.Range( 0, 10 );
+                    if( EnemyorNPCorItem == 10 ) EnemyorNPCorItem -= 1;
 
-        IEmapTiles = from mapTile in floor
-                     where mapTile.roomType == BoardManager.RoomType.LockedRoom
-                     select mapTile;
-        foreach( MapTile mapTile in IEmapTiles ) {
+                    switch( EnemyorNPCorItem ) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3: GenerateNPCInMapTile( mapTile ); break;
+                    case 4:
+                    case 5:
+                        GenerateEmepyInMapTile( mapTile ); break;
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                        GenerateItemInMapTile( mapTile ); break;
+                    }
+                }
 
-            int EnemyorNPCorItem = Random.Range( 0, 10 );
-            if( EnemyorNPCorItem == 10 ) EnemyorNPCorItem -= 1;
+                IEmapTiles = from mapTile in floor
+                             where mapTile.roomType == BoardManager.RoomType.Hall
+                             select mapTile;
+                foreach( MapTile mapTile in IEmapTiles ) {
 
-            switch( EnemyorNPCorItem ) {
-            case 0:
-            case 1:
-            case 2:
-            case 3: GenerateNPCInMapTile( mapTile ); break;
-            case 4:
-            case 5:
-                GenerateEmepyInMapTile( mapTile ); break;
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-                GenerateItemInMapTile( mapTile ); break;
-            }
-        }
+                    int EnemyorNPCorItem = Random.Range( 0, 10 );
+                    if( EnemyorNPCorItem == 9 ) EnemyorNPCorItem -= 1;
 
-        IEmapTiles = from mapTile in floor
-                     where mapTile.roomType == BoardManager.RoomType.Hall
-                     select mapTile;
-        foreach( MapTile mapTile in IEmapTiles ) {
+                    switch( EnemyorNPCorItem ) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        GenerateEmepyInMapTile( mapTile ); break;
+                    case 4:
+                        GenerateItemInMapTile( mapTile ); break;
+                    }
+                }
 
-            int EnemyorNPCorItem = Random.Range( 0, 10 );
-            if( EnemyorNPCorItem == 9 ) EnemyorNPCorItem -= 1;
+                IEmapTiles = from mapTile in floor
+                             where mapTile.roomType == BoardManager.RoomType.DrugRoom
+                             select mapTile;
+                foreach( MapTile mapTile in IEmapTiles ) {
+                    GenerateItemInMapTile( mapTile );
+                }
 
-            switch( EnemyorNPCorItem ) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                GenerateEmepyInMapTile( mapTile ); break;
-            case 4:
-                GenerateItemInMapTile( mapTile ); break;
-            }
-        }
-
-        IEmapTiles = from mapTile in floor
-                     where mapTile.roomType == BoardManager.RoomType.DrugRoom
-                     select mapTile;
-        foreach( MapTile mapTile in IEmapTiles ) {
-            GenerateItemInMapTile( mapTile );
-        }
-
-        IEmapTiles = from mapTile in floor
-                     where mapTile.roomType == BoardManager.RoomType.RestRoom
-                     select mapTile;
-        foreach( MapTile mapTile in IEmapTiles ) {
-            GenerateNPCInMapTile( mapTile );
-        }
+                IEmapTiles = from mapTile in floor
+                             where mapTile.roomType == BoardManager.RoomType.RestRoom
+                             select mapTile;
+                foreach( MapTile mapTile in IEmapTiles ) {
+                    GenerateNPCInMapTile( mapTile );
+                }
+                */
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
     /**
@@ -214,21 +214,6 @@ public class BoardManager : MonoBehaviour {
 
             DestroyDoor();
            
-
-            switch( direction ) {
-            case Direction.Right:
-                GenerateDoor(14, 0);
-                break;
-            case Direction.Left:
-                GenerateDoor( -14, 0 );
-                break;
-            case Direction.UpSide:
-                GenerateDoor( 0, 10 );
-                break;
-            case Direction.DownSide:
-                GenerateDoor( 0, -10 );
-                break;
-            }
         }
     }
 
@@ -242,26 +227,26 @@ public class BoardManager : MonoBehaviour {
         case RoomType.LockedRoom:
         case RoomType.NormalRoom: {
                 do {
-                    index = (int) Random.Range( 1, (int) NPCType.EndOfEnum );
-                    if( index == (int) NPCType.EndOfEnum )
-                        index = (int) NPCType.EndOfEnum - 1;
+                    index = (int) Random.Range( 1, System.Enum.GetValues(typeof(NPCType)).Length+1 );
+                    if( index == System.Enum.GetValues( typeof( NPCType ) ).Length + 1 )
+                        index -= 1;
                 } while( index == (int) NPCType.DrugVecder );
                 mapTile.NPCList.Add( (NPCType) index ); break;
             }
         case RoomType.RestRoom: 
             {
                 do {
-                    index = (int) Random.Range( 1, (int) NPCType.EndOfEnum );
-                    if( index == (int) NPCType.EndOfEnum )
-                        index = (int) NPCType.EndOfEnum - 1;
+                    index = (int) Random.Range( 1, System.Enum.GetValues( typeof( NPCType ) ).Length + 1 );
+                    if( index == System.Enum.GetValues( typeof( NPCType ) ).Length + 1 )
+                        index -= 1;
                 } while( index == (int) NPCType.DrugVecder );
                 mapTile.NPCList.Add( (NPCType) index );
             }
             {
                 do {
-                    index = (int) Random.Range( 1, (int) NPCType.EndOfEnum );
-                    if( index == (int) NPCType.EndOfEnum )
-                        index = (int) NPCType.EndOfEnum - 1;
+                    index = (int) Random.Range( 1, System.Enum.GetValues( typeof( NPCType ) ).Length + 1 );
+                    if( index == System.Enum.GetValues( typeof( NPCType ) ).Length + 1 )
+                        index -= 1;
                 } while( index == (int) NPCType.DrugVecder );
                 mapTile.NPCList.Add( (NPCType) index );
             }
@@ -334,29 +319,7 @@ public class BoardManager : MonoBehaviour {
             return -1;
         }
     }
-
-    /**
-     * 문 (프리팹)을 생성한다.
-     * @todo 지금은 사방에 문을 생성하게 하지만, 맵 타일이 붙어 있는 곳에만 생성하도록 해야한다.
-     */
-    void GenerateDoor(int x, int y) {
-
-        GameObject doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0+y ), Quaternion.identity ) as GameObject;
-        Door door = doorObject.GetComponent<Door>();
-        door.direction = Direction.Right;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x - 7 + x, GameObject.Find( "PlayerUI" ).transform.position.y + 0 + y ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.Left;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + x, GameObject.Find( "PlayerUI" ).transform.position.y + 5 + y ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.UpSide;
-
-        doorObject = Instantiate( doorPrefab, new Vector2( GameObject.Find( "PlayerUI" ).transform.position.x + x, GameObject.Find( "PlayerUI" ).transform.position.y - 5 + y ), Quaternion.identity ) as GameObject;
-        door = doorObject.GetComponent<Door>();
-        door.direction = Direction.DownSide;
-    }
+    
     /**
      * 플레이어가 이동하면 문을 클릭해서 이동했을 때 원래 있던 문을 삭제하기 위한 함수
      */

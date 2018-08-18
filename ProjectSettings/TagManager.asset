@@ -8,6 +8,16 @@ TagManager:
   - Enemy
   - EquipBtn
   - ItemPickedUp
+  - BossRoom
+  - NormalRoom
+  - Hall
+  - DrugRoom
+  - LockedRoom
+  - RestRoom
+  - Equipment
+  - PlayerStart
+  - VerticalDoor
+  - HorizontalDoor
   layers:
   - Default
   - TransparentFX
