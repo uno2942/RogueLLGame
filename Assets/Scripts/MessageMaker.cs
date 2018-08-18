@@ -49,10 +49,10 @@ public class MessageMaker : MonoBehaviour {
     private string Name(Unit subject)
     {
         string name = "강원기";
-        if (subject.ToString() == "Player") name = "당신";
-        else if (subject.ToString() == "Rat") name = "쥐";
-        else if (subject.ToString() == "Dog") name = "개";
-        else if (subject.ToString() == "Human") name = "사람";
+        if (subject is Player) name = "당신";
+        else if (subject is Rat) name = "쥐";
+        else if (subject is Dog) name = "개";
+        else if (subject is Human) name = "사람";
         else if (subject.ToString() == "BoundedCrazy") name = "구속된 미치광이";
         else if (subject.ToString() == "Gunner") name = "외팔의 명사수";
         else if (subject.ToString() == "Nurse") name = "노련한 간호사";
@@ -67,8 +67,9 @@ public class MessageMaker : MonoBehaviour {
     private string SubjName(Unit subject)
     {
         string name = "강원기";
-        if (subject.ToString() == "Player") name = "당신은";
-        else if (subject.ToString() == "Rat") name = "쥐가";
+        Debug.Log(subject.ToString());
+        if (subject is Player) name = "당신은";
+        else if (subject is Rat) name = "쥐가";
         else if (subject.ToString() == "Dog") name = "개가";
         else if (subject.ToString() == "Human") name = "사람이";
         else if (subject.ToString() == "BoundedCrazy") name = "구속된 미치광이가";
@@ -85,8 +86,8 @@ public class MessageMaker : MonoBehaviour {
     private string ObjName(Unit target)
     {
         string name = "강원기";
-        if (target.ToString() == "Player") name = "당신을";
-        else if (target.ToString() == "Rat") name = "쥐를";
+        if (target is Player) name = "당신을";
+        else if (target is Rat) name = "쥐를";
         else if (target.ToString() == "Dog") name = "개를";
         else if (target.ToString() == "Human") name = "사람을";
         else if (target.ToString() == "BoundedCrazy") name = "구속된 미치광이를";
@@ -315,8 +316,9 @@ public class MessageMaker : MonoBehaviour {
         string s = "";
         if (deadUnit.ToString() == "Player")
         {
+            s += "< color =#ff0000ff>";
             s += Name(subject);
-            s += " 공격으로 인해 죽었습니다...";
+            s += " 공격으로 인해 죽었습니다...</color>";
 
             logger.AddLog(s); // 글자색 변경 필요!!!!
         }
