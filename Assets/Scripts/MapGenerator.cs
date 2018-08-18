@@ -29,14 +29,14 @@ public class MapGenerator
 
     public void parse(ref List<List<MapTile>> mapTiles)
     {
-        BossPrefab = (GameObject)UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof(GameObject));
+        BossPrefab = (GameObject)UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/BossRoom.prefab", typeof(GameObject));
         NormalRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        HallPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        HallPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Hall.prefab", typeof( GameObject ) );
         PStartPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        EquipRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        RestRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
+        EquipRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/EquipRoom.prefab", typeof( GameObject ) );
+        RestRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/RestRoom.prefab", typeof( GameObject ) );
+        LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/LockedRoom.prefab", typeof( GameObject ) );
+        DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/DrugRoom.prefab", typeof( GameObject ) );
 
         Maps =new List<List<MapTile>>();
         int i;
@@ -83,32 +83,37 @@ public class MapGenerator
             Vector2 position = new Vector2(14 * tile.x, 10 * tile.y);
 
             switch (tile.roomType) {
-                case BoardManager.RoomType.BossRoom:
-                    tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity);
+				case BoardManager.RoomType.BossRoom:
+					tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity);
+					tileobj.transform.localScale = new Vector3(6.23f, 4.47f, 1);
                     break;
                 case BoardManager.RoomType.NormalRoom:
                     tileobj = GameObject.Instantiate( NormalRoomPrefab, position, Quaternion.identity);
                     break;
                 case BoardManager.RoomType.Hall:
-                    tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity);
+					tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity);
+					tileobj.transform.localScale = new Vector3(5.1f, 5.5f, 1);
                     break;
-                case BoardManager.RoomType.DrugRoom:
-                    tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity);
+				case BoardManager.RoomType.DrugRoom:
+					tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity);
+					tileobj.transform.localScale = new Vector3(5.4f, 5.15f, 1);
                     break;
                 case BoardManager.RoomType.LockedRoom:
-                    tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity);
+					tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity);
+					tileobj.transform.localScale = new Vector3(4.89f, 5.68f, 1);
                     break;
                 case BoardManager.RoomType.RestRoom:
-                    tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity);
+					tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity);
+					tileobj.transform.localScale = new Vector3(7.23f, 3.86f, 1);
                     break;
                 case BoardManager.RoomType.Equipment:
-                    tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity);
+					tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity);
+					tileobj.transform.localScale = new Vector3(4.91f, 5.6f, 1);
                     break;
                 case BoardManager.RoomType.PlayerStart:
                     tileobj = GameObject.Instantiate( PStartPrefab, position, Quaternion.identity);
                     break;
             }
-            tileobj.transform.localScale = new Vector3(14, 10, 1);
         }
     }
 
