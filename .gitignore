@@ -36,7 +36,9 @@ sysinfo.txt
 
 Doxyfile
 
-
+#Incremetal Element
+*.rsp
+*.log
 # Created by https://www.gitignore.io/api/code
 
 ### Code ###
