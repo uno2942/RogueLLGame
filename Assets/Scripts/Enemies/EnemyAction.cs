@@ -10,8 +10,10 @@ public class EnemyAction
 */
     protected Player player;
     protected Enemy enemyItself;
+    protected MessageMaker messageMaker;
     public EnemyAction(Enemy enemy) {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
+        messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
         enemyItself = enemy;
     }
     /** 
@@ -42,8 +44,8 @@ public class EnemyAction
             if( temp <= 1.0f )
                 temp = 1;
             player.ChangeHp( -temp );
-
-            float i = Random.value;
+            messageMaker.MakeAttackMessage(enemyItself, MessageMaker.UnitAction.Attack, player, (int)temp);
+        float i = Random.value;
             if( i < enemyItself.DebuffPercent() ) {
                 player.AddBuff( enemyItself.Debuff() );
             }
