@@ -9,19 +9,24 @@ using UnityEngine;
 
 public class Logger : MonoBehaviour {
 
-    public List<string> LogList;
     public Text logger;
+    private int maxLine = 3;
 
 	// Use this for initialization
 	void Start () {
-        LogList = new List<string>();
-	}
+        logger = GameObject.Find("Logger").GetComponent<Text>();
+    }
 	
 	// Update is called once per frame
 	public void AddLog (string _log) {
-        string log = logger.text;
-        log += string.Format("/n{0}", _log);
-	}
+        //string log = logger.text;
+        string tmptext;
+        tmptext = logger.text;
+        tmptext = tmptext.Substring(tmptext.IndexOf("\n")+1);
+        tmptext += "\n";
+        tmptext += _log;
+        logger.text = tmptext;
+    }
 
     void Update() { }
 }
