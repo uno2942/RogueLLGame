@@ -12,6 +12,7 @@ public class StatECS : MonoBehaviour {
     };
     public bool[] isThrown;
     public BuffECS.condition[] condition;
+    public bool[] negate;
     public StatList[] stats;
     public int[] deltas;
     public bool isUsed;
