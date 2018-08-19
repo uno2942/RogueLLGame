@@ -126,13 +126,14 @@ public class MapGenerator {
         return BoardManager.RoomType.Empty;
     }
 
-    public void GenMapObject(List<MapTile> floor) {
+    public void GenMapObject(List<MapTile> floor, ref Dictionary<Coord, MapTile> CurrentMapOfFloor ) {
         bool[,] doorDic = new bool[4*HMost+2, 4*VMost+2];
+        CurrentMapOfFloor = new Dictionary<Coord, MapTile>();
         foreach( MapTile tile in floor)
         {
             GameObject tileobj = new GameObject();
             Vector2 position = new Vector2(14 * tile.x, 10 * tile.y);
-            
+            CurrentMapOfFloor.Add( new Coord( tile.x, tile.y ), tile );
             switch (tile.roomType) {
                 case BoardManager.RoomType.BossRoom:
                     tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity);

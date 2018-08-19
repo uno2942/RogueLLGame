@@ -84,7 +84,7 @@ public class Door : MonoBehaviour {
 
             boardManager.MoveNextRoom( direction );
             gameManager.EndPlayerTurn( Unit.Action.Move);
-            gameManager.GenerateMonsters( 2 );
+            gameManager.GenerateMonsters(boardManager.XPos, boardManager.YPos);
         }
     }
 

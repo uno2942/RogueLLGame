@@ -34,8 +34,8 @@ public class BoardManager : MonoBehaviour {
     public Player playerobejct;
 
     private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
+    public Dictionary<MapGenerator.Coord, MapTile> CurrentMapOfFloor;
     private List<List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
-
     private MapGenerator parser; /**< 맵 파서이다. */
 
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
@@ -91,7 +91,7 @@ public class BoardManager : MonoBehaviour {
         map = new List<List<MapTile>>();
         parser.parse( ref map );
 
-        parser.GenMapObject(map[0]);
+        parser.GenMapObject(map[0], ref CurrentMapOfFloor);
 
         /*
                 Random.InitState( (int) System.DateTime.Now.Ticks );
@@ -215,93 +215,6 @@ public class BoardManager : MonoBehaviour {
             DestroyDoor();
            
         }
-    }
-
-    /**
-     * NPC가 존재할 수 있는 맵 타일에 NPC를 생성한다.
-     * @todo 해야한다.
-     */
-    private void GenerateNPCInMapTile(MapTile mapTile) {
-        int index=0;
-        switch( mapTile.roomType ) {
-        case RoomType.LockedRoom:
-        case RoomType.NormalRoom: {
-                do {
-                    index = (int) Random.Range( 1, System.Enum.GetValues(typeof(NPCType)).Length+1 );
-                    if( index == System.Enum.GetValues( typeof( NPCType ) ).Length + 1 )
-                        index -= 1;
-                } while( index == (int) NPCType.DrugVecder );
-                mapTile.NPCList.Add( (NPCType) index ); break;
-            }
-        case RoomType.RestRoom: 
-            {
-                do {
-                    index = (int) Random.Range( 1, System.Enum.GetValues( typeof( NPCType ) ).Length + 1 );
-                    if( index == System.Enum.GetValues( typeof( NPCType ) ).Length + 1 )
-                        index -= 1;
-                } while( index == (int) NPCType.DrugVecder );
-                mapTile.NPCList.Add( (NPCType) index );
-            }
-            {
-                do {
-                    index = (int) Random.Range( 1, System.Enum.GetValues( typeof( NPCType ) ).Length + 1 );
-                    if( index == System.Enum.GetValues( typeof( NPCType ) ).Length + 1 )
-                        index -= 1;
-                } while( index == (int) NPCType.DrugVecder );
-                mapTile.NPCList.Add( (NPCType) index );
-            }
-            mapTile.NPCList.Add( NPCType.DrugVecder );
-            break;
-        }
-    }
-    /**
-    * 적이 존재할 수 있는 맵 타일에 적을 생성한다.
-    * @todo 해야한다.
-    */
-    private void GenerateEmepyInMapTile( MapTile mapTile ) {
-        /*
-        int index = 0;
-        switch( mapTile.roomType ) {
-        case Enemy.LockedRoom:
-        case RoomType.NormalRoom: {
-                do {
-                    index = (int) Random.Range( 1, (int) NPCType.EndOfEnum );
-                    if( index == (int) NPCType.EndOfEnum )
-                        index = (int) NPCType.EndOfEnum - 1;
-                } while( index == (int) NPCType.DrugVecder );
-                mapTile.NPCList.Add( (NPCType) index ); break;
-            }
-        case RoomType.RestRoom: {
-                do {
-                    index = (int) Random.Range( 1, (int) NPCType.EndOfEnum );
-                    if( index == (int) NPCType.EndOfEnum )
-                        index = (int) NPCType.EndOfEnum - 1;
-                } while( index == (int) NPCType.DrugVecder );
-                mapTile.NPCList.Add( (NPCType) index );
-            } {
-                do {
-                    index = (int) Random.Range( 1, (int) NPCType.EndOfEnum );
-                    if( index == (int) NPCType.EndOfEnum )
-                        index = (int) NPCType.EndOfEnum - 1;
-                } while( index == (int) NPCType.DrugVecder );
-                mapTile.NPCList.Add( (NPCType) index );
-            }
-            mapTile.NPCList.Add( NPCType.DrugVecder );
-            break;
-        }
-        */
-    }
-    /**
-     * 아이템이 존재할 수 있는 맵에 아이템을 생성한다.
-     * @todo 해야한다. 적이 존재하는 곳에 적이 드랍하는 아이템을 미리 뿌려놓을지 택해야 함.
-     */
-    private void GenerateItemInMapTile( MapTile mapTile ) {
-/*
-        int index = (int) Random.Range( 1, (int) ItemManager.ItemCategory.EndOfEnum);
-        if( index == (int) ItemManager.ItemCategory.EndOfEnum )
-            index = (int) ItemManager.ItemCategory.EndOfEnum - 1;
-        mapTile.itemList.Add(( ItemManager.ItemCategory) index);
-*/
     }
 
     public static int RandomGenerator(float[] percent) {

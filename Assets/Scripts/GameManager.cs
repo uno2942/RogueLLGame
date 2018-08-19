@@ -116,28 +116,15 @@ public class GameManager : MonoBehaviour {
      * It generates monsters on the board with fixed number of monsters given by parameter.
      * \see Door::OnMouseUpAsButton
      */
-    public void GenerateMonsters(int numberOfMonster)
+    public void GenerateMonsters(int x, int y)
     {
-        Vector2 nowPos = new Vector2 (boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement);
-        switch(numberOfMonster)
-        {
-            case 0: break;
-            case 1:
-                Instantiate (ratPrefab, nowPos + monsterGenLocation[0], Quaternion.identity);
-                break;
-            case 2:
-                Instantiate (ratPrefab, nowPos + monsterGenLocation [1], Quaternion.identity);
-                Instantiate (ratPrefab, nowPos + monsterGenLocation [2], Quaternion.identity);
-                break;
-            case 3:
-                Instantiate (ratPrefab, nowPos + monsterGenLocation [3], Quaternion.identity);
-                Instantiate (ratPrefab, nowPos + monsterGenLocation [4], Quaternion.identity);
-                Instantiate (ratPrefab, nowPos + monsterGenLocation [5], Quaternion.identity);
-                break;
-        }
-        if(numberOfMonster >0)
-        {
-            currentSituation = true;
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+        MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
+        Debug.Log( maptile.enemyList.Count );
+        switch(  maptile.enemyList.Count) {
+        case 0: return;
+        case 1: break;
+        default: break;
         }
     }
     /**
