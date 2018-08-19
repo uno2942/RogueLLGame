@@ -45,6 +45,9 @@ Doxyfile
 .vscode/
 tsconfig.json
 jsconfig.json
+#Incremetal Element
+*.rsp
+*.log
 
 
 # End of https://www.gitignore.io/api/code

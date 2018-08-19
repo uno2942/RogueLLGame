@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isThrown: 0100
   condition: 0000000000000000
+  negate: 
   stats: 0000000000000000
   deltas: 0000000000000000
   isUsed: 0
