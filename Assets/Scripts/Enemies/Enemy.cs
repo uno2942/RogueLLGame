@@ -45,7 +45,10 @@ public class Enemy : Unit
 
     public int Level { get { return level; } }
 
-    
+    protected void OnMouseUpAsButton() {
+        player.PlayerAction.Attack( this );
+        Debug.Log( "플레이어 공격" );
+    }
 
 
     /** \change enemy's Status by isHallucinated

@@ -127,7 +127,7 @@ public class MapGenerator {
     }
 
     public void GenMapObject(List<MapTile> floor, ref Dictionary<Coord, MapTile> CurrentMapOfFloor ) {
-        bool[,] doorDic = new bool[4*HMost+2, 4*VMost+2];
+        bool[,] doorDic = new bool[4*HMost+4, 4*VMost+4];
         CurrentMapOfFloor = new Dictionary<Coord, MapTile>();
         foreach( MapTile tile in floor)
         {
@@ -168,13 +168,11 @@ public class MapGenerator {
                 tileobj.tag = "PlayerStart";
                 break;
             }
-            Debug.Log( (tile.x + HMost ) * 2 + 1);
-            Debug.Log( ( tile.y + VMost ) * 2 );
             tileobj.transform.localScale = new Vector3(14, 10, 1);
-            doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 ] = false;
-            doorDic[ ( tile.x + HMost ) * 2 - 1, ( tile.y + VMost ) * 2 ] = false;
-            doorDic[ ( tile.x + HMost ) * 2, ( tile.y + VMost ) * 2 + 1 ] = false;
-            doorDic[ ( tile.x + HMost ) * 2, ( tile.y + VMost ) * 2 - 1 ] = false;
+            doorDic[ ( tile.x + HMost ) * 2 + 3, ( tile.y + VMost ) * 2 + 2] = false;
+            doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 + 2] = false;
+            doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 3 ] = false;
+            doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 1 ] = false;
         }
 
         GenDoorOnMapTile( floor, ref doorDic );
@@ -583,19 +581,19 @@ public class MapGenerator {
                 if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y && doorDic[ (maptile.x+HMost) * 2 + 1, (maptile.y+VMost) * 2 ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement + BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag="HorizontalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 ]= true ;
+                    doorDic[ ( maptile.x + HMost ) * 2 + 3, ( maptile.y + VMost ) * 2 + 2]= true ;
                 } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y && doorDic[ ( maptile.x + HMost ) * 2 - 1, ( maptile.y + VMost ) * 2  ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement - BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "HorizontalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2 - 1, ( maptile.y + VMost ) * 2 ]= true;
+                    doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 + 2]= true;
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1 && doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 + 1  ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement + BoardManager.verticalMovement / 2 );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 + 1 ]= true ;
+                    doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 3 ]= true ;
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1 && doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 - 1  ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement - BoardManager.verticalMovement / 2 );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 - 1  ] = true;
+                    doorDic[ ( maptile.x + HMost ) * 2+ 2, ( maptile.y + VMost ) * 2 + 1  ] = true;
                 }
             }
         }

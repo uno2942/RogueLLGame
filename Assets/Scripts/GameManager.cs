@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour {
      */
      //@{
     public GameObject ratPrefab;
+    public GameObject dogPrefab;
+    public GameObject humanPrefab;
     private Vector2[] monsterGenLocation;
     //@}
 
@@ -123,18 +125,30 @@ public class GameManager : MonoBehaviour {
         Debug.Log( maptile.enemyList.Count );
         switch(  maptile.enemyList.Count) {
         case 0: return;
-        case 1: break;
+        case 1:
+            InstantiateMonster( maptile.enemyList[ 0 ], monsterGenLocation[ 0 ]+nowPos );
+            break;
+        case 2:
+            InstantiateMonster( maptile.enemyList[ 0 ], monsterGenLocation[ 1 ] + nowPos );
+            InstantiateMonster( maptile.enemyList[ 1 ], monsterGenLocation[ 2 ] + nowPos );
+            break;
+        case 3:
+            InstantiateMonster( maptile.enemyList[ 0 ], monsterGenLocation[ 3 ] + nowPos );
+            InstantiateMonster( maptile.enemyList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
+            InstantiateMonster( maptile.enemyList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
+            break;
+        default: break;
+        }
+        currentSituation = true;
+    }
+    private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
+        switch(eType){
+        case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity ); break;
+        case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity ); break;
+        case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity ); break;
         default: break;
         }
     }
-    /**
-     * 프로토 타입을 만들 때 사용한 함수.
-     * @todo 더 구현해야 한다.
-     */
-    public void GenerateBoss() {
-        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
-    }
-
     /**
      * 이 함수는 플레어어의 턴을 종류하는 역할을 한다.
      * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.

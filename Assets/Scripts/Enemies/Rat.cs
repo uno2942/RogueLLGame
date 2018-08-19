@@ -30,10 +30,6 @@ public class Rat : Enemy
  * There is a debug code.
  * When player clicked this gameobject, player attack to this enemy, and turn of the game flows.
  */
-    private void OnMouseUpAsButton() {
-        player.PlayerAction.Attack( this );
-        Debug.Log( "플레이어 공격" );
-    }
 
     /** \change enemy's Status by level and isHallucinated
      */
