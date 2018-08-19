@@ -674,7 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 486828227}
   ratPrefab: {fileID: 1497746923105172, guid: b045db4b825e697469b3ec17aa64a063, type: 2}
-  dogPrefab: {fileID: 1948214842255182, guid: 11e71dc346f5b1441ab3e0aab8fcdc31, type: 2}
+  dogPrefab: {fileID: 1294049849326864, guid: d35df83762ab4fe4b886c6688825bd44, type: 2}
   humanPrefab: {fileID: 1083860989706420, guid: 545b5641ae7b36549a272cbb2e70f0b9,
     type: 2}
 --- !u!4 &822175069

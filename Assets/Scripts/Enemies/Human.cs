@@ -9,7 +9,7 @@ public class Human : Enemy
      * There is a debug code.
      * incomplete:: shld be read settings file
      */
-    private void Start()
+    protected override void Start()
     {
         Debug.Log("사람 나타남");
         level = 1;
@@ -21,6 +21,7 @@ public class Human : Enemy
         enemyAction = new EnemyAction(this);
         debuff = null;
         player = GameObject.Find( "Player" ).GetComponent<Player>();
+        base.Start();
     }
 
 
