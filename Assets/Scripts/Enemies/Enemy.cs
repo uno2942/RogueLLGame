@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /** \class Enemy 
  * \brief This class is the base class for various enemy classes.
@@ -15,6 +16,7 @@ public class Enemy : Unit
 * \details In the game, there are some cases that may need the change of enemies' level such as hallucination, change of floor.
 */
     protected int level;
+    protected Image healthbar;
     /** 
     * Which action does Enemy do?
     */
@@ -31,6 +33,22 @@ public class Enemy : Unit
 
     protected Buff debuff;
     protected float debuffPercent;
+
+    protected virtual void Start() {
+        Image[] images = GetComponentsInChildren<Image>();
+        foreach( Image image in images ) {
+            if( image.name == "health" ) {
+                healthbar = image;
+                break;
+            }
+        }
+    }
+    public override void ChangeHp( float delta ) {
+        hp += (int) delta;
+        if( hp >= MaxHp )
+            hp = MaxHp;
+        healthbar.fillAmount = ((float)hp) / MaxHp;
+    }
 
     public Buff Debuff()
     {
