@@ -171,6 +171,7 @@ public class MapGenerator {
             }
             tileobj.transform.localScale = new Vector3(14, 10, 1);
             GameObject.Instantiate( minimapTilePrefab, new Vector3(tile.x*0.5f, tile.y*0.5f, 60), Quaternion.identity );
+
             doorDic[ ( tile.x + HMost ) * 2 + 3, ( tile.y + VMost ) * 2 + 2] = false;
             doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 + 2] = false;
             doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 3 ] = false;
@@ -580,19 +581,19 @@ public class MapGenerator {
         Vector2 position;
         foreach(MapTile maptile in floor) {
             foreach( MapTile _maptile in floor ) {
-                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y && doorDic[ (maptile.x+HMost) * 2 + 1, (maptile.y+VMost) * 2 ] == false ) {
+                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y && doorDic[ (maptile.x+HMost) * 2 + 3, (maptile.y+VMost) * 2 + 2] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement + BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag="HorizontalDoor";
                     doorDic[ ( maptile.x + HMost ) * 2 + 3, ( maptile.y + VMost ) * 2 + 2]= true ;
-                } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y && doorDic[ ( maptile.x + HMost ) * 2 - 1, ( maptile.y + VMost ) * 2  ] == false ) {
+                } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y && doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 + 2 ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement - BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "HorizontalDoor";
                     doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 + 2]= true;
-                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1 && doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 + 1  ] == false ) {
+                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1 && doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 3  ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement + BoardManager.verticalMovement / 2 );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
                     doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 3 ]= true ;
-                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1 && doorDic[ ( maptile.x + HMost ) * 2, ( maptile.y + VMost ) * 2 - 1  ] == false ) {
+                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1 && doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 1  ] == false ) {
                     position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement - BoardManager.verticalMovement / 2 );
                     GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
                     doorDic[ ( maptile.x + HMost ) * 2+ 2, ( maptile.y + VMost ) * 2 + 1  ] = true;
