@@ -31,6 +31,7 @@ public class BoardManager : MonoBehaviour {
     public enum EnemyType {Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse};
     public GameObject doorPrefab;
     public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
+    public Camera minimapCamera;
     public Player playerobejct;
 
     private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
@@ -192,21 +193,25 @@ public class BoardManager : MonoBehaviour {
             switch(direction) {
             case Direction.Right:
                 gameCamera.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
+                minimapCamera.transform.position += new Vector3( 0.5f, 0, 0 );
                 playerobejct.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
                 xPos++;
                 break;
             case Direction.Left:
                 gameCamera.transform.position -= new Vector3Int( horizontalMovement, 0, 0 );
+                minimapCamera.transform.position -= new Vector3( 0.5f, 0, 0 );
                 playerobejct.transform.position -= new Vector3Int( horizontalMovement, 0, 0 );
                 xPos--;
                 break;
             case Direction.UpSide:
                 gameCamera.transform.position += new Vector3Int( 0, verticalMovement, 0 );
+                minimapCamera.transform.position += new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 yPos++;
                 break;
              case Direction.DownSide:
                 gameCamera.transform.position -= new Vector3Int(0, verticalMovement, 0 );
+                minimapCamera.transform.position -= new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 yPos--;
                 break;

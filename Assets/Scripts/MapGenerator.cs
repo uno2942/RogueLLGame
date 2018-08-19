@@ -27,7 +27,7 @@ public class MapGenerator {
     private GameObject LockedRoomPrefab;
     private GameObject DrugRoomPrefab;
     private GameObject DoorPrefab;
-    
+    private GameObject minimapTilePrefab;
 
     public struct Coord{
         int x, y;
@@ -82,6 +82,7 @@ public class MapGenerator {
         LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         DoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Moonprefab.prefab", typeof( GameObject ) );
+        minimapTilePrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/minimapPrefab/MinimapTile.prefab", typeof( GameObject ) );
         Maps =new List<List<MapTile>>();
 
         int i;
@@ -169,6 +170,7 @@ public class MapGenerator {
                 break;
             }
             tileobj.transform.localScale = new Vector3(14, 10, 1);
+            GameObject.Instantiate( minimapTilePrefab, new Vector3(tile.x*0.5f, tile.y*0.5f, 60), Quaternion.identity );
             doorDic[ ( tile.x + HMost ) * 2 + 3, ( tile.y + VMost ) * 2 + 2] = false;
             doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 + 2] = false;
             doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 3 ] = false;
