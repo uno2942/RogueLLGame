@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MedicalBox : NPC {
-	
-	public MedicalBox(){
+
+    protected override void Start() {
 		name = "MedicalBox";
 		usuability = 100;
 	}
 
-	public void talk (Player player){
+    public override void talk (Player player){
 		if (usuability == 100) {
 			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Burn ) ) ) );
 			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Poison ) ) ) );
@@ -18,7 +18,7 @@ public class MedicalBox : NPC {
 			usuability = 0;
 		}
 	}
-    void OnMouseUpAsButton()
+    public override void OnMouseUpAsButton()
     {
         if (usuability == 0)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MedicineMaster : NPC {
 
-	public MedicineMaster(){
+    protected override void Start() {
 		name = "MedicineMaster";
 		usuability = 100;
 	}
@@ -13,7 +13,7 @@ public class MedicineMaster : NPC {
 		player.InventoryList.itemManager.ItemIdentify (label);
 	}
 
-    void OnMouseUpAsButton()
+    public override void OnMouseUpAsButton()
     {
         if (usuability == 0)
         {
