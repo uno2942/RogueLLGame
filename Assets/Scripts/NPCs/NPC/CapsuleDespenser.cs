@@ -7,12 +7,12 @@ public class CapsuleDespenser : NPC {
 
 	public BoardManager boardmanager;
 
-	public CapsuleDespenser(){
+	protected override void Start(){
 		name = "CapsuleDespenser";
 		usuability = 100;
 	}
 
-	public void talk (Player player){
+	public override void talk (Player player){
 		if (usuability == 100) {
 			Array values = Enum.GetValues(typeof(ItemManager.ItemCategory));                   
             ItemManager.ItemCategory randomBar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
@@ -48,7 +48,7 @@ public class CapsuleDespenser : NPC {
             }
 		}
 	}
-    void OnMouseUpAsButton()
+    public override void OnMouseUpAsButton()
     {
         if (usuability == 0)
         {

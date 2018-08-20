@@ -18,6 +18,7 @@ TagManager:
   - PlayerStart
   - VerticalDoor
   - HorizontalDoor
+  - NPC
   layers:
   - Default
   - TransparentFX

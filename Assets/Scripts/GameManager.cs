@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour {
         default: break;
         }
     }
+    
     /**
      * 이 함수는 플레어어의 턴을 종류하는 역할을 한다.
      * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
@@ -355,5 +356,15 @@ public class GameManager : MonoBehaviour {
             player.ChangeMp( -0.8f );
         else if( Equals( player.weapon.GetType(), typeof( CleanDoctorCloth ) ) )
             player.ChangeMp( 1 );
+    }
+
+    public void KillEnemy(Enemy enemy ) {
+        if(enemy is Dog)
+            boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ].enemyList.Remove(BoardManager.EnemyType.Dog);
+        else if(enemy is Human)
+            boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ].enemyList.Remove( BoardManager.EnemyType.Human );
+        else if(enemy is Rat)
+            boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ].enemyList.Remove( BoardManager.EnemyType.Rat );
+        Destroy( enemy.gameObject );
     }
 }
