@@ -7,13 +7,12 @@ public class InjectorCollector : NPC {
 
     public BoardManager boardmanager;
 
-    public InjectorCollector()
-    {
+    protected override void Start() {
         name = "InjectorCollector";
         usuability = 100;
     }
 
-    public void talk(Player player)
+    public override void talk(Player player)
     {
         if (usuability == 100)
         {
@@ -53,7 +52,7 @@ public class InjectorCollector : NPC {
             usuability = 0;
         }
     }
-    void OnMouseUpAsButton()
+    public override void OnMouseUpAsButton()
     {
         if (usuability == 0)
         {

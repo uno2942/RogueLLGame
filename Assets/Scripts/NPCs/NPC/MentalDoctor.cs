@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class MentalDoctor : NPC {
 
-	public MentalDoctor(){
+    protected override void Start() {
 		name = "MentalDoctor";
 		usuability = 100;
 	}
 
-	public void talk (Player player){
+	public override void talk (Player player){
 		if (usuability == 100) {
 			player.DeleteBuff (player.Bufflist.Find (x => x.GetType ().Equals (typeof(Hallucinated)))); 
 			player.ChangeMp (100 - player.Mp);
@@ -17,7 +17,7 @@ public class MentalDoctor : NPC {
 		}
 	}
 
-    void OnMouseUpAsButton()
+    public override void OnMouseUpAsButton()
     {
         if (usuability == 0)
         {

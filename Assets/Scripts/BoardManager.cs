@@ -8,8 +8,8 @@ using System.Linq;
  */
 public class BoardManager : MonoBehaviour {
 
-    public const int verticalMovement = 10; /**< The vertical length of a board in the game. */
-    public const int horizontalMovement = 14;/**< The vertical length of a board in the game. */
+    public static int verticalMovement = 10; /**< The vertical length of a board in the game. */
+    public static int horizontalMovement = 14;/**< The vertical length of a board in the game. */
 
 
     public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
@@ -23,7 +23,7 @@ public class BoardManager : MonoBehaviour {
                                                                                                                     종류에 따라 방에 놓여지는 게임 오브젝트가 다르기
                                                                                                                     때문에 이 방의 종류를 저장하기 위한 열거형이다.
                                                                                                                     */
-    public enum NPCType { Empty, DrugExpert, InjectorCollector, DrugVecder, Psychiatrist, EmergencyBox };/**< \brief NPC의 종류에 대한 열거형 
+    public enum NPCType { Empty, MedicineMaster, InjectorCollector, CapsuleDespenser, MentalDoctor, MedicalBox };/**< \brief NPC의 종류에 대한 열거형 
                                                                                                                     \details NPC의 종류에 대한 열거형으로
                                                                                                                     이를 기반으로 NPC 게임 오브젝트를 게임에
                                                                                                                     뿌린다.

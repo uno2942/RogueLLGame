@@ -28,7 +28,13 @@ public class MapGenerator {
     private GameObject DrugRoomPrefab;
     private GameObject DoorPrefab;
     private GameObject minimapTilePrefab;
-
+    
+    private GameObject MedicineMasterPrefab;
+    private GameObject CapsuleDespenserPrefab;
+    private GameObject MedicalBoxPrefab;
+    private GameObject InjectorCollectorPrefab;
+    private GameObject MentalDoctorPrefab;
+    
     public struct Coord{
         int x, y;
 
@@ -83,6 +89,13 @@ public class MapGenerator {
         DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         DoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Moonprefab.prefab", typeof( GameObject ) );
         minimapTilePrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/minimapPrefab/MinimapTile.prefab", typeof( GameObject ) );
+
+        MedicineMasterPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MedicalBox.prefab", typeof( GameObject ) );
+        CapsuleDespenserPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/CapsuleDespenser.prefab", typeof( GameObject ) );
+        MedicalBoxPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MedicalBox.prefab", typeof( GameObject ) );
+        InjectorCollectorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/InjectorCollector.prefab", typeof( GameObject ) );
+        MentalDoctorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MentalDoctor.prefab", typeof( GameObject ) );
+
         Maps =new List<List<MapTile>>();
 
         int i;
@@ -176,9 +189,37 @@ public class MapGenerator {
             doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 + 2] = false;
             doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 3 ] = false;
             doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 1 ] = false;
+            GenerateNPCs( tile );
         }
 
         GenDoorOnMapTile( floor, ref doorDic );
+    }
+
+    private void GenerateNPCs( MapTile mapTile) {
+        Debug.Log( mapTile.NPCList.Count );
+        Vector2 position = new Vector2( BoardManager.horizontalMovement * mapTile.x, BoardManager.verticalMovement * mapTile.y );
+        switch( mapTile.NPCList.Count ) {
+        case 0: return;
+        case 1:
+            InstantiateNPC( mapTile.NPCList[ 0 ], position + new Vector2( 0, 2 ) );
+            break;
+        case 2:
+            InstantiateNPC( mapTile.NPCList[ 0 ], position + new Vector2( -2, 2 ) );
+            InstantiateNPC( mapTile.NPCList[ 1 ], position + new Vector2( 2, 2 ) );
+            break;
+        default: break;
+        }
+    }
+
+    private void InstantiateNPC( BoardManager.NPCType nType, Vector2 location ) {
+        switch( nType ) {
+        case BoardManager.NPCType.MedicineMaster: GameObject.Instantiate( MedicineMasterPrefab, location, Quaternion.identity ); break;
+        case BoardManager.NPCType.CapsuleDespenser: GameObject.Instantiate( CapsuleDespenserPrefab, location, Quaternion.identity ); break;
+        case BoardManager.NPCType.MedicalBox: GameObject.Instantiate( MedicalBoxPrefab, location, Quaternion.identity ); break;
+        case BoardManager.NPCType.InjectorCollector: GameObject.Instantiate( InjectorCollectorPrefab, location, Quaternion.identity ); break;
+        case BoardManager.NPCType.MentalDoctor: GameObject.Instantiate( MentalDoctorPrefab, location, Quaternion.identity ); break;
+        default: break;
+        }
     }
 
     private List<MapTile> Generate(List<MapTile> map, int floor)
@@ -297,7 +338,7 @@ public class MapGenerator {
                 case BoardManager.RoomType.RestRoom:
                     if (floor == 5)
                     {
-                        tile.AddNPC(BoardManager.NPCType.DrugVecder);
+                        tile.AddNPC(BoardManager.NPCType.CapsuleDespenser );
                         tile.AddNPC(BoardManager.NPCType.InjectorCollector);
                     }
                     else
@@ -305,11 +346,11 @@ public class MapGenerator {
                         switch (Rtype())
                         {
                             case "CanNPC+1_NPC":
-                                tile.AddNPC(BoardManager.NPCType.DrugVecder);
+                                tile.AddNPC(BoardManager.NPCType.CapsuleDespenser );
                                 tile.AddNPC(randomNPC());
                                 break;
                             case "CanNPC+2_NPC":
-                                tile.AddNPC(BoardManager.NPCType.DrugVecder);
+                                tile.AddNPC(BoardManager.NPCType.CapsuleDespenser );
                                 tile.AddNPC(randomNPC());
                                 tile.AddNPC(randomNPC());
                                 break;

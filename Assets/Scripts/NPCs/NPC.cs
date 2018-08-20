@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC:MonoBehaviour {
+public class NPC : MonoBehaviour{
     
     public Player player;
     public GameObject[] dialogBox;
     public GameObject gObject;
-    protected string name;
+    protected string npcName;
     public float usuability;
 
     public string Name
@@ -19,7 +19,7 @@ public class NPC:MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start()
+    protected virtual void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
     }

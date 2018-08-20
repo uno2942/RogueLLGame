@@ -41,7 +41,7 @@ public class PlayerAction {
         if (enemy.Hp <= 0)
         {
             messageMaker.MakeDeathMessage(player, enemy);
-            GameObject.Destroy(enemy.gameObject);
+            gameManager.KillEnemy(enemy);
         }
         /*
         if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
