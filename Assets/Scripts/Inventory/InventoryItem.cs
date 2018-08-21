@@ -43,7 +43,7 @@ public class InventoryItem : MonoBehaviour {
     /**
      * 인벤토리 아이템을 플레이어가 클릭했을 때 각 아이템의 라벨에 해당하는 선택 상자를 띄워준다.
      */
-    void OnMouseUpAsButton() {
+    public void OnClicked() {
         if (InjecCommuni && false == player.GetInventoryList().isDialogBoxOn) {
             GivemeBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
