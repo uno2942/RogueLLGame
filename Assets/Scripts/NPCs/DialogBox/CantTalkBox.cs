@@ -19,13 +19,16 @@ public class CantTalkBox : MonoBehaviour {
 	}
 	protected virtual void Init() {
 		for (int i = 0; i < buttons.Length; i++) {
-			if (buttons [i].name == "OK")
-				buttons [i].onClick.AddListener (OKCommand);
+			if (buttons [i].name == "Close")
+				buttons [i].onClick.AddListener (CloseCommand);
 		}
 
 	}
-	private void OKCommand()
+	private void CloseCommand()
     {
+        Player player = GameObject.Find( "Player" ).GetComponent<Player>() as Player;
+        player.GetInventoryList().isDialogBoxOn = false;
+
         Destroy(npc.gObject);
     }
 }

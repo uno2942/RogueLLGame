@@ -19,19 +19,21 @@ public class TalkingBox: MonoBehaviour {
 	}
 	protected virtual void Init() {
 		for(int i=0; i<buttons.Length; i++ ) {
-			if( buttons[ i ].name == "사용" )
+			if( buttons[ i ].name == "Get" )
 				buttons[ i ].onClick.AddListener( UseCommand );
-			else if( buttons[ i ].name == "No" )
+			else if( buttons[ i ].name == "Cancel" )
 				buttons[ i ].onClick.AddListener( NoCommand );
 		}
 
 	}
 	public virtual void UseCommand() {
         Destroy(npc.gObject);
+        npc.player.GetInventoryList().isDialogBoxOn = false;
         npc.talk(npc.player);
 	}
 
 	private void NoCommand() {
+        npc.player.GetInventoryList().isDialogBoxOn = false;
         Destroy(npc.gObject);
     }
 }

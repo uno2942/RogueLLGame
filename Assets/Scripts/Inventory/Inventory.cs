@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 /**
  * \brief 플레이어가 가지는 인벤토리를 관리하는 클래스
  */
@@ -17,7 +18,8 @@ public class Inventory {
      * Note that *inventoryItemPregab is for background of inventory, not for item prefab*.
      */
     private GameObject inventoryItemPrefab;
-
+    private RectTransform leftInventoryTransform;
+    private RectTransform rightInventoryTransform;
     private Dictionary<int, int> numberOfSameItems;
     /**
      * It is to distinguish the item contained in inventory.
@@ -52,17 +54,17 @@ public class Inventory {
      */
     public void Initialize()
     {
-        inventoryItemPrefab = GameObject.Find ("PlayerUI").GetComponent<PlayerUI> ().inventoryItemPrefab;
+        leftInventoryTransform = GameObject.Find("LeftPanel").GetComponent<RectTransform>();
+        rightInventoryTransform = GameObject.Find( "RightPanel" ).GetComponent<RectTransform>();
+        inventoryItemPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/InventoryItem.prefab", typeof( GameObject ) );
         labelList = new ItemManager.Label [size];
         inventoryObject = new GameObject [size];
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
         numberOfSameItems = new Dictionary<int, int>();
         for ( int i = 0; i < 6; i++ )
         {
-            inventoryObject [i] = GameObject.Instantiate (inventoryItemPrefab, new Vector2 (-8, i * 1.5f - 4), Quaternion.identity);
-            inventoryObject [i].transform.parent = GameObject.Find ("InventoryUI").transform;
-            inventoryObject [i + size / 2] = GameObject.Instantiate (inventoryItemPrefab, new Vector2 (8, i * 1.5f - 4), Quaternion.identity);
-            inventoryObject [i + size / 2].transform.parent = GameObject.Find ("InventoryUI").transform;
+            inventoryObject [i] = GameObject.Instantiate (inventoryItemPrefab, leftInventoryTransform );
+            inventoryObject [i + size / 2] = GameObject.Instantiate (inventoryItemPrefab, rightInventoryTransform);
             labelList [i] = labelList [i + 6] = ItemManager.Label.Empty;
             numberOfSameItems.Add( i, 0 );
             numberOfSameItems.Add( i + 6, 0 );
@@ -77,7 +79,7 @@ public class Inventory {
      * \see Item::OnMouseUpAsButton
      * There is a debug log function.
      */
-    public bool AddItem(ItemManager.Label label)
+    public bool AddItem(ItemManager.Label label, GameObject gObject)
     {
         int location;
         for ( location = 0; location < size; location++ )
@@ -89,7 +91,7 @@ public class Inventory {
         {
             if( labelList[ location ] == ItemManager.Label.Empty ) {
                 labelList[ location ] = label;
-                inventoryObject[ location ].GetComponent<SpriteRenderer>().sprite = itemManager.LabelToSprite( label );
+                inventoryObject[ location ].GetComponent<Image>().sprite = gObject.GetComponent<Image>().sprite;
                 inventoryObject[ location ].GetComponent<InventoryItem>().Index = location; //남길지 말지 
 
                 if( itemManager.GetItemIdentificationInfo( labelList[ location ] ) )
@@ -109,13 +111,39 @@ public class Inventory {
         }
     }
 
+    public bool AddItem( ItemManager.Label label) {
+        int location;
+        for( location = 0; location < size; location++ ) {
+            if( labelList[ location ] == ItemManager.Label.Empty || labelList[ location ] == label ) break;
+        }
+
+        if( location < size ) {
+            if( labelList[ location ] == ItemManager.Label.Empty ) {
+                inventoryObject[ location ].GetComponent<Image>().sprite = itemManager.LabelToSprite( label );
+                inventoryObject[ location ].GetComponent<InventoryItem>().Index = location; //남길지 말지 
+
+                if( itemManager.GetItemIdentificationInfo( labelList[ location ] ) )
+                    inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
+                numberOfSameItems[ location ] = 1;
+                return true;
+            } else if( ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
+                numberOfSameItems[ location ]++;
+                return true;
+            } else
+                return false;
+        } else {
+            Debug.Log( "인벤토리가 꽉 찼다." );
+            return false;
+        }
+    }
+
     /** 
      * 인벤토리에서 index에 해당하는 아이템을 지운다.
      */
     public void DeleteItem(int index) {
         numberOfSameItems[ index ]--;
         if( numberOfSameItems[ index ] == 0 ) {
-            inventoryObject[ index ].GetComponent<SpriteRenderer>().sprite = inventoryItemPrefab.GetComponent<SpriteRenderer>().sprite;
+            inventoryObject[ index ].GetComponent<Image>().sprite = inventoryItemPrefab.GetComponent<Image>().sprite;
             labelList[ index ] = ItemManager.Label.Empty;
             inventoryObject[ index ].GetComponentInChildren<UnityEngine.UI.Text>().text = "Empty";
         }

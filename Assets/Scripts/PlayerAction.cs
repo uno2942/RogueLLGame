@@ -84,14 +84,22 @@ public class PlayerAction {
                     break;
                     }
             }
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
             DumpItem( index );
             gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
 
-    public void PickItem( ItemManager.Label label) {
+    public void PickItem( ItemManager.Label label, GameObject gObject) {
+        if( player.InventoryList.AddItem( label, gObject ) == true ) {
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.PickItem, label );
+            player.InventoryList.IdentifyAllTheInventoryItem();
+        }
+    }
+
+    public void PickItem( ItemManager.Label label ) {
         if( player.InventoryList.AddItem( label ) == true ) {
-            
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.PickItem, label );
             player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }

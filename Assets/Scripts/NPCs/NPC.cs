@@ -29,9 +29,13 @@ public class NPC : MonoBehaviour{
 
     }
 
-    public virtual void talk(Player player)
+    public virtual void talk(Player player) //아이템과 상호작용 없는 npc와의 대화
     {
 
     }
-   
+
+    public virtual void talk( Player player, ItemManager.Label label) { //아이템 집어넣은 npc와의 대화
+
+    }
+
 }

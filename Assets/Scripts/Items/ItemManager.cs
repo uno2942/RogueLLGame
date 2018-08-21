@@ -144,7 +144,7 @@ public class ItemManager : MonoBehaviour {
 
     public static Label CategoryToLabel(ItemCategory category, int floor)
     {
-        return (Label)Enum.Parse(typeof(Label), category.ToString() + ((1 + floor) / 2).ToString());
+        return (Label)Enum.Parse(typeof(Label), category.ToString() + ((2 + floor) / 2).ToString());
     }
 
     private const int floorMax = 3;
