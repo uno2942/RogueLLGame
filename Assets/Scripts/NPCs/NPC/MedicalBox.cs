@@ -7,6 +7,7 @@ public class MedicalBox : NPC {
     protected override void Start() {
 		name = "MedicalBox";
 		usuability = 100;
+        base.Start();
 	}
 
     public override void talk (Player player){
@@ -20,17 +21,22 @@ public class MedicalBox : NPC {
 	}
     public override void OnMouseUpAsButton()
     {
-        if (usuability == 0)
-        {
-            CantTalkBox dBox;
-            dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
-            dBox.npc = this;
-        }
-        else
-        {
-            TalkingBox dBox;
-            dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<TalkingBox>();
-            dBox.npc = this;
+        if( player.GetInventoryList().isDialogBoxOn == false ) {
+            if( usuability == 0 ) {
+                player.GetInventoryList().isDialogBoxOn = true;
+                CantTalkBox dBox;
+                dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CantTalkBox>();
+                dBox.npc = this;
+                dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "구급상자의 내용물이 비었습니다.";
+                dBox.GetComponentsInChildren<UnityEngine.UI.Button>()[ 0 ].GetComponentInChildren<UnityEngine.UI.Text>().text = "닫기";
+            } else {
+                player.GetInventoryList().isDialogBoxOn = true;
+                TalkingBox dBox;
+                dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<TalkingBox>();
+                dBox.npc = this;
+                dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = " 각종 응급치료용 약품이 들어있는 구급상자입니다.";
+                dBox.GetComponentsInChildren<UnityEngine.UI.Button>()[ 0 ].GetComponentInChildren<UnityEngine.UI.Text>().text = "치료";
+            }
         }
     }
 }
