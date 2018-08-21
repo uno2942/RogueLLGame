@@ -26,7 +26,8 @@ public class CantTalkBox : MonoBehaviour {
 	}
 	private void CloseCommand()
     {
-        npc.player.GetInventoryList().isDialogBoxOn = false;
+        Player player = GameObject.Find( "Player" ).GetComponent<Player>() as Player;
+        player.GetInventoryList().isDialogBoxOn = false;
 
         Destroy(npc.gObject);
     }
