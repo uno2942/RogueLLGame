@@ -55,13 +55,14 @@ public class CapsuleDespenser : NPC {
                 TalkingBox dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<TalkingBox>();
                 player.GetInventoryList().isDialogBoxOn = true;
                 dBox.npc = this;
-                //            GameObject.FindWithTag<BoxText> GetComponentInChildren<UnityEngine.UI.Text>().text = "[알약 공급 성공 확률: 100%. 알약을 받으시겠습니까?]";
                 dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "[알약 공급 성공 확률: 100%. 알약을 받으시겠습니까?]";
+                dBox.GetComponentsInChildren<UnityEngine.UI.Button>()[ 0 ].GetComponentInChildren<UnityEngine.UI.Text>().text = "받기";
             } else {
                 TalkingBox dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<TalkingBox>();
                 player.GetInventoryList().isDialogBoxOn = true;
                 dBox.npc = this;
                 dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "[알약 공급 성공 확률: 50%. 기계 과부하 위험성 존재. 알약을 받으시겠습니까?]";
+                dBox.GetComponentsInChildren<UnityEngine.UI.Button>()[ 0 ].GetComponentInChildren<UnityEngine.UI.Text>().text = "받기";
             }
         }
     }
