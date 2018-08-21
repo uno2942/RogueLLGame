@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1764135839014080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -33.743214, y: -1.3574533, z: 0}
+  m_LocalPosition: {x: 3.694533, y: -9.269625, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  dialogBox: []
+  dialogBox:
+  - {fileID: 1458876256383232, guid: b27c25c65b59f504eac3a9878f3d85d7, type: 2}
+  - {fileID: 1735850935815570, guid: 3eaf6fa2499c96946acd54663fa17752, type: 2}
   gObject: {fileID: 0}
   usuability: 100
   boardmanager: {fileID: 0}

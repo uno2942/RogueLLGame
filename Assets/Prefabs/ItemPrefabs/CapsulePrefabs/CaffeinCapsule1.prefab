@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1204321997566202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.038063, y: 8.082746, z: 0}
+  m_LocalPosition: {x: -8.33, y: -11.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -108,11 +108,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56fae4769735224ba1986a56eff9f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isThrown: 0000
-  conditions: 0800000000000000
-  negate: 0001
-  buff: 0500000000000000
-  count: 050000000a000000
+  isThrown: 00
+  conditions: 00000000
+  negate: 0000
+  buff: 03000000
+  count: 1e000000
   isUsed: 0
 --- !u!114 &114447672561633436
 MonoBehaviour:
@@ -125,11 +125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isThrown: 
-  condition: 0000000000000000
-  negate: 
-  stats: 0100000000000000
-  deltas: 
+  isThrown: 00
+  condition: 00000000
+  negate: 00
+  stats: 01000000
+  deltas: 19000000
   isUsed: 0
 --- !u!114 &114917470519104524
 MonoBehaviour:

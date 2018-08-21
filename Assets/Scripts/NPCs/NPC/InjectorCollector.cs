@@ -6,13 +6,16 @@ using UnityEngine;
 public class InjectorCollector : NPC {
 
     public BoardManager boardmanager;
+    public ItemManager.Label injector;
 
     protected override void Start() {
         name = "InjectorCollector";
         usuability = 100;
+        injector = ItemManager.Label.Empty;
+        base.Start();
     }
 
-    public override void talk(Player player)
+    public override void talk(Player player, ItemManager.Label label)
     {
         if (usuability == 100)
         {
@@ -52,16 +55,26 @@ public class InjectorCollector : NPC {
             usuability = 0;
         }
     }
+
+    //npc 클릭시
     public override void OnMouseUpAsButton()
     {
-        if (usuability == 0)
+        if (usuability == 0) //주사 줌
         {
             CantTalkBox dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
             dBox.npc = this;
+            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "아아... 훨씬 기분이 좋군요. 감사합니다.";
         }
-        else
+        else //주사 주기 전
         {
-            player.InventoryList.InjecCommuni = true;
+            GivemeBox dBox;
+            //ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );
+            dBox = ( gObject = Instantiate( dialogBox[ 0 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<GivemeBox>();
+            player.InventoryList.InjecCommuni = true; // 이제부터 아이템창은 다이얼로그박스와 상호작용합니다.
+            player.GetInventoryList().isDialogBoxOn = true;
+            dBox.npc = this;
+            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "주사기... 주사기가 필요해. 혹시 가진 것 없습니까?";
+
         }
     }
 

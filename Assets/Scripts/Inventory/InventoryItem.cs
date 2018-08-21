@@ -49,7 +49,7 @@ public class InventoryItem : MonoBehaviour {
             ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
             dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<GivemeBox>();
             dBox.inventoryItem = this;
-            dBox.npc = this.npc;
+            dBox.npc = this.npc as InjectorCollector;
             player.GetInventoryList().isDialogBoxOn = true;
         }
         else if (InjecCommuni && false == player.GetInventoryList().isDialogBoxOn)
