@@ -10,16 +10,14 @@ public class PlayerAction {
     public Player player;
     private ItemManager itemManager;
     private GameManager gameManager;
+    private MessageMaker messageMaker;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
+        messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
     }
 
-
-    public Inventory GetInventoryList() {
-        return player.InventoryList;
-    }
 
     /**
      * Player의 공격력과 상태를 기반으로 최종피해를 정한다.enemy의 체력을 깎고 Player.Weapon.Attack 메서드를 호출한다\
@@ -37,9 +35,14 @@ public class PlayerAction {
         }
         if( temp <= 1.0f )
             temp = 1;
-        enemy.ChangeHp( -(int)temp );
-        if( enemy.Hp <= 0 )
-            GameObject.Destroy( enemy.gameObject );
+        enemy.ChangeHp( -temp );
+        messageMaker.MakeAttackMessage(player, MessageMaker.UnitAction.Attack, enemy, (int)temp);
+
+        if (enemy.Hp <= 0)
+        {
+            messageMaker.MakeDeathMessage(player, enemy);
+            gameManager.KillEnemy(enemy);
+        }
         /*
         if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
             temp += 1;
@@ -47,7 +50,7 @@ public class PlayerAction {
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
         */
         Debug.Log( "공격 끝" );
-        gameManager.EndPlayerTurn();
+        gameManager.EndPlayerTurn(Unit.Action.Attack);
     }
     /**
     * 현재 위치정보를 기반으로 항을 변경한다
@@ -62,7 +65,7 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EndPlayerTurn();
+        gameManager.EndPlayerTurn(Unit.Action.Default);
     }
     /**
      * \see InventoryItem::UseItem
@@ -71,48 +74,24 @@ public class PlayerAction {
     public void UseItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Expendable can = player.InventoryList.itemManager.LabelToItem( label ) as Expendable;
-            can.UsedBy( player );
+            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label));
+            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)");
+            
+            foreach(GameObject gObject in GameObject.FindGameObjectsWithTag("ItemPickedUp"))
+            {
+                if(gObject.name==System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)")
+                    {gObject.GetComponent<ItemECS>().isUse=true;
+                    break;
+                    }
+            }
             DumpItem( index );
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
-    /**
- * \see InventoryItem::EatCapsuleCommand
- * \see Player::EatCapsule
- */
-    public void EatCapsule( int index ) {
-        ItemManager.Label label = player.InventoryList.GetLabel( index );
-        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
-            capsule.EattenBy( player );
-            player.InventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            DumpItem( player.InventoryList.Getindex( ItemManager.Label.Water ) );
-            player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn();
-        }
-    }
-    /**
-* \see InventoryItem::InjectCommand
-* \see Player::InjectItem
-*/
-    public void InjectItem( int index ) {
-        ItemManager.Label label = player.InventoryList.GetLabel( index );
-        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
-            capsule.EattenBy( player );
-            player.InventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            gameManager.EndPlayerTurn();
-        }
-    }
-    /**
-* \see ItemPrefab::OnMouseUpAsButton
-*/
-    public void PickItem( ItemManager.Label label, GameObject _gameobject ) {
+
+    public void PickItem( ItemManager.Label label) {
         if( player.InventoryList.AddItem( label ) == true ) {
-            GameObject.Destroy( _gameobject );
+            
             player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }
@@ -123,13 +102,12 @@ public class PlayerAction {
     public void ThrowAwayItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
             gameManager.Throw( label );
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
             player.InventoryList.itemManager.ItemIdentify( label );
             player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
         DumpItem( index );
     }
@@ -146,7 +124,7 @@ public class PlayerAction {
             } else
                 player.armor = weaponorarmor as Armor;
             //장착되었으니 UI에서 뭔갈 해야함.
-            gameManager.EndPlayerTurn();
+            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
     /**
@@ -163,7 +141,7 @@ public class PlayerAction {
                 player.armor = null;
             //장착되었으니 UI에서 뭔갈 해야함.
             if( GoNextTurn ) {
-                gameManager.EndPlayerTurn();
+                gameManager.EndPlayerTurn( Unit.Action.Default );
             }
         }
     }
@@ -171,16 +149,7 @@ public class PlayerAction {
     /**
      * @todo I need to delete this function?
      */
-    public void TakeCapsule( int index ) {
-        ItemManager.Label label = player.InventoryList.GetLabel( index );
-        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Capsule capsule = player.InventoryList.itemManager.LabelToItem( label ) as Capsule;
-            capsule.EattenBy( player );
-            player.InventoryList.itemManager.ItemIdentify( label );
-            DumpItem( index );
-            gameManager.EndPlayerTurn();
-        }
-    }
+
 
     /**
      * item을 사용하고 효과에 따른 메서드를 실행한다
@@ -188,7 +157,10 @@ public class PlayerAction {
     public void UseItem( ItemManager.Label label ) {
         itemManager.LabelToItem( label );
     }
+
     public void Rest() {
+        player.ChangeHp( 1 );
+        gameManager.EndPlayerTurn( Unit.Action.Rest );
     }
     /**
      *상태이상에 의해 아무것도 하지 않음

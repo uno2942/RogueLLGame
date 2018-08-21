@@ -8,7 +8,7 @@ public class Morfin : Buff {
 
     }
 
-    public override void BuffWorkTo( Player player ) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         count--;
     }
     public override int passiveBuffAtk() {
@@ -17,7 +17,7 @@ public class Morfin : Buff {
     public override int passiveBuffDef() {
         return 0;
     }
-    public override float passiveBuffFinal() {
+    public override float BuffAction( Unit.Action action ) {
         return 0.5f;
     }
 }

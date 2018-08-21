@@ -10,8 +10,16 @@ public class Player : Unit {
     private float mp;
     private int hungry;
     private const int maxmp=100;
+
+    public bool isStunned=false;
+    public bool prevIsStunned = false;
+    public bool isHallucinated = false;
+    public bool isHungry = false;
+    public bool isStarved = false;
+    public bool isFull = false;
+    public Stunned stunned;
     private Inventory inventoryList;
-    private PlayerAction action; /**< 플레이어가 할 수 있는 action을 담고 있는 PlayerAction 인스턴스를 저장한다. */
+    private PlayerAction playerAction; /**< 플레이어가 할 수 있는 action을 담고 있는 PlayerAction 인스턴스를 저장한다. */
     /**
      * Player's mp and hungry degree.
      * Note that HP variable is in Unit class.
@@ -21,11 +29,11 @@ public class Player : Unit {
     public int MaxMp { get { return maxmp; } }
     public int Hungry { get { return hungry; } }
     //@}
-    public PlayerAction Action
+    public PlayerAction PlayerAction
     {
         get
         {
-            return action;
+            return playerAction;
         }
     }
 
@@ -53,21 +61,25 @@ public class Player : Unit {
         maxhp = 100;
         hp = maxhp;
         mp = maxmp;
-        hungry = 0;
+        hungry = 50;
         inventoryList = new Inventory();
         inventoryList.Initialize();
         GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
         GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
-        action = new PlayerAction();
+        playerAction = new PlayerAction();
         weapon = new DefaultWeapon();
         armor = new DefaultArmor();
     }
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
      */
+     
+    public Inventory GetInventoryList() {
+        return InventoryList;
+    }
 
     public override void ChangeHp( float delta ) {
-        hp += delta;
+        hp += (int)delta;
         if( hp >= 100 )
             hp = 100;
         GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
@@ -75,7 +87,7 @@ public class Player : Unit {
     public void ChangeMp( float delta ) {
         mp += delta;
         if( mp < 0 ) {
-            hp += mp;
+            hp += (int)mp;
             mp = 0;
         }
         if( mp >= 100 )
@@ -91,12 +103,16 @@ public class Player : Unit {
     
     public void SetMpZero() {
         if( mp < 0 ) {
-            hp += mp;
+            hp += (int)mp;
         }
         mp = 0;
     }
     public void SetMpBy30() {
         mp = 30;
+    }
+
+    public void SetMpBy100() {
+        mp = 100;
     }
     /**
     * 플레이어가 하는 액션을 PlayerAction 인스턴스로 보내주는 함수. 이전에 짠 코드들과 호환성을 위한 코드이다.
@@ -104,49 +120,71 @@ public class Player : Unit {
     */
     //{@
     public void DumpItem( int index ) {
-        action.DumpItem( index );
+        playerAction.DumpItem( index );
     }
 
     public void UseItem( int index ) {
-        action.UseItem( index );
+        playerAction.UseItem( index );
     }
-    public void InjectItem(int index ) {
-        action.InjectItem( index );
+
+     public void UseItem( ItemManager.Label label ) {
+        playerAction.UseItem( inventoryList.Getindex(label) );
     }
 
     public void ThrowItem( int index ) {
-        action.ThrowAwayItem( index );
+        playerAction.ThrowAwayItem( index );
     }
     public void EquipItem( int index ) {
-        action.EquipItem( index );
+        playerAction.EquipItem( index );
     }
 
     public void UnequipItem( int index, bool GoNextTurn = true ) {
-        action.UnequipItem( index, GoNextTurn );
+        playerAction.UnequipItem( index, GoNextTurn );
     }
     /**
      * @todo I need to implement this part
      */
-    public void EatCapsule( int index ) {
-        action.EatCapsule( index );
-    }
     //@}
 
     /** 플레이어의 공격력+플레이어가 가진 무기+플레이어의 상태 이상을 기반으로 플레이어의 공격력을 반환 */
     public override int FinalAttackPower() {
-        int attacktemp = attack+weapon.AttackPower;
+        int attacktemp = attack;
+        switch( weapon.rank ) {
+        case "common": attacktemp += (int) GaussianDistribution( weapon.AttackPower, weapon.AttackPower * 2 + 3 ); break;
+        case "rare": attacktemp += (int) GaussianDistribution( weapon.AttackPower, weapon.AttackPower * 3 + 2 ); break;
+        case "legendary": attacktemp += (int) GaussianDistribution( weapon.AttackPower, weapon.AttackPower * 4 + 1 ); break;
+        default: break;
+        }
         Debug.Log( attacktemp );
         foreach( Buff buff in Bufflist ) {
             attacktemp += buff.passiveBuffAtk();
         }
         return attacktemp;
     }
-    /** 플레이어의 방어력+플레이어가 가진 갑옷+플레이어의 상태 이상을 기반으로 플레이어의 방어력을 반환 */
+    /** 플레이어의 방어력+플레이어가 가진 갑옷+플레이어의 상태 이상을 기반으로 플레이어의 방어력을 반환
+     * @todo 기획서가 뭔가 이상하니 물어봅시다.
+     */
     public override int FinalDefensePower() {
-        int defensetemp = defense+armor.DefensivePower;
+        int defensetemp = defense;
+        switch( armor.rank ) {
+        case "common": defensetemp += (int) GaussianDistribution( armor.DefensivePower, armor.DefensivePower * 2 + 3 ); break;
+        case "rare": defensetemp += (int) GaussianDistribution( armor.DefensivePower, armor.DefensivePower * 3 + 2 ); break;
+        case "legendary": defensetemp += (int) GaussianDistribution( armor.DefensivePower, armor.DefensivePower * 4 + 1 ); break;
+        default: break;
+        }
         foreach( Buff buff in Bufflist ) {
             defensetemp += buff.passiveBuffDef();
         }
         return defensetemp;
+    }
+
+    /**
+ * a와 b 사이에 가우시안 분포(근사)에 해당하는 값을 반환해주는 함수입니다.
+ * 아직은 못 짜서 Uniform dist.로 하겠습니다.
+ * @todo Gaussian으로 수정해야함.
+ */
+    public static float GaussianDistribution( int a, int b ) {
+        Random.InitState( (int) System.DateTime.Now.Ticks );
+        return Random.Range( a, b );
     }
 }

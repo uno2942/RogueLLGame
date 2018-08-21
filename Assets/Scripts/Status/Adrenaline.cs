@@ -8,7 +8,7 @@ public class Adrenaline : Buff {
 
     }
 
-    public override void BuffWorkTo( Player player ) {
+    public override void BuffWorkTo( Unit unit, Unit.Action action ) {
 
         count--;
     }
@@ -21,7 +21,7 @@ public class Adrenaline : Buff {
     /**
      * This function increases attack damage and hit damage by 1.5 times.
      */
-    public override float passiveBuffFinal() {
+    public override float BuffAction( Unit.Action action ) {
         return 1.5f;
     }
 }

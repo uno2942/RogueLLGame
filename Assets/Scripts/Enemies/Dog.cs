@@ -9,7 +9,7 @@ public class Dog : Enemy
      * There is a debug code.
      * incomplete:: shld be read settings file
      */
-    private void Start()
+    protected override void Start()
     {
         Debug.Log("개 나타남");
         level = 1;
@@ -18,9 +18,10 @@ public class Dog : Enemy
         maxhp = 15;
         hp = maxhp;
         debuffPercent = 0.0f;
-        action = new EnemyAction(this);
+        enemyAction = new EnemyAction(this);
         debuff = new Bleed(3);
         player = GameObject.Find( "Player" ).GetComponent<Player>();
+        base.Start();
     }
 
 

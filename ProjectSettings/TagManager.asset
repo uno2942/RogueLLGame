@@ -7,6 +7,20 @@ TagManager:
   - Door
   - Enemy
   - EquipBtn
+  - ItemPickedUp
+  - BossRoom
+  - NormalRoom
+  - Hall
+  - DrugRoom
+  - LockedRoom
+  - RestRoom
+  - Equipment
+  - PlayerStart
+  - NPC
+  - EastDoor
+  - WestDoor
+  - NorthDoor
+  - SouthDoor
   layers:
   - Default
   - TransparentFX

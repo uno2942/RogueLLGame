@@ -35,3 +35,24 @@ sysinfo.txt
 *.unitypackage
 
 Doxyfile
+
+#Incremetal Element
+*.rsp
+*.log
+# Created by https://www.gitignore.io/api/code
+
+### Code ###
+# Visual Studio Code - https://code.visualstudio.com/
+.settings/
+.vscode/
+tsconfig.json
+jsconfig.json
+#Incremetal Element
+*.rsp
+*.log
+
+#Incremetal Element
+*.rsp
+*.log
+
+# End of https://www.gitignore.io/api/code

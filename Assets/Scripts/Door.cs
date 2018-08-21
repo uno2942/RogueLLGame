@@ -16,7 +16,7 @@ public class Door : MonoBehaviour {
      */
     //@{
     private BoardManager boardManager;
-    public BoardManager.Direction direction;
+    private BoardManager.Direction direction;
     private GameManager gameManager;
     //@}
     private bool isOpened;
@@ -73,9 +73,17 @@ public class Door : MonoBehaviour {
     private void OnMouseUpAsButton() {
         Debug.Log( isOpened + " " + gameManager.CurrentSituation );
         if( isOpened && !gameManager.CurrentSituation ) {
+            switch( tag ) {
+            case "EastDoor": direction = BoardManager.Direction.Right; break;
+            case "WestDoor": direction = BoardManager.Direction.Left; break;
+            case "NorthDoor": direction = BoardManager.Direction.UpSide; break;
+            case "SouthDoor": direction = BoardManager.Direction.DownSide; break;
+            default: break;
+            }
+
             boardManager.MoveNextRoom( direction );
-            gameManager.EndPlayerTurn();
-            gameManager.GenerateMonsters( 2 );
+            gameManager.EndPlayerTurn( Unit.Action.Move);
+            gameManager.GenerateMonsters(boardManager.XPos, boardManager.YPos);
         }
     }
 

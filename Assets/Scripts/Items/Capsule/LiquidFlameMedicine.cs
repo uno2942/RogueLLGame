@@ -20,7 +20,7 @@ public class LiquidFlameMedicine : Capsule {
     }
 
     public override bool ThrownTo( Enemy enemy ) {
-        enemy.AddBuff( new Burn(10));
+        enemy.AddBuff( new Burn(15));
         return true;
     }
 }

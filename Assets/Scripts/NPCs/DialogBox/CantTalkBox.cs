@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CantTalkBox : MonoBehaviour {
 
 	protected Button[] buttons;
-	public NPCPrefab npc;
+	public NPC npc;
 	// Use this for initialization
 	void Start () {
 		buttons = gameObject.GetComponentsInChildren<Button>();
@@ -24,6 +24,8 @@ public class CantTalkBox : MonoBehaviour {
 		}
 
 	}
-	private void OKCommand() {
-	}
+	private void OKCommand()
+    {
+        Destroy(npc.gObject);
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public class ItemManager : MonoBehaviour {
         CaffeinCapsule1, CureAll1, Hallucinogen1, LiquidFlameMedicine1, MuscleRelaxant1, PoisonCapsule1, Salt1, SleepingPill1, Soup1, Sugar1, VitaminTablet1,
         CaffeinCapsule2, CureAll2, Hallucinogen2, LiquidFlameMedicine2, MuscleRelaxant2, PoisonCapsule2, Salt2, SleepingPill2, Soup2, Sugar2, VitaminTablet2,
         CaffeinCapsule3, CureAll3, Hallucinogen3, LiquidFlameMedicine3, MuscleRelaxant3, PoisonCapsule3, Salt3, SleepingPill3, Soup3, Sugar3, VitaminTablet3,
-        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
+        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, WhiteCard, BlackCard, YellowCard
     };
     /**
      * 아이템 카테고리는 층에 관계없이 아이템을 관리하기 위한 열거형이다.
@@ -25,14 +26,14 @@ public class ItemManager : MonoBehaviour {
         Empty, AutoHandgun, BlackKnife, Club, Hammer, Lighter, Mess, Nuckle, SharpDagger, Shock,
         BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
         CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, MuscleRelaxant,PoisonCapsule, Salt, SleepingPill, Soup, Sugar, VitaminTablet,
-        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, DiscardedMedicine, WhiteCard, BlackCard, YellowCard, EndOfEnum
+        MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, WhiteCard, BlackCard, YellowCard
     };
     /**
      * 아이템을 종류에 따라 크게 묶는 열거형이다.
      */
     public enum ItemType
     {
-        Empty, Weapon, Armor, Expenables, Capsule, Injector, Card, EndOfEnum
+        Empty, Weapon, Armor, Expenables, Capsule, Injector, Card
     };
 
     public static ItemType LabelToType(Label lab)
@@ -40,9 +41,61 @@ public class ItemManager : MonoBehaviour {
         if( lab == Label.Empty ) return ItemType.Empty;
         else if( lab == Label.AutoHandgun || lab == Label.BlackKnife || lab == Label.Club || lab == Label.Hammer || lab == Label.Lighter || lab == Label.Mess || lab == Label.Nuckle || lab == Label.SharpDagger || lab == Label.Shock ) return ItemType.Weapon;
         else if( lab == Label.BloodJacket || lab == Label.CleanDoctorCloth || lab == Label.DamagedDoctorCloth || lab == Label.FullPlated || lab == Label.Padding || lab == Label.Patient || lab == Label.Tshirts ) return ItemType.Armor;
-        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution || lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab == Label.Medicine || lab == Label.DiscardedMedicine ) return ItemType.Expenables;
+        else if( lab == Label.MorfinDrug || lab == Label.AdrenalineDrug || lab == Label.RingerSolution ) return ItemType.Injector;
+        else if( lab == Label.Can || lab == Label.Water || lab == Label.Bandage || lab == Label.Medicine ) return ItemType.Expenables;
         else if( lab == Label.BlackCard || lab == Label.YellowCard || lab == Label.WhiteCard ) return ItemType.Card;
         else return ItemType.Capsule;
+    }
+
+    public static ItemType CategoryToType(ItemCategory category)
+    {
+        switch( category ) {
+        case ItemCategory.Empty: return ItemType.Empty;
+        case ItemCategory.AutoHandgun:
+        case ItemCategory.BlackKnife:
+        case ItemCategory.Club:
+        case ItemCategory.Hammer:
+        case ItemCategory.Lighter:
+        case ItemCategory.Mess:
+        case ItemCategory.Nuckle:
+        case ItemCategory.SharpDagger:
+        case ItemCategory.Shock:
+            return ItemType.Weapon;
+        case ItemCategory.BloodJacket:
+        case ItemCategory.CleanDoctorCloth:
+        case ItemCategory.DamagedDoctorCloth:
+        case ItemCategory.FullPlated:
+        case ItemCategory.Padding:
+        case ItemCategory.Patient:
+        case ItemCategory.Tshirts:
+            return ItemType.Armor;
+        case ItemCategory.CaffeinCapsule:
+        case ItemCategory.CureAll:
+        case ItemCategory.Hallucinogen:
+        case ItemCategory.LiquidFlameMedicine:
+        case ItemCategory.MuscleRelaxant:
+        case ItemCategory.PoisonCapsule:
+        case ItemCategory.Salt:
+        case ItemCategory.SleepingPill:
+        case ItemCategory.Soup:
+        case ItemCategory.Sugar:
+        case ItemCategory.VitaminTablet:
+            return ItemType.Capsule;
+        case ItemCategory.MorfinDrug:
+        case ItemCategory.AdrenalineDrug:
+        case ItemCategory.RingerSolution:
+            return ItemType.Injector;
+        case ItemCategory.Can:
+        case ItemCategory.Water:
+        case ItemCategory.Bandage:
+        case ItemCategory.Medicine:
+            return ItemType.Expenables;
+        case ItemCategory.WhiteCard:
+        case ItemCategory.BlackCard:
+        case ItemCategory.YellowCard:
+            return ItemType.Card;
+        default: return ItemType.Empty;
+        }
     }
 
     public static ItemCategory LabelToCategory( Label label ) {
@@ -70,7 +123,6 @@ public class ItemManager : MonoBehaviour {
         else if( label == Label.Water ) return ItemCategory.Water;
         else if( label == Label.Bandage ) return ItemCategory.Bandage;
         else if( label == Label.Medicine ) return ItemCategory.Medicine;
-        else if( label == Label.DiscardedMedicine ) return ItemCategory.DiscardedMedicine;
         else if( label == Label.WhiteCard ) return ItemCategory.WhiteCard;
         else if( label == Label.BlackCard ) return ItemCategory.BlackCard;
         else if( label == Label.YellowCard ) return ItemCategory.YellowCard;
@@ -88,6 +140,11 @@ public class ItemManager : MonoBehaviour {
         else return ItemCategory.Empty; //Throw exception을 어떻게 하는지 모르겠어요.
 
 
+    }
+
+    public static Label CategoryToLabel(ItemCategory category, int floor)
+    {
+        return (Label)Enum.Parse(typeof(Label), category.ToString() + ((1 + floor) / 2).ToString());
     }
 
     private const int floorMax = 3;
@@ -130,6 +187,7 @@ public class ItemManager : MonoBehaviour {
             else
                 IsIdentified.Add( i, true );
         }
+        IsIdentified[ Label.Empty ] = false;
 
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
@@ -171,7 +229,6 @@ public class ItemManager : MonoBehaviour {
         labelDic[ Label.Water ] = new Water();
         labelDic[ Label.Bandage ] = new Bandage();
         labelDic[ Label.Medicine ] = new Medicine();
-        labelDic[ Label.DiscardedMedicine ] = new DiscardedMedicine();
         labelDic[ Label.WhiteCard ] = new WhiteCard();
         labelDic[ Label.BlackCard ] = new BlackCard();
         labelDic[ Label.YellowCard ] = new YellowCard();
@@ -201,7 +258,7 @@ public class ItemManager : MonoBehaviour {
     /** 아이템을 position 에 놓는다.
      */
     public void DropItem(Vector2 position ) {
-        int choose = Random.Range( 0, 5 );
+        int choose = UnityEngine.Random.Range( 0, 5 );
         if( choose == 5 )
             choose = 4;
         if( choose < 2 )
@@ -246,7 +303,7 @@ public class ItemManager : MonoBehaviour {
         int len = Prefabs.Length;
         int[] PrefabIndex = new int[ len ];
         int[] SpriteIndex = new int[ len ];
-        Random.InitState( (int) System.DateTime.Now.Ticks );
+        UnityEngine.Random.InitState( (int) System.DateTime.Now.Ticks );
         GenerateRandomSequence( ref PrefabIndex );
         GenerateRandomSequence( ref SpriteIndex );
         for( int i = 0; i < len; i++ )
@@ -261,7 +318,7 @@ public class ItemManager : MonoBehaviour {
         float[] weight = new float[ index.Length ];
         for( int i = 0; i < index.Length; i++ ) {
             index[ i ] = i;
-            weight[ i ] = Random.Range( 0, 100 ); //문제 생기면 겹치는 거 방지하는 코드 생성
+            weight[ i ] = UnityEngine.Random.Range( 0, 100 ); //문제 생기면 겹치는 거 방지하는 코드 생성
         }
         for( int i = 0; i < index.Length; i++ )
             for( int j = 0; j < i; j++ ) {
