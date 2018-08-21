@@ -11,7 +11,7 @@ public class ItemPrefab : MonoBehaviour {
     /** When the item gameobject is clicked, it is called, and make player pick it.
      */
 
-    public void IfClicked()
+    public void OnClicked()
     {
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
         player.PlayerAction.PickItem (label, gameObject);
