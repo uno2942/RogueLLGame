@@ -96,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isThrown: 
   conditions: 
+  negate: 
   buff: 
   count: 
   isUsed: 0
@@ -135,10 +136,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isThrown: 
-  condition: 
-  stats: 
-  deltas: 
+  isThrown: 0000
+  condition: 0000000000000000
+  negate: 0000
+  stats: 0000000002000000
+  deltas: 14000000e2ffffff
   isUsed: 0
 --- !u!212 &212917580040900020
 SpriteRenderer:

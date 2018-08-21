@@ -14,6 +14,9 @@ public abstract class Buff {
         count = _count;
     }
 
+    public void AddCount(int _count) {
+        count += _count;
+    }
     public int Count
     {
         get

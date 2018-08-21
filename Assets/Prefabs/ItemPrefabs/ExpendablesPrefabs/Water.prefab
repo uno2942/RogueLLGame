@@ -94,8 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isThrown: 
+  isThrown: 00
   condition: 00000000
+  negate: 00
   stats: 00000000
   deltas: 0a000000
   isUsed: 0
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isThrown: 
   conditions: 
+  negate: 
   buff: 
   count: 
   isUsed: 0

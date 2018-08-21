@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
     private bool playerTurn;
     private bool enemyAttackTurn;
     private bool enemyCheckTurn;
+
+
     private Unit.Action action;
     private int currentTurn; /**< It contains number of passed turns from the beginning of the game. */
     
@@ -107,6 +109,141 @@ public class GameManager : MonoBehaviour {
     //일단 문이 닫혀 있는 걸로 적어 놓을게요.
 
 }
+
+    /**
+ * 이 함수는 플레어어의 턴을 종류하는 역할을 한다.
+ * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+ * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+ * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+ * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+ */
+    public void EndPlayerTurn( Unit.Action _action ) {
+        playerTurn = false;
+        action = _action;
+    }
+    /**
+     * 이 함수는 플레이어의 정신력과 배고픔을 먼저 체크하여 환각과 굶주림 판정을 한 후, 플레이어의 버프를 체크하여 효과를 부여한다.
+     * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+     * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+     * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+     * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+     */
+    private void CheckPlayerStatus( Unit.Action _action ) {
+        //정신력 체크
+        DecreaseMpByTurn();
+        if( player.Mp <= 30 && !player.isHallucinated ) {
+            player.SetMpZero();
+            player.Bufflist.Add( new Hallucinated( -1 ) );
+            player.isHallucinated = true;
+        }
+
+        if( player.isHallucinated && player.Mp >= 60 ) {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ) );
+            player.SetMpBy100();
+            player.isHallucinated = false;
+        }
+        //상태이상 체크
+        IncreaseHungryByTurn();
+        if( player.Hungry >= 100 && !player.isHungry ) {
+            player.Bufflist.Add( new Hunger() );
+            player.isHungry = true;
+        }
+        if( player.Hungry >= 130 && !player.isStarved && player.isHungry ) {
+            player.Bufflist.Add( new Starve() );
+            player.isStarved = true;
+        } else if( player.Hungry < 130 && player.isStarved ) {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Starve ) ) ) );
+            player.isStarved = false;
+        }
+        if( player.Hungry < 100 && player.isHungry ) {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hunger ) ) ) );
+            player.isHungry = false;
+        }
+        if( player.Hungry < 50 ) {
+            player.Bufflist.Add( new Full( -1 ) );
+        } else {
+            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
+        }
+
+        foreach( Buff buff in player.Bufflist ) {
+            buff.BuffWorkTo( player, _action );
+            if( buff.Count == 0 )
+                player.Bufflist.Remove( buff );
+        }
+        Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
+        Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
+        if( IsDead() ) {
+            Destroy( player.gameObject );
+            Debug.Log( "포닉스 불닭행" );
+        };
+        enemyAttackTurn = true;
+    }
+    /**
+    * 적들이 플레이어를 공격하는 함수이다.
+    * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+    * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+    * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+    * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+    */
+    private void EnemyTurn() {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        foreach( var enemyObject in enemyList )
+            enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
+
+        enemyAttackTurn = false;
+        enemyCheckTurn = true;
+    }
+    /**
+    * 적들에 걸린 상태이상(버프)를 체크하여 효과를 입히는 함수이다.
+    * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
+    * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
+    * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
+    * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
+    */
+    public void CheckEnemyStatus() {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        Enemy enemyTemp;
+        int enemyNum = 0;
+
+        foreach( GameObject gObject in enemyList ) {
+            enemyTemp = gObject.GetComponent<Enemy>();
+            foreach( Buff buff in enemyTemp.Bufflist ) {
+                buff.BuffWorkTo( enemyTemp, Unit.Action.Default );
+                if( buff.Count == 0 )
+                    enemyTemp.Bufflist.Remove( buff );
+            }
+        }
+        enemyNum = enemyList.Length;
+        if( enemyNum == 0 && prevMonsterNum != 0 ) {
+            //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
+            //                itemManager.DropCard( boardManager.NowPos() );
+            //            else
+            itemManager.DropItem( boardManager.NowPos() );
+            currentSituation = false;
+        }
+        prevMonsterNum = enemyNum;
+        if( IsDead() ) {
+            Destroy( player.gameObject );
+            Debug.Log( "포닉스 불닭행" );
+        };
+        player.InventoryList.IdentifyAllTheInventoryItem();
+        enemyCheckTurn = false;
+        playerTurn = true;
+    }
+    /**
+     * 이 함수는 턴의 맨 마지막을 가르킨다.
+     * 이 함수는 비어있지만, 필요한 이유는 턴 동안 아무것도 안 하는 함수도 필요할지 모르기 때문이다.
+     */
+    public void AlltheTurnEnd() {
+        //수정 필요
+        if( !( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ), null ) ) && player.prevIsStunned == false ) {
+            player.isStunned = true;
+            player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
+        } else if( player.isStunned == false ) {
+            player.isStunned = false;
+            player.Bufflist.Remove( player.stunned );
+        }
+    }
     /**
      * When player click an enemy, this function is called.
      * It deals with the decrease of enemy HP and check whether the enemy die after this attack \since the dead enemy should not attack to player.
@@ -150,141 +287,7 @@ public class GameManager : MonoBehaviour {
         }
     }
     
-    /**
-     * 이 함수는 플레어어의 턴을 종류하는 역할을 한다.
-     * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
-     * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
-     * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
-     * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
-     */
-    public void EndPlayerTurn(Unit.Action _action) {
-        playerTurn=false;
-        action=_action;
-    }
-    /**
-     * 이 함수는 플레이어의 정신력과 배고픔을 먼저 체크하여 환각과 굶주림 판정을 한 후, 플레이어의 버프를 체크하여 효과를 부여한다.
-     * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
-     * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
-     * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
-     * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
-     */
-    private void CheckPlayerStatus( Unit.Action _action ) {
-        //정신력 체크
-        DecreaseMpByTurn();
-        if( player.Mp <= 30 && !player.isHallucinated ) {
-            player.SetMpZero();
-            player.Bufflist.Add( new Hallucinated(-1));
-            player.isHallucinated = true;
-        }
 
-        if( player.isHallucinated && player.Mp >= 60 ) {
-                player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ) );
-                player.SetMpBy100();
-            player.isHallucinated = false;
-        }
-        //상태이상 체크
-        IncreaseHungryByTurn();
-        if( player.Hungry >= 100 && !player.isHungry ) {
-            player.Bufflist.Add( new Hunger() );
-            player.isHungry = true;
-        }
-        if( player.Hungry >= 130 && !player.isStarved && player.isHungry ) {
-            player.Bufflist.Add( new Starve() );
-            player.isStarved = true;
-        } 
-        else if( player.Hungry < 130 && player.isStarved ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Starve ) ) ) );
-            player.isStarved = false;
-        }
-        if(player.Hungry<100 && player.isHungry ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hunger ) ) ) );
-            player.isHungry = false;
-        }
-        if( player.Hungry < 50 ) {
-            player.Bufflist.Add( new Full( -1 ) );
-        } else {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
-        }
-        
-        foreach( Buff buff in player.Bufflist ) {
-            buff.BuffWorkTo( player, _action );
-            if( buff.Count == 0 )
-                player.Bufflist.Remove( buff );
-        }
-        Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry);
-        Debug.Log("ATK : " + player.Attack + ", DEF : " + player.Defense);
-        if( IsDead() ) {
-            Destroy( player.gameObject );
-            Debug.Log( "포닉스 불닭행" );
-        };
-        enemyAttackTurn=true;
-    }
-    /**
-    * 적들이 플레이어를 공격하는 함수이다.
-    * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
-    * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
-    * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
-    * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
-    */
-    private void EnemyTurn() {
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        foreach(var enemyObject in enemyList)
-             enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
-        
-        enemyAttackTurn=false;
-        enemyCheckTurn=true;
-    }
-    /**
-    * 적들에 걸린 상태이상(버프)를 체크하여 효과를 입히는 함수이다.
-    * 이 게임의 턴 진행을 위한 함수. 이 게임의 턴 진행 로직은 다음과 같다.
-    * 1. 각 플레이어가 할 수 있는 행동을 구현하는 함수 마지막에서 EndPlayerTurn() 함수를 호출한다.
-    * 2. EndPlayerTurn() 함수에서 차례로 CheckPlayerStatus(), EnemyTurn(), CheckEnemyStatus(), AlltheTurnEnd() 함수를 호출한다.
-    * 3. 턴을 끝내고 다음 플레이어 행동을 기다린다.
-    */
-    public void CheckEnemyStatus() {
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        Enemy enemyTemp;
-        int enemyNum=0;
-
-        foreach( GameObject gObject in enemyList ) {
-            enemyTemp = gObject.GetComponent<Enemy>();
-            foreach( Buff buff in enemyTemp.Bufflist ) {
-                buff.BuffWorkTo( enemyTemp, Unit.Action.Default );
-                if( buff.Count == 0 )
-                    enemyTemp.Bufflist.Remove( buff );
-            }
-        }
-        enemyNum=enemyList.Length;
-        if( enemyNum == 0 && prevMonsterNum != 0 ) {
-//            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
-//                itemManager.DropCard( boardManager.NowPos() );
-//            else
-            itemManager.DropItem( boardManager.NowPos() );
-            currentSituation = false;
-        }
-        prevMonsterNum = enemyNum;
-        if( IsDead() ) {
-            Destroy( player.gameObject );
-            Debug.Log( "포닉스 불닭행" );
-        };
-        player.InventoryList.IdentifyAllTheInventoryItem();
-        enemyCheckTurn=false;
-        playerTurn=true;
-    }
-    /**
-     * 이 함수는 턴의 맨 마지막을 가르킨다.
-     * 이 함수는 비어있지만, 필요한 이유는 턴 동안 아무것도 안 하는 함수도 필요할지 모르기 때문이다.
-     */
-    public void AlltheTurnEnd() {
-        //수정 필요
-        if( !( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ), null ) ) && player.prevIsStunned == false ) {
-            player.isStunned = true;
-            player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
-        } else if( player.isStunned == false ) {
-            player.isStunned = false;
-            player.Bufflist.Remove( player.stunned );
-        }
-    }
     /**
      * 플레이어가 사망하였는 확인한다.
      * \return true일 경우 플레이어가 사망한 것이다.

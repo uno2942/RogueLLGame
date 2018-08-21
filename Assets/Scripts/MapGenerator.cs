@@ -18,6 +18,8 @@ public class MapGenerator {
 
     public List<List<MapTile>> Maps;
 
+
+    private RectTransform MapCanvasRectTransform;
     private GameObject BossPrefab;
     private GameObject NormalRoomPrefab;
     private GameObject HallPrefab;
@@ -26,7 +28,10 @@ public class MapGenerator {
     private GameObject RestRoomPrefab;
     private GameObject LockedRoomPrefab;
     private GameObject DrugRoomPrefab;
-    private GameObject DoorPrefab;
+    private GameObject EastDoorPrefab;
+    private GameObject WestDoorPrefab;
+    private GameObject NorthDoorPrefab;
+    private GameObject SouthDoorPrefab;
     private GameObject minimapTilePrefab;
     
     private GameObject MedicineMasterPrefab;
@@ -79,6 +84,7 @@ public class MapGenerator {
     public void parse(ref List<List<MapTile>> mapTiles)
     {
         VMost = HMost = 0;
+        MapCanvasRectTransform = GameObject.Find( "MapCanvas" ).GetComponent<RectTransform>();
         BossPrefab = (GameObject)UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof(GameObject));
         NormalRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         HallPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
@@ -87,7 +93,10 @@ public class MapGenerator {
         RestRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
         DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        DoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Moonprefab.prefab", typeof( GameObject ) );
+        EastDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/EastDoor.prefab", typeof( GameObject ) );
+        WestDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/WestDoor.prefab", typeof( GameObject ) );
+        NorthDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NorthDoor.prefab", typeof( GameObject ) );
+        SouthDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/SouthDoor.prefab", typeof( GameObject ) );
         minimapTilePrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/minimapPrefab/MinimapTile.prefab", typeof( GameObject ) );
 
         MedicineMasterPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MedicalBox.prefab", typeof( GameObject ) );
@@ -141,58 +150,52 @@ public class MapGenerator {
     }
 
     public void GenMapObject(List<MapTile> floor, ref Dictionary<Coord, MapTile> CurrentMapOfFloor ) {
-        bool[,] doorDic = new bool[4*HMost+4, 4*VMost+4];
         CurrentMapOfFloor = new Dictionary<Coord, MapTile>();
         foreach( MapTile tile in floor)
         {
             GameObject tileobj = new GameObject();
-            Vector2 position = new Vector2(14 * tile.x, 10 * tile.y);
+            Vector2 position = new Vector2(1920*0.00926f * tile.x, 10 * tile.y);
             CurrentMapOfFloor.Add( new Coord( tile.x, tile.y ), tile );
             switch (tile.roomType) {
                 case BoardManager.RoomType.BossRoom:
-                    tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "BossRoom";
                     break;
                 case BoardManager.RoomType.NormalRoom:
-                    tileobj = GameObject.Instantiate( NormalRoomPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( NormalRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "NormalRoom";
                 break;
                 case BoardManager.RoomType.Hall:
-                    tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "Hall";
                 break;
                 case BoardManager.RoomType.DrugRoom:
-                    tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "DrugRoom";
                 break;
                 case BoardManager.RoomType.LockedRoom:
-                    tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "LockedRoom";
                 break;
                 case BoardManager.RoomType.RestRoom:
-                    tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "RestRoom";
                 break;
                 case BoardManager.RoomType.Equipment:
-                    tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "Equipment";
                 break;
                 case BoardManager.RoomType.PlayerStart:
-                    tileobj = GameObject.Instantiate( PStartPrefab, position, Quaternion.identity);
+                    tileobj = GameObject.Instantiate( PStartPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "PlayerStart";
                 break;
             }
-            tileobj.transform.localScale = new Vector3(14, 10, 1);
+            tile.gObject = tileobj;
             GameObject.Instantiate( minimapTilePrefab, new Vector3(tile.x*0.5f, tile.y*0.5f, 60), Quaternion.identity );
-
-            doorDic[ ( tile.x + HMost ) * 2 + 3, ( tile.y + VMost ) * 2 + 2] = false;
-            doorDic[ ( tile.x + HMost ) * 2 + 1, ( tile.y + VMost ) * 2 + 2] = false;
-            doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 3 ] = false;
-            doorDic[ ( tile.x + HMost ) * 2 + 2, ( tile.y + VMost ) * 2 + 1 ] = false;
             GenerateNPCs( tile );
         }
 
-        GenDoorOnMapTile( floor, ref doorDic );
+        GenDoorOnMapTile( floor );
     }
 
     private void GenerateNPCs( MapTile mapTile) {
@@ -618,26 +621,22 @@ public class MapGenerator {
         return randomList; //return the new random list
     }
 
-    private void GenDoorOnMapTile( List<MapTile> floor, ref bool[,] doorDic) {
-        Vector2 position;
+    private void GenDoorOnMapTile( List<MapTile> floor) {
+        GameObject gObject;
         foreach(MapTile maptile in floor) {
             foreach( MapTile _maptile in floor ) {
-                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y && doorDic[ (maptile.x+HMost) * 2 + 3, (maptile.y+VMost) * 2 + 2] == false ) {
-                    position = new Vector2( maptile.x * BoardManager.horizontalMovement + BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
-                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag="HorizontalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2 + 3, ( maptile.y + VMost ) * 2 + 2]= true ;
-                } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y && doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 + 2 ] == false ) {
-                    position = new Vector2( maptile.x * BoardManager.horizontalMovement - BoardManager.horizontalMovement / 2, maptile.y * BoardManager.verticalMovement );
-                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "HorizontalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2 + 1, ( maptile.y + VMost ) * 2 + 2]= true;
-                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1 && doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 3  ] == false ) {
-                    position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement + BoardManager.verticalMovement / 2 );
-                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 3 ]= true ;
-                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1 && doorDic[ ( maptile.x + HMost ) * 2 + 2, ( maptile.y + VMost ) * 2 + 1  ] == false ) {
-                    position = new Vector2( maptile.x * BoardManager.horizontalMovement, maptile.y * BoardManager.verticalMovement - BoardManager.verticalMovement / 2 );
-                    GameObject.Instantiate( DoorPrefab, position, Quaternion.identity ).tag = "VerticalDoor";
-                    doorDic[ ( maptile.x + HMost ) * 2+ 2, ( maptile.y + VMost ) * 2 + 1  ] = true;
+                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y) {
+                    (gObject = GameObject.Instantiate( EastDoorPrefab, new Vector2(0, 0), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag="EastDoor";
+                    gObject.transform.localPosition = new Vector2( 0, 0 );
+                } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y) {
+                    ( gObject = GameObject.Instantiate( WestDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "WestDoor";
+                    gObject.transform.localPosition = new Vector2( 0, 0 );
+                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1) {
+                    (gObject = GameObject.Instantiate( NorthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag = "NorthDoor";
+                    gObject.transform.localPosition = new Vector2( 0, 0 );
+                } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1) {
+                    ( gObject = GameObject.Instantiate( SouthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "SouthDoor";
+                    gObject.transform.localPosition = new Vector2( 0, 0 );
                 }
             }
         }

@@ -25,7 +25,8 @@ public class CapsuleDespenser : NPC {
 
             player.InventoryList.AddItem(label);
 			usuability = 50;
-		} else if (usuability == 50) {
+        
+        } else if (usuability == 50) {
 
             if (UnityEngine.Random.Range(0, 1) >= 0.5)
             {

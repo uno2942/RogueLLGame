@@ -16,9 +16,11 @@ TagManager:
   - RestRoom
   - Equipment
   - PlayerStart
-  - VerticalDoor
-  - HorizontalDoor
   - NPC
+  - EastDoor
+  - WestDoor
+  - NorthDoor
+  - SouthDoor
   layers:
   - Default
   - TransparentFX

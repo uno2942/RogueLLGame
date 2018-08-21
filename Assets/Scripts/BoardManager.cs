@@ -12,12 +12,12 @@ public class BoardManager : MonoBehaviour {
     public static int horizontalMovement = 14;/**< The vertical length of a board in the game. */
 
 
-    public enum Direction { Right=0, UpSide=1, Left=2, DownSide=3};  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
+    public enum Direction { Right = 0, UpSide = 1, Left = 2, DownSide = 3 };  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
                                                                           \details 문마다 이 열거형 변수를 가지고 있으며
                                                                                    문이 클릭되었을 때, 이 변수 방향으로
                                                                                     플레이어를 이동시킨다.
                                                                           \see Door*/
-    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, PlayerStart, Equipment, End}; /**< \brief 방의 종류에 대한 열거형 
+    public enum RoomType { Empty, NormalRoom, Hall, BossRoom, DrugRoom, RestRoom, LockedRoom, PlayerStart, Equipment, End }; /**< \brief 방의 종류에 대한 열거형 
                                                                                                                     \details 맵 파일을 파싱해서 읽은 데이터는
                                                                                                                     이 파일에서 처리해 맵을 만들며, 이 때 방의
                                                                                                                     종류에 따라 방에 놓여지는 게임 오브젝트가 다르기
@@ -28,7 +28,8 @@ public class BoardManager : MonoBehaviour {
                                                                                                                     이를 기반으로 NPC 게임 오브젝트를 게임에
                                                                                                                     뿌린다.
                                                                                                                     */
-    public enum EnemyType {Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse};
+    public enum EnemyType { Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse };
+
     public GameObject doorPrefab;
     public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
     public Camera minimapCamera;
@@ -42,9 +43,9 @@ public class BoardManager : MonoBehaviour {
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int yPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int whichFloor;
-    public Vector2 NowPos() 
-    {
-        return new Vector2 (xPos * horizontalMovement, yPos * verticalMovement);
+
+    public Vector2 NowPos() {
+        return new Vector2( xPos * horizontalMovement, yPos * verticalMovement );
     } /**< 실제 구현에서 플레이어 위치를 반환하는 함수이다. */
 
     /**
@@ -81,8 +82,8 @@ public class BoardManager : MonoBehaviour {
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
     void Start() {
-        
-         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
+
+        playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
         whichFloor = 0;
@@ -92,7 +93,7 @@ public class BoardManager : MonoBehaviour {
         map = new List<List<MapTile>>();
         parser.parse( ref map );
 
-        parser.GenMapObject(map[0], ref CurrentMapOfFloor);
+        parser.GenMapObject( map[ 0 ], ref CurrentMapOfFloor );
 
         /*
                 Random.InitState( (int) System.DateTime.Now.Ticks );
@@ -181,16 +182,16 @@ public class BoardManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update() {
+
+    }
     /**
      * 플레이어가 문을 클릭했을 때 문 프리팹이 이 함수를 콜한다. 이 함수는 플레이어와 카메라를 이동시킨다.
      */
-    public void MoveNextRoom(Direction direction) {
+    public void MoveNextRoom( Direction direction ) {
         //if(map is valid)
         {
-            switch(direction) {
+            switch( direction ) {
             case Direction.Right:
                 gameCamera.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
                 minimapCamera.transform.position += new Vector3( 0.5f, 0, 0 );
@@ -209,42 +210,30 @@ public class BoardManager : MonoBehaviour {
                 playerobejct.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 yPos++;
                 break;
-             case Direction.DownSide:
-                gameCamera.transform.position -= new Vector3Int(0, verticalMovement, 0 );
+            case Direction.DownSide:
+                gameCamera.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 minimapCamera.transform.position -= new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 yPos--;
                 break;
             }
 
-            DestroyDoor();
-           
         }
     }
 
-    public static int RandomGenerator(float[] percent) {
+    public static int RandomGenerator( float[] percent ) {
         if( percent.Sum() != 1f )
             return -1;
         else {
             float temp = Random.Range( 0, 1 );
-            float[] interval = new float[percent.Length+1];
+            float[] interval = new float[ percent.Length + 1 ];
             interval[ 0 ] = 0f;
             for( int i = 0; i < percent.Length; i++ ) {
                 interval[ i + 1 ] = interval[ i ] + percent[ i ];
                 if( interval[ i ] <= temp && temp <= interval[ i + 1 ] )
                     return i;
-                    }
+            }
             return -1;
-        }
-    }
-    
-    /**
-     * 플레이어가 이동하면 문을 클릭해서 이동했을 때 원래 있던 문을 삭제하기 위한 함수
-     */
-    void DestroyDoor() {
-        GameObject[] gObjects = GameObject.FindGameObjectsWithTag( "Door" );
-        foreach (GameObject gObject in gObjects ) {
-            Destroy( gObject );
         }
     }
 }

@@ -157,6 +157,7 @@ public class PlayerAction {
     public void UseItem( ItemManager.Label label ) {
         itemManager.LabelToItem( label );
     }
+
     public void Rest() {
         player.ChangeHp( 1 );
         gameManager.EndPlayerTurn( Unit.Action.Rest );

@@ -73,14 +73,13 @@ public class Door : MonoBehaviour {
     private void OnMouseUpAsButton() {
         Debug.Log( isOpened + " " + gameManager.CurrentSituation );
         if( isOpened && !gameManager.CurrentSituation ) {
-            if( tag == "VerticalDoor" && boardManager.NowPos().y < transform.position.y )
-                direction = BoardManager.Direction.UpSide;
-            else if( tag == "VerticalDoor" && boardManager.NowPos().y > transform.position.y )
-                direction= BoardManager.Direction.DownSide;
-            else if( tag == "HorizontalDoor" && boardManager.NowPos().x > transform.position.x)
-                direction= BoardManager.Direction.Left;
-            else
-                direction= BoardManager.Direction.Right;
+            switch( tag ) {
+            case "EastDoor": direction = BoardManager.Direction.Right; break;
+            case "WestDoor": direction = BoardManager.Direction.Left; break;
+            case "NorthDoor": direction = BoardManager.Direction.UpSide; break;
+            case "SouthDoor": direction = BoardManager.Direction.DownSide; break;
+            default: break;
+            }
 
             boardManager.MoveNextRoom( direction );
             gameManager.EndPlayerTurn( Unit.Action.Move);

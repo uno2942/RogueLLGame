@@ -52,6 +52,7 @@ public class InventoryItem : MonoBehaviour {
             dBox.npc = this.npc;
             player.GetInventoryList().isDialogBoxOn = true;
         }
+
         else if (InjecCommuni && false == player.GetInventoryList().isDialogBoxOn)
         {
             MedicineBox dBox;
@@ -60,6 +61,7 @@ public class InventoryItem : MonoBehaviour {
             dBox.inventoryItem = this;
             player.GetInventoryList().isDialogBoxOn = true;
         }
+
         else if( false == player.GetInventoryList().isDialogBoxOn ) {
             DialogBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType( player.InventoryList.GetLabel( index ) );

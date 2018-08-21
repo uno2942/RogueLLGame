@@ -86,10 +86,13 @@ public class Unit : MonoBehaviour {
     /**
      * 유닛의 Bufflist에 버프를 넣는 함수
      */
-    public void AddBuff(Buff buff)
+    public void AddBuff(Buff _buff)
     {
-        if( Equals( bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) )
-            bufflist.Add(buff);
+        Buff buff = bufflist.Find( x => x.GetType().Equals( _buff.GetType() ) );
+        if( Equals( buff, null ) )
+            bufflist.Add( buff );
+        else
+            buff.AddCount( _buff.Count);
     }
     /**
      * 유닛의 BuffList에 버프를 빼는 함수(버프 1개만 뺀다. 버프 카운트가 다를 때에 대한 코드는 구현되어 있지 않다.)
@@ -102,6 +105,7 @@ public class Unit : MonoBehaviour {
     public bool IsBuffExist(Buff buff){
         return (bufflist?.Find(x => x.GetType().Equals( buff.GetType()))!=null);
     }
+
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
         foreach( Buff buff in Bufflist ) {
