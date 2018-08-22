@@ -72,7 +72,7 @@ public class MapGenerator {
         public override bool Equals(object o ) {
             if( ReferenceEquals( o, null ) == true )
                 return false;
-            if( ReferenceEquals( this, o ) == true )
+            if( ReferenceEquals( this, o ) == true )    
                 return true;
             return ( GetType() == o.GetType() ) && Equals( (Coord) o );
         }
