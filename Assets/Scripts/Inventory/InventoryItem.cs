@@ -12,7 +12,7 @@ public class InventoryItem : MonoBehaviour {
     public bool MedicineCommuni;
     public NPC npc;
     private Player player;
-    public GameObject[] dialogBox; //0: Weapon and Armor, 1: Expendable, 2: Capsule, 3. Injectors, 4. Card
+    public GameObject[] dialogBox; //0: Weapon and Armor, 1: Expendable, 2: Capsule, 3. Injectors, 4. Card, 5. Water
     GameObject gObject;
     public int Index
     {
@@ -44,7 +44,14 @@ public class InventoryItem : MonoBehaviour {
      * 인벤토리 아이템을 플레이어가 클릭했을 때 각 아이템의 라벨에 해당하는 선택 상자를 띄워준다.
      */
     public void OnClicked() {
-        if (InjecCommuni && false == player.GetInventoryList().isDialogBoxOn) {
+        if( false == player.GetInventoryList().isDialogBoxOn && ItemManager.Label.Water== player.InventoryList.GetLabel( index ) )
+            {
+            DialogBox dBox;
+            dBox = ( gObject = Instantiate( dialogBox[ 5 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
+            dBox.inventoryItem = this;
+            player.GetInventoryList().isDialogBoxOn = true;
+
+        } else if (InjecCommuni && false == player.GetInventoryList().isDialogBoxOn) {
             GivemeBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
             dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<GivemeBox>();
@@ -133,17 +140,24 @@ public class InventoryItem : MonoBehaviour {
         player.GetInventoryList().isDialogBoxOn = false;
         player.UseItem( index );
     }
+
+    public void SpreadCommand() {
+        Destroy( gObject );
+        player.GetInventoryList().isDialogBoxOn = false;
+        player.SpreadWater( index );
+    }
     /**
  * 플레이어가 선택 상자에서 캡슐을 먹는 명령을 선택하였을 때 실행되는 함수
  * \see player::EatCapsule
  */
     public void EatCapsuleCommand() {
-        if( true == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) ) {
-            Destroy( gObject );
-            player.GetInventoryList().isDialogBoxOn = false;
-            player.UseItem( index );
-            player.UseItem(ItemManager.Label.Water );
-        }  
+        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) )
+            player.ChangeMp( -20 );
+        
+        Destroy( gObject );
+        player.GetInventoryList().isDialogBoxOn = false;
+        player.UseItem( index );
+        player.UseItem(ItemManager.Label.Water );
     }
     /**
 * 플레이어가 선택 상자에서 주사하는 명령을 선택하였을 때 실행되는 함수
