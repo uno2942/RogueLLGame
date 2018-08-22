@@ -18,8 +18,7 @@ public class Inventory {
      * Note that *inventoryItemPregab is for background of inventory, not for item prefab*.
      */
     private GameObject inventoryItemPrefab;
-    private RectTransform leftInventoryTransform;
-    private RectTransform rightInventoryTransform;
+    private RectTransform InventoryTransform;
     private Dictionary<int, int> numberOfSameItems;
     /**
      * It is to distinguish the item contained in inventory.
@@ -54,8 +53,7 @@ public class Inventory {
      */
     public void Initialize()
     {
-        leftInventoryTransform = GameObject.Find("LeftPanel").GetComponent<RectTransform>();
-        rightInventoryTransform = GameObject.Find( "RightPanel" ).GetComponent<RectTransform>();
+        InventoryTransform = GameObject.Find( "InventoryPanel" ).GetComponent<RectTransform>();
         inventoryItemPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/InventoryItem.prefab", typeof( GameObject ) );
         labelList = new ItemManager.Label [size];
         inventoryObject = new GameObject [size];
@@ -63,12 +61,16 @@ public class Inventory {
         numberOfSameItems = new Dictionary<int, int>();
         for ( int i = 0; i < 6; i++ )
         {
-            inventoryObject [i] = GameObject.Instantiate (inventoryItemPrefab, leftInventoryTransform );
-            inventoryObject [i + size / 2] = GameObject.Instantiate (inventoryItemPrefab, rightInventoryTransform);
-            labelList [i] = labelList [i + 6] = ItemManager.Label.Empty;
+            inventoryObject [i] = GameObject.Instantiate (inventoryItemPrefab, InventoryTransform );
+            labelList [i] = ItemManager.Label.Empty;
             numberOfSameItems.Add( i, 0 );
+        }
+        for( int i = 0; i < 6; i++ ) {
+            inventoryObject[ i + 6 ] = GameObject.Instantiate( inventoryItemPrefab, InventoryTransform );
+            labelList[ i + 6 ] = ItemManager.Label.Empty;
             numberOfSameItems.Add( i + 6, 0 );
         }
+
     }
 
         /**

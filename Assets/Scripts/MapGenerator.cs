@@ -154,7 +154,7 @@ public class MapGenerator {
         foreach( MapTile tile in floor)
         {
             GameObject tileobj = new GameObject();
-            Vector2 position = new Vector2(1920*0.00926f * tile.x, 10 * tile.y);
+            Vector2 position = new Vector2( 17.7792f * tile.x, 10f * tile.y);
             CurrentMapOfFloor.Add( new Coord( tile.x, tile.y ), tile );
             switch (tile.roomType) {
                 case BoardManager.RoomType.BossRoom:
