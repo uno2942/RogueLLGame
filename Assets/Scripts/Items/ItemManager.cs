@@ -245,8 +245,7 @@ public class ItemManager : MonoBehaviour {
         labelDic[ Label.VitaminTablet1 ] = labelDic[ Label.VitaminTablet2 ] = labelDic[ Label.VitaminTablet3 ] = new VitaminTablet();
     }
 
-
-
+    
     //IsIdentified 함수 input parameter를 다양화 해야하는가.
     public void ItemIdentify( Label label ) {
         IsIdentified[ label ] = true;
@@ -257,25 +256,11 @@ public class ItemManager : MonoBehaviour {
     }
     /** 아이템을 position 에 놓는다.
      */
-    public void DropItem(Vector2 position ) {
-        int choose = UnityEngine.Random.Range( 0, 5 );
-        if( choose == 5 )
-            choose = 4;
-        if( choose < 2 )
-            Instantiate( capsulePrefabs[ choose ], position, Quaternion.identity );
-        else if( choose == 2 )
-            Instantiate( weaponPrefabs[ 0 ], position, Quaternion.identity );
-        else if(choose==3)
-            Instantiate( expendablesPrefabs[ 0 ], position, Quaternion.identity );
-        else if(choose==4)
-            Instantiate( expendablesPrefabs[ 1 ], position, Quaternion.identity );
+    public void DropItem(MapTile maptile) {
     }
 
     /** 카드를 position 에 떨어트린다.
      */
-    public void DropCard( Vector2 position ) {
-        Instantiate( cardPrefab, position, Quaternion.identity );
-    }
     /**
      * It returns sprite about the label.
      */

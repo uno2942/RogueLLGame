@@ -90,6 +90,23 @@ public class PlayerAction {
         }
     }
 
+    public void SpreadWater(int index ) {
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+
+            foreach( GameObject gObject in GameObject.FindGameObjectsWithTag( "ItemPickedUp" ) ) {
+                if( gObject.name == System.Enum.GetName( typeof( ItemManager.Label ), label ) + "(Clone)" ) {
+                    GameObject.Destroy( gObject );
+                    player.DeleteBuff( new Burn( 1 ) );
+                    break;
+                }
+            }
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
+            DumpItem( index );
+            gameManager.EndPlayerTurn( Unit.Action.Default );
+        }
+    }
+
     public void PickItem( ItemManager.Label label, GameObject gObject) {
         if( player.InventoryList.AddItem( label, gObject ) == true ) {
             messageMaker.MakeItemMessage( MessageMaker.UnitAction.PickItem, label );

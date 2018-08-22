@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AngryDog : Boss {
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Debug.Log("분노의 맹견 등장");
         level = 1;
         attack = 6; //shld be decided by level and setting file
@@ -20,19 +21,8 @@ public class AngryDog : Boss {
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void changeStatus(bool isHallucinated)
-    {
-        //read setting file and change
-        if (isHallucinated == true)
-        {
-            attack = 12;
-            defense = 2;
-
-        }
-        else
-        {
-            attack = 6;
-            defense = 2;
-        }
+    public override void ChangeStatus( bool isHallucinated ) {
+        base.ChangeStatus( isHallucinated );
     }
+
 }

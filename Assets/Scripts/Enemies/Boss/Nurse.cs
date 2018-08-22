@@ -20,7 +20,7 @@ public class Nurse : Boss {
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void changeStatus(bool isHallucinated)
+    public override void ChangeStatus(bool isHallucinated)
     {
         //read setting file and change
         if (isHallucinated == true)

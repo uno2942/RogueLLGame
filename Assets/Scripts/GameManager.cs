@@ -131,6 +131,14 @@ public class GameManager : MonoBehaviour {
     private void CheckPlayerStatus( Unit.Action _action ) {
         //정신력 체크
         DecreaseMpByTurn();
+        //1층 보스시 추가감소
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        foreach( var enemyObject in enemyList ) {
+            if( enemyObject.GetComponent<Enemy>() is BoundedCrazy ) {
+                player.ChangeMp((float)-1.2);
+            }
+        }
+        bool tmpHallucinated = player.isHallucinated;
         if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
             player.Bufflist.Add( new Hallucinated( -1 ) );
@@ -142,6 +150,13 @@ public class GameManager : MonoBehaviour {
             player.SetMpBy100();
             player.isHallucinated = false;
         }
+        if(tmpHallucinated != player.isHallucinated ) {
+            foreach( var enemyObject in enemyList ) {//환각에 따른 몹 상태변화
+                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+            }
+        }
+
+
         //상태이상 체크
         IncreaseHungryByTurn();
         if( player.Hungry >= 100 && !player.isHungry ) {
@@ -218,7 +233,7 @@ public class GameManager : MonoBehaviour {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
-            itemManager.DropItem( boardManager.NowPos() );
+            itemManager.DropItem( boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ] );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
@@ -277,6 +292,12 @@ public class GameManager : MonoBehaviour {
         default: break;
         }
         currentSituation = true;
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        foreach( var enemyObject in enemyList ) {
+            if( player.isHallucinated ) {
+                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+            }
+        }
     }
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){

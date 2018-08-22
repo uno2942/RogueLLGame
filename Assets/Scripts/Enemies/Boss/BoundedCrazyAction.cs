@@ -15,4 +15,13 @@ public class BoundedCrazyAction : EnemyAction {
         player.ChangeMp(-1.2f);
 
     }
+
+    public override bool Attack() {
+        BoundedCrazy b = enemyItself as BoundedCrazy;
+        b.turn++;
+
+        if( b.turn % 2 == 1 )
+            return base.Attack();
+        else return false;
+    }
 }
