@@ -301,9 +301,9 @@ public class GameManager : MonoBehaviour {
     }
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){
-        case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity ); break;
-        case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity ); break;
-        case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity ); break;
+        case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         default: break;
         }
     }

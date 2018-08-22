@@ -267,7 +267,7 @@ public class ItemManager : MonoBehaviour {
     public Sprite LabelToSprite(Label label)
     {
         if( label == Label.AutoHandgun ) {
-            return weaponPrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
+            return weaponPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.CaffeinCapsule1 ) {
             return capsulePrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
         } else if( label == Label.LiquidFlameMedicine1 ) {

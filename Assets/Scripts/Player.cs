@@ -66,8 +66,8 @@ public class Player : Unit {
         hungry = 50;
         inventoryList = new Inventory();
         inventoryList.Initialize();
-        (hpBar=GameObject.Find( "PlayerHPBar" ).GetComponentInChildren<Image>()).fillAmount = ((float)hp)/maxhp;
-        (mpBar=GameObject.Find( "PlayerMPBar" ).GetComponentInChildren<Image>()).fillAmount = ( (float) mp ) / maxmp;
+        (hpBar=GameObject.Find( "healthbar" ).GetComponent<Image>()).fillAmount = ((float)hp)/maxhp;
+        (mpBar=GameObject.Find( "mpbar" ).GetComponent<Image>()).fillAmount = ( (float) mp ) / maxmp;
         playerAction = new PlayerAction();
         weapon = new DefaultWeapon();
         armor = new DefaultArmor();

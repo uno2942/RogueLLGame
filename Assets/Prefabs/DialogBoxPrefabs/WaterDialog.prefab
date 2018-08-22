@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224873591461778808}
   - component: {fileID: 222579640826731778}
   - component: {fileID: 114319605672404222}
+  - component: {fileID: 114699268039931106}
   m_Layer: 5
   m_Name: WaterDialog
   m_TagString: Untagged
@@ -436,6 +437,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114699268039931106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283668164866928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf4a3390479f6048ac1eba78c702cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryItem: {fileID: 0}
 --- !u!114 &114805307436009014
 MonoBehaviour:
   m_ObjectHideFlags: 1
