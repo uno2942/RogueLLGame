@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviour {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
-            itemManager.DropItem( boardManager.NowPos() );
+            itemManager.DropItem( boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ] );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
