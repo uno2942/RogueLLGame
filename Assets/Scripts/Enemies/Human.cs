@@ -4,69 +4,37 @@ using UnityEngine;
 
 public class Human : Enemy
 {
-    
+    private int[] hpDB;
+    private int[] atkDB;
+    private int[] defDB;
     /** 
      * There is a debug code.
      * incomplete:: shld be read settings file
      */
     protected override void Start()
     {
-        Debug.Log("사람 나타남");
-        level = 1;
-        attack = 3; //shld be decided by level and setting file
-        defense = 2;
-        maxhp = 24;
+        base.Start();
+        Debug.Log( "사람 나타남" );
+        hpDB = new int[ 6 ] { 50, 60, 100, 115, 170, 195 };
+        atkDB = new int[ 6 ] { 2, 2, 4, 5, 7, 9 };
+        defDB = new int[ 6 ] { 1, 1, 3, 4, 6, 7 };
+
+        level = boardManager.WhichFloor;
+        attack = atkDB[ level ]; //shld be decided by level and setting file
+        defense = defDB[ level ];
+        maxhp = hpDB[ level ];
         hp = maxhp;
         debuffPercent = 0.0f;
-        enemyAction = new EnemyAction(this);
+        enemyAction = new EnemyAction( this );
         debuff = null;
         player = GameObject.Find( "Player" ).GetComponent<Player>();
-        base.Start();
     }
 
-
-    /** \change enemy's Status by level and isHallucinated
-     */
-    public override void changeStatus(bool isHallucinated)
-    {
-        //read setting file and change
-        if (isHallucinated == true)
-        {
-            attack = 4;
-            defense = 4;
-            
-        }
-        else
-        {
-            attack = 3;
-            defense = 2;
-            
-        }
+    public override void ChangeStatus( bool isHallucinated ) {
+        base.ChangeStatus( isHallucinated );
     }
 
     /** \ incomplete: shld access at room
      * 
      */
-
-
-    public override void dropItem()
-    {
-        float dropPercent;
-        if (player.InventoryList.CheckItem(ItemManager.Label.AdrenalineDrug) == false
-            && player.InventoryList.CheckItem(ItemManager.Label.MorfinDrug) == false)
-        {
-            if (player.Bufflist.Exists(x => x.GetType().Equals(typeof(Hallucinated))))
-            {
-                dropPercent = 1.01f;
-            }
-            else dropPercent = 0.25f;
-
-        }
-        else dropPercent = 0.1f;
-
-        if(Random.value < dropPercent)
-        {
-            // item drop
-        }
-    }
 }
