@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Gunner : Boss {
 
-    
 
+    public int atkBuffTurn;
+    public bool atkBuffOn;
 
     private void Start()
     {
@@ -17,7 +18,9 @@ public class Gunner : Boss {
         hp = maxhp;
         debuffPercent = 0.0f;
         enemyAction = new GunnerAction( this );
-        debuff = null;
+        debuff = new Stunned(1);
+        atkBuffTurn = 0;
+        atkBuffOn = false;
     }
 
 

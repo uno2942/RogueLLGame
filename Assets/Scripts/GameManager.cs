@@ -131,6 +131,14 @@ public class GameManager : MonoBehaviour {
     private void CheckPlayerStatus( Unit.Action _action ) {
         //정신력 체크
         DecreaseMpByTurn();
+        //1층 보스시 추가감소
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        foreach( var enemyObject in enemyList ) {
+            if( enemyObject.GetComponent<Enemy>() is BoundedCrazy ) {
+                player.ChangeMp((float)-1.2);
+            }
+        }
+
         if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
             player.Bufflist.Add( new Hallucinated( -1 ) );
