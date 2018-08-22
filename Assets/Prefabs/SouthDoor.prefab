@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222954525272801588}
   - component: {fileID: 114242303708282706}
   - component: {fileID: 61047333301615254}
+  - component: {fileID: 114839435196437430}
   m_Layer: 5
   m_Name: SouthDoor
   m_TagString: Untagged
@@ -81,6 +82,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114839435196437430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534897583321940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450a967c8b14f0948921210cf512575b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManagerObject: {fileID: 0}
 --- !u!222 &222954525272801588
 CanvasRenderer:
   m_ObjectHideFlags: 1

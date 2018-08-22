@@ -54,9 +54,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56fae4769735224ba1986a56eff9f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buff: 2
+  isThrown: 
+  conditions: 
+  negate: 
+  buff: 
+  count: 
   isUsed: 0
-  count: 5
 --- !u!114 &114185607778077790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80,6 +83,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUse: 0
+  isThrow: 0
+  enemies: []
 --- !u!114 &114893129679480834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,6 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: 0
-  delta: 0
+  isThrown: 
+  condition: 
+  negate: 
+  stats: 
+  deltas: 
   isUsed: 0
