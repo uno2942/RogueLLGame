@@ -17,6 +17,8 @@ public class Player : Unit {
     public bool isHungry = false;
     public bool isStarved = false;
     public bool isFull = false;
+    Image hpBar;
+    Image mpBar;
     public Stunned stunned;
     private Inventory inventoryList;
     private PlayerAction playerAction; /**< 플레이어가 할 수 있는 action을 담고 있는 PlayerAction 인스턴스를 저장한다. */
@@ -64,8 +66,8 @@ public class Player : Unit {
         hungry = 50;
         inventoryList = new Inventory();
         inventoryList.Initialize();
-        GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
-        GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
+        (hpBar=GameObject.Find( "PlayerHPBar" ).GetComponentInChildren<Image>()).fillAmount = ((float)hp)/maxhp;
+        (mpBar=GameObject.Find( "PlayerMPBar" ).GetComponentInChildren<Image>()).fillAmount = ( (float) mp ) / maxmp;
         playerAction = new PlayerAction();
         weapon = new DefaultWeapon();
         armor = new DefaultArmor();
@@ -82,7 +84,7 @@ public class Player : Unit {
         hp += (int)delta;
         if( hp >= 100 )
             hp = 100;
-        GameObject.Find( "PlayerHPBar" ).GetComponent<Slider>().value = hp;
+        hpBar.fillAmount = ( (float) hp ) / maxhp;
     }
     public void ChangeMp( float delta ) {
         mp += delta;
@@ -92,7 +94,7 @@ public class Player : Unit {
         }
         if( mp >= 100 )
             mp = 100;
-        GameObject.Find( "PlayerMPBar" ).GetComponent<Slider>().value = mp;
+        mpBar.fillAmount = ( (float) mp ) / maxmp;
     }
 
     public void ChangeHungry( int delta ) {

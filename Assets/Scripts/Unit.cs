@@ -80,6 +80,7 @@ public class Unit : MonoBehaviour {
     }
     /** 유닛의 최대 체력을 영구적으로 증가시키는 함수 */
     public virtual void ChangeMaxHp( int delta ) {
+        maxhp += delta;
         hp += delta;
     }
 

@@ -63,7 +63,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 150
+  m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -198,6 +198,8 @@ MonoBehaviour:
   - {fileID: 1787598285715860, guid: 4b805cc8f1abd014ab10febd0864319b, type: 2}
   - {fileID: 1724632491192574, guid: 9ee4c87a1897c88478255839756976ea, type: 2}
   - {fileID: 1141193089543456, guid: a9a3fbde75033b240a2a179c92c7eaf2, type: 2}
+  - {fileID: 1524592513619910, guid: 1b87e68a57ee9ca4cb4f60ef78ca2c4e, type: 2}
+  - {fileID: 1283668164866928, guid: 5eb59d15caab8364a869f1fcc7760b3d, type: 2}
 --- !u!222 &222508555015211696
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -229,7 +231,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -806, y: -426}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224673396402852032
 RectTransform:

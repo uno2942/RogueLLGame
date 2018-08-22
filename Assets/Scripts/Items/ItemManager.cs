@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 /** ItemManager's function is to control item in the game and give proper informations about item to player gameobject.
  */
 public class ItemManager : MonoBehaviour {
@@ -307,7 +307,7 @@ public class ItemManager : MonoBehaviour {
         GenerateRandomSequence( ref PrefabIndex );
         GenerateRandomSequence( ref SpriteIndex );
         for( int i = 0; i < len; i++ )
-            Prefabs[ PrefabIndex[ i ] ].GetComponent<SpriteRenderer>().sprite = Sprite[ SpriteIndex[ i ] ];
+            Prefabs[ PrefabIndex[ i ] ].GetComponent<Image>().sprite = Sprite[ SpriteIndex[ i ] ];
     }
 
     /** Subfunctions for InitializePrefabsRandomly function
