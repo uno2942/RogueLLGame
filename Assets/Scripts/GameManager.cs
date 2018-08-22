@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour {
                 player.ChangeMp((float)-1.2);
             }
         }
-
+        bool tmpHallucinated = player.isHallucinated;
         if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
             player.Bufflist.Add( new Hallucinated( -1 ) );
@@ -150,9 +150,10 @@ public class GameManager : MonoBehaviour {
             player.SetMpBy100();
             player.isHallucinated = false;
         }
-        
-        foreach( var enemyObject in enemyList ) {//환각에 따른 몹 상태변화
-            enemyObject.GetComponent<Enemy>().changeStatus( player.isHallucinated );
+        if(tmpHallucinated != player.isHallucinated ) {
+            foreach( var enemyObject in enemyList ) {//환각에 따른 몹 상태변화
+                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+            }
         }
 
 
@@ -293,7 +294,9 @@ public class GameManager : MonoBehaviour {
         currentSituation = true;
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         foreach( var enemyObject in enemyList ) {
-            enemyObject.GetComponent<Enemy>().changeStatus(player.isHallucinated);          
+            if( player.isHallucinated ) {
+                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+            }
         }
     }
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
