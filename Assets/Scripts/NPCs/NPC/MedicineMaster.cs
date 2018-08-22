@@ -13,7 +13,7 @@ public class MedicineMaster : NPC {
 		player.InventoryList.itemManager.ItemIdentify (label);
 	}
 
-    public override void OnMouseUpAsButton()
+    public override void OnClicked()
     {
         if (usuability == 0)
         {

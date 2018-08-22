@@ -35,9 +35,13 @@ public class StatSystem : ComponentSystem {
                     return unit.IsBuffExist(new Burn(1));
                 case BuffECS.condition.IsCaffeined:
                     return unit.IsBuffExist(new Caffeine(1));
-                case BuffECS.condition.isFull:
+                case BuffECS.condition.IsDefenseless:
+                    return unit.IsBuffExist( new Defenseless( 1 ) );
+                case BuffECS.condition.IsFull:
                     return unit.IsBuffExist(new Full(1));
-                case BuffECS.condition.IsHallucinated:
+               case BuffECS.condition.IsGiddiness:
+                    return unit.IsBuffExist( new Giddiness( 1 ) );
+               case BuffECS.condition.IsHallucinated:
                     return unit.IsBuffExist(new Hallucinated(1));
                 case BuffECS.condition.IsHungry:
                     return unit.IsBuffExist(new Hunger());
@@ -55,12 +59,13 @@ public class StatSystem : ComponentSystem {
                     return unit.IsBuffExist(new Stunned(1));
                 case BuffECS.condition.IsFullHP:
                     return unit.Hp==unit.MaxHp;
-                case BuffECS.condition.IsFullMP:
-                    Player player=unit as Player;
-                    if(player!=null)
-                        return player.MaxMp==player.Mp;
-                    else
-                        return false;
+                case BuffECS.condition.IsFullMP: {
+                Player player = unit as Player;
+                if( player != null )
+                    return player.MaxMp == player.Mp;
+                else
+                    return false;
+            }
                 default: //Case of "ToPlayer" or "Default"
                     return true;
             }
@@ -149,8 +154,14 @@ public class BuffSystem : ComponentSystem {
             case BuffECS.buffList.CAFFEINE:
                 unit.AddBuff( new Caffeine( count ) );
                 break;
+            case BuffECS.buffList.Defenseless:
+                unit.AddBuff( new Defenseless( count ) );
+                break;
             case BuffECS.buffList.FULL:
                 unit.AddBuff( new Full( count ) );
+                break;
+            case BuffECS.buffList.Giddiness:
+                unit.AddBuff( new Giddiness( count ) );
                 break;
             case BuffECS.buffList.HALLUCINATED:
                 unit.AddBuff( new Hallucinated( count ) );
@@ -239,8 +250,12 @@ public class BuffSystem : ComponentSystem {
                     return unit.IsBuffExist(new Burn(1));
                 case BuffECS.condition.IsCaffeined:
                     return unit.IsBuffExist(new Caffeine(1));
-                case BuffECS.condition.isFull:
-                    return unit.IsBuffExist(new Full(1));
+                case BuffECS.condition.IsDefenseless:
+                    return unit.IsBuffExist( new Defenseless( 1 ) );
+                case BuffECS.condition.IsFull:
+                    return unit.IsBuffExist( new Full( 1 ) );
+                case BuffECS.condition.IsGiddiness:
+                    return unit.IsBuffExist( new Giddiness( 1 ) );
                 case BuffECS.condition.IsHallucinated:
                     return unit.IsBuffExist(new Hallucinated(1));
                 case BuffECS.condition.IsHungry:
@@ -259,13 +274,13 @@ public class BuffSystem : ComponentSystem {
                     return unit.IsBuffExist(new Stunned(1));
                 case BuffECS.condition.IsFullHP:
                     return unit.Hp==unit.MaxHp;
-                case BuffECS.condition.IsFullMP:
-                    Player player=unit as Player;
-                    if(player!=null)
-                        return player.MaxMp==player.Mp;
-                    else
-                        return false;
-                    break;
+                case BuffECS.condition.IsFullMP: {
+                Player player = unit as Player;
+                if( player != null )
+                    return player.MaxMp == player.Mp;
+                else
+                    return false;
+            }
                 default: //Case of "ToPlayer" or "Default"
                     return true;
             }

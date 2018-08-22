@@ -57,7 +57,7 @@ public class InjectorCollector : NPC {
     }
 
     //npc 클릭시
-    public override void OnMouseUpAsButton()
+    public override void OnClicked()
     {
         if (usuability == 0) //주사 줌
         {

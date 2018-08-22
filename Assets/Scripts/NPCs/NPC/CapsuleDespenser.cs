@@ -48,7 +48,7 @@ public class CapsuleDespenser : NPC {
             }
 		}
 	}
-    public override void OnMouseUpAsButton()
+    public override void OnClicked()
     {
         if( player.GetInventoryList().isDialogBoxOn == false ) {
             if( usuability == 100 ) {
