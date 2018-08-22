@@ -24,7 +24,7 @@ public class NPC : MonoBehaviour{
         player = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    public virtual void OnMouseUpAsButton()
+    public virtual void OnClicked()
     {
 
     }

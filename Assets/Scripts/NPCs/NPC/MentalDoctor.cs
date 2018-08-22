@@ -18,7 +18,7 @@ public class MentalDoctor : NPC {
 		}
 	}
 
-    public override void OnMouseUpAsButton()
+    public override void OnClicked()
     {
         if( player.GetInventoryList().isDialogBoxOn == false ) {
             if( usuability == 0 ) {

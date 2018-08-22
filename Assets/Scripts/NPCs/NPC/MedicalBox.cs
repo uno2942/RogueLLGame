@@ -19,7 +19,7 @@ public class MedicalBox : NPC {
 			usuability = 0;
 		}
 	}
-    public override void OnMouseUpAsButton()
+    public override void OnClicked()
     {
         if( player.GetInventoryList().isDialogBoxOn == false ) {
             if( usuability == 0 ) {

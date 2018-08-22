@@ -58,3 +58,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: MapAndDoorLayer
+    uniqueID: 3537100495
+    locked: 0
+  - name: PlayerUILayer
+    uniqueID: 3468361563
+    locked: 0
+  - name: InventoryUILayer
+    uniqueID: 4272091467
+    locked: 0
+  - name: ItemLayer
+    uniqueID: 1744380277
+    locked: 0
+  - name: NPCLayer
+    uniqueID: 829694101
+    locked: 0
+  - name: EnemyLayer
+    uniqueID: 4092152317
+    locked: 0
