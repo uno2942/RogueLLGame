@@ -21,6 +21,12 @@ public class Enemy : Unit
     * Which action does Enemy do?
     */
     protected EnemyAction enemyAction;
+
+    //환각시 층 정보 접근 필요
+    protected BoardManager boardManager;
+    //환각시 변경 공방량
+    private readonly int[] delAD = new int[ 6 ] {1, 1, 3, 4, 7, 9};
+
     public EnemyAction EnemyAction
     {
         get
@@ -35,6 +41,7 @@ public class Enemy : Unit
     protected float debuffPercent;
 
     protected virtual void Start() {
+        boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
         Image[] images = GetComponentsInChildren<Image>();
         foreach( Image image in images ) {
             if( image.name == "health" ) {
@@ -71,17 +78,19 @@ public class Enemy : Unit
 
     /** \change enemy's Status by isHallucinated
      */
-    public virtual void changeStatus(bool isHallucinated)
+    public virtual void ChangeStatus(bool isHallucinated)
     {
-
+        if( isHallucinated ) {
+            ChangeAttack( delAD[ boardManager.WhichFloor ] );
+            ChangeDefense( delAD[ boardManager.WhichFloor ] );
+        } else {
+            ChangeAttack( - delAD[ boardManager.WhichFloor ] );
+            ChangeDefense( - delAD[ boardManager.WhichFloor ] );
+        }
     }
 
 
     /** \Works when enemy dies, and drop item :case by case.
     */
-    public virtual void dropItem()
-    {
-
-    }
 
 }

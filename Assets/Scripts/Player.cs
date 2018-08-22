@@ -128,7 +128,9 @@ public class Player : Unit {
     public void UseItem( int index ) {
         playerAction.UseItem( index );
     }
-
+    public void SpreadWater( int index ) {
+        playerAction.SpreadWater( index );
+    }
      public void UseItem( ItemManager.Label label ) {
         playerAction.UseItem( inventoryList.Getindex(label) );
     }

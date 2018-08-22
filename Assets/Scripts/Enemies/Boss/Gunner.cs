@@ -4,48 +4,46 @@ using UnityEngine;
 
 public class Gunner : Boss {
 
-    
 
+    public int atkBuffTurn;
+    public bool atkBuffOn;
+    private int delA;
+    private int delD;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Debug.Log("거너 등장");
         level = 1;
-        attack = 4; //shld be decided by level and setting file
-        defense = 4;
+        attack = 2; //shld be decided by level and setting file
+        defense = 2;
         maxhp = 160;
         hp = maxhp;
         debuffPercent = 0.0f;
         enemyAction = new GunnerAction( this );
-        debuff = null;
+        debuff = new Stunned(1);
+        atkBuffTurn = 0;
+        atkBuffOn = false;
+        delA = 1;
+        delD = 1;
     }
 
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void changeStatus(bool isHallucinated)
+    public override void ChangeStatus(bool isHallucinated)
     {
-        //read setting file and change
-        if (isHallucinated == true)
-        {
-            attack = 6;
-            defense = 6;
-
-        }
-        else
-        {
-            attack = 4;
-            defense = 4;
-
+        if( isHallucinated ) {
+            ChangeAttack( delA );
+            ChangeDefense( delD );
+        } else {
+            ChangeAttack( -delA );
+            ChangeDefense( -delD );
         }
     }
 
     /** \ incomplete: shld access at room
      * 
      */
-
-    public override void dropItem()
-    {
-        //drop AutoGun
-    }
+     
 }
