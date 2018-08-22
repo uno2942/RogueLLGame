@@ -150,6 +150,12 @@ public class GameManager : MonoBehaviour {
             player.SetMpBy100();
             player.isHallucinated = false;
         }
+        
+        foreach( var enemyObject in enemyList ) {//환각에 따른 몹 상태변화
+            enemyObject.GetComponent<Enemy>().changeStatus( player.isHallucinated );
+        }
+
+
         //상태이상 체크
         IncreaseHungryByTurn();
         if( player.Hungry >= 100 && !player.isHungry ) {
@@ -285,6 +291,10 @@ public class GameManager : MonoBehaviour {
         default: break;
         }
         currentSituation = true;
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        foreach( var enemyObject in enemyList ) {
+            enemyObject.GetComponent<Enemy>().changeStatus(player.isHallucinated);          
+        }
     }
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){
