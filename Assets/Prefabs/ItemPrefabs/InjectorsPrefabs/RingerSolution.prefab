@@ -86,7 +86,7 @@ MonoBehaviour:
   isThrown: 00
   conditions: 00000000
   negate: 00
-  buff: 09000000
+  buff: 0b000000
   count: 0a000000
   isUsed: 0
 --- !u!114 &114526832549548254
@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isThrown: 0000
-  condition: 0000000008000000
-  negate: 0000
+  condition: 000000000a000000
+  negate: 0001
   stats: 0100000001000000
   deltas: 050000000a000000
   isUsed: 0

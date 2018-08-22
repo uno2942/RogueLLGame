@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isThrown: 00
-  conditions: 0b000000
+  conditions: 0d000000
   negate: 00
-  buff: 08000000
+  buff: 0a000000
   count: ffffffff
   isUsed: 0
 --- !u!114 &114098706885048836

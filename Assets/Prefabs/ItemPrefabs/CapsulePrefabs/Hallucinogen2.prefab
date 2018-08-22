@@ -59,11 +59,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae41b922396eb4ca9b0f43f6f38539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isThrown: 000000
-  condition: 000000000100000001000000
-  negate: 000100
-  stats: 010000000000000003000000
-  deltas: 640000009600000014000000
+  isThrown: 00
+  condition: 0a000000
+  negate: 00
+  stats: 01000000
+  deltas: f6ffffff
   isUsed: 0
 --- !u!114 &114600708590970724
 MonoBehaviour:
@@ -179,10 +179,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isThrown: 0001
-  conditions: 0800000000000000
+  conditions: 0a00000000000000
   negate: 0100
-  buff: 050000000c000000
-  count: 0000000003000000
+  buff: 0700000006000000
+  count: 0100000003000000
   isUsed: 0
 --- !u!222 &222935623661725412
 CanvasRenderer:
@@ -206,6 +206,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.2355366, y: -3.199197}
+  m_AnchoredPosition: {x: -36.386856, y: -5.2585497}
   m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}

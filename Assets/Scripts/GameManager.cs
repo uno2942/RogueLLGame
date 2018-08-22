@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
     public GameObject ratPrefab;
     public GameObject dogPrefab;
     public GameObject humanPrefab;
+    public GameObject boundedCrazyPrefab;
     private Vector2[] monsterGenLocation;
     //@}
 
@@ -274,7 +275,7 @@ public class GameManager : MonoBehaviour {
     {
         Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
         MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
-        Debug.Log( maptile.enemyList.Count );
+        Debug.Log( "적 수: " + maptile.enemyList.Count );
         switch(  maptile.enemyList.Count) {
         case 0: return;
         case 1:
@@ -299,11 +300,41 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
+
+
+    public void GenerateItems(int x, int y ) {
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+        MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
+        Debug.Log( "아이템 개수: " + maptile.itemList.Count );
+        switch( maptile.itemList.Count ) {
+        case 0: return;
+        case 1:
+            itemManager.InstantiateItem( maptile.itemList[0], monsterGenLocation[ 0 ] + nowPos );
+            break;
+        case 2:
+            itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 1 ] + nowPos );
+            itemManager.InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 2 ] + nowPos );
+            break;
+        case 3:
+            itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 3 ] + nowPos );
+            itemManager.InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
+            itemManager.InstantiateItem( maptile.itemList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
+            break;
+        default: break;
+        }
+
+        maptile.itemList.Clear();
+        
+    }
+
+
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){
         case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.EnemyType.BoundedCrazy: Instantiate( boundedCrazyPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+
         default: break;
         }
     }

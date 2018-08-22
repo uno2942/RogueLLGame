@@ -77,7 +77,7 @@ MonoBehaviour:
   isThrown: 0000
   conditions: 0000000000000000
   negate: 0000
-  buff: 0d0000000d000000
+  buff: 0b0000000b000000
   count: 0a0000001e000000
   isUsed: 0
 --- !u!114 &114735145053950436
@@ -176,7 +176,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: cc08195566b53804691f1631ef645095, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e3ca4e6ec1680b949be31e076927cf4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

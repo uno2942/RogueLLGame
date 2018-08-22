@@ -178,11 +178,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56fae4769735224ba1986a56eff9f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isThrown: 0100
+  isThrown: 0001
   conditions: 0000000000000000
   negate: 
   buff: 0200000002000000
-  count: 0a0000000a000000
+  count: 0a0000000f000000
   isUsed: 0
 --- !u!222 &222724949154134994
 CanvasRenderer:

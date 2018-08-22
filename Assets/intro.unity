@@ -802,6 +802,8 @@ MonoBehaviour:
   dogPrefab: {fileID: 1294049849326864, guid: d35df83762ab4fe4b886c6688825bd44, type: 2}
   humanPrefab: {fileID: 1083860989706420, guid: 545b5641ae7b36549a272cbb2e70f0b9,
     type: 2}
+  boundedCrazyPrefab: {fileID: 1991947680573352, guid: bb731c0f788d6cb4a98ff1e7c92e1d1d,
+    type: 2}
 --- !u!4 &822175069
 Transform:
   m_ObjectHideFlags: 0
@@ -2014,23 +2016,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefabs:
-  - {fileID: 1234404473408220, guid: dccf177f5e76a5e479835bc7733ae164, type: 2}
-  - {fileID: 1234404473408220, guid: dccf177f5e76a5e479835bc7733ae164, type: 2}
-  - {fileID: 1234404473408220, guid: dccf177f5e76a5e479835bc7733ae164, type: 2}
-  - {fileID: 1234404473408220, guid: dccf177f5e76a5e479835bc7733ae164, type: 2}
-  - {fileID: 1234404473408220, guid: dccf177f5e76a5e479835bc7733ae164, type: 2}
+  - {fileID: 1558082883291840, guid: 666e55565cdddea459a880633787b03c, type: 2}
+  - {fileID: 1366364911129760, guid: 457c4cfc2a949cc4187de3976e24627c, type: 2}
+  - {fileID: 1286501496474700, guid: ac3d74dab1369ef4e8fa5a1cf599efe2, type: 2}
+  - {fileID: 1922386987963960, guid: 5f3747563e4550346b5fa02efad14d76, type: 2}
+  - {fileID: 1805627071892342, guid: 828db3d31a369b6459513df3d9524a78, type: 2}
+  - {fileID: 1464829718003206, guid: 075de3795eef115478b182a82a095bb1, type: 2}
+  - {fileID: 1753446701176270, guid: a0d7ffc9ff0129e4d90c27fe4d92daec, type: 2}
+  - {fileID: 1796650773419614, guid: 4cd50c9f1def19f4d8f74852838d99de, type: 2}
+  - {fileID: 1525506569424968, guid: 057c217a2261fd746a6928aa6b5cd46e, type: 2}
   armorPrefabs:
-  - {fileID: 0}
+  - {fileID: 1195221255804836, guid: e06f49180a12f8b49bc2a30ada644e07, type: 2}
+  - {fileID: 1276494299551656, guid: 32e0aa25993972140a2f02a8edf17a09, type: 2}
+  - {fileID: 1655996740825382, guid: 8be3852aba6a1934a8b2268919c65e8d, type: 2}
+  - {fileID: 1115754737242938, guid: a6d94995e5f09f840a36601012d20c07, type: 2}
+  - {fileID: 1752631857616450, guid: cb50b671102ee3c40a2dfb06fef3297e, type: 2}
+  - {fileID: 1755356572732472, guid: 612be1f7cdcf0244ab7ebd191b78d9e8, type: 2}
   expendablesPrefabs:
-  - {fileID: 1473245116568862, guid: 6414f1dafca1c144da9741c6e15622c5, type: 2}
+  - {fileID: 1049872557014286, guid: efd75848ec8ca774b9882a2356639c71, type: 2}
   - {fileID: 1084436823935402, guid: a43f25fe112f471459cd6410b15a5fb1, type: 2}
+  - {fileID: 1604988073727106, guid: b53b82193efe6fe40a5fae648b267448, type: 2}
+  - {fileID: 1473245116568862, guid: 6414f1dafca1c144da9741c6e15622c5, type: 2}
   capsulePrefabs:
   - {fileID: 1204321997566202, guid: a8a9c87eaad24cc43915e0876ed75dae, type: 2}
+  - {fileID: 1753406413121042, guid: 88cdb8af0672db7489b40a086fad98dc, type: 2}
+  - {fileID: 1863882018582184, guid: b7751e15ca9f65d43aa025a25aa5923b, type: 2}
   - {fileID: 1282338423820428, guid: 83ba8b15946fb2d49a7c9321d81db9fc, type: 2}
-  cardPrefab: {fileID: 1072383495113174, guid: 8553129560b26aa41952fce4e08cfec7, type: 2}
+  - {fileID: 1948444014229038, guid: ee906ce33203f9745adf269f46e080ba, type: 2}
+  - {fileID: 1526599596941450, guid: 1d92d0f1d03773146b7ce6e5aa5fa289, type: 2}
+  - {fileID: 1956776665814146, guid: 90b5a891c6cd59c40a761264cbdad885, type: 2}
+  cardPrefabs:
+  - {fileID: 1984564688672902, guid: d4b47fbc7bf40254387451067f9e4470, type: 2}
+  - {fileID: 1965106826412568, guid: f8ef93fe09de71241a6b68d02e65aabe, type: 2}
+  - {fileID: 1592908567343240, guid: df20562b32b058d4ebcd706616059a19, type: 2}
   capsuleSprite:
-  - {fileID: 21300000, guid: fab2140cb3c1e1a4d84493c3b3c43ecd, type: 3}
-  - {fileID: 21300000, guid: 2c36284b670cdd7479f51b414296be09, type: 3}
+  - {fileID: 21300000, guid: e3ca4e6ec1680b949be31e076927cf4b, type: 3}
+  - {fileID: 21300000, guid: 3ef4fbe5bb039ae47b3dce13016a5bf9, type: 3}
+  - {fileID: 21300000, guid: 2993460da417e8041a94931ce85e569a, type: 3}
+  - {fileID: 21300000, guid: e8a54cf49e1320b40a9ea79fb6645804, type: 3}
+  - {fileID: 21300000, guid: c30f042bf46e0d54ea71eca67ba6f0d1, type: 3}
+  - {fileID: 21300000, guid: faeb5e0cb82bbc64093bbf89e0dee31e, type: 3}
+  - {fileID: 21300000, guid: 090dc2d03e0b94049bc0df0130e8398b, type: 3}
+  - {fileID: 21300000, guid: f6a4e0a280ba7d94eaf6b75ffc175a02, type: 3}
+  - {fileID: 21300000, guid: 5e5a1fbed73ca2849bfdf1255a4ce793, type: 3}
+  - {fileID: 21300000, guid: 63578f68010617443b35b11726211260, type: 3}
   boardmanager: {fileID: 2084880429}
   gamemanager: {fileID: 822175068}
 --- !u!4 &2095465475

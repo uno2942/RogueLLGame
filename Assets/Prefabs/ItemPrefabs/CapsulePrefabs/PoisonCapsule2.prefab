@@ -48,7 +48,7 @@ MonoBehaviour:
   isThrown: 0001
   conditions: 0000000000000000
   negate: 0000
-  buff: 0800000008000000
+  buff: 0a0000000a000000
   count: 0f0000000f000000
   isUsed: 0
 --- !u!114 &114201181128340532

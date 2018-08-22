@@ -163,7 +163,7 @@ public class ItemManager : MonoBehaviour {
     public GameObject[] armorPrefabs;
     public GameObject[] expendablesPrefabs;
     public GameObject[] capsulePrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
-    public GameObject cardPrefab;
+    public GameObject[] cardPrefabs;
 
     public Sprite[] capsuleSprite;
     //@}
@@ -171,11 +171,23 @@ public class ItemManager : MonoBehaviour {
     public BoardManager boardmanager;
     public GameManager gamemanager;
 
+    private Vector2[] monsterGenLocation;
+
     // Use this for initialization
     /**
      * LabelDic 을 초기화하고, 캡슐을 제외한 아이템의 감정 상태를 true 로 초기화 한다.
      */
     void Start() {
+        //아이템 생성좌표: 몬스터 생성것 가져옴
+        monsterGenLocation = new Vector2[ 6 ];
+        monsterGenLocation[ 0 ] = new Vector2( 0, 2 );
+        monsterGenLocation[ 1 ] = new Vector2( -2, 2 );
+        monsterGenLocation[ 2 ] = new Vector2( 2, 2 );
+        monsterGenLocation[ 3 ] = new Vector2( -3, 2 );
+        monsterGenLocation[ 4 ] = new Vector2( 0, 2 );
+        monsterGenLocation[ 5 ] = new Vector2( 3, 2 );
+
+
         labelDic = new Dictionary<Label, Item>();
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
@@ -257,6 +269,27 @@ public class ItemManager : MonoBehaviour {
     /** 아이템을 position 에 놓는다.
      */
     public void DropItem(MapTile maptile) {
+        //foreach( ItemCategory gObject in maptile.itemList ) {
+
+        Vector2 nowPos = new Vector2( boardmanager.XPos * BoardManager.horizontalMovement, boardmanager.YPos * BoardManager.verticalMovement );
+            
+        Debug.Log( maptile.itemList.Count );
+        switch( maptile.itemList.Count ) {
+        case 0: return;
+        case 1:
+            InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] + nowPos );
+            break;
+        case 2:
+            InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 1 ] + nowPos );
+            InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 2 ] + nowPos );
+            break;
+        case 3:
+            InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 3 ] + nowPos );
+            InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
+            InstantiateItem( maptile.itemList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
+            break;
+        default: break;
+        }                                //}
     }
 
     /** 카드를 position 에 떨어트린다.
@@ -268,16 +301,71 @@ public class ItemManager : MonoBehaviour {
     {
         if( label == Label.AutoHandgun ) {
             return weaponPrefabs[ 0 ].GetComponent<Image>().sprite;
-        } else if( label == Label.CaffeinCapsule1 ) {
-            return capsulePrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
-        } else if( label == Label.LiquidFlameMedicine1 ) {
-            return capsulePrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
-        } else if( label == Label.Water ) {
-            return expendablesPrefabs[ 0 ].GetComponent<SpriteRenderer>().sprite;
+        } else if( label == Label.BlackKnife ) {
+            return weaponPrefabs[ 1 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Club ) {
+            return weaponPrefabs[ 2 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Hammer ) {
+            return weaponPrefabs[ 3 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Lighter ) {
+            return weaponPrefabs[ 4 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Mess ) {
+            return weaponPrefabs[ 5 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Nuckle ) {
+            return weaponPrefabs[ 6 ].GetComponent<Image>().sprite;
+        } else if( label == Label.SharpDagger ) {
+            return weaponPrefabs[ 7 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Shock ) {
+            return weaponPrefabs[ 8 ].GetComponent<Image>().sprite;
+        } 
+        
+        else if( label == Label.CleanDoctorCloth ) {
+            return armorPrefabs[ 0 ].GetComponent<Image>().sprite;
+        } else if( label == Label.DamagedDoctorCloth ) {
+            return armorPrefabs[ 1 ].GetComponent<Image>().sprite;
+        } else if( label == Label.FullPlated ) {
+            return armorPrefabs[ 2 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Padding ) {
+            return armorPrefabs[ 3 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Patient ) {
+            return armorPrefabs[ 4 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Tshirts ) {
+            return armorPrefabs[ 5 ].GetComponent<Image>().sprite;
+        } 
+        
+        else if( label == Label.Bandage ) {
+            return expendablesPrefabs[0].GetComponent<Image>().sprite;
         } else if( label == Label.Can ) {
-            return expendablesPrefabs[ 1 ].GetComponent<SpriteRenderer>().sprite;
-        } else if( label == Label.BlackCard )
-            return cardPrefab.GetComponent<SpriteRenderer>().sprite;
+            return expendablesPrefabs[ 1 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Medicine ) {
+            return expendablesPrefabs[ 2 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Water ) {
+            return expendablesPrefabs[ 3 ].GetComponent<Image>().sprite;
+        } 
+        
+        else if( label == Label.CaffeinCapsule1 ) {
+            return capsulePrefabs[ 0 ].GetComponent<Image>().sprite;
+        } else if( label == Label.CureAll1 ) {
+            return capsulePrefabs[ 1 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Hallucinogen1 ) {
+            return capsulePrefabs[ 2 ].GetComponent<Image>().sprite;
+        } else if( label == Label.LiquidFlameMedicine1 ) {
+            return capsulePrefabs[ 3 ].GetComponent<Image>().sprite;
+        } else if( label == Label.PoisonCapsule1 ) {
+            return capsulePrefabs[ 4 ].GetComponent<Image>().sprite;
+        } else if( label == Label.Salt1 ) {
+            return capsulePrefabs[ 5 ].GetComponent<Image>().sprite;
+        } else if( label == Label.VitaminTablet1 ) {
+            return capsulePrefabs[ 6 ].GetComponent<Image>().sprite;
+        } 
+
+        else if( label == Label.BlackCard ) {
+            return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
+        } else if( label == Label.WhiteCard ) {
+            return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
+        } else if( label == Label.YellowCard ) {
+            return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
+        }
         return null;
     }
 
@@ -323,5 +411,49 @@ public class ItemManager : MonoBehaviour {
         a = b;
         b = temp;
     }
+
+    public void InstantiateItem( ItemCategory iCat, Vector2 location ) {
+        switch( iCat ) {
+        /*무기*/
+        case ItemCategory.AutoHandgun: Instantiate( weaponPrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.BlackKnife: Instantiate( weaponPrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Club: Instantiate( weaponPrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Hammer: Instantiate( weaponPrefabs[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Lighter: Instantiate( weaponPrefabs[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Mess: Instantiate( weaponPrefabs[ 5 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Nuckle: Instantiate( weaponPrefabs[ 6 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.SharpDagger: Instantiate( weaponPrefabs[ 7 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Shock: Instantiate( weaponPrefabs[ 8 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        /*방어구*/
+        case ItemCategory.CleanDoctorCloth: Instantiate( armorPrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.DamagedDoctorCloth: Instantiate( armorPrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.FullPlated: Instantiate( armorPrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Padding: Instantiate( armorPrefabs[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Patient: Instantiate( armorPrefabs[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Tshirts: Instantiate( armorPrefabs[ 5 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        /*소모품*/
+        case ItemCategory.Bandage: Instantiate( expendablesPrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Can: Instantiate( expendablesPrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Medicine: Instantiate( expendablesPrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Water: Instantiate( expendablesPrefabs[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        /*캡슐*/
+        case ItemCategory.CaffeinCapsule: Instantiate( capsulePrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.CureAll: Instantiate( capsulePrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Hallucinogen: Instantiate( capsulePrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.LiquidFlameMedicine: Instantiate( capsulePrefabs[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.PoisonCapsule: Instantiate( capsulePrefabs[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.Salt: Instantiate( capsulePrefabs[ 5 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.VitaminTablet: Instantiate( capsulePrefabs[ 6 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+         /*카드*/
+        case ItemCategory.BlackCard: Instantiate( cardPrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.WhiteCard: Instantiate( cardPrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.YellowCard: Instantiate( cardPrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        
+        default: break;
+        }
+        
+    }
+
+
     //@}
 }
