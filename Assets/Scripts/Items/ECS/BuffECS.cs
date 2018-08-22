@@ -42,7 +42,7 @@ public class BuffECS : MonoBehaviour {
 		STUNNED,
 		VITAMINTHROWN
 	};
-	public bool[] isThrown;
+    public bool[] isThrown;
 	public condition[] conditions;
 	public bool[] negate;
 	public buffList[] buff;

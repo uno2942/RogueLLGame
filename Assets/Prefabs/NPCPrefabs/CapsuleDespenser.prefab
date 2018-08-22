@@ -22,8 +22,7 @@ GameObject:
   - component: {fileID: 114020396336816064}
   - component: {fileID: 222498899206809580}
   - component: {fileID: 114978167710658694}
-  - component: {fileID: 114056796502464200}
-  - component: {fileID: 114114388273387080}
+  - component: {fileID: 114772744660344016}
   m_Layer: 0
   m_Name: CapsuleDespenser
   m_TagString: NPC
@@ -49,7 +48,7 @@ MonoBehaviour:
   gObject: {fileID: 0}
   usuability: 100
   boardmanager: {fileID: 0}
---- !u!114 &114056796502464200
+--- !u!114 &114772744660344016
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,12 +87,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722809347248306}
-        m_MethodName: 
+      - m_Target: {fileID: 114020396336816064}
+        m_MethodName: OnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -101,18 +100,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114114388273387080
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722809347248306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e7a84b158b57844a025fc245e26a01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  label: 0
 --- !u!114 &114978167710658694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,7 +145,7 @@ RectTransform:
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

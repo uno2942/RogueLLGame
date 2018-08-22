@@ -63,7 +63,7 @@ public class Enemy : Unit
 
     public int Level { get { return level; } }
 
-    protected void OnMouseUpAsButton() {
+    public void OnClick() {
         player.PlayerAction.Attack( this );
         Debug.Log( "플레이어 공격" );
     }
