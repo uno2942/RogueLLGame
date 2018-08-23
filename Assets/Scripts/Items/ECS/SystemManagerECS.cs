@@ -110,12 +110,14 @@ public class StatSystem : ComponentSystem {
                         if(e.item.isThrow==false)
                         {
                             for( int i = 0; i < e.statECS.stats.Length; i++ ) {
-                                if( e.statECS.negate[ i ] == true ) {
-                                    if( !CheckCondition( player, e.statECS.condition[ i ] ) )
+                                if( e.statECS.isThrown[ i ] == false ) { 
+                                   if( e.statECS.negate[ i ] == true ) {
+                                   if( !CheckCondition( player, e.statECS.condition[ i ] ) )
                                         addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
                                 } else
                                     if( CheckCondition( player, e.statECS.condition[ i ] ) )
                                     addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                }
                             }
                         }
                         else
@@ -304,12 +306,14 @@ public class BuffSystem : ComponentSystem {
                         if(e.item.isThrow==false)
                         {
                             for( int i = 0; i < e.buffECS.buff.Length; i++ ) {
-                                if( e.buffECS.negate[ i ] == true ) {
-                                    if( !CheckCondition( player, e.buffECS.conditions[ i ] ) )
-                                        addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
-                                } else
+                                if( e.buffECS.isThrown[ i ] == false ) {
+                                    if( e.buffECS.negate[ i ] == true ) {
+                                        if( !CheckCondition( player, e.buffECS.conditions[ i ] ) )
+                                            addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                    } else
                                     if( CheckCondition( player, e.buffECS.conditions[ i ] ) )
-                                    addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                        addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                }
                             }
                             
                         }
