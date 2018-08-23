@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e7a84b158b57844a025fc245e26a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: 17
+  label: 18
 --- !u!114 &114258268948152588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,7 +79,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: cc08195566b53804691f1631ef645095, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6a4e0a280ba7d94eaf6b75ffc175a02, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isThrown: 00
   conditions: 00000000
-  negate: 0000
+  negate: 00
   buff: 03000000
   count: 1e000000
   isUsed: 0
@@ -202,7 +202,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

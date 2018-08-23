@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e7a84b158b57844a025fc245e26a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: 28
+  label: 27
 --- !u!114 &114226937216492434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isThrown: 00
   conditions: 00000000
-  negate: 0000
+  negate: 00
   buff: 03000000
   count: 1e000000
   isUsed: 0
