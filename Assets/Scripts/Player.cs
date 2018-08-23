@@ -51,7 +51,9 @@ public class Player : Unit {
     }
 
     public Weapon weapon; /**< 플레이어가 가지고 있는 무기 */
+    public int weaponindex;
     public Armor armor; /**< 플레이어가 가지고 있는 갑옷 */
+    public int armorindex;
     /**
     * Player class have inventory gameobject to put items into inventory.
     */
@@ -61,6 +63,8 @@ public class Player : Unit {
      * 플레이어의 상태를 초기화하고, MpBar와 HpBar를 초기화한다. 그 후 action, weapon, armor를 초기화한다.
      */
     void Start() {
+        weaponindex = -1;
+        armorindex = -1;
         attack = 1;
         defense = 1;
         maxhp = 100;
@@ -147,8 +151,8 @@ public class Player : Unit {
         playerAction.EquipItem( index );
     }
 
-    public void UnequipItem( int index, bool GoNextTurn = true ) {
-        playerAction.UnequipItem( index, GoNextTurn );
+    public void UnequipItem( int index) {
+        playerAction.UnequipItem( index );
     }
     /**
      * @todo I need to implement this part

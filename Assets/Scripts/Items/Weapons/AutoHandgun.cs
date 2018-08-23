@@ -8,7 +8,6 @@ public class AutoHandgun : Weapon{
     public AutoHandgun()
     {
         name = this.GetType().ToString();
-
         count = 17;
         attackPower = 25;
         rank = "common";
@@ -16,9 +15,12 @@ public class AutoHandgun : Weapon{
 
     public override void Attack(Enemy enemy)
     {
-        if (count == 17) {
-            //안대요..
-        }
-        else { count++; }
+        count--;
+    }
+
+    public override bool IsDestroyed() {
+        if( count == 0 )
+            return false;
+        return base.IsDestroyed();
     }
 }

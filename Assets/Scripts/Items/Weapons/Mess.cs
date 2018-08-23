@@ -6,7 +6,7 @@ public class Mess : Weapon {
     public Mess()
     {
         name = this.GetType().ToString();
-        attackPower = 6;
+        attackPower = 7;
         rank = "common";
     }
 }
