@@ -19,8 +19,10 @@ public class AutoHandgun : Weapon{
     }
 
     public override bool IsDestroyed() {
+        Debug.Log( "count is " );
+        Debug.Log( count );
         if( count == 0 )
-            return false;
+            return true;
         return base.IsDestroyed();
     }
 }

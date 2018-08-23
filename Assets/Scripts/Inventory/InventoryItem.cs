@@ -120,7 +120,7 @@ public class InventoryItem : MonoBehaviour {
         for( i = 0; i < buttons.Length; i++ )
             if( buttons[ i ].name == "EquipandUnequip" )
                 break;
-        if( player.weaponindex == index ) {
+        if( player.weaponindex == index || player.armorindex == index) {
             buttons[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "해제하기";
         } else
             buttons[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "장착하기";
@@ -133,8 +133,11 @@ public class InventoryItem : MonoBehaviour {
     public void DumpCommand() {
         Destroy(gObject);
         player.GetInventoryList().isDialogBoxOn = false;
-        if( player.weaponindex == index )
+        player.InventoryList.weapons[ index ] = null;
+        player.InventoryList.armors[ index ] = null;
+        if( player.weaponindex == index || player.armorindex == index ) {
             player.UnequipItem( index );
+        }
         player.DumpItem( index );
     }
 
