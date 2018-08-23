@@ -130,14 +130,18 @@ public class Unit : MonoBehaviour {
      */
     public void DeleteBuff(Buff buff)
     {
-        Buff _buff;
-        if( (_buff=bufflist.Find( x => x.GetType().Equals( buff.GetType() ))) != null)
+        Buff _buff= FindBuff(buff);
+        if( _buff != null)
             bufflist.Remove( _buff );
     }
+
     public bool IsBuffExist(Buff buff){
-        return (bufflist?.Find(x => x.GetType().Equals( buff.GetType()))!=null);
+        return FindBuff(buff) != null;
     }
 
+    public Buff FindBuff(Buff buff ) {
+        return bufflist?.Find( x => x.GetType() == buff.GetType() );
+    }
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
         foreach( Buff buff in Bufflist ) {
