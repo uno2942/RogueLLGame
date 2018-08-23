@@ -2237,6 +2237,7 @@ MonoBehaviour:
   - {fileID: 1753446701176270, guid: a0d7ffc9ff0129e4d90c27fe4d92daec, type: 2}
   - {fileID: 1796650773419614, guid: 4cd50c9f1def19f4d8f74852838d99de, type: 2}
   - {fileID: 1525506569424968, guid: 057c217a2261fd746a6928aa6b5cd46e, type: 2}
+  - {fileID: 1974536004782752, guid: b310abc6ed93bf24d9c799ee612224d0, type: 2}
   armorPrefabs:
   - {fileID: 1195221255804836, guid: e06f49180a12f8b49bc2a30ada644e07, type: 2}
   - {fileID: 1276494299551656, guid: 32e0aa25993972140a2f02a8edf17a09, type: 2}
@@ -2257,6 +2258,12 @@ MonoBehaviour:
   - {fileID: 1948444014229038, guid: ee906ce33203f9745adf269f46e080ba, type: 2}
   - {fileID: 1526599596941450, guid: 1d92d0f1d03773146b7ce6e5aa5fa289, type: 2}
   - {fileID: 1956776665814146, guid: 90b5a891c6cd59c40a761264cbdad885, type: 2}
+  - {fileID: 1460446580666966, guid: b356b61b55e395a4fbc6164f50c4d3e0, type: 2}
+  - {fileID: 1760836854748974, guid: 61fa1a00f9b19fe4295a7eb08263cc1f, type: 2}
+  injectorPrefabs:
+  - {fileID: 1933946336995530, guid: 64ff05db977e4a74182e01d33b3896bc, type: 2}
+  - {fileID: 1857647789069690, guid: 709e4f563cee5ed41b9d170613b3a1dd, type: 2}
+  - {fileID: 1433626306825720, guid: 00745141408f4eb49a2f58ccb6e5d7b2, type: 2}
   cardPrefabs:
   - {fileID: 1984564688672902, guid: d4b47fbc7bf40254387451067f9e4470, type: 2}
   - {fileID: 1965106826412568, guid: f8ef93fe09de71241a6b68d02e65aabe, type: 2}

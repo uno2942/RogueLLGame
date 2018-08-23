@@ -21,6 +21,7 @@ TagManager:
   - WestDoor
   - NorthDoor
   - SouthDoor
+  - GivemeBoxImage
   layers:
   - Default
   - TransparentFX

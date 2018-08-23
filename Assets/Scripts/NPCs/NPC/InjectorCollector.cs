@@ -6,13 +6,17 @@ using UnityEngine;
 public class InjectorCollector : NPC {
 
     public BoardManager boardmanager;
+    public GameManager gamemanager;
     public ItemManager.Label injector;
+    private ItemManager itemmanager;
 
     protected override void Start() {
         name = "InjectorCollector";
         usuability = 100;
         injector = ItemManager.Label.Empty;
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
+        gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>();
+        itemmanager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         base.Start();
     }
 
@@ -42,14 +46,23 @@ public class InjectorCollector : NPC {
                 ItemManager.Label label1 = ItemManager.CategoryToLabel(randomBar1, boardmanager.WhichFloor);
                 ItemManager.Label label2 = ItemManager.CategoryToLabel(randomBar2, boardmanager.WhichFloor);
 
-                
+                /*
                 player.PlayerAction.PickItem( label1 );
                 player.PlayerAction.PickItem( label2 );
                 player.PlayerAction.PickItem( ItemManager.Label.Can );
                 player.PlayerAction.PickItem( ItemManager.Label.Can );
                 player.PlayerAction.PickItem( ItemManager.Label.Water );
-                player.PlayerAction.PickItem( ItemManager.Label.Water );
-                                
+                player.PlayerAction.PickItem( ItemManager.Label.Water );*/
+                Vector2 nowPos = new Vector2( boardmanager.XPos * BoardManager.horizontalMovement, boardmanager.YPos * BoardManager.verticalMovement );
+
+                itemmanager.InstantiateItem( randomBar1, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+                itemmanager.InstantiateItem( randomBar2, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Can , gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Can, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Water, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Water, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+
+
                 usuability = 0;
 
                 player.InventoryList.InjecCommuni = false;
@@ -73,7 +86,7 @@ public class InjectorCollector : NPC {
     {
         if (usuability == 0) //주사 줌
         {
-            CantTalkBox dBox = (gObject = Instantiate(dialogBox[0], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
+            CantTalkBox dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
             dBox.npc = this;
             dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "아아... 훨씬 기분이 좋군요. 감사합니다.";
         }

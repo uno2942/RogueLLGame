@@ -12,8 +12,10 @@ public class ItemSystem : ComponentSystem {
 
         foreach( var e in GetEntities<group>() ) {
             var item = e.item;
-            if( item.isUse && item.gameObject.GetComponents<Component>().Length == 4 )
+            if( item.isUse && item.gameObject.GetComponents<Component>().Length == 5 ) {
                 GameObject.Destroy( item.gameObject );
+                return;
+            }
         }
     }
 

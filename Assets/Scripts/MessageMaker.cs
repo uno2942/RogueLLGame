@@ -112,6 +112,7 @@ public class MessageMaker : MonoBehaviour {
         else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금과";
         else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프와";
         else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약과";
+        else if( label == ItemManager.Label.Painkiller1) name = "진통제와";
 
         else
         {
@@ -146,49 +147,48 @@ public class MessageMaker : MonoBehaviour {
     private string ObjName(ItemManager.Label label)
     {
         string name = "";
-        
-        if (label == ItemManager.Label.AutoHandgun) name = "자동권총을";
-        else if (label == ItemManager.Label.BlackKnife) name = "검은 식칼을";
-        else if (label == ItemManager.Label.Club) name = "각목을";
-        else if (label == ItemManager.Label.Hammer) name = "망치를";
-        else if (label == ItemManager.Label.Lighter) name = "라이터를";
-        else if (label == ItemManager.Label.Mess) name = "매스를";
-        else if (label == ItemManager.Label.Nuckle) name = "너클을";
-        else if (label == ItemManager.Label.SharpDagger) name = "단검을";
-        else if (label == ItemManager.Label.Shock) name = "제세동기를";
-        //else if (label == ItemManager.Label.Injector) name = "주사기를"; //미구현
-        
-        else if (label == ItemManager.Label.BloodJacket) name = "피 묻은 가죽 재킷을";
-        else if (label == ItemManager.Label.CleanDoctorCloth) name = "깔끔한 의사 가운을";
-        else if (label == ItemManager.Label.DamagedDoctorCloth) name = "해진 의사 가운을";
-        else if (label == ItemManager.Label.FullPlated) name = "판금 갑옷을";
-        else if (label == ItemManager.Label.Padding) name = "두꺼운 패딩을";
-        else if (label == ItemManager.Label.Patient) name = "환자복을";
-        else if (label == ItemManager.Label.Tshirts) name = "티셔츠를";
 
-        else if (label == ItemManager.Label.MorfinDrug) name = "모르핀을";
-        else if (label == ItemManager.Label.AdrenalineDrug) name = "아드레날린을";
-        else if (label == ItemManager.Label.RingerSolution) name = "링겔액을";
-        else if (label == ItemManager.Label.Can) name = "통조림을";
-        else if (label == ItemManager.Label.Water) name = "물을";
-        else if (label == ItemManager.Label.Bandage) name = "붕대를";
-        else if (label == ItemManager.Label.Medicine) name = "약품을";
-        else if (label == ItemManager.Label.WhiteCard) name = "하얀 키 카드를";
-        else if (label == ItemManager.Label.BlackCard) name = "검정 키 카드를";
-        else if (label == ItemManager.Label.YellowCard) name = "노란 키 카드를";
+        if( label == ItemManager.Label.AutoHandgun ) name = "자동권총을";
+        else if( label == ItemManager.Label.BlackKnife ) name = "검은 식칼을";
+        else if( label == ItemManager.Label.Club ) name = "각목을";
+        else if( label == ItemManager.Label.Hammer ) name = "망치를";
+        else if( label == ItemManager.Label.Lighter ) name = "라이터를";
+        else if( label == ItemManager.Label.Mess ) name = "매스를";
+        else if( label == ItemManager.Label.Nuckle ) name = "너클을";
+        else if( label == ItemManager.Label.SharpDagger ) name = "단검을";
+        else if( label == ItemManager.Label.Shock ) name = "제세동기를";
+        else if( label == ItemManager.Label.InjectorWeapon ) name = "주사기를"; //미구현
 
-        else if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약을";
-        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약을";
-        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제를";
-        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약을";
-        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약을";
-        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금을";
-        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프를";
-        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약을";
+        else if( label == ItemManager.Label.BloodJacket ) name = "피 묻은 가죽 재킷을";
+        else if( label == ItemManager.Label.CleanDoctorCloth ) name = "깔끔한 의사 가운을";
+        else if( label == ItemManager.Label.DamagedDoctorCloth ) name = "해진 의사 가운을";
+        else if( label == ItemManager.Label.FullPlated ) name = "판금 갑옷을";
+        else if( label == ItemManager.Label.Padding ) name = "두꺼운 패딩을";
+        else if( label == ItemManager.Label.Patient ) name = "환자복을";
+        else if( label == ItemManager.Label.Tshirts ) name = "티셔츠를";
 
-        else
-        {
-            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+        else if( label == ItemManager.Label.MorfinDrug ) name = "모르핀을";
+        else if( label == ItemManager.Label.AdrenalineDrug ) name = "아드레날린을";
+        else if( label == ItemManager.Label.RingerSolution ) name = "링겔액을";
+        else if( label == ItemManager.Label.Can ) name = "통조림을";
+        else if( label == ItemManager.Label.Water ) name = "물을";
+        else if( label == ItemManager.Label.Bandage ) name = "붕대를";
+        else if( label == ItemManager.Label.Medicine ) name = "약품을";
+        else if( label == ItemManager.Label.WhiteCard ) name = "하얀 키 카드를";
+        else if( label == ItemManager.Label.BlackCard ) name = "검정 키 카드를";
+        else if( label == ItemManager.Label.YellowCard ) name = "노란 키 카드를";
+
+        else if( label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3 ) name = "카페인 알약을";
+        else if( label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3 ) name = "만병통치약을";
+        else if( label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3 ) name = "환각제를";
+        else if( label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3 ) name = "매운 알약을";
+        else if( label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3 ) name = "독약을";
+        else if( label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3 ) name = "소금을";
+        else if( label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3 ) name = "수프를";
+        else if( label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3 ) name = "비타민 알약을";
+        else if( label == ItemManager.Label.Painkiller1 ) name = "진통제를";
+        else {
+            Debug.Log( "이름이 정의되지 않은 아이템이 있습니다." );
             return "Unnamed Item";
         }
         return name;
