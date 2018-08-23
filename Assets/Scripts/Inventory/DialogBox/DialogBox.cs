@@ -22,4 +22,8 @@ public class DialogBox : MonoBehaviour {
     protected void DumpCommand() {
         inventoryItem.DumpCommand();
     }
+
+    protected void CancelCommand() {
+        inventoryItem.CancelCommand();
+    }
 }
