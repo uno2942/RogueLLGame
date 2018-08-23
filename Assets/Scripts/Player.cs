@@ -61,7 +61,7 @@ public class Player : Unit {
      * 플레이어의 상태를 초기화하고, MpBar와 HpBar를 초기화한다. 그 후 action, weapon, armor를 초기화한다.
      */
     void Start() {
-        attack = 1;
+        attack = 20;
         defense = 1;
         maxhp = 100;
         hp = maxhp;

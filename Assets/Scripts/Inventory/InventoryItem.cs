@@ -64,6 +64,10 @@ public class InventoryItem : MonoBehaviour {
             //2. dialogbox 요소에 정보와 사진 때려박기
             if( ItemManager.ItemType.Injector == ItemManager.LabelToType( player.InventoryList.GetLabel( index ) ) ) {
                 gBox.injector = player.InventoryList.GetLabel( index );
+                ItemManager itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
+                GameObject.FindWithTag("GivemeBoxImage").GetComponent< UnityEngine.UI.Image >().sprite = itemManager.LabelToSprite( gBox.injector );
+                
+                
             } else {
                 Debug.Log( "주사기 아님" );
             }

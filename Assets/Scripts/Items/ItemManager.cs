@@ -163,6 +163,7 @@ public class ItemManager : MonoBehaviour {
     public GameObject[] armorPrefabs;
     public GameObject[] expendablesPrefabs;
     public GameObject[] capsulePrefabs; //Prefab과 Sprite가 일치하도록 넣어야 합니다.
+    public GameObject[] injectorPrefabs;
     public GameObject[] cardPrefabs;
 
     public Sprite[] capsuleSprite;
@@ -357,14 +358,22 @@ public class ItemManager : MonoBehaviour {
             return capsulePrefabs[ 5 ].GetComponent<Image>().sprite;
         } else if( label == Label.VitaminTablet1 ) {
             return capsulePrefabs[ 6 ].GetComponent<Image>().sprite;
-        } 
-
+        }
+        
+        else if( label == Label.AdrenalineDrug ) {
+            return injectorPrefabs[ 0 ].GetComponent<Image>().sprite;
+        } else if( label == Label.MorfinDrug ) {
+            return injectorPrefabs[ 1 ].GetComponent<Image>().sprite;
+        } else if( label == Label.RingerSolution ) {
+            return injectorPrefabs[ 2 ].GetComponent<Image>().sprite;
+        }
+        
         else if( label == Label.BlackCard ) {
             return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.WhiteCard ) {
-            return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
+            return cardPrefabs[ 1 ].GetComponent<Image>().sprite;
         } else if( label == Label.YellowCard ) {
-            return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
+            return cardPrefabs[ 2 ].GetComponent<Image>().sprite;
         }
         return null;
     }
@@ -448,7 +457,12 @@ public class ItemManager : MonoBehaviour {
         case ItemCategory.BlackCard: Instantiate( cardPrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case ItemCategory.WhiteCard: Instantiate( cardPrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case ItemCategory.YellowCard: Instantiate( cardPrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
-        
+
+        /*주사기*/
+        case ItemCategory.AdrenalineDrug: Instantiate( injectorPrefabs[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.MorfinDrug: Instantiate( injectorPrefabs[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case ItemCategory.RingerSolution: Instantiate( injectorPrefabs[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+
         default: break;
         }
         
