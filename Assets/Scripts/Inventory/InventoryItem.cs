@@ -169,13 +169,15 @@ public class InventoryItem : MonoBehaviour {
  * \see player::EatCapsule
  */
     public void EatCapsuleCommand() {
-        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) )
-            player.ChangeMp( -20 );
-        
+                
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         player.UseItem( index );
-        player.UseItem(ItemManager.Label.Water );
+        
+        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) )
+            player.ChangeMp( -20 );
+        else
+            player.UseItem( ItemManager.Label.Water );
     }
     /**
 * 플레이어가 선택 상자에서 주사하는 명령을 선택하였을 때 실행되는 함수
