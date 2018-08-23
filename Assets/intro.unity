@@ -624,6 +624,8 @@ MonoBehaviour:
   - {fileID: 1216954557923642, guid: 54423314e453a26489eb9d9a884dd28a, type: 2}
   - {fileID: 1039147376807238, guid: 9c1ac93f21a538646921ef77a709f15d, type: 2}
   - {fileID: 1013480759001650, guid: 6a2467839231775459e0bc2164906ea7, type: 2}
+  weaponindex: 0
+  armorindex: 0
 --- !u!1 &620049516
 GameObject:
   m_ObjectHideFlags: 0
