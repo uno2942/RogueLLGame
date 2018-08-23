@@ -126,18 +126,18 @@ public class MessageMaker : MonoBehaviour {
     public string Name(ItemManager.Label label) //캡슐 한정 사용
     {
         string name = "";
-        if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약";
-        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약";
-        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제";
-        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약";
-        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약";
-        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금";
-        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프";
-        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약";
+        if( label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3 ) name = "카페인 알약";
+        else if( label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3 ) name = "만병통치약";
+        else if( label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3 ) name = "환각제";
+        else if( label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3 ) name = "매운 알약";
+        else if( label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3 ) name = "독약";
+        else if( label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3 ) name = "소금";
+        else if( label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3 ) name = "수프";
+        else if( label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3 ) name = "비타민 알약";
+        else if( label == ItemManager.Label.Painkiller1 ) name = "진정제";
 
-        else
-        {
-            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+        else {
+            Debug.Log( "이름이 정의되지 않은 아이템이 있습니다." );
             return "Unnamed Item";
         }
 
