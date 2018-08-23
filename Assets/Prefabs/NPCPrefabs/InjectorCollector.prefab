@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224038917441916072}
-  - component: {fileID: 114162584572487782}
   - component: {fileID: 222610053339344510}
+  - component: {fileID: 114162584572487782}
   - component: {fileID: 114448123271883792}
   - component: {fileID: 114201393608988146}
   m_Layer: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   gObject: {fileID: 0}
   usuability: 100
   boardmanager: {fileID: 0}
+  gamemanager: {fileID: 0}
   injector: 0
 --- !u!114 &114201393608988146
 MonoBehaviour:

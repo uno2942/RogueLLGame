@@ -123,6 +123,8 @@ public class Unit : MonoBehaviour {
                 bufflist.Add( new Stunned( _buff.Count ) );
         } else
             buff.AddCount( _buff.Count );
+
+        Debug.Log( "Buff: " + _buff.GetType().ToString() + "turn" + _buff.Count );
     }
     /**
      * 유닛의 BuffList에 버프를 빼는 함수(버프 1개만 뺀다. 버프 카운트가 다를 때에 대한 코드는 구현되어 있지 않다.)

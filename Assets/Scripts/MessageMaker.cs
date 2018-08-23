@@ -123,7 +123,7 @@ public class MessageMaker : MonoBehaviour {
         return name;
     }
 
-    private string Name(ItemManager.Label label) //캡슐 한정 사용
+    public string Name(ItemManager.Label label) //캡슐 한정 사용
     {
         string name = "";
         if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약";
@@ -441,6 +441,34 @@ public class MessageMaker : MonoBehaviour {
             Debug.Log("지정되지 않은 예외 상황에서 MakeCannotMessage를 사용했습니다.");
         }
         logger.AddLog(s);
+    }
+
+    public void MakeBuffMessage( Buff buff )
+    {
+        string s = "";
+        switch(buff) {
+        case Adrenaline ad: s = "당신의 공격성이 극대화됩니다!"; break;
+        case Bleed ad: s = "당신은 피를 흘립니다!"; break;
+        case Burn ad: s = "당신에게 불이 붙었습니다!"; break;
+        case Caffeine ad: s = "당신은 몸이 날렵해짐을 느낍니다."; break;
+        case Defenseless ad: s = "이게 왜 너한테 걸려?"; break;
+        case Full ad: s = "당신은 포만감을 느낍니다."; break;
+        case Giddiness ad: s = "이게 왜 너한테 걸려?"; break;
+        case Hunger ad: s = "당신은 배가 고픕니다."; break;
+        case Morfin ad: s = "당신의 감각이 무뎌집니다."; break;
+        case Poison ad: s = "당신은 중독되었습니다!"; break;
+        case Relieved ad: s = "당신의 공격성이 잠잠해집니다."; break;
+        case Renewal ad: s = "당신은 생기를 되찾고 있습니다."; break;
+        case Starve ad: s = ""; break;
+        case Stunned ad: s = "당신은 기절했습니다!"; break;
+        default: s = "당신이 무슨 상태인지는 개발자도 모릅니다."; break;
+
+        }
+        logger.AddLog( s );
+    }
+
+    public void MakeUnHalluciMessage(  ) {
+        logger.AddLog( "당신은 정신을 차렸습니다." );
     }
 
 }

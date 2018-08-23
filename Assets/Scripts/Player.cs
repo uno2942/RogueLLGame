@@ -11,6 +11,7 @@ public class Player : Unit {
     private int hungry;
     private const int maxmp=100;
 
+    MessageMaker messageMaker;
     public bool isStunned=false;
     public bool prevIsStunned = false;
     public bool isHallucinated = false;
@@ -65,7 +66,7 @@ public class Player : Unit {
     void Start() {
         weaponindex = -1;
         armorindex = -1;
-        attack = 1;
+        attack = 1000000;
         defense = 1;
         maxhp = 100;
         hp = maxhp;
@@ -80,6 +81,7 @@ public class Player : Unit {
         armor = new DefaultArmor();
         buffPanelTransform1 = GameObject.Find( "BuffPanel1" ).transform;
         buffPanelTransform2 = GameObject.Find( "BuffPanel1" ).transform;
+        messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
     }
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
@@ -232,5 +234,6 @@ public class Player : Unit {
             GameObject.Instantiate( BuffIcons[ 13 ], buffPanelTransform1 );
 
         base.AddBuff( _buff );
+        messageMaker.MakeBuffMessage( _buff );
     }
 }
