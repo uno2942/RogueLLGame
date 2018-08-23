@@ -804,6 +804,12 @@ MonoBehaviour:
     type: 2}
   boundedCrazyPrefab: {fileID: 1991947680573352, guid: bb731c0f788d6cb4a98ff1e7c92e1d1d,
     type: 2}
+  npcPrefab:
+  - {fileID: 1722809347248306, guid: 9bc69e928c0399444b54845e5ebffe4b, type: 2}
+  - {fileID: 1764135839014080, guid: 1b3901b420868254a9c0f4c82836ef2d, type: 2}
+  - {fileID: 1709259026828656, guid: cd14bd2087d352947a3175d535ebcb2e, type: 2}
+  - {fileID: 1162467695331664, guid: 7f420c90e5639e046b2651e40ecc7c0a, type: 2}
+  - {fileID: 1519234654581364, guid: 912dd06df8efedc49907d39f0009bf53, type: 2}
 --- !u!4 &822175069
 Transform:
   m_ObjectHideFlags: 0

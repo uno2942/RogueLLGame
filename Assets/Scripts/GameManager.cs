@@ -49,6 +49,9 @@ public class GameManager : MonoBehaviour {
     public GameObject dogPrefab;
     public GameObject humanPrefab;
     public GameObject boundedCrazyPrefab;
+
+    public GameObject[] npcPrefab;
+
     private Vector2[] monsterGenLocation;
     //@}
 
@@ -327,6 +330,31 @@ public class GameManager : MonoBehaviour {
         
     }
 
+    public void GenerateNPCs( int x, int y ) {
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+        MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
+        Debug.Log( "NPC 수: " + maptile.NPCList.Count );
+        switch( maptile.NPCList.Count ) {
+        case 0: return;
+        case 1:
+            InstantiateNPC( maptile.NPCList[ 0 ], monsterGenLocation[ 0 ] + nowPos );
+            break;
+        case 2:
+            InstantiateNPC( maptile.NPCList[ 0 ], monsterGenLocation[ 1 ] + nowPos );
+            InstantiateNPC( maptile.NPCList[ 1 ], monsterGenLocation[ 2 ] + nowPos );
+            break;
+        case 3:
+            InstantiateNPC( maptile.NPCList[ 0 ], monsterGenLocation[ 3 ] + nowPos );
+            InstantiateNPC( maptile.NPCList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
+            InstantiateNPC( maptile.NPCList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
+            break;
+        default: break;
+        }
+
+        maptile.NPCList.Clear();
+
+    }
+
 
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){
@@ -338,7 +366,19 @@ public class GameManager : MonoBehaviour {
         default: break;
         }
     }
-    
+    private void InstantiateNPC( BoardManager.NPCType nType, Vector2 location ) {
+        switch( nType ) {
+        case BoardManager.NPCType.CapsuleDespenser: Instantiate( npcPrefab[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.InjectorCollector: Instantiate( npcPrefab[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MedicalBox: Instantiate( npcPrefab[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MedicineMaster: Instantiate( npcPrefab[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MentalDoctor: Instantiate( npcPrefab[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        
+
+        default: break;
+        }
+    }
+
 
     /**
      * 플레이어가 사망하였는 확인한다.
