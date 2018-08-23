@@ -69,7 +69,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  dialogBox: []
+  dialogBox:
+  - {fileID: 1646047529355588, guid: d2f08d9e6705a1d468f48bce68ece116, type: 2}
+  - {fileID: 1735850935815570, guid: 3eaf6fa2499c96946acd54663fa17752, type: 2}
   gObject: {fileID: 0}
   usuability: 0
 --- !u!114 &114822122926832048

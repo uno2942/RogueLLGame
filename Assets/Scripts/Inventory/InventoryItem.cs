@@ -63,22 +63,26 @@ public class InventoryItem : MonoBehaviour {
             if( ItemManager.ItemType.Injector == ItemManager.LabelToType( player.InventoryList.GetLabel( index ) ) ) {
                 gBox.injector = player.InventoryList.GetLabel( index );
                 ItemManager itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
-                GameObject.FindWithTag("GivemeBoxImage").GetComponent< UnityEngine.UI.Image >().sprite = itemManager.LabelToSprite( gBox.injector );
-                
-                
+                GameObject.FindWithTag("GivemeBoxImage").GetComponent< UnityEngine.UI.Image >().sprite = itemManager.LabelToSprite( gBox.injector );                              
             } else {
                 Debug.Log( "주사기 아님" );
             }
                        
         }
 
-        else if (InjecCommuni && false == player.GetInventoryList().isDialogBoxOn)
+        else if (player.InventoryList.MedicineCommuni)
         {
-            SelectBox dBox;
-            ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
-            dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<SelectBox>();
-            dBox.inventoryItem = this;
-            player.GetInventoryList().isDialogBoxOn = true;
+            //1. dialogbox 요소 가져오기
+            Debug.Log( "Hi I am GivemeBox" );
+            SelectBox gBox = GameObject.Find( "Select(Clone)" ).GetComponent<SelectBox>();
+            //2. dialogbox 요소에 정보와 사진 때려박기
+            if( ItemManager.ItemType.Capsule == ItemManager.LabelToType( player.InventoryList.GetLabel( index ) ) ) {
+                gBox.pill = player.InventoryList.GetLabel( index );
+                ItemManager itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
+                GameObject.FindWithTag( "SelectBoxImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( gBox.pill );
+            } else {
+                Debug.Log( "알약 아님" );
+            }
         }
 
         else if( false == player.GetInventoryList().isDialogBoxOn ) {
