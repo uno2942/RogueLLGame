@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MedicineBox : MonoBehaviour
+public class SelectBox : MonoBehaviour
 {
     public InventoryItem inventoryItem;
     protected Button[] buttons;

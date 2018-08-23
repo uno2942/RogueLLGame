@@ -100,7 +100,7 @@ public class Inventory {
                     inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
                 numberOfSameItems[ location ] = 1;
                 return true;
-            } else if( ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
+            } else if( label == labelList[ location ] && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
                 numberOfSameItems[ location ]++;
                 return true;
             } else
@@ -121,6 +121,7 @@ public class Inventory {
 
         if( location < size ) {
             if( labelList[ location ] == ItemManager.Label.Empty ) {
+                labelList[ location ] = label;
                 inventoryObject[ location ].GetComponent<Image>().sprite = itemManager.LabelToSprite( label );
                 inventoryObject[ location ].GetComponent<InventoryItem>().Index = location; //남길지 말지 
 
@@ -128,7 +129,7 @@ public class Inventory {
                     inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
                 numberOfSameItems[ location ] = 1;
                 return true;
-            } else if( ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
+            } else if( label == labelList[location] && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
                 numberOfSameItems[ location ]++;
                 return true;
             } else

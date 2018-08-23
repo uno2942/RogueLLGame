@@ -36,11 +36,12 @@ public class GivemeBox : MonoBehaviour {
     public InventoryItem inventoryItem;
     protected Button[] buttons;
     public InjectorCollector npc;
+    public ItemManager.Label injector;
 
     // Use this for initialization
     void Start() {
         buttons = gameObject.GetComponentsInChildren<Button>();
-
+        injector = ItemManager.Label.Empty;
         Init();
     }
 
@@ -54,16 +55,15 @@ public class GivemeBox : MonoBehaviour {
     }
     public void UseCommand() {
         
-        if(npc.injector == ItemManager.Label.Empty) { //아이템 안들어감
+        if(injector == ItemManager.Label.Empty) { //아이템 안들어감
             this.GetComponentInChildren<UnityEngine.UI.Text>().text = "장난하지 마시고... 주사기 없습니까?";
         } else { //아이템 들어감
-            
-            Destroy( npc.gObject ); //이 박스 터트리고
-            npc.player.DumpItem( npc.player.InventoryList.Getindex(npc.injector) ); // 아이템 버리고
-            npc.talk( npc.player, npc.injector ); //다음 작업 수행
+            Debug.Log(injector.ToString() + "를 주었다.");
+            npc.player.DumpItem( npc.player.InventoryList.Getindex( injector ) ); // 아이템 버리고
+            npc.player.InventoryList.InjecCommuni = false; //대화 끝남 추가하고
+            Destroy( npc.gObject ); //이 박스 터트리고         
+            npc.talk( npc.player ); //다음 작업 수행
 
-            npc.player.InventoryList.InjecCommuni = false;
-            npc.player.GetInventoryList().isDialogBoxOn = false; //다이얼로그 끝난 정보 저장
         }
         //inventoryItem.DumpCommand();
         //npc.extalk( npc.player, npc.player.InventoryList.GetLabel( inventoryItem.Index ) );

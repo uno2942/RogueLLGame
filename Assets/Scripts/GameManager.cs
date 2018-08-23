@@ -372,7 +372,7 @@ public class GameManager : MonoBehaviour {
         case BoardManager.NPCType.InjectorCollector: Instantiate( npcPrefab[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case BoardManager.NPCType.MedicalBox: Instantiate( npcPrefab[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case BoardManager.NPCType.MedicineMaster: Instantiate( npcPrefab[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
-        case BoardManager.NPCType.MentalDoctor: Instantiate( npcPrefab[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MentalDoctor  : Instantiate( npcPrefab[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         
 
         default: break;

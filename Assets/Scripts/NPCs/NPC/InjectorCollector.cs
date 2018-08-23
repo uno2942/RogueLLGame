@@ -12,10 +12,11 @@ public class InjectorCollector : NPC {
         name = "InjectorCollector";
         usuability = 100;
         injector = ItemManager.Label.Empty;
+        boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
         base.Start();
     }
 
-    public override void talk(Player player, ItemManager.Label label)
+    public override void talk(Player player)
     {
         if (usuability == 100)
         {
@@ -41,17 +42,28 @@ public class InjectorCollector : NPC {
                 ItemManager.Label label1 = ItemManager.CategoryToLabel(randomBar1, boardmanager.WhichFloor);
                 ItemManager.Label label2 = ItemManager.CategoryToLabel(randomBar2, boardmanager.WhichFloor);
 
-                player.InventoryList.AddItem(label1);
-                player.InventoryList.AddItem(label2);
-                player.InventoryList.AddItem(ItemManager.Label.Can);
-                player.InventoryList.AddItem(ItemManager.Label.Can);
-                player.InventoryList.AddItem(ItemManager.Label.Water);
-                player.InventoryList.AddItem(ItemManager.Label.Water);
+                
+                player.PlayerAction.PickItem( label1 );
+                player.PlayerAction.PickItem( label2 );
+                player.PlayerAction.PickItem( ItemManager.Label.Can );
+                player.PlayerAction.PickItem( ItemManager.Label.Can );
+                player.PlayerAction.PickItem( ItemManager.Label.Water );
+                player.PlayerAction.PickItem( ItemManager.Label.Water );
+                                
                 usuability = 0;
+
+                player.InventoryList.InjecCommuni = false;
+
+                CantTalkBox dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CantTalkBox>();
+                dBox.npc = this;
+                dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "감사합니다. 여기 제가 가지고 있던 비상식량과 알약을 가져가세요.";
+                player.GetInventoryList().isDialogBoxOn = false; //다이얼로그 끝난 정보 저장
+
             }
         }
         else
         {
+            Debug.Log( "InjectorCollector error: talk shld not work when usuablility = 0" );
             usuability = 0;
         }
     }
@@ -74,7 +86,7 @@ public class InjectorCollector : NPC {
             player.GetInventoryList().isDialogBoxOn = true;
             dBox.npc = this;
             dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "주사기... 주사기가 필요해. 혹시 가진 것 없습니까?";
-
+            //건네주기 로 버튼 변경
         }
     }
 
