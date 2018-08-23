@@ -26,6 +26,7 @@ public class PlayerAction {
      * @todo 중독/기절 보정이 뭔가요.
      */
     public void Attack( Enemy enemy ) {
+        int tempindex;
         player.weapon.Attack( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
 
         float temp = ( player.FinalAttackPower() - enemy.FinalDefensePower() );
@@ -49,6 +50,12 @@ public class PlayerAction {
         }
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
         */
+        if( player.weapon.IsDestroyed() == true ) {
+            tempindex = player.weaponindex;
+            UnequipItem( tempindex );
+            DumpItem( tempindex );
+        }
+
         Debug.Log( "공격 끝" );
         gameManager.EndPlayerTurn(Unit.Action.Attack);
     }
@@ -65,7 +72,6 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EndPlayerTurn(Unit.Action.Default);
     }
     /**
      * \see InventoryItem::UseItem
@@ -86,7 +92,6 @@ public class PlayerAction {
             }
             messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
             DumpItem( index );
-            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
 
@@ -103,14 +108,6 @@ public class PlayerAction {
             }
             messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
             DumpItem( index );
-            gameManager.EndPlayerTurn( Unit.Action.Default );
-        }
-    }
-
-    public void PickItem( ItemManager.Label label, GameObject gObject) {
-        if( player.InventoryList.AddItem( label, gObject ) == true ) {
-            messageMaker.MakeItemMessage( MessageMaker.UnitAction.PickItem, label );
-            player.InventoryList.IdentifyAllTheInventoryItem();
         }
     }
 
@@ -145,32 +142,32 @@ public class PlayerAction {
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.weapon = weaponorarmor as Weapon;
+                player.weapon = player.InventoryList.weapons[ index ];
+                player.weaponindex = index;
                 GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
             } else 
-            { player.armor = weaponorarmor as Armor;
+            { player.armor = player.InventoryList.armors[ index ];
+                player.armorindex = index;
                 GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
             }
-            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
     /**
 * \see InventoryItem::UnequipCommand
 * \see Player::UnequipItem
 */
-    public void UnequipItem( int index, bool GoNextTurn = true ) {
+    public void UnequipItem( int index) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.weapon = null;
+                player.weapon = new DefaultWeapon();
+                player.weaponindex = -1;
                 GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
             } else {
-                player.armor = null;
+                player.armor = new DefaultArmor();
+                player.armorindex = -1;
                 GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
-            }
-            if( GoNextTurn ) {
-                gameManager.EndPlayerTurn( Unit.Action.Default );
             }
         }
     }

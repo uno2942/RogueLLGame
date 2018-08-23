@@ -6,7 +6,7 @@ public class Hammer : Weapon {
     public Hammer()
     {
         name = this.GetType().ToString();
-        attackPower = 10;
+        attackPower = 8;
         rank = "rare";
     }
 

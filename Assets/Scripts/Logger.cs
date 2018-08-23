@@ -27,6 +27,5 @@ public class Logger : MonoBehaviour {
         tmptext += _log;
         logger.text = tmptext;
     }
-
     void Update() { }
 }

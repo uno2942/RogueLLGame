@@ -25,6 +25,8 @@ public class Inventory {
      */
     private ItemManager.Label [] labelList;
     private GameObject [] inventoryObject;
+    public Weapon[] weapons;
+    public Armor[] armors;
     /**
      * It contains itemManager gameObject in the scene.
      */
@@ -53,6 +55,8 @@ public class Inventory {
      */
     public void Initialize()
     {
+        weapons = new Weapon[ 12 ];
+        armors = new Armor[ 12 ];
         InventoryTransform = GameObject.Find( "InventoryPanel" ).GetComponent<RectTransform>();
         inventoryItemPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/InventoryItem.prefab", typeof( GameObject ) );
         labelList = new ItemManager.Label [size];
@@ -100,11 +104,14 @@ public class Inventory {
                     inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
                 numberOfSameItems[ location ] = 1;
                 return true;
-            } else if( label == labelList[ location ] && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
+            } 
+            else if( label == labelList[ location ] && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
                 numberOfSameItems[ location ]++;
                 return true;
-            } else
+            } 
+            else
                 return false;
+
         }
         else
         {
@@ -114,38 +121,79 @@ public class Inventory {
     }
 
     public bool AddItem( ItemManager.Label label) {
-        int location;
-        for( location = 0; location < size; location++ ) {
-            if( labelList[ location ] == ItemManager.Label.Empty || labelList[ location ] == label ) break;
+        int locationEmpty;
+        int locationSameLabel;
+        for( locationEmpty = 0; locationEmpty < size; locationEmpty++ ) {
+            if( labelList[ locationEmpty ] == ItemManager.Label.Empty ) break;
         }
 
-        if( location < size ) {
-            if( labelList[ location ] == ItemManager.Label.Empty ) {
-                labelList[ location ] = label;
-                inventoryObject[ location ].GetComponent<Image>().sprite = itemManager.LabelToSprite( label );
-                inventoryObject[ location ].GetComponent<InventoryItem>().Index = location; //남길지 말지 
+        for( locationSameLabel = 0; locationSameLabel < size; locationSameLabel++ ) {
+            if( labelList[ locationSameLabel ] == label ) break;
+        }
 
-                if( itemManager.GetItemIdentificationInfo( labelList[ location ] ) )
-                    inventoryObject[ location ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ location ].ToString();
-                numberOfSameItems[ location ] = 1;
+        if( locationEmpty < size || locationSameLabel < size ) {
+            if( locationSameLabel < size && ItemManager.LabelToType( labelList[ locationSameLabel ] ) != ItemManager.ItemType.Armor && ItemManager.LabelToType( labelList[ locationSameLabel ] ) != ItemManager.ItemType.Weapon ) {
+                numberOfSameItems[ locationSameLabel ]++;
                 return true;
-            } else if( label == labelList[location] && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Weapon && ItemManager.LabelToType( labelList[ location ] ) != ItemManager.ItemType.Armor ) {
-                numberOfSameItems[ location ]++;
+            }
+            else if( locationEmpty < size ) {
+                labelList[ locationEmpty ] = label;
+                inventoryObject[ locationEmpty ].GetComponent<Image>().sprite = itemManager.LabelToSprite( label );
+                inventoryObject[ locationEmpty ].GetComponent<InventoryItem>().Index = locationEmpty;
+
+                if( itemManager.GetItemIdentificationInfo( labelList[ locationEmpty ] ) )
+                    inventoryObject[ locationEmpty ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ locationEmpty ].ToString();
+                numberOfSameItems[ locationEmpty ] = 1;
+
+                if(ItemManager.LabelToType( labelList[ locationEmpty ] ) == ItemManager.ItemType.Armor )
+                    armors[ locationEmpty ] = NewArmor( label );
+                else if(ItemManager.LabelToType( labelList[ locationEmpty ] ) == ItemManager.ItemType.Weapon )
+                    weapons[ locationEmpty ] = NewWeapon( label );
                 return true;
-            } else
-                return false;
-        } else {
+            }
+            return false;
+            }
+        else {
             Debug.Log( "인벤토리가 꽉 찼다." );
             return false;
         }
     }
 
+    private Weapon NewWeapon(ItemManager.Label label ) {
+        switch( label ) {
+        case ItemManager.Label.AutoHandgun: return new AutoHandgun();
+        case ItemManager.Label.BlackKnife: return new BlackKnife();
+        case ItemManager.Label.Club: return new Club();
+        case ItemManager.Label.Hammer: return new Hammer();
+        case ItemManager.Label.Lighter: return new Lighter();
+        case ItemManager.Label.Mess: return new Mess();
+        case ItemManager.Label.Nuckle: return new Nuckle();
+        case ItemManager.Label.Shock: return new Shock();
+        default: return null;
+    }
+    }
+
+
+    private Armor NewArmor( ItemManager.Label label ) {
+        switch( label ) {
+        case ItemManager.Label.BloodJacket: return new BloodJacket();
+        case ItemManager.Label.CleanDoctorCloth: return new CleanDoctorCloth();
+        case ItemManager.Label.DamagedDoctorCloth: return new DamagedDoctorCloth();
+        case ItemManager.Label.FullPlated: return new FullPlated();
+        case ItemManager.Label.Padding: return new Padding();
+        case ItemManager.Label.Patient: return new Patient();
+        case ItemManager.Label.Tshirts: return new Tshirts();
+        default: return null;
+        }
+    }
     /** 
      * 인벤토리에서 index에 해당하는 아이템을 지운다.
      */
     public void DeleteItem(int index) {
         numberOfSameItems[ index ]--;
         if( numberOfSameItems[ index ] == 0 ) {
+            weapons[ index ] = null;
+            armors[ index ] = null;
             inventoryObject[ index ].GetComponent<Image>().sprite = inventoryItemPrefab.GetComponent<Image>().sprite;
             labelList[ index ] = ItemManager.Label.Empty;
             inventoryObject[ index ].GetComponentInChildren<UnityEngine.UI.Text>().text = "Empty";

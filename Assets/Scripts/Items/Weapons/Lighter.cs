@@ -6,12 +6,17 @@ public class Lighter : Weapon {
     public Lighter()
     {
         name = this.GetType().ToString();
-        attackPower = 2;
+        attackPower = 3;
         rank = "rare";
     }
 
     public override void Attack(Enemy enemy)
     {
-            enemy.AddBuff(new Burn(5));
+        switch( rank ) {
+        case "common": enemy.AddBuff( new Burn( 3 ) ); break;
+        case "rare": enemy.AddBuff( new Burn( 4 ) ); break;
+        case "legendary": enemy.AddBuff( new Burn( 5 ) ); break;
+        default: return;
+        }
     }
 }
