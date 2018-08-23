@@ -146,9 +146,11 @@ public class PlayerAction {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
                 player.weapon = weaponorarmor as Weapon;
-            } else
-                player.armor = weaponorarmor as Armor;
-            //장착되었으니 UI에서 뭔갈 해야함.
+                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
+            } else 
+            { player.armor = weaponorarmor as Armor;
+                GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
+            }
             gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
@@ -162,9 +164,11 @@ public class PlayerAction {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
                 player.weapon = null;
-            } else
+                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
+            } else {
                 player.armor = null;
-            //장착되었으니 UI에서 뭔갈 해야함.
+                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
+            }
             if( GoNextTurn ) {
                 gameManager.EndPlayerTurn( Unit.Action.Default );
             }

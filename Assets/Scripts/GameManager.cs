@@ -145,12 +145,12 @@ public class GameManager : MonoBehaviour {
         bool tmpHallucinated = player.isHallucinated;
         if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
-            player.Bufflist.Add( new Hallucinated( -1 ) );
+            player.AddBuff( new Hallucinated( -1 ) );
             player.isHallucinated = true;
         }
 
         if( player.isHallucinated && player.Mp >= 60 ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ) );
+            player.DeleteBuff(new Hallucinated (1) );
             player.SetMpBy100();
             player.isHallucinated = false;
         }
@@ -164,30 +164,30 @@ public class GameManager : MonoBehaviour {
         //상태이상 체크
         IncreaseHungryByTurn();
         if( player.Hungry >= 100 && !player.isHungry ) {
-            player.Bufflist.Add( new Hunger() );
+            player.AddBuff( new Hunger() );
             player.isHungry = true;
         }
         if( player.Hungry >= 130 && !player.isStarved && player.isHungry ) {
-            player.Bufflist.Add( new Starve() );
+            player.AddBuff( new Starve() );
             player.isStarved = true;
         } else if( player.Hungry < 130 && player.isStarved ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Starve ) ) ) );
+            player.DeleteBuff( new Starve () );
             player.isStarved = false;
         }
         if( player.Hungry < 100 && player.isHungry ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hunger ) ) ) );
+            player.DeleteBuff( new Hunger( ) );
             player.isHungry = false;
         }
         if( player.Hungry < 50 ) {
-            player.Bufflist.Add( new Full( -1 ) );
+            player.AddBuff( new Full( -1 ) );
         } else {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
+            player.DeleteBuff( new Full( -1 ) );
         }
 
         foreach( Buff buff in player.Bufflist ) {
             buff.BuffWorkTo( player, _action );
             if( buff.Count == 0 )
-                player.Bufflist.Remove( buff );
+                player.DeleteBuff( buff );
         }
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
@@ -229,7 +229,7 @@ public class GameManager : MonoBehaviour {
             foreach( Buff buff in enemyTemp.Bufflist ) {
                 buff.BuffWorkTo( enemyTemp, Unit.Action.Default );
                 if( buff.Count == 0 )
-                    enemyTemp.Bufflist.Remove( buff );
+                    enemyTemp.DeleteBuff( buff );
             }
         }
         enemyNum = enemyList.Length;
@@ -260,7 +260,7 @@ public class GameManager : MonoBehaviour {
             player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
         } else if( player.isStunned == false ) {
             player.isStunned = false;
-            player.Bufflist.Remove( player.stunned );
+            player.DeleteBuff( player.stunned );
         }
     }
     /**
@@ -385,7 +385,7 @@ public class GameManager : MonoBehaviour {
      * \return true일 경우 플레이어가 사망한 것이다.
      */
     private bool IsDead() {
-        if( player.Hp <= 0 || player.Hungry >= 100 )
+        if( player.Hp <= 0 || player.Hungry >= 150 )
             return true;
         else
             return false;

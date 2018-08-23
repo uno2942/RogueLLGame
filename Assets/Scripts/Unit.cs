@@ -87,13 +87,42 @@ public class Unit : MonoBehaviour {
     /**
      * 유닛의 Bufflist에 버프를 넣는 함수
      */
-    public void AddBuff(Buff _buff)
+    public virtual void AddBuff(Buff _buff)
     {
         Buff buff = bufflist.Find( x => x.GetType().Equals( _buff.GetType() ) );
-        if( Equals( buff, null ) )
-            bufflist.Add( buff );
-        else
-            buff.AddCount( _buff.Count);
+        if( Equals( buff, null ) ) {
+            if( _buff is Adrenaline )
+                bufflist.Add( new Adrenaline( _buff.Count ) );
+            else if( _buff is Bleed )
+                bufflist.Add( new Bleed( _buff.Count ) );
+            else if( _buff is Burn )
+                bufflist.Add( new Burn( _buff.Count ) );
+            else if( _buff is Caffeine )
+                bufflist.Add( new Caffeine( _buff.Count ) );
+            else if( _buff is Defenseless )
+                bufflist.Add( new Defenseless( _buff.Count ) );
+            else if( _buff is Full )
+                bufflist.Add( new Full( _buff.Count ) );
+            else if( _buff is Giddiness )
+                bufflist.Add( new Giddiness( _buff.Count ) );
+            else if( _buff is Hallucinated )
+                bufflist.Add( new Hallucinated( _buff.Count ) );
+            else if( _buff is Hunger )
+                bufflist.Add( new Hunger() );
+            else if( _buff is Morfin )
+                bufflist.Add( new Morfin( _buff.Count ) );
+            else if( _buff is Poison )
+                bufflist.Add( new Poison( _buff.Count ) );
+            else if( _buff is Relieved )
+                bufflist.Add( new Relieved( _buff.Count ) );
+            else if( _buff is Renewal )
+                bufflist.Add( new Renewal( _buff.Count ) );
+            else if( _buff is Starve )
+                bufflist.Add( new Starve( ) );
+            else if( _buff is Stunned )
+                bufflist.Add( new Stunned( _buff.Count ) );
+        } else
+            buff.AddCount( _buff.Count );
     }
     /**
      * 유닛의 BuffList에 버프를 빼는 함수(버프 1개만 뺀다. 버프 카운트가 다를 때에 대한 코드는 구현되어 있지 않다.)
@@ -101,7 +130,9 @@ public class Unit : MonoBehaviour {
      */
     public void DeleteBuff(Buff buff)
     {
-        bufflist.Remove( bufflist.Find( x => x.GetType().Equals( buff.GetType() ) ) );
+        Buff _buff;
+        if( (_buff=bufflist.Find( x => x.GetType().Equals( buff.GetType() ))) != null)
+            bufflist.Remove( _buff );
     }
     public bool IsBuffExist(Buff buff){
         return (bufflist?.Find(x => x.GetType().Equals( buff.GetType()))!=null);

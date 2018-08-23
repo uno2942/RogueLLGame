@@ -17,8 +17,11 @@ public class Player : Unit {
     public bool isHungry = false;
     public bool isStarved = false;
     public bool isFull = false;
+    Transform buffPanelTransform1;
+    Transform buffPanelTransform2;
     Image hpBar;
     Image mpBar;
+    public GameObject[] BuffIcons;
     public Stunned stunned;
     private Inventory inventoryList;
     private PlayerAction playerAction; /**< 플레이어가 할 수 있는 action을 담고 있는 PlayerAction 인스턴스를 저장한다. */
@@ -71,6 +74,8 @@ public class Player : Unit {
         playerAction = new PlayerAction();
         weapon = new DefaultWeapon();
         armor = new DefaultArmor();
+        buffPanelTransform1 = GameObject.Find( "BuffPanel1" ).transform;
+        buffPanelTransform2 = GameObject.Find( "BuffPanel1" ).transform;
     }
     /**
      * It overrides ChangeHp function in Unit class to modify HPBar and MPBar Slider.
@@ -190,5 +195,38 @@ public class Player : Unit {
     public static float GaussianDistribution( int a, int b ) {
         Random.InitState( (int) System.DateTime.Now.Ticks );
         return Random.Range( a, b );
+    }
+
+    public override void AddBuff( Buff _buff ) {
+        if( _buff is Adrenaline )
+            GameObject.Instantiate( BuffIcons[ 0 ], buffPanelTransform1 );
+        else if( _buff is Bleed )
+            GameObject.Instantiate( BuffIcons[ 1 ], buffPanelTransform1 );
+        else if( _buff is Burn )
+            GameObject.Instantiate( BuffIcons[ 2 ], buffPanelTransform1 );
+        else if( _buff is Caffeine )
+            GameObject.Instantiate( BuffIcons[ 3 ], buffPanelTransform1 );
+        else if( _buff is Defenseless )
+            GameObject.Instantiate( BuffIcons[ 4 ], buffPanelTransform1 );
+        else if( _buff is Full )
+            GameObject.Instantiate( BuffIcons[ 5 ], buffPanelTransform1 );
+        else if( _buff is Giddiness )
+            GameObject.Instantiate( BuffIcons[ 6 ], buffPanelTransform1 );
+        else if( _buff is Hunger )
+            GameObject.Instantiate( BuffIcons[ 7 ], buffPanelTransform1 );
+        else if( _buff is Morfin )
+            GameObject.Instantiate( BuffIcons[ 8 ], buffPanelTransform1 );
+        else if( _buff is Poison )
+            GameObject.Instantiate( BuffIcons[ 9 ], buffPanelTransform1 );
+        else if( _buff is Relieved )
+            GameObject.Instantiate( BuffIcons[ 10 ], buffPanelTransform1 );
+        else if( _buff is Renewal )
+            GameObject.Instantiate( BuffIcons[ 11 ], buffPanelTransform1 );
+        else if( _buff is Starve )
+            GameObject.Instantiate( BuffIcons[ 12 ], buffPanelTransform1 );
+        else if( _buff is Stunned )
+            GameObject.Instantiate( BuffIcons[ 13 ], buffPanelTransform1 );
+
+        base.AddBuff( _buff );
     }
 }
