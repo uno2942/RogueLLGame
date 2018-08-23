@@ -40,7 +40,8 @@ public class BuffECS : MonoBehaviour {
 		SLEEP,
 		STARVE,
 		STUNNED,
-		VITAMINTHROWN
+		VITAMINTHROWN,
+        RELIEVED
 	};
     public bool[] isThrown;
 	public condition[] conditions;

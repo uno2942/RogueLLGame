@@ -42,14 +42,14 @@ public class InventoryItem : MonoBehaviour {
      * 인벤토리 아이템을 플레이어가 클릭했을 때 각 아이템의 라벨에 해당하는 선택 상자를 띄워준다.
      */
     public void OnClicked() {
-        if( false == player.GetInventoryList().isDialogBoxOn && ItemManager.Label.Water== player.InventoryList.GetLabel( index ) )
+       /* if( false == player.GetInventoryList().isDialogBoxOn && ItemManager.Label.Water== player.InventoryList.GetLabel( index ) )
             {
             DialogBox dBox;
             dBox = ( gObject = Instantiate( dialogBox[ 5 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
             dBox.inventoryItem = this;
             player.GetInventoryList().isDialogBoxOn = true;
 
-        } else if (player.InventoryList.InjecCommuni) {
+        } else */if (player.InventoryList.InjecCommuni) {
             /*GivemeBox dBox;
             ItemManager.ItemType nowType = ItemManager.LabelToType(player.InventoryList.GetLabel(index));
             dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<GivemeBox>();
@@ -100,15 +100,34 @@ public class InventoryItem : MonoBehaviour {
                     break;
                 }
             case ItemManager.ItemType.Expenables: {
-                    dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
-                    dBox.inventoryItem = this;
-                    player.GetInventoryList().isDialogBoxOn = true;
+                    if( player.InventoryList.GetLabel( index ) != ItemManager.Label.Water ) {
+                        dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
+                        dBox.inventoryItem = this;
+                        player.GetInventoryList().isDialogBoxOn = true;
+                    } else {
+                        dBox = ( gObject = Instantiate( dialogBox[ 5 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<WaterDialogBox>();
+                        dBox.inventoryItem = this;
+                        player.GetInventoryList().isDialogBoxOn = true;
+                    }
                     break;
                 }
             case ItemManager.ItemType.Capsule: {
                     dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
                     dBox.inventoryItem = this;
                     player.GetInventoryList().isDialogBoxOn = true;
+                    break;
+                }
+            case ItemManager.ItemType.Injector: {
+                    dBox = ( gObject = Instantiate( dialogBox[ 3 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<InjectorDialogBox>();
+                    dBox.inventoryItem = this;
+                    player.GetInventoryList().isDialogBoxOn = true;
+                    break;  
+                }
+
+            case ItemManager.ItemType.Card: {
+                    /*dBox = ( gObject = Instantiate( dialogBox[ 4 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
+                    dBox.inventoryItem = this;
+                    player.GetInventoryList().isDialogBoxOn = true;*/
                     break;
                 }
             default:
@@ -169,24 +188,24 @@ public class InventoryItem : MonoBehaviour {
  * \see player::EatCapsule
  */
     public void EatCapsuleCommand() {
-        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) )
-            player.ChangeMp( -20 );
-        
+                
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         player.UseItem( index );
-        player.UseItem(ItemManager.Label.Water );
+        
+        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) )
+            player.ChangeMp( -20 );
+        else
+            player.UseItem( ItemManager.Label.Water );
     }
     /**
 * 플레이어가 선택 상자에서 주사하는 명령을 선택하였을 때 실행되는 함수
 * \see player::InjectItem
 */
     public void InjectCommand() {
-        if( true == GameObject.Find( "Inventory" ).GetComponent<Inventory>().CheckItem( ItemManager.ItemCategory.Water ) ) {
-            Destroy( gObject );
-            player.GetInventoryList().isDialogBoxOn = false;
-            player.UseItem( index );
-        }
+        Destroy( gObject );
+        player.GetInventoryList().isDialogBoxOn = false;
+        player.UseItem( index );
     }
     /**
 * 플레이어가 선택 상자에서 장착하는 명령을 선택하였을 때 실행되는 함수

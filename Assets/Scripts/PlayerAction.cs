@@ -84,11 +84,15 @@ public class PlayerAction {
             Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)");
             
             foreach(GameObject gObject in GameObject.FindGameObjectsWithTag("ItemPickedUp"))
-            {
+            {/*
                 if(gObject.name==System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)")
                     {gObject.GetComponent<ItemECS>().isUse=true;
                     break;
-                    }
+                    }*/
+                if( gObject.GetComponent<ItemPrefab>().label == player.InventoryList.LabelList[ index ] ) {
+                    gObject.GetComponent<ItemECS>().isUse = true;
+                    break;
+                }
             }
             messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
             DumpItem( index );

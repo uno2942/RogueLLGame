@@ -8,7 +8,7 @@ public class WaterDialogBox : DialogBox {
         for( int i = 0; i < buttons.Length; i++ ) {
             if( buttons[ i ].name == "Drink" )
                 buttons[ i ].onClick.AddListener( DrinkCommand );
-            if( buttons[ i ].name == "Use" )
+            else if( buttons[ i ].name == "Use" )
                 buttons[ i ].onClick.AddListener( SpreadCommand );
             else if( buttons[ i ].name == "Dump" )
                 buttons[ i ].onClick.AddListener( DumpCommand );
@@ -22,7 +22,5 @@ public class WaterDialogBox : DialogBox {
     private void SpreadCommand() {
         inventoryItem.SpreadCommand();
     }
-    private void CancelCommand() {
-        inventoryItem.CancelCommand();
-    }
+    
 }

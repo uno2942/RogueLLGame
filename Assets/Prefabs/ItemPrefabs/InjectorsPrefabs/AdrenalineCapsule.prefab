@@ -182,7 +182,7 @@ MonoBehaviour:
   conditions: 00000000
   negate: 00
   buff: 00000000
-  count: f6ffffff
+  count: 0a000000
   isUsed: 0
 --- !u!222 &222791424213569072
 CanvasRenderer:
