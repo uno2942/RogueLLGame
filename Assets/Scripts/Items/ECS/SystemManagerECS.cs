@@ -194,6 +194,9 @@ public class BuffSystem : ComponentSystem {
             case BuffECS.buffList.VITAMINTHROWN:
                 unit.AddBuff( new VitaminThrown( count ) );
                 break;
+            case BuffECS.buffList.RELIEVED:
+                unit.AddBuff( new Relieved( count ) );
+                break;
             }
         } else {
             switch( buff ) {
@@ -238,6 +241,9 @@ public class BuffSystem : ComponentSystem {
                 break;
             case BuffECS.buffList.VITAMINTHROWN:
                 unit.DeleteBuff( new VitaminThrown( 1 ) );
+                break;
+            case BuffECS.buffList.RELIEVED:
+                unit.DeleteBuff( new Relieved( 1 ) );
                 break;
             }
         }
