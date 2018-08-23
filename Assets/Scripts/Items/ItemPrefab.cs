@@ -14,7 +14,7 @@ public class ItemPrefab : MonoBehaviour {
     public void OnClicked()
     {
         Player player = GameObject.Find ("Player").GetComponent<Player> ();
-        player.PlayerAction.PickItem (label, gameObject);
+        player.PlayerAction.PickItem (label);
         Destroy( gameObject.GetComponent<Image>() );
         Destroy( gameObject.GetComponent<Button>() );
         gameObject.tag="ItemPickedUp";

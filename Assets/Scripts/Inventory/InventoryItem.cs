@@ -7,7 +7,6 @@ using UnityEngine;
 public class InventoryItem : MonoBehaviour {
 
     private int index;
-    public bool isEquipped;
     public bool InjecCommuni;
     public bool MedicineCommuni;
     public NPC npc;
@@ -30,7 +29,6 @@ public class InventoryItem : MonoBehaviour {
 
     void Start() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
-        isEquipped = false;
     }
 
     // Update is called once per frame
@@ -126,7 +124,7 @@ public class InventoryItem : MonoBehaviour {
         for( i = 0; i < buttons.Length; i++ )
             if( buttons[ i ].name == "EquipandUnequip" )
                 break;
-        if( true == isEquipped ) {
+        if( player.weaponindex == index || player.armorindex == index) {
             buttons[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "해제하기";
         } else
             buttons[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "장착하기";
@@ -139,9 +137,11 @@ public class InventoryItem : MonoBehaviour {
     public void DumpCommand() {
         Destroy(gObject);
         player.GetInventoryList().isDialogBoxOn = false;
-        if( true == isEquipped )
-            player.UnequipItem( index, false );
-        isEquipped = false;
+        player.InventoryList.weapons[ index ] = null;
+        player.InventoryList.armors[ index ] = null;
+        if( player.weaponindex == index || player.armorindex == index ) {
+            player.UnequipItem( index );
+        }
         player.DumpItem( index );
     }
 
@@ -190,10 +190,13 @@ public class InventoryItem : MonoBehaviour {
 * @todo isEquipped를 armor, weapon에 해당하는 변수 2개를 만들어야 한다.
 */
     public void EquipCommand() {
-        Destroy( gObject );//삭제?
+        Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
+        if( ItemManager.LabelToType( player.InventoryList.GetLabel( index ) ) == ItemManager.ItemType.Weapon && player.weaponindex != -1 )
+            player.UnequipItem( player.weaponindex );
+        else if( ItemManager.LabelToType( player.InventoryList.GetLabel( index ) ) == ItemManager.ItemType.Armor && player.armorindex != -1 )
+            player.UnequipItem( player.armorindex );
         player.EquipItem( index );
-        isEquipped = true;
     }
     /**
 * 플레이어가 선택 상자에서 해제하는 명령을 선택하였을 때 실행되는 함수
@@ -203,7 +206,6 @@ public class InventoryItem : MonoBehaviour {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         player.UnequipItem( index );
-        isEquipped = false;
     }
     /**
 * 플레이어가 선택 상자에서 던지는 명령을 선택하였을 때 실행되는 함수

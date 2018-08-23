@@ -16,10 +16,10 @@ public class WeaponArmorDialogBox : DialogBox {
             }
     }
     private void EquipOrUnequipCommand() {
-        if( inventoryItem.isEquipped == false )
-            inventoryItem.EquipCommand();
-        else
+        if( GameObject.Find("Player").GetComponent<Player>().weaponindex == inventoryItem.Index || GameObject.Find( "Player" ).GetComponent<Player>().armorindex == inventoryItem.Index )
             inventoryItem.UnequipCommand();
+        else
+            inventoryItem.EquipCommand();
     }
     private void CancelCommand() {
         inventoryItem.CancelCommand();

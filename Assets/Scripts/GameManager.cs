@@ -418,7 +418,7 @@ public class GameManager : MonoBehaviour {
         int times=1;
         if( player.isFull )
             times *= 2;
-        if( Equals( player.weapon.GetType(), typeof( FullPlated ) ) )
+        if( Equals( player.weapon?.GetType(), typeof( FullPlated ) ) )
             times *= 5;
         player.ChangeHungry( 1 * times );
     }
@@ -447,9 +447,9 @@ public class GameManager : MonoBehaviour {
             case 5: player.ChangeMp( 0.8f ); break;
             }
         }
-        if( Equals( player.weapon.GetType(), typeof( BloodJacket ) ) )
+        if( Equals( player.weapon?.GetType(), typeof( BloodJacket ) ) )
             player.ChangeMp( -0.8f );
-        else if( Equals( player.weapon.GetType(), typeof( CleanDoctorCloth ) ) )
+        else if( Equals( player.weapon?.GetType(), typeof( CleanDoctorCloth ) ) )
             player.ChangeMp( 1 );
     }
 

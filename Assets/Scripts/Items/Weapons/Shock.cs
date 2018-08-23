@@ -8,19 +8,20 @@ public class Shock : Weapon {
     public Shock()
     {
         name = this.GetType().ToString();
-        count = 0;
+        count = 5;
         attackPower = 15;
         rank = "legendary";
     }
 
     public override void Attack(Enemy enemy)
     {
-        if (count == 5) {
-        }
-        else
-        {
-            enemy.AddBuff(new Stunned( 5));
-            count++;
-        }
+        count--;
+        enemy.AddBuff( new Stunned( 5 ) );
+    }
+
+    public override bool IsDestroyed() {
+        if( count == 0 )
+            return true;
+        return false;
     }
 }

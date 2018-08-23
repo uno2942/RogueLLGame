@@ -10,12 +10,14 @@ public class BlackKnife : Weapon {
         rank = "rare";
     }
 
-    public override void Check(Player player)
+    public override void Equip(Player player)
     {
         if (Equals(player.Bufflist.Find(x => GetType().Equals(typeof(Hallucinated))), null))
         {
             player.AddBuff(new Hallucinated(-1));
         }
-        if (player.Mp > 59) { player.ChangeMp(-(player.Mp - 59)); }
+    }
+    public override void Check( Player player ) {
+        if( player.Mp > 59 ) { player.ChangeMp( -( player.Mp - 59 ) ); }
     }
 }
