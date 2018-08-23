@@ -22,6 +22,7 @@ TagManager:
   - NorthDoor
   - SouthDoor
   - GivemeBoxImage
+  - SelectBoxImage
   layers:
   - Default
   - TransparentFX
