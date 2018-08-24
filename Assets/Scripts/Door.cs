@@ -91,7 +91,7 @@ public class Door : MonoBehaviour {
                 Player player = GameObject.Find( "Player" ).GetComponent<Player>();
                 if( player.InventoryList.CheckItem( ItemManager.Label.WhiteCard ) ) {
                     player.UseItem( player.InventoryList.Getindex( ItemManager.Label.WhiteCard ) );
-                    Destroy( GetComponentInChildren<UnityEngine.UI.Image>().gameObject );
+                    Destroy( GetComponentsInChildren<UnityEngine.UI.Image>()[1].gameObject );
                 }
                 //Logger 메세지.
             }
