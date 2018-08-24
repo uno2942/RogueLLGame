@@ -73,19 +73,28 @@ public class Door : MonoBehaviour {
     private void OnMouseUpAsButton() {
         Debug.Log( isOpened + " " + gameManager.CurrentSituation );
         if( isOpened && !gameManager.CurrentSituation ) {
-            switch( tag ) {
-            case "EastDoor": direction = BoardManager.Direction.Right; break;
-            case "WestDoor": direction = BoardManager.Direction.Left; break;
-            case "NorthDoor": direction = BoardManager.Direction.UpSide; break;
-            case "SouthDoor": direction = BoardManager.Direction.DownSide; break;
-            default: break;
-            }
+            if( GetComponentsInChildren<UnityEngine.UI.Image>().Length == 1 ) {
+                switch( tag ) {
+                case "EastDoor": direction = BoardManager.Direction.Right; break;
+                case "WestDoor": direction = BoardManager.Direction.Left; break;
+                case "NorthDoor": direction = BoardManager.Direction.UpSide; break;
+                case "SouthDoor": direction = BoardManager.Direction.DownSide; break;
+                default: break;
+                }
 
-            boardManager.MoveNextRoom( direction );
-            gameManager.EndPlayerTurn( Unit.Action.Move);
-            gameManager.GenerateItems( boardManager.XPos, boardManager.YPos );
-            gameManager.GenerateMonsters( boardManager.XPos, boardManager.YPos );
-            gameManager.GenerateNPCs( boardManager.XPos, boardManager.YPos );
+                boardManager.MoveNextRoom( direction );
+                gameManager.EndPlayerTurn( Unit.Action.Move );
+                gameManager.GenerateItems( boardManager.XPos, boardManager.YPos );
+                gameManager.GenerateMonsters( boardManager.XPos, boardManager.YPos );
+                gameManager.GenerateNPCs( boardManager.XPos, boardManager.YPos );
+            } else {
+                Player player = GameObject.Find( "Player" ).GetComponent<Player>();
+                if( player.InventoryList.CheckItem( ItemManager.Label.WhiteCard ) ) {
+                    player.UseItem( player.InventoryList.Getindex( ItemManager.Label.WhiteCard ) );
+                    Destroy( GetComponentInChildren<UnityEngine.UI.Image>().gameObject );
+                }
+                //Logger 메세지.
+            }
         }
     }
 
