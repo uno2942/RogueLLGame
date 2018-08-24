@@ -38,11 +38,6 @@ public class MapGenerator {
     public GameObject NorthLockPrefab;
     private GameObject minimapTilePrefab;
     
-    private GameObject MedicineMasterPrefab;
-    private GameObject CapsuleDespenserPrefab;
-    private GameObject MedicalBoxPrefab;
-    private GameObject InjectorCollectorPrefab;
-    private GameObject MentalDoctorPrefab;
     
     public struct Coord{
         int x, y;
@@ -88,30 +83,28 @@ public class MapGenerator {
     public void parse(ref List<List<MapTile>> mapTiles)
     {
         VMost = HMost = 0;
-        MapCanvasRectTransform = GameObject.Find( "MapCanvas" ).GetComponent<RectTransform>();
-        BossPrefab = (GameObject)UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof(GameObject));
-        NormalRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        HallPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        PStartPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        EquipRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        RestRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        LockedRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        DrugRoomPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/Ground.prefab", typeof( GameObject ) );
-        EastDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/EastDoor.prefab", typeof( GameObject ) );
-        WestDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/WestDoor.prefab", typeof( GameObject ) );
-        NorthDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NorthDoor.prefab", typeof( GameObject ) );
-        SouthDoorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/SouthDoor.prefab", typeof( GameObject ) );
-        minimapTilePrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/minimapPrefab/MinimapTile.prefab", typeof( GameObject ) );
-        EastLockPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/EastLock.prefab", typeof( GameObject ) );
-        WestLockPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/WestLock.prefab", typeof( GameObject ) );
-        NorthLockPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NorthLock.prefab", typeof( GameObject ) );
-        SouthLockPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/SouthLock.prefab", typeof( GameObject ) );
+        object[] obj = Resources.LoadAll( "Map" );
+        
 
-        MedicineMasterPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MedicalBox.prefab", typeof( GameObject ) );
-        CapsuleDespenserPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/CapsuleDespenser.prefab", typeof( GameObject ) );
-        MedicalBoxPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MedicalBox.prefab", typeof( GameObject ) );
-        InjectorCollectorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/InjectorCollector.prefab", typeof( GameObject ) );
-        MentalDoctorPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/NPCPrefabs/MentalDoctor.prefab", typeof( GameObject ) );
+        MapCanvasRectTransform = GameObject.Find( "MapCanvas" ).GetComponent<RectTransform>();
+        BossPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        NormalRoomPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        HallPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        PStartPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        EquipRoomPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        RestRoomPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        LockedRoomPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        DrugRoomPrefab = Resources.Load( "Maps/Ground" ) as GameObject;
+        EastDoorPrefab = (GameObject) Resources.Load( "Maps/EastDoor" );
+        WestDoorPrefab = (GameObject) Resources.Load( "Maps/WestDoor" ) ;
+        NorthDoorPrefab = (GameObject) Resources.Load( "Maps/NorthDoor" );
+        SouthDoorPrefab = (GameObject) Resources.Load( "Maps/SouthDoor" );
+        minimapTilePrefab = (GameObject) Resources.Load( "Maps/MinimapTile" );
+        EastLockPrefab = (GameObject) Resources.Load( "Maps/EastLock" );
+        WestLockPrefab = (GameObject) Resources.Load( "Maps/WestLock" );
+        NorthLockPrefab = (GameObject) Resources.Load( "Maps/NorthLock" );
+        SouthLockPrefab = (GameObject) Resources.Load( "Maps/SouthLock" );
+
 
         Maps =new List<List<MapTile>>();
 
@@ -200,46 +193,20 @@ public class MapGenerator {
             }
             tile.gObject = tileobj;
             GameObject.Instantiate( minimapTilePrefab, new Vector3(tile.x*0.5f, tile.y*0.5f, 60), Quaternion.identity );
-            GenerateNPCs( tile );
+            
         }
 
         GenDoorOnMapTile( floor );
     }
-
-    private void GenerateNPCs( MapTile mapTile) {
-        Debug.Log( mapTile.NPCList.Count );
-        Vector2 position = new Vector2( BoardManager.horizontalMovement * mapTile.x, BoardManager.verticalMovement * mapTile.y );
-        switch( mapTile.NPCList.Count ) {
-        case 0: return;
-        case 1:
-            InstantiateNPC( mapTile.NPCList[ 0 ], position + new Vector2( 0, 2 ) );
-            break;
-        case 2:
-            InstantiateNPC( mapTile.NPCList[ 0 ], position + new Vector2( -2, 2 ) );
-            InstantiateNPC( mapTile.NPCList[ 1 ], position + new Vector2( 2, 2 ) );
-            break;
-        default: break;
-        }
-    }
-
-    private void InstantiateNPC( BoardManager.NPCType nType, Vector2 location ) {
-        switch( nType ) {
-        case BoardManager.NPCType.MedicineMaster: GameObject.Instantiate( MedicineMasterPrefab, location, Quaternion.identity ); break;
-        case BoardManager.NPCType.CapsuleDespenser: GameObject.Instantiate( CapsuleDespenserPrefab, location, Quaternion.identity ); break;
-        case BoardManager.NPCType.MedicalBox: GameObject.Instantiate( MedicalBoxPrefab, location, Quaternion.identity ); break;
-        case BoardManager.NPCType.InjectorCollector: GameObject.Instantiate( InjectorCollectorPrefab, location, Quaternion.identity ); break;
-        case BoardManager.NPCType.MentalDoctor: GameObject.Instantiate( MentalDoctorPrefab, location, Quaternion.identity ); break;
-        default: break;
-        }
-    }
-
+    
     private List<MapTile> Generate(List<MapTile> map, int floor)
     {
         Dictionary<string, int> RoomCounts = new Dictionary<string, int>();
         RoomCounts.Add("L", 1);
         RoomCounts.Add("N1", 0);
-        RoomCounts.Add("N2", 0);
-        RoomCounts.Add("N3", 0);
+        RoomCounts.Add("N2", 1); 
+        RoomCounts.Add("N3", 1);
+        
 
         Dictionary<string, int> itemCounts = new Dictionary<string,int>();
         Dictionary<string, int> capsuleCounts = new Dictionary<string, int>();
@@ -259,6 +226,8 @@ public class MapGenerator {
         }
 
         int p = 0;
+        int nSpecific = 0;
+        int lSpecific = 0;
         foreach (MapTile tile in map)
         {
             p++;
@@ -288,7 +257,8 @@ public class MapGenerator {
                     }
                     break;
                 case BoardManager.RoomType.NormalRoom:
-                    switch (Ntype(RoomCounts["N1"], RoomCounts["N2"], RoomCounts["N3"]))
+                    
+                    switch (Ntype(RoomCounts["N1"], RoomCounts["N2"], RoomCounts["N3"], nSpecific))
                     {
                         case "1_NPC":
                             tile.AddNPC(randomNPC());
@@ -327,6 +297,8 @@ public class MapGenerator {
                             tile.AddItem(ItemManager.ItemCategory.YellowCard);
                             break;
                     }
+                    nSpecific++;
+
                     break;
                 case BoardManager.RoomType.Hall:
                     switch (Htype())
@@ -346,6 +318,12 @@ public class MapGenerator {
                     }
                     break;
                 case BoardManager.RoomType.DrugRoom:
+                    tile.AddItem( ItemManager.ItemCategory.CureAll );
+                    tile.AddItem( randomCapsuleRoom() );
+                    tile.AddItem( randomCapsuleRoom() );
+                    tile.AddItem( randomCapsuleRoom() );
+                    tile.AddItem( randomCapsuleRoom() );
+                    break;
                 case BoardManager.RoomType.RestRoom:
                     if (floor == 5)
                     {
@@ -356,11 +334,11 @@ public class MapGenerator {
                     {
                         switch (Rtype())
                         {
-                            case "CanNPC+1_NPC":
+                            case "CapNPC+1_NPC":
                                 tile.AddNPC(BoardManager.NPCType.CapsuleDespenser );
                                 tile.AddNPC(randomNPC());
                                 break;
-                            case "CanNPC+2_NPC":
+                            case "CapNPC+2_NPC":
                                 tile.AddNPC(BoardManager.NPCType.CapsuleDespenser );
                                 tile.AddNPC(randomNPC());
                                 tile.AddNPC(randomNPC());
@@ -369,7 +347,7 @@ public class MapGenerator {
                     }
                     break;
                 case BoardManager.RoomType.LockedRoom:
-                    switch (Ltype(RoomCounts["L"]))
+                    switch (Ltype(RoomCounts["L"], lSpecific))
                     {
                         case "1_NPC":
                             tile.AddNPC(randomNPC());
@@ -422,20 +400,22 @@ public class MapGenerator {
         return map;
     }
 
-    private string Ntype(int N1, int N2, int N3)
+    private string Ntype(int N1, int N2, int N3, int nSpecific)//nSpecific만큼 우선배치: 어차피 랜덤으로 순서바꾼다음 진행하므로 처음에 박아도 노상관
     {
-        int percent = UnityEngine.Random.Range(0, 130);
 
-        while (
-            (100 <= percent && percent < 110 && N1 == 0) ||
-            (110 <= percent && percent < 120 && N2 == 0) ||
-            (120 <= percent && percent < 130 && N3 == 0)
-            )
-        {
-            percent = UnityEngine.Random.Range(0, 130);
-        }
-
+        int percent = UnityEngine.Random.Range(0, 100);
         string type;
+        // 반드시 나오는 방부터 추가
+        if(nSpecific < N1 + N2 + N3 ) { 
+            if( nSpecific < N1 )
+                type = "1_WK+1_Item";
+            else if( nSpecific < N1 + N2 )
+                type = "1_Can+3_Water";
+            else
+                type = "1_Enemy+1_YK";
+            return type;
+        }
+                
         if (0 <= percent && percent < 10)
             type = "1_NPC";
         else if (10 <= percent && percent < 25)
@@ -446,15 +426,9 @@ public class MapGenerator {
             type = "1_Item";
         else if (55 <= percent && percent < 70)
             type = "2_Item";
-        else if (70 <= percent && percent < 100)
+        else 
             type = "1_Enemy";
-        else if (100 <= percent && percent < 110)
-            type = "1_WK+1_Item";
-        else if (110 <= percent && percent < 120)
-            type = "1_Can+3_Water";
-        else
-            type = "1_Enemy+1_YK";
-
+           
         return type;
     }
 
@@ -488,31 +462,47 @@ public class MapGenerator {
         return type;
     }
 
-    private string Ltype(int L)
+    private string Ltype(int L, int lSpecific)
     {
         int percent = UnityEngine.Random.Range(0, 110);
-
-        while (100 <= percent && percent < 110 && L == 0)
-        {
-            percent = UnityEngine.Random.Range(0, 110);
-        }
-
         string type;
+        //반드시 나오는 방부터 추가
+        if(lSpecific < L) {
+            type = "1_CureAll+1_Water";
+        }
+                       
         if (0 <= percent && percent < 20)
             type = "1_Human+1_Ringer";
         else if (20 <= percent && percent < 60)
             type = "1_NPC";
-        else if (60 <= percent && percent < 100)
-            type = "2_Item";
         else
-            type = "1_CureAll+1_Water";
+            type = "2_Item";               
 
         return type;
     }
-    
+
+    private ItemManager.ItemCategory randomCapsuleRoom() { 
+                
+        Array values = Enum.GetValues( typeof( ItemManager.ItemCategory ) );
+        ItemManager.ItemCategory randombar = (ItemManager.ItemCategory) values.GetValue( UnityEngine.Random.Range( 0, values.Length ) );
+        while( ItemManager.CategoryToType( randombar ) != ItemManager.ItemType.Capsule || randombar == ItemManager.ItemCategory.CureAll) {
+            randombar = (ItemManager.ItemCategory) values.GetValue( UnityEngine.Random.Range( 0, values.Length ) );
+        }
+        return randombar;
+        
+    }
+
     private ItemManager.ItemCategory randomItem(Dictionary<string,int> itemCount)
     {
         int percent = UnityEngine.Random.Range(0, 100);
+        var totNum = 0;
+        foreach(var e in itemCount ) {
+            totNum += e.Value;
+        }
+        if(totNum < 1) {
+            Debug.Log( "준비한 아이템 모두 소모. Empty 리턴." );
+            return ItemManager.ItemCategory.Empty;
+        }
 
         if (0 <= percent && percent < 60)
         {
@@ -548,7 +538,7 @@ public class MapGenerator {
                 itemCount["Capsule"]--;
                 Array values = Enum.GetValues(typeof(ItemManager.ItemCategory));
                 ItemManager.ItemCategory randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
-                while (ItemManager.CategoryToType(randombar) != ItemManager.ItemType.Capsule)
+                while( ItemManager.CategoryToType( randombar ) != ItemManager.ItemType.Capsule || randombar == ItemManager.ItemCategory.CureAll )
                 {
                     randombar = (ItemManager.ItemCategory)values.GetValue(UnityEngine.Random.Range(0, values.Length));
                 }
