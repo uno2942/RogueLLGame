@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114862937807294812}
   - component: {fileID: 114204445602798524}
   - component: {fileID: 114470658935892642}
+  - component: {fileID: 114318242578074870}
   m_Layer: 0
   m_Name: WhiteCard
   m_TagString: Untagged
@@ -82,6 +83,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114318242578074870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965106826412568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05d1e42779213d45b08a4d4c0e94bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUse: 0
+  isThrow: 0
+  enemies: []
 --- !u!114 &114470658935892642
 MonoBehaviour:
   m_ObjectHideFlags: 1
