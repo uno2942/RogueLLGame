@@ -18,8 +18,7 @@ public class Player : Unit {
     public bool isHungry = false;
     public bool isStarved = false;
     public bool isFull = false;
-    Transform buffPanelTransform1;
-    Transform buffPanelTransform2;
+    Transform buffPanelTransform;
     Image hpBar;
     Image mpBar;
     public GameObject[] BuffIcons;
@@ -79,8 +78,7 @@ public class Player : Unit {
         playerAction = new PlayerAction();
         weapon = new DefaultWeapon();
         armor = new DefaultArmor();
-        buffPanelTransform1 = GameObject.Find( "BuffPanel1" ).transform;
-        buffPanelTransform2 = GameObject.Find( "BuffPanel1" ).transform;
+        buffPanelTransform = GameObject.Find( "BuffPanel" ).transform;
         messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
     }
     /**
@@ -207,33 +205,33 @@ public class Player : Unit {
         Buff buff = bufflist.Find( x => x.GetType().Equals( _buff.GetType() ) );
         if( Equals( buff, null ) ) {
             if( _buff is Adrenaline )
-                GameObject.Instantiate( BuffIcons[ 0 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 0 ], buffPanelTransform );
             else if( _buff is Bleed )
-                GameObject.Instantiate( BuffIcons[ 1 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 1 ], buffPanelTransform );
             else if( _buff is Burn )
-                GameObject.Instantiate( BuffIcons[ 2 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 2 ], buffPanelTransform );
             else if( _buff is Caffeine )
-                GameObject.Instantiate( BuffIcons[ 3 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 3 ], buffPanelTransform );
             else if( _buff is Defenseless )
-                GameObject.Instantiate( BuffIcons[ 4 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 4 ], buffPanelTransform );
             else if( _buff is Full )
-                GameObject.Instantiate( BuffIcons[ 5 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 5 ], buffPanelTransform );
             else if( _buff is Giddiness )
-                GameObject.Instantiate( BuffIcons[ 6 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 6 ], buffPanelTransform );
             else if( _buff is Hunger )
-                GameObject.Instantiate( BuffIcons[ 7 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 7 ], buffPanelTransform );
             else if( _buff is Morfin )
-                GameObject.Instantiate( BuffIcons[ 8 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 8 ], buffPanelTransform );
             else if( _buff is Poison )
-                GameObject.Instantiate( BuffIcons[ 9 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 9 ], buffPanelTransform );
             else if( _buff is Relieved )
-                GameObject.Instantiate( BuffIcons[ 10 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 10 ], buffPanelTransform );
             else if( _buff is Renewal )
-                GameObject.Instantiate( BuffIcons[ 11 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 11 ], buffPanelTransform );
             else if( _buff is Starve )
-                GameObject.Instantiate( BuffIcons[ 12 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 12 ], buffPanelTransform );
             else if( _buff is Stunned )
-                GameObject.Instantiate( BuffIcons[ 13 ], buffPanelTransform1 );
+                GameObject.Instantiate( BuffIcons[ 13 ], buffPanelTransform );
         }
         base.AddBuff( _buff );
         messageMaker.MakeBuffMessage( _buff );
