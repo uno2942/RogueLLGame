@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour {
         monsterGenLocation [1] = new Vector2 (-2, 2);
         monsterGenLocation [2] = new Vector2 (2, 2);
         monsterGenLocation [3] = new Vector2 (-3, 2);
-        monsterGenLocation [4] = new Vector2 (0, 2);
-        monsterGenLocation [5] = new Vector2 (3, 2);
+        monsterGenLocation [4] = new Vector2 (3, 2);
+        monsterGenLocation [5] = new Vector2 (0, 2);
         currentTurn = 0;
         currentSituation = false;
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
@@ -293,7 +293,19 @@ public class GameManager : MonoBehaviour {
             InstantiateMonster( maptile.enemyList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
             InstantiateMonster( maptile.enemyList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
             break;
-        default: break;
+        default:
+            if( maptile.enemyList.Count < 0 ) {
+                Debug.Log( "방에 적 수 음수인거 실화냐" );
+                break;
+            } else if( maptile.enemyList.Count < 5 ) {
+                for( var e = 0; e < maptile.enemyList.Count; e++ ) {
+                    InstantiateMonster( maptile.enemyList[ e ], monsterGenLocation[ e ] );
+                }
+                break;
+            } else {
+                Debug.Log( "Too Much Monster to Generate" );
+                break;
+            }                        
         }
         currentSituation = true;
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
@@ -323,7 +335,19 @@ public class GameManager : MonoBehaviour {
             itemManager.InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
             itemManager.InstantiateItem( maptile.itemList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
             break;
-        default: break;
+        default:
+            if( maptile.enemyList.Count < 0 ) {
+                Debug.Log( "방에 아이템 음수개 실화냐" );
+                break;
+            } else {
+                for( var e = 0; e < maptile.enemyList.Count; e++ ) {
+                    if( e < 5 )
+                        itemManager.InstantiateItem( maptile.itemList[ e ], monsterGenLocation[ e ] );
+                    else
+                        itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] );
+                }
+                break;
+            }
         }
 
         maptile.itemList.Clear();
