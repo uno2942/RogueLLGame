@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Unity.Entities;
 
 public class ItemSystem : ComponentSystem {
@@ -8,7 +9,8 @@ public class ItemSystem : ComponentSystem {
         public ItemECS item;
     }
     protected override void OnUpdate() {
-        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
+        //if(SceneManager.GetActiveScene().name == "intro")
+            //Player player = GameObject.Find( "Player" ).GetComponent<Player>();
 
         foreach( var e in GetEntities<group>() ) {
             var item = e.item;
@@ -99,7 +101,7 @@ public class StatSystem : ComponentSystem {
     }
 
     protected override void OnUpdate() {
-        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
+        Player player = SceneManager.GetActiveScene().name == "intro" ? GameObject.Find( "Player" ).GetComponent<Player>():null;
 
         foreach( var e in GetEntities<group>() ) {
             if( e.item.isUse ) {
@@ -301,7 +303,7 @@ public class BuffSystem : ComponentSystem {
     }
 
     protected override void OnUpdate() {
-        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
+        Player player = SceneManager.GetActiveScene().name == "intro" ? GameObject.Find( "Player" ).GetComponent<Player>() : null;
 
         foreach( var e in GetEntities<group>() ) {
             if( e.item.isUse ) {
