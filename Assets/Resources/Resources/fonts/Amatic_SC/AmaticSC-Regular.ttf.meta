@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fff1f2df74fa9d24fa674c7ac3fe8e9f
+guid: c09f8df33e07b984b976da25e44600b2
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -12,7 +12,7 @@ TrueTypeFontImporter:
   fontNames:
   - Amatic SC
   fallbackFontReferences:
-  - {fileID: 12800000, guid: 466fc025ad376a141bdde40a3ebee68c, type: 3}
+  - {fileID: 12800000, guid: 1e8d5111801576f48993bb99645d93bf, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
