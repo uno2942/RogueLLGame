@@ -54,8 +54,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224907945913833456}
   - component: {fileID: 222739079058587804}
+  - component: {fileID: 114214845800123800}
   - component: {fileID: 114610249466711740}
-  - component: {fileID: 114786829099275390}
   m_Layer: 5
   m_Name: Giveme
   m_TagString: Untagged
@@ -133,6 +133,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114214845800123800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1458876256383232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d61db50f5772944bb638d21a954956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryItem: {fileID: 0}
+  npc: {fileID: 0}
+  injector: 0
 --- !u!114 &114251880700442142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,20 +369,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114786829099275390
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1458876256383232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18d61db50f5772944bb638d21a954956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryItem: {fileID: 0}
-  npc: {fileID: 0}
-  injector: 0
 --- !u!114 &114883300171306284
 MonoBehaviour:
   m_ObjectHideFlags: 1
