@@ -340,11 +340,11 @@ public class GameManager : MonoBehaviour {
                 Debug.Log( "방에 아이템 음수개 실화냐" );
                 break;
             } else {
-                for( var e = 0; e < maptile.enemyList.Count; e++ ) {
+                for( var e = 0; e < maptile.itemList.Count; e++ ) {
                     if( e < 5 )
-                        itemManager.InstantiateItem( maptile.itemList[ e ], monsterGenLocation[ e ] );
+                        itemManager.InstantiateItem( maptile.itemList[ e ], monsterGenLocation[ e ] + nowPos );
                     else
-                        itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] );
+                        itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] + nowPos );
                 }
                 break;
             }
