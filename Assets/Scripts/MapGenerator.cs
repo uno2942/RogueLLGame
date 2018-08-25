@@ -578,7 +578,7 @@ public class MapGenerator {
                 return randombar;
             }
             else
-                return ItemManager.ItemCategory.Empty;
+                return randomItem( itemCount );
         }
     }
 
