@@ -9,14 +9,20 @@ public class AutoHandgun : Weapon{
     {
         name = this.GetType().ToString();
         count = 17;
-        attackPower = 25;
-        rank = "common";
+        attackPowerMin = 16;
+        attackPowerMin = 65;
+        rank = ItemManager.Rank.Legendary;
     }
 
     public override void Attack(Enemy enemy)
     {
         count--;
     }
+
+    public override void SetMaxAtkbyRank( ItemManager.Rank rank ) {
+        
+    }
+
 
     public override bool IsDestroyed() {
         Debug.Log( "count is " );

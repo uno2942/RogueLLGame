@@ -7,8 +7,9 @@ public class Patient : Armor {
     public Patient()
     {
         name = this.GetType().ToString();
-        defensivePower = 3;
-        rank = "common";
+        defensivePowerMin = 2;
+        rank = ItemManager.Rank.Common;
+        SetMaxDefbyRank( rank );
     }
 
 }

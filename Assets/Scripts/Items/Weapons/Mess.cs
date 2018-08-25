@@ -6,7 +6,8 @@ public class Mess : Weapon {
     public Mess()
     {
         name = this.GetType().ToString();
-        attackPower = 7;
-        rank = "common";
+        attackPowerMin = 7;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank( rank );
     }
 }

@@ -7,24 +7,25 @@ public class Club : Weapon
     public Club()
     {
         name = this.GetType().ToString();
-        attackPower = 10;
-        rank = "common";
+        attackPowerMin = 10;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank(rank);
     }
 
     public override void Attack( Enemy enemy ) {
         float f = Random.Range( 0, 100 );
         switch( rank ) {
-        case "common":
+        case ItemManager.Rank.Common:
             if( f < 25 )
-                attackPower--;
+                attackPowerMin--;
             break;
-        case "rare":
+        case ItemManager.Rank.Rare:
             if( f < 20 )
-                attackPower--;
+                attackPowerMin--;
             break;
-        case "legendary":
+        case ItemManager.Rank.Legendary:
             if( f < 15 )
-                attackPower--;
+                attackPowerMin--;
             break;
         default: return;
         }

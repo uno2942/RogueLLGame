@@ -3,9 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 /** ItemManager's function is to control item in the game and give proper informations about item to player gameobject.
  */
 public class ItemManager : MonoBehaviour {
+
+
+    public enum Rank {
+        Common, Rare, Legendary
+    }
 
     /**
      * \brief Item labels to distinguish
@@ -145,6 +151,13 @@ public class ItemManager : MonoBehaviour {
         return (Label)Enum.Parse(typeof(Label), category.ToString() + ((2 + floor) / 2).ToString());
     }
 
+
+    public List<ItemCategory> cEquip; //common이 가능한 장비들 목록
+    public List<ItemCategory> rEquip; //rare가 가능한 장비들 목록
+    public List<ItemCategory> lEquip; //legendary가 가능한 장비들 목록
+
+
+
     private const int floorMax = 3;
     /** To check whether the item is identified, we use dictionary.
      */
@@ -177,6 +190,17 @@ public class ItemManager : MonoBehaviour {
      * LabelDic 을 초기화하고, 캡슐을 제외한 아이템의 감정 상태를 true 로 초기화 한다.
      */
     void Start() {
+
+        cEquip = new List<ItemCategory>();
+        rEquip = new List<ItemCategory>();
+        lEquip = new List<ItemCategory>();
+
+        InitializeEquipRank();
+
+        
+
+
+
         //아이템 생성좌표: 몬스터 생성것 가져옴
         monsterGenLocation = new Vector2[ 6 ];
         monsterGenLocation[ 0 ] = new Vector2( 0, 2 );
@@ -202,6 +226,90 @@ public class ItemManager : MonoBehaviour {
 
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
+
+    private void InitializeEquipRank() {
+        /*
+        cEquip.Add( Label.AutoHandgun );
+        cEquip.Add( Label.BlackKnife );
+        cEquip.Add( Label.Club );
+        cEquip.Add( Label.Hammer );
+        cEquip.Add( Label.InjectorWeapon );
+        cEquip.Add( Label.Lighter );
+        cEquip.Add( Label.Mess );
+        cEquip.Add( Label.Nuckle );
+        cEquip.Add( Label.SharpDagger );
+        cEquip.Add( Label.Shock );
+
+        cEquip.Add( Label.BloodJacket );
+        cEquip.Add( Label.CleanDoctorCloth );
+        cEquip.Add( Label.DamagedDoctorCloth );
+        cEquip.Add( Label.FullPlated );
+        cEquip.Add( Label.Padding );
+        cEquip.Add( Label.Patient );
+        cEquip.Add( Label.Tshirts );*/
+
+        /*Can Be common*/
+        //cEquip.Add( Label.AutoHandgun );
+        //cEquip.Add( Label.BlackKnife );
+        cEquip.Add( ItemCategory.Club );
+        cEquip.Add( ItemCategory.Hammer );
+        cEquip.Add( ItemCategory.InjectorWeapon );
+        cEquip.Add( ItemCategory.Lighter );
+        cEquip.Add( ItemCategory.Mess );
+        cEquip.Add( ItemCategory.Nuckle );
+        cEquip.Add( ItemCategory.SharpDagger );
+        //cEquip.Add( Label.Shock );
+
+        cEquip.Add( ItemCategory.BloodJacket );
+        //cEquip.Add( Label.CleanDoctorCloth );
+        cEquip.Add( ItemCategory.DamagedDoctorCloth );
+        //cEquip.Add( Label.FullPlated );
+        cEquip.Add( ItemCategory.Padding );
+        cEquip.Add( ItemCategory.Patient );
+        cEquip.Add( ItemCategory.Tshirts );
+
+        /*Can Be Rare*/
+        //rEquip.Add( Label.AutoHandgun );
+        rEquip.Add( ItemCategory.BlackKnife );
+        rEquip.Add( ItemCategory.Club );
+        rEquip.Add( ItemCategory.Hammer );
+        rEquip.Add( ItemCategory.InjectorWeapon );
+        rEquip.Add( ItemCategory.Lighter );
+        rEquip.Add( ItemCategory.Mess );
+        rEquip.Add( ItemCategory.Nuckle );
+        rEquip.Add( ItemCategory.SharpDagger );
+        //rEquip.Add( Label.Shock );
+
+        rEquip.Add( ItemCategory.BloodJacket );
+        rEquip.Add( ItemCategory.CleanDoctorCloth );
+        rEquip.Add( ItemCategory.DamagedDoctorCloth );
+        //rEquip.Add( Label.FullPlated );
+        rEquip.Add( ItemCategory.Padding );
+        rEquip.Add( ItemCategory.Patient );
+        //rEquip.Add( Label.Tshirts );
+
+        /*Can Be Legend*/
+        lEquip.Add( ItemCategory.AutoHandgun );
+        lEquip.Add( ItemCategory.BlackKnife );
+        lEquip.Add( ItemCategory.Club );
+        lEquip.Add( ItemCategory.Hammer );
+        lEquip.Add( ItemCategory.InjectorWeapon );
+        lEquip.Add( ItemCategory.Lighter );
+        lEquip.Add( ItemCategory.Mess );
+        lEquip.Add( ItemCategory.Nuckle );
+        lEquip.Add( ItemCategory.SharpDagger );
+        lEquip.Add( ItemCategory.Shock );
+
+        lEquip.Add( ItemCategory.BloodJacket );
+        lEquip.Add( ItemCategory.CleanDoctorCloth );
+        lEquip.Add( ItemCategory.DamagedDoctorCloth );
+        lEquip.Add( ItemCategory.FullPlated );
+        lEquip.Add( ItemCategory.Padding );
+        lEquip.Add( ItemCategory.Patient );
+        //lEquip.Add( ItemCategory.Tshirts );
+    }
+
+
 
     // Update is called once per frame
     void Update() {
@@ -423,6 +531,10 @@ public class ItemManager : MonoBehaviour {
         a = b;
         b = temp;
     }
+    
+   
+
+
 
     public void InstantiateItem( ItemCategory iCat, Vector2 location ) {
         switch( iCat ) {

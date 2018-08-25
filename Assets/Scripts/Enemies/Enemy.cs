@@ -89,6 +89,37 @@ public class Enemy : Unit
         }
     }
 
+    public override int FinalAttackPower() {
+        int min = attack;
+        int max = attack * 2; ;
+        if(this is Boss ) {
+            max += attack;
+        }
+        int attackTemp = (int) GaussianDistribution( min, max );
+                
+        foreach( Buff buff in Bufflist ) {
+            attackTemp += buff.passiveBuffAtk();
+        }
+        return attackTemp;
+    }
+
+    /** 유닛의 공격력+유닛의 상태 이상을 기반으로 유닛의 공격력을 반환 */
+    public override int FinalDefensePower() {
+        int min = defense;
+        int max = defense * 2; ;
+        if( this is Boss ) {
+            max += attack;
+        }
+
+        int defenseTemp = (int) GaussianDistribution( min, max );
+
+        foreach( Buff buff in Bufflist ) {
+            defenseTemp += buff.passiveBuffDef();
+        }
+        return defenseTemp;
+    }
+
+
 
     /** \Works when enemy dies, and drop item :case by case.
     */

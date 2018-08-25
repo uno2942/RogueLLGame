@@ -6,7 +6,8 @@ public class Tshirts : Armor {
     public Tshirts()
     {
         name = this.GetType().ToString();
-        defensivePower = 2;
-        rank = "common";
+        defensivePowerMin = 1;
+        rank = ItemManager.Rank.Common;
+        SetMaxDefbyRank( rank );
     }
 }

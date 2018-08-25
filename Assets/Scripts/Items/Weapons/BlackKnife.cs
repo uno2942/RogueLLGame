@@ -5,9 +5,10 @@ using UnityEngine;
 public class BlackKnife : Weapon {
     public BlackKnife()
     {
-        name = this.GetType().ToString();
-        attackPower = 2;
-        rank = "rare";
+        name = GetType().ToString();
+        attackPowerMin = 12;
+        rank = ItemManager.Rank.Rare;
+        SetMaxAtkbyRank( rank );
     }
 
     public override void Equip(Player player)

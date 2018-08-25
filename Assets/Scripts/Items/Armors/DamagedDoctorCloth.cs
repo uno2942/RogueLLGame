@@ -6,7 +6,8 @@ public class DamagedDoctorCloth: Armor {
     public DamagedDoctorCloth()
     {
         name = this.GetType().ToString();
-        defensivePower = 5;
-        rank = "common";
+        defensivePowerMin = 5;
+        rank = ItemManager.Rank.Rare;
+        SetMaxDefbyRank( rank );
     }
 }
