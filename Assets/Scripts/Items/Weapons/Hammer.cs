@@ -6,8 +6,9 @@ public class Hammer : Weapon {
     public Hammer()
     {
         name = this.GetType().ToString();
-        attackPower = 8;
-        rank = "rare";
+        attackPowerMin = 8;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank( rank );
     }
 
     public override void Attack( Enemy enemy)

@@ -170,6 +170,17 @@ public class Unit : MonoBehaviour {
         }
         return magnification;
     }
+
+    /**
+ * a와 b 사이에 가우시안 분포(근사)에 해당하는 값을 반환해주는 함수입니다.
+ * 아직은 못 짜서 Uniform dist.로 하겠습니다.
+ * @todo Gaussian으로 수정해야함.
+ * 최댓값이 나오도록 하기 위해서 random.range에 a와 b+1을 인자로 줌.
+ */
+    public static float GaussianDistribution( int a, int b ) { //Unit은 
+        Random.InitState( (int) System.DateTime.Now.Ticks );
+        return Random.Range( (float)a, (float)b+1 );
+    }
 }
 
 

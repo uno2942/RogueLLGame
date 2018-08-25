@@ -145,10 +145,15 @@ public class Inventory {
                     inventoryObject[ locationEmpty ].GetComponentInChildren<UnityEngine.UI.Text>().text = labelList[ locationEmpty ].ToString();
                 numberOfSameItems[ locationEmpty ] = 1;
 
-                if(ItemManager.LabelToType( labelList[ locationEmpty ] ) == ItemManager.ItemType.Armor )
+                if( ItemManager.LabelToType( labelList[ locationEmpty ] ) == ItemManager.ItemType.Armor ) {
                     armors[ locationEmpty ] = NewArmor( label );
-                else if(ItemManager.LabelToType( labelList[ locationEmpty ] ) == ItemManager.ItemType.Weapon )
+                    armors[ locationEmpty ].setRank( ItemManager.LabelToCategory(label) );
+                    armors[ locationEmpty ].SetMaxDefbyRank( armors[locationEmpty].rank );
+                } else if( ItemManager.LabelToType( labelList[ locationEmpty ] ) == ItemManager.ItemType.Weapon ) {
                     weapons[ locationEmpty ] = NewWeapon( label );
+                    weapons[ locationEmpty ].setRank( ItemManager.LabelToCategory( label ) );
+                    weapons[ locationEmpty ].SetMaxAtkbyRank( weapons[ locationEmpty ].rank );
+                }
                 return true;
             }
             return false;
@@ -166,9 +171,11 @@ public class Inventory {
         case ItemManager.Label.Club: return new Club();
         case ItemManager.Label.Hammer: return new Hammer();
         case ItemManager.Label.Lighter: return new Lighter();
+        case ItemManager.Label.InjectorWeapon: return new InjectorWeapon();
         case ItemManager.Label.Mess: return new Mess();
         case ItemManager.Label.Nuckle: return new Nuckle();
         case ItemManager.Label.Shock: return new Shock();
+        case ItemManager.Label.SharpDagger: return new SharpDagger();
         default: return null;
     }
     }

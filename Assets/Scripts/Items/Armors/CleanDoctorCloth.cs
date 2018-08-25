@@ -7,7 +7,8 @@ public class CleanDoctorCloth : Armor
     public CleanDoctorCloth()
     {
         name = this.GetType().ToString();
-        defensivePower = 7;
-        rank = "rare";
+        defensivePowerMin = 5;
+        rank = ItemManager.Rank.Rare;
+        SetMaxDefbyRank( rank );
     }
 }

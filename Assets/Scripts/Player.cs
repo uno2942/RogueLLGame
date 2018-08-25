@@ -169,13 +169,7 @@ public class Player : Unit {
 
     /** 플레이어의 공격력+플레이어가 가진 무기+플레이어의 상태 이상을 기반으로 플레이어의 공격력을 반환 */
     public override int FinalAttackPower() {
-        int attacktemp = attack;
-        switch( weapon.rank ) {
-        case "common": attacktemp += (int) GaussianDistribution( weapon.AttackPower, weapon.AttackPower * 2 + 3 ); break;
-        case "rare": attacktemp += (int) GaussianDistribution( weapon.AttackPower, weapon.AttackPower * 3 + 2 ); break;
-        case "legendary": attacktemp += (int) GaussianDistribution( weapon.AttackPower, weapon.AttackPower * 4 + 1 ); break;
-        default: break;
-        }
+        int attacktemp = (int) Unit.GaussianDistribution( weapon.AttackPowerMin, weapon.AttackPowerMax );
         Debug.Log( attacktemp );
         foreach( Buff buff in Bufflist ) {
             attacktemp += buff.passiveBuffAtk();
@@ -186,28 +180,15 @@ public class Player : Unit {
      * @todo 기획서가 뭔가 이상하니 물어봅시다.
      */
     public override int FinalDefensePower() {
-        int defensetemp = defense;
-        switch( armor.rank ) {
-        case "common": defensetemp += (int) GaussianDistribution( armor.DefensivePower, armor.DefensivePower * 2 + 3 ); break;
-        case "rare": defensetemp += (int) GaussianDistribution( armor.DefensivePower, armor.DefensivePower * 3 + 2 ); break;
-        case "legendary": defensetemp += (int) GaussianDistribution( armor.DefensivePower, armor.DefensivePower * 4 + 1 ); break;
-        default: break;
-        }
+        int defensetemp = (int) Unit.GaussianDistribution( weapon.AttackPowerMin, weapon.AttackPowerMax );
+        Debug.Log( defensetemp );
         foreach( Buff buff in Bufflist ) {
             defensetemp += buff.passiveBuffDef();
         }
         return defensetemp;
     }
 
-    /**
- * a와 b 사이에 가우시안 분포(근사)에 해당하는 값을 반환해주는 함수입니다.
- * 아직은 못 짜서 Uniform dist.로 하겠습니다.
- * @todo Gaussian으로 수정해야함.
- */
-    public static float GaussianDistribution( int a, int b ) {
-        Random.InitState( (int) System.DateTime.Now.Ticks );
-        return Random.Range( a, b );
-    }
+    
 
     public override void AddBuff( Buff _buff ) {
         Buff buff = bufflist.Find( x => x.GetType().Equals( _buff.GetType() ) );

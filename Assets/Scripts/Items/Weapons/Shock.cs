@@ -9,8 +9,13 @@ public class Shock : Weapon {
     {
         name = this.GetType().ToString();
         count = 5;
-        attackPower = 15;
-        rank = "legendary";
+        attackPowerMin = 10;
+        attackPowerMax = 41;
+        rank = ItemManager.Rank.Legendary;
+    }
+
+    public override void SetMaxAtkbyRank( ItemManager.Rank rank ) {
+        
     }
 
     public override void Attack(Enemy enemy)
