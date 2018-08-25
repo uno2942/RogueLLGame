@@ -32,10 +32,12 @@ public class PlayerAction {
         float temp = ( player.FinalAttackPower() - enemy.FinalDefensePower() );
 
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Adrenaline ) ) ) ) {
-            temp *= 1.5f;
+            temp *= 1.6f;
         }
         if( temp <= 1.0f )
             temp = 1;
+        if ( player.FinalAttackPower () <= 0 )
+            temp = 0;
         enemy.ChangeHp( -temp );
         messageMaker.MakeAttackMessage(player, MessageMaker.UnitAction.Attack, enemy, (int)temp);
 

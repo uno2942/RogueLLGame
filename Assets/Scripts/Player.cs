@@ -9,6 +9,7 @@ public class Player : Unit {
 
     private float mp;
     private int hungry;
+    private int hungryPrevious;
     private const int maxmp=100;
 
     MessageMaker messageMaker;
@@ -33,6 +34,7 @@ public class Player : Unit {
     public float Mp { get { return mp; } }
     public int MaxMp { get { return maxmp; } }
     public int Hungry { get { return hungry; } }
+    public int HungryPrevious { get { return hungryPrevious; } }
     //@}
     public PlayerAction PlayerAction
     {
@@ -65,12 +67,13 @@ public class Player : Unit {
     void Start() {
         weaponindex = -1;
         armorindex = -1;
-        attack = 1000000;
+        attack = 2;
         defense = 1;
-        maxhp = 100;
+        maxhp = 150;
         hp = maxhp;
         mp = maxmp;
         hungry = 50;
+        hungryPrevious = 50;
         inventoryList = new Inventory();
         inventoryList.Initialize();
         (hpBar=GameObject.Find( "healthbar" ).GetComponent<Image>()).fillAmount = ((float)hp)/maxhp;
@@ -91,8 +94,8 @@ public class Player : Unit {
 
     public override void ChangeHp( float delta ) {
         hp += (int)delta;
-        if( hp >= 100 )
-            hp = 100;
+        if( hp >= maxhp )
+            hp = maxhp;
         hpBar.fillAmount = ( (float) hp ) / maxhp;
     }
     public void ChangeMp( float delta ) {
@@ -110,6 +113,11 @@ public class Player : Unit {
         hungry += delta;
         if( hungry < 0 )
             hungry = 0;
+    }
+
+    public void SyncHungry()
+    {
+        hungryPrevious = hungry;
     }
     
     public void SetMpZero() {

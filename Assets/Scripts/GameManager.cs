@@ -163,26 +163,62 @@ public class GameManager : MonoBehaviour {
 
         //상태이상 체크
         IncreaseHungryByTurn();
-        if( player.Hungry >= 100 && !player.isHungry ) {
-            player.AddBuff( new Hunger() );
-            player.isHungry = true;
+        if ( player.Hungry < 50 )
+        {
+            if(player.HungryPrevious >= 100)
+            {
+                player.DeleteBuff (new Hunger ());
+                player.isHungry = false;
+                player.AddBuff (new Full (-1));
+                player.isFull = true;
+            }
+            else if(player.HungryPrevious>=50)
+            {
+                player.AddBuff (new Full (-1));
+                player.isFull = true;
+            }
         }
-        if( player.Hungry >= 130 && !player.isStarved && player.isHungry ) {
-            player.AddBuff( new Starve() );
-            player.isStarved = true;
-        } else if( player.Hungry < 130 && player.isStarved ) {
-            player.DeleteBuff( new Starve () );
-            player.isStarved = false;
+        else if(player.Hungry<100)
+        {
+            if(player.HungryPrevious < 50)
+            {
+                player.DeleteBuff (new Full (-1));
+                player.isFull = false;
+            }
+            else if(player.HungryPrevious >=130)
+            {
+                player.DeleteBuff (new Starve ());
+                player.isStarved = false;
+            }
+            else if(player.HungryPrevious >=100)
+            {
+                player.DeleteBuff (new Hunger ());
+                player.isHungry = false;
+            }
         }
-        if( player.Hungry < 100 && player.isHungry ) {
-            player.DeleteBuff( new Hunger( ) );
-            player.isHungry = false;
+        else if(player.Hungry<130)
+        {
+            if(player.HungryPrevious<100)
+            {
+                player.AddBuff (new Hunger ());
+                player.isHungry = true;
+            }
+            else if(player.HungryPrevious>=130)
+            {
+                player.DeleteBuff (new Starve ());
+                player.isStarved = false;
+                player.AddBuff (new Hunger ());
+                player.isHungry = true;
+            }
         }
-        if( player.Hungry < 50 ) {
-            player.AddBuff( new Full( -1 ) );
-        } else {
-            player.DeleteBuff( new Full( -1 ) );
-        }
+        else if(player.HungryPrevious<130)
+            {
+                player.DeleteBuff (new Hunger ());
+                player.isHungry = false;
+                player.AddBuff (new Starve ());
+                player.isStarved = true;
+            }
+        player.SyncHungry ();
 
         foreach( Buff buff in player.Bufflist ) {
             buff.BuffWorkTo( player, _action );
@@ -195,7 +231,16 @@ public class GameManager : MonoBehaviour {
             Destroy( player.gameObject );
             Debug.Log( "포닉스 불닭행" );
         };
-        enemyAttackTurn = true;
+        if ( _action == Unit.Action.Move )
+        {
+            playerTurn = true;
+            return;
+        }
+        else
+        {
+            enemyAttackTurn = true;
+            return;
+        }
     }
     /**
     * 적들이 플레이어를 공격하는 함수이다.
@@ -233,7 +278,7 @@ public class GameManager : MonoBehaviour {
             }
         }
         enemyNum = enemyList.Length;
-        if( enemyNum == 0 && prevMonsterNum != 0 ) {
+        if( enemyNum == 0 ) {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
