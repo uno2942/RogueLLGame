@@ -68,7 +68,7 @@ public class Player : Unit {
         attack = 1000000;
         defense = 1;
         maxhp = 100;
-        hp = maxhp;
+        hp = 50;//hp = maxhp;
         mp = maxmp;
         hungry = 50;
         inventoryList = new Inventory();
@@ -235,5 +235,11 @@ public class Player : Unit {
         }
         base.AddBuff( _buff );
         messageMaker.MakeBuffMessage( _buff );
+    }
+
+    public override void DeleteBuff( Buff _buff ) {
+        base.DeleteBuff( _buff );
+        if( _buff is Hallucinated )
+            messageMaker.MakeUnHalluciMessage();
     }
 }

@@ -94,7 +94,8 @@ public class PlayerAction {
                     break;
                 }
             }
-            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
+                            
+            
             DumpItem( index );
         }
     }

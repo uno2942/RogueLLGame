@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour {
     private Player player;
     private BoardManager boardManager;
     private ItemManager itemManager;
+    private MessageMaker messageMaker;
     //@}
     /**
      * This variables are tentatively implemented.
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour {
         currentSituation = false;
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
+        messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
     }
 
     // Update is called once per frame
@@ -163,6 +165,12 @@ public class GameManager : MonoBehaviour {
 
         //상태이상 체크
         IncreaseHungryByTurn();
+        if( player.Hungry >= 150) {
+            Buff b = new Starve();
+            messageMaker.MakeDeathMessage( b );
+            return;
+        }
+
         if( player.Hungry >= 100 && !player.isHungry ) {
             player.AddBuff( new Hunger() );
             player.isHungry = true;
@@ -188,6 +196,10 @@ public class GameManager : MonoBehaviour {
             buff.BuffWorkTo( player, _action );
             if( buff.Count == 0 )
                 player.DeleteBuff( buff );
+            if( IsDead() ) {
+                messageMaker.MakeDeathMessage( buff );
+            }
+
         }
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
@@ -206,8 +218,11 @@ public class GameManager : MonoBehaviour {
     */
     private void EnemyTurn() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        foreach( var enemyObject in enemyList )
+        foreach( var enemyObject in enemyList ) {
             enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
+            if( IsDead() )
+                messageMaker.MakeDeathMessage( enemyObject.GetComponent<Enemy>(), player );
+        }
 
         enemyAttackTurn = false;
         enemyCheckTurn = true;

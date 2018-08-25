@@ -9,6 +9,7 @@ public class InventoryItem : MonoBehaviour {
     private int index;
     public bool InjecCommuni;
     public bool MedicineCommuni;
+    private MessageMaker messageMaker;
     public NPC npc;
     private Player player;
     public GameObject[] dialogBox; //0: Weapon and Armor, 1: Expendable, 2: Capsule, 3. Injectors, 4. Card, 5. Water
@@ -29,6 +30,7 @@ public class InventoryItem : MonoBehaviour {
 
     void Start() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
+        messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
     }
 
     // Update is called once per frame
@@ -66,6 +68,7 @@ public class InventoryItem : MonoBehaviour {
                 GameObject.FindWithTag("GivemeBoxImage").GetComponent< UnityEngine.UI.Image >().sprite = itemManager.LabelToSprite( gBox.injector );                              
             } else {
                 Debug.Log( "주사기 아님" );
+                
             }
                        
         }
@@ -175,13 +178,15 @@ public class InventoryItem : MonoBehaviour {
     public void UseCommand() {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
+        messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
         player.UseItem( index );
-    }
-
+        }
+    //물뿌릴대 부르는 함수
     public void SpreadCommand() {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         player.SpreadWater( index );
+        messageMaker.MakeSpreadMessage();
     }
     /**
  * 플레이어가 선택 상자에서 캡슐을 먹는 명령을 선택하였을 때 실행되는 함수
@@ -192,11 +197,17 @@ public class InventoryItem : MonoBehaviour {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         player.UseItem( index );
-        
-        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) )
+
+        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) ) {
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ], false );
             player.ChangeMp( -20 );
-        else
+            
+        } else {
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ], false );
             player.UseItem( ItemManager.Label.Water );
+                    }
+            
+
     }
     /**
 * 플레이어가 선택 상자에서 주사하는 명령을 선택하였을 때 실행되는 함수
@@ -205,7 +216,21 @@ public class InventoryItem : MonoBehaviour {
     public void InjectCommand() {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
+
+        Buff adTemp = new Adrenaline( 1 );
+        Buff ad = player.Bufflist.Find( x => x.GetType().Equals( adTemp.GetType() ) );
+        Buff moTemp = new Adrenaline( 1 );
+        Buff mo = player.Bufflist.Find( x => x.GetType().Equals( moTemp.GetType() ) );
+
+        if( (ItemManager.LabelToCategory(player.InventoryList.LabelList[ index ]) == ItemManager.ItemCategory.AdrenalineDrug  &&  mo != null )
+            || ( ItemManager.LabelToCategory( player.InventoryList.LabelList[ index ] ) == ItemManager.ItemCategory.MorfinDrug && ad != null ) ) {
+            messageMaker.MakeCannotMessage( player.InventoryList.LabelList[ index ] );
+            return;
+        }
+
+        messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
         player.UseItem( index );
+        
     }
     /**
 * 플레이어가 선택 상자에서 장착하는 명령을 선택하였을 때 실행되는 함수

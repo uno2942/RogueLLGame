@@ -316,9 +316,9 @@ public class MessageMaker : MonoBehaviour {
         string s = "";
         if (deadUnit is Player)
         {
-            s += "< color =#ff0000ff>";
+            s += "<color=#ff0000ff>";
             s += Name(subject);
-            s += " 공격으로 인해 죽었습니다...</color>";
+            s += "의 공격으로 인해 죽었습니다...</color>";
 
             logger.AddLog(s); // 글자색 변경 필요!!!!
         }
@@ -331,7 +331,23 @@ public class MessageMaker : MonoBehaviour {
             logger.AddLog(s);
         }
     }
+    
+    //버프로 인한 사망시 Message
+    public void MakeDeathMessage( Buff buff ) {
+        string s = "";
+        if( buff is Burn )
+            s = "<color=#ff0000ff>당신은 불타 죽었습니다...</color>";
+        else if( buff is Poison )
+            s = "<color=#ff0000ff>당신은 독에 의해 죽었습니다...</color>";
+        else if( buff is Starve )
+            s = "<color=#ff0000ff>당신은 아사했습니다...</color>";
+        else if( buff is Bleed )
+            s = "<color=#ff0000ff>당신은 과다출혈로 인해 사망했습니다...</color>";
+        else
+            s = "<color=#ff0000ff>프로그래머가 당신이 죽은 것은 오류라고 주장하지만, 여튼 당신은 버프로 인해 죽었습니다...</color>";
 
+        logger.AddLog( s );
+    }
 
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
@@ -374,8 +390,10 @@ public class MessageMaker : MonoBehaviour {
         logger.AddLog(s);
     }
 
-    //TakeCapsule시 여러 개를 획득할 때 한정으로 사용하는 오버로딩 함수
-    public void MakeItemMessage(UnitAction action, ItemManager.Label item, int n)
+
+
+        //TakeCapsule시 여러 개를 획득할 때 한정으로 사용하는 오버로딩 함수
+        public void MakeItemMessage(UnitAction action, ItemManager.Label item, int n)
     {
         string s = "";
         if (action != UnitAction.TakeCapsule)
@@ -401,7 +419,7 @@ public class MessageMaker : MonoBehaviour {
     public void MakeItemMessage(UnitAction action, ItemManager.Label item, bool water)
     {
         string s = "";
-        if (action != UnitAction.EatCapsule)
+        if( ItemManager.LabelToType(item) != ItemManager.ItemType.Capsule   )
         {
             Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
             return;
@@ -419,20 +437,26 @@ public class MessageMaker : MonoBehaviour {
         }
         logger.AddLog(s);
     }
-    
+
+    //EatCapsule시 한정하여 사용하는 오버로딩 함수, 물을 사용했는지를 인자로 받는다
+    public void MakeSpreadMessage() {
+        logger.AddLog("몸에 물을 뿌렸습니다.");
+    }
+
+
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
     * 상황에 따라 3가지 오버로딩
     */
-    public void MakeCannotMessage(UnitAction action)
+    public void MakeCannotMessage(ItemManager.Label label)
     {
         string s = "";
-        if(action == UnitAction.InjectItem)
+        ItemManager.ItemType type = ItemManager.LabelToType( label );
+        if(type == ItemManager.ItemType.Injector)
         {
             s = "지금은 이 주사기를 사용할 수 없습니다.";
         }
-        else if(action == UnitAction.Move )
-        {
+        else if(type == ItemManager.ItemType.Card ) {
             s = "이 문은 잠겨있습니다. 문 옆에 카드 리더기가 있습니다.";
         }
         else
@@ -454,12 +478,13 @@ public class MessageMaker : MonoBehaviour {
         case Defenseless ad: s = "이게 왜 너한테 걸려?"; break;
         case Full ad: s = "당신은 포만감을 느낍니다."; break;
         case Giddiness ad: s = "이게 왜 너한테 걸려?"; break;
+        case Hallucinated ad: s = "당신은 환각에 사로잡혔습니다..."; break;
         case Hunger ad: s = "당신은 배가 고픕니다."; break;
         case Morfin ad: s = "당신의 감각이 무뎌집니다."; break;
         case Poison ad: s = "당신은 중독되었습니다!"; break;
         case Relieved ad: s = "당신의 공격성이 잠잠해집니다."; break;
         case Renewal ad: s = "당신은 생기를 되찾고 있습니다."; break;
-        case Starve ad: s = ""; break;
+        case Starve ad: s = "당신은 너무 굶주렸습니다!"; break;
         case Stunned ad: s = "당신은 기절했습니다!"; break;
         default: s = "당신이 무슨 상태인지는 개발자도 모릅니다."; break;
 

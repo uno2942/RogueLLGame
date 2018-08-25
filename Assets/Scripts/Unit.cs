@@ -130,7 +130,7 @@ public class Unit : MonoBehaviour {
      * 유닛의 BuffList에 버프를 빼는 함수(버프 1개만 뺀다. 버프 카운트가 다를 때에 대한 코드는 구현되어 있지 않다.)
      * @todo I need to check whether this code is legable.
      */
-    public void DeleteBuff(Buff buff)
+    public virtual void DeleteBuff(Buff buff)
     {
         Buff _buff= FindBuff(buff);
         if( _buff != null)
