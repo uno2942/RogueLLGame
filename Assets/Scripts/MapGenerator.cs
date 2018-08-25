@@ -600,7 +600,7 @@ public class MapGenerator {
     {
         
         Array values = Enum.GetValues(typeof(BoardManager.NPCType));
-        return (BoardManager.NPCType)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+        return (BoardManager.NPCType)values.GetValue(UnityEngine.Random.Range(1, values.Length));
     }
 
     private List<E> ShuffleList<E>(List<E> inputList)
