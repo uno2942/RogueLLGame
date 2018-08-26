@@ -47,9 +47,9 @@ public class Rat : Enemy
     {
         base.ChangeStatus( isHallucinated );
         if(isHallucinated) {
-            debuffPercent = debuffDB[ level ];
-        } else {
             debuffPercent = hDebuffDB[ level ];
+        } else {
+            debuffPercent = debuffDB[ level ];
         }
     }
 

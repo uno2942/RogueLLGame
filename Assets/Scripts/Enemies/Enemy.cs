@@ -10,6 +10,11 @@ using UnityEngine.UI;
 
 public class Enemy : Unit
 {
+    protected override void Awake() {
+        base.Awake();
+        boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
+    }
+
 
     /** 
 * \brief The enemy's level.
@@ -41,7 +46,7 @@ public class Enemy : Unit
     protected float debuffPercent;
 
     protected virtual void Start() {
-        boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
+        
         Image[] images = GetComponentsInChildren<Image>();
         foreach( Image image in images ) {
             if( image.name == "health" ) {
@@ -71,6 +76,12 @@ public class Enemy : Unit
     public int Level { get { return level; } }
 
     public void OnClick() {
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        foreach( var enemyObject in enemyList ) {
+            if( player.isHallucinated ) {
+                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+            }
+        }
         player.PlayerAction.Attack( this );
         Debug.Log( "플레이어 공격" );
     }

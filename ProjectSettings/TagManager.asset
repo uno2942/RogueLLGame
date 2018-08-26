@@ -23,10 +23,14 @@ TagManager:
   - SouthDoor
   - GivemeBoxImage
   - SelectBoxImage
-  - EastLock
-  - WestLock
-  - NorthLock
-  - SouthLock
+  - EastLockW
+  - WestLockW
+  - SouthLockW
+  - NorthLockW
+  - EastLockY
+  - WestLockY
+  - SouthLockY
+  - NorthLockY
   layers:
   - Default
   - TransparentFX

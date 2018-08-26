@@ -58,7 +58,7 @@ public class Unit : MonoBehaviour {
     /**
      * @todo I need to check whether this code is legable. 
      */
-    private void Awake()
+    protected virtual void Awake()
     {
         gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
         bufflist = new List<Buff>();
