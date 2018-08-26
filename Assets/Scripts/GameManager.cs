@@ -350,12 +350,7 @@ public class GameManager : MonoBehaviour {
             }                        
         }
         currentSituation = true;
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        foreach( var enemyObject in enemyList ) {
-            if( player.isHallucinated ) {
-                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
-            }
-        }
+                
     }
 
 
