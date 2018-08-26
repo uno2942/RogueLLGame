@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour {
     private Player player;
     private BoardManager boardManager;
     private ItemManager itemManager;
+    private MessageMaker messageMaker;
+
     //@}
     /**
      * This variables are tentatively implemented.
@@ -85,6 +87,7 @@ public class GameManager : MonoBehaviour {
         currentSituation = false;
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
+        messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
     }
 
     // Update is called once per frame
@@ -163,67 +166,58 @@ public class GameManager : MonoBehaviour {
 
         //상태이상 체크
         IncreaseHungryByTurn();
-        if ( player.Hungry < 50 )
-        {
-            if(player.HungryPrevious >= 100)
-            {
-                player.DeleteBuff (new Hunger ());
-                player.isHungry = false;
-                player.AddBuff (new Full (-1));
-                player.isFull = true;
-            }
-            else if(player.HungryPrevious>=50)
-            {
-                player.AddBuff (new Full (-1));
-                player.isFull = true;
-            }
+        if( IsDead() ) {
+            Buff B = new Starve();
+            messageMaker.MakeDeathMessage( B );
+            return;
         }
-        else if(player.Hungry<100)
-        {
-            if(player.HungryPrevious < 50)
-            {
-                player.DeleteBuff (new Full (-1));
+        if( player.Hungry < 60 ) {
+            if( player.HungryPrevious >= 160 ) {
+                player.DeleteBuff( new Hunger() );
+                player.isHungry = false;
+                player.AddBuff( new Full( -1 ) );
+                player.isFull = true;
+            } else if( player.HungryPrevious >= 60 ) {
+                player.AddBuff( new Full( -1 ) );
+                player.isFull = true;
+            }
+        } else if( player.Hungry < 160 ) {
+            if( player.HungryPrevious < 60 ) {
+                player.DeleteBuff( new Full( -1 ) );
                 player.isFull = false;
-            }
-            else if(player.HungryPrevious >=130)
-            {
-                player.DeleteBuff (new Starve ());
+            } else if( player.HungryPrevious >= 210 ) {
+                player.DeleteBuff( new Starve() );
                 player.isStarved = false;
-            }
-            else if(player.HungryPrevious >=100)
-            {
-                player.DeleteBuff (new Hunger ());
+            } else if( player.HungryPrevious >= 160 ) {
+                player.DeleteBuff( new Hunger() );
                 player.isHungry = false;
             }
-        }
-        else if(player.Hungry<130)
-        {
-            if(player.HungryPrevious<100)
-            {
-                player.AddBuff (new Hunger ());
+        } else if( player.Hungry < 210 ) {
+            if( player.HungryPrevious < 160 ) {
+                player.AddBuff( new Hunger() );
                 player.isHungry = true;
-            }
-            else if(player.HungryPrevious>=130)
-            {
-                player.DeleteBuff (new Starve ());
+            } else if( player.HungryPrevious >= 210 ) {
+                player.DeleteBuff( new Starve() );
                 player.isStarved = false;
-                player.AddBuff (new Hunger ());
+                player.AddBuff( new Hunger() );
                 player.isHungry = true;
             }
+        } else if( player.HungryPrevious < 210 ) {
+            player.DeleteBuff( new Hunger() );
+            player.isHungry = false;
+            player.AddBuff( new Starve() );
+            player.isStarved = true;
         }
-        else if(player.HungryPrevious<130)
-            {
-                player.DeleteBuff (new Hunger ());
-                player.isHungry = false;
-                player.AddBuff (new Starve ());
-                player.isStarved = true;
-            }
-        player.SyncHungry ();
+        player.SyncHungry();
+
 
         foreach( Buff buff in player.Bufflist ) {
             buff.BuffWorkTo( player, _action );
             if( buff.Count == 0 )
                 player.DeleteBuff( buff );
+            if( IsDead() ) {
+                messageMaker.MakeDeathMessage( buff );
+            }
         }
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
@@ -251,9 +245,12 @@ public class GameManager : MonoBehaviour {
     */
     private void EnemyTurn() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        foreach( var enemyObject in enemyList )
+        foreach( var enemyObject in enemyList ) {
             enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
-
+            if(IsDead()) {
+                messageMaker.MakeDeathMessage( enemyObject.GetComponent<Enemy>(), player );
+            }
+        }
         enemyAttackTurn = false;
         enemyCheckTurn = true;
     }
@@ -381,15 +378,15 @@ public class GameManager : MonoBehaviour {
             itemManager.InstantiateItem( maptile.itemList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
             break;
         default:
-            if( maptile.enemyList.Count < 0 ) {
+            if( maptile.itemList.Count < 0 ) {
                 Debug.Log( "방에 아이템 음수개 실화냐" );
                 break;
             } else {
-                for( var e = 0; e < maptile.enemyList.Count; e++ ) {
+                for( var e = 0; e < maptile.itemList.Count; e++ ) {
                     if( e < 5 )
-                        itemManager.InstantiateItem( maptile.itemList[ e ], monsterGenLocation[ e ] );
+                        itemManager.InstantiateItem( maptile.itemList[ e ], monsterGenLocation[ e ] + nowPos);
                     else
-                        itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] );
+                        itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] + nowPos);
                 }
                 break;
             }
@@ -454,7 +451,7 @@ public class GameManager : MonoBehaviour {
      * \return true일 경우 플레이어가 사망한 것이다.
      */
     private bool IsDead() {
-        if( player.Hp <= 0 || player.Hungry >= 150 )
+        if( player.Hp <= 0 || player.Hungry >= 250 )
             return true;
         else
             return false;

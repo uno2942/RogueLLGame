@@ -219,7 +219,7 @@ public class InventoryItem : MonoBehaviour {
 
         Buff adTemp = new Adrenaline( 1 );
         Buff ad = player.Bufflist.Find( x => x.GetType().Equals( adTemp.GetType() ) );
-        Buff moTemp = new Adrenaline( 1 );
+        Buff moTemp = new Morfin( 1 );
         Buff mo = player.Bufflist.Find( x => x.GetType().Equals( moTemp.GetType() ) );
 
         if( (ItemManager.LabelToCategory(player.InventoryList.LabelList[ index ]) == ItemManager.ItemCategory.AdrenalineDrug  &&  mo != null )
