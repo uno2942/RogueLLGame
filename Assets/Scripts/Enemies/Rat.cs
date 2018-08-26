@@ -20,10 +20,10 @@ public class Rat : Enemy
     {
         base.Start();
         Debug.Log("쥐 나타남");
-        hpDB = new int[ 6 ] { 7, 9, 18, 22, 40, 47 };
+        hpDB = new int[ 6 ] { 5, 6, 12, 15, 26, 33 };
         atkDB = new int[ 6 ] { 1, 1, 1, 1, 3, 3 };
         defDB = new int[ 6 ] { 0, 0, 0, 0, 1, 1 };
-        debuffDB = new float[ 6 ] { 0.0f, 0.0f, 0.1f, 0.1f, 0.4f, 0.4f};
+        debuffDB = new float[ 6 ] { 0.0f, 0.0f, 0.1f, 0.1f, 0.4f, 0.4f };
         hDebuffDB = new float[ 6 ] { 0.25f, 0.25f, 0.45f, 0.45f, 0.9f, 0.9f };
 
         level = boardManager.WhichFloor;
