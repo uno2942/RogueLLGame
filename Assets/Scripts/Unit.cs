@@ -142,7 +142,10 @@ public class Unit : MonoBehaviour {
     }
 
     public Buff FindBuff(Buff buff ) {
-        return bufflist?.Find( x => x.GetType() == buff.GetType() );
+        if( buff != null )
+            return bufflist?.Find( x => x.GetType() == buff.GetType() );
+        else
+            return null;
     }
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
