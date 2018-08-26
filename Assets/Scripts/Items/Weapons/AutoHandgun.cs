@@ -16,6 +16,7 @@ public class AutoHandgun : Weapon{
 
     public override void Attack(Enemy enemy)
     {
+        
         count--;
     }
 

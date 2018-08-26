@@ -60,6 +60,7 @@ public class Unit : MonoBehaviour {
      */
     protected virtual void Awake()
     {
+        DontDestroyOnLoad( transform.gameObject );
         gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
         bufflist = new List<Buff>();
     }

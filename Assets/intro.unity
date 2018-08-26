@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 486828229}
   - component: {fileID: 486828228}
   - component: {fileID: 486828230}
+  - component: {fileID: 486828231}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -626,6 +627,17 @@ MonoBehaviour:
   - {fileID: 1013480759001650, guid: 6a2467839231775459e0bc2164906ea7, type: 2}
   weaponindex: 0
   armorindex: 0
+--- !u!114 &486828231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 486828227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b340379d85a17942a850f08e26b74ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &620049516
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +1007,7 @@ GameObject:
   - component: {fileID: 885999476}
   - component: {fileID: 885999475}
   - component: {fileID: 885999474}
+  - component: {fileID: 885999478}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1074,6 +1087,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &885999478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 885999473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b340379d85a17942a850f08e26b74ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &935102490
 GameObject:
   m_ObjectHideFlags: 0
@@ -2137,6 +2161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5bfd73953a8f2458d5f438b7de3964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cEquip: 
+  rEquip: 
+  lEquip: 
   weaponPrefabs:
   - {fileID: 1558082883291840, guid: 666e55565cdddea459a880633787b03c, type: 2}
   - {fileID: 1366364911129760, guid: 457c4cfc2a949cc4187de3976e24627c, type: 2}

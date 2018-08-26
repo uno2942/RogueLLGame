@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 /** \brief The Manager class to controll whole gameboard.
@@ -43,6 +44,8 @@ public class BoardManager : MonoBehaviour {
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int yPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int whichFloor;
+
+    private bool mapGened;
 
     public Vector2 NowPos() {
         return new Vector2( xPos * horizontalMovement, yPos * verticalMovement );
@@ -94,7 +97,7 @@ public class BoardManager : MonoBehaviour {
         parser.parse( ref map );
 
         parser.GenMapObject( map[ 0 ], ref CurrentMapOfFloor );
-
+        mapGened = true;
         /*
                 Random.InitState( (int) System.DateTime.Now.Ticks );
 
@@ -183,7 +186,7 @@ public class BoardManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        
     }
     /**
      * 플레이어가 문을 클릭했을 때 문 프리팹이 이 함수를 콜한다. 이 함수는 플레이어와 카메라를 이동시킨다.
@@ -236,4 +239,27 @@ public class BoardManager : MonoBehaviour {
             return -1;
         }
     }
+
+    public void MoveNextFloor() {
+        //먼저 날리
+        whichFloor++;
+        Debug.Log( "hi" );
+        Debug.Log( "씬 수:" + SceneManager.sceneCount );
+        SceneManager.LoadScene( "next" );
+        Debug.Log( "씬 수:" + SceneManager.sceneCount );
+        CurrentMapOfFloor.Clear();
+
+        StartCoroutine( frameDelay() );
+
+        
+        
+        
+    }
+      
+    private IEnumerator frameDelay() {
+        yield return null;
+        Debug.Log( SceneManager.GetActiveScene() );
+        parser.GenMapObject( map[ whichFloor ], ref CurrentMapOfFloor );
+    }
+
 }
