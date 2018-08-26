@@ -17,7 +17,7 @@ public class Dog : Enemy
     {
         base.Start();
         Debug.Log( "개 나타남" );
-        hpDB = new int[ 6 ] { 30, 35, 63, 70, 110, 125 };
+        hpDB = new int[ 6 ] { 19, 22, 41, 47, 72, 81 };
         atkDB = new int[ 6 ] { 3, 3, 5, 6, 9, 11 };
         defDB = new int[ 6 ] { 1, 1, 2, 2, 3, 3 };
         debuffDB = new float[ 6 ] { 0.0f, 0.0f, 0.1f, 0.1f, 0.4f, 0.4f };
