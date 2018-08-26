@@ -87,13 +87,37 @@ public class Door : MonoBehaviour {
                 gameManager.GenerateItems( boardManager.XPos, boardManager.YPos );
                 gameManager.GenerateMonsters( boardManager.XPos, boardManager.YPos );
                 gameManager.GenerateNPCs( boardManager.XPos, boardManager.YPos );
+
+
             } else {
                 Player player = GameObject.Find( "Player" ).GetComponent<Player>();
-                if( player.InventoryList.CheckItem( ItemManager.Label.WhiteCard ) ) {
-                    player.UseItem( player.InventoryList.Getindex( ItemManager.Label.WhiteCard ) );
-                    Destroy( GetComponentsInChildren<UnityEngine.UI.Image>()[1].gameObject );
+                if( transform.GetChild( 0 ) == null ) {
+                    Debug.Log( "문짝에서 자물쇠 오브젝트를 못찾았대 ㅋ" );
+                    return;
                 }
-                //Logger 메세지.
+
+                if( transform.GetChild( 0 ).tag == "NorthLockW"
+                    || transform.GetChild( 0 ).tag == "SouthLockW"
+                    || transform.GetChild( 0 ).tag == "EastLockW"
+                    || transform.GetChild( 0 ).tag == "WestLockW")  //문짝의 lock이 하얀경우
+                {
+                    if( player.InventoryList.CheckItem( ItemManager.Label.WhiteCard ) ) {
+                        player.UseItem( player.InventoryList.Getindex( ItemManager.Label.WhiteCard ) );
+                        Destroy( GetComponentsInChildren<UnityEngine.UI.Image>()[ 1 ].gameObject );
+                    } else {
+                        MessageMaker messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
+                        messageMaker.MakeCannotMessage( ItemManager.Label.WhiteCard );
+                    }
+                } else {
+                    if( player.InventoryList.CheckItem( ItemManager.Label.YellowCard ) ) {
+                        player.UseItem( player.InventoryList.Getindex( ItemManager.Label.YellowCard ) );
+                        Destroy( GetComponentsInChildren<UnityEngine.UI.Image>()[ 1 ].gameObject );
+                    } else {
+                        MessageMaker messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
+                        messageMaker.MakeCannotMessage( ItemManager.Label.YellowCard );
+                    }
+                }               
+
             }
         }
     }

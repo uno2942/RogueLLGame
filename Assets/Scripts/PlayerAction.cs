@@ -26,6 +26,8 @@ public class PlayerAction {
      * @todo 중독/기절 보정이 뭔가요.
      */
     public void Attack( Enemy enemy ) {
+
+        
         int tempindex;
         player.weapon.Attack( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
 

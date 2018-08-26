@@ -32,10 +32,14 @@ public class MapGenerator {
     private GameObject WestDoorPrefab;
     private GameObject NorthDoorPrefab;
     private GameObject SouthDoorPrefab;
-    public GameObject EastLockPrefab;
-    public GameObject WestLockPrefab;
-    public GameObject SouthLockPrefab;
-    public GameObject NorthLockPrefab;
+    public GameObject EastLockPrefabW;
+    public GameObject WestLockPrefabW;
+    public GameObject SouthLockPrefabW;
+    public GameObject NorthLockPrefabW;
+    public GameObject EastLockPrefabY;
+    public GameObject WestLockPrefabY;
+    public GameObject SouthLockPrefabY;
+    public GameObject NorthLockPrefabY;
     private GameObject minimapTilePrefab;
 
     public List<ItemManager.ItemCategory> cEquip; //common이 가능한 장비들 목록
@@ -107,10 +111,14 @@ public class MapGenerator {
         NorthDoorPrefab = (GameObject) Resources.Load( "Maps/NorthDoor" );
         SouthDoorPrefab = (GameObject) Resources.Load( "Maps/SouthDoor" );
         minimapTilePrefab = (GameObject) Resources.Load( "Maps/MinimapTile" );
-        EastLockPrefab = (GameObject) Resources.Load( "Maps/EastLock" );
-        WestLockPrefab = (GameObject) Resources.Load( "Maps/WestLock" );
-        NorthLockPrefab = (GameObject) Resources.Load( "Maps/NorthLock" );
-        SouthLockPrefab = (GameObject) Resources.Load( "Maps/SouthLock" );
+        EastLockPrefabW = (GameObject) Resources.Load( "Maps/EastLockW" );
+        WestLockPrefabW = (GameObject) Resources.Load( "Maps/WestLockW" );
+        NorthLockPrefabW = (GameObject) Resources.Load( "Maps/NorthLockW" );
+        SouthLockPrefabW = (GameObject) Resources.Load( "Maps/SouthLockW" );
+        EastLockPrefabY = (GameObject) Resources.Load( "Maps/EastLockY" );
+        WestLockPrefabY = (GameObject) Resources.Load( "Maps/WestLockY" );
+        NorthLockPrefabY = (GameObject) Resources.Load( "Maps/NorthLockY" );
+        SouthLockPrefabY = (GameObject) Resources.Load( "Maps/SouthLockY" );
 
 
         Maps = new List<List<MapTile>>();
@@ -603,28 +611,40 @@ public class MapGenerator {
                     (gObject = GameObject.Instantiate( EastDoorPrefab, new Vector2(0, 0), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag="EastDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
                     if(_maptile.roomType == BoardManager.RoomType.LockedRoom) {
-                        ( gObject = GameObject.Instantiate( EastLockPrefab, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLock";
+                        ( gObject = GameObject.Instantiate( EastLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLockW";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    }   else if( _maptile.roomType == BoardManager.RoomType.DrugRoom ) {
+                        ( gObject = GameObject.Instantiate( EastLockPrefabY, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLockY";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
                 } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y) {
                     ( gObject = GameObject.Instantiate( WestDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "WestDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
                     if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
-                        ( gObject = GameObject.Instantiate( WestLockPrefab, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "WestLock";
+                        ( gObject = GameObject.Instantiate( WestLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "WestLockW";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    } else if( _maptile.roomType == BoardManager.RoomType.DrugRoom ) {
+                        ( gObject = GameObject.Instantiate( WestLockPrefabY, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "WestLockY";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1) {
                     (gObject = GameObject.Instantiate( NorthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag = "NorthDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
                     if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
-                        ( gObject = GameObject.Instantiate( NorthLockPrefab, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "NorthLock";
+                        ( gObject = GameObject.Instantiate( NorthLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "NorthLockW";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    } else if( _maptile.roomType == BoardManager.RoomType.DrugRoom ) {
+                        ( gObject = GameObject.Instantiate( NorthLockPrefabY, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "NorthLockY";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1) {
                     ( gObject = GameObject.Instantiate( SouthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "SouthDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
                     if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
-                        ( gObject = GameObject.Instantiate( SouthLockPrefab, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "SouthLock";
+                        ( gObject = GameObject.Instantiate( SouthLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "SouthLockW";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    } else if( _maptile.roomType == BoardManager.RoomType.DrugRoom ) {
+                        ( gObject = GameObject.Instantiate( SouthLockPrefabY, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "SouthLockY";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
                 }
