@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114755496060544030}
   - component: {fileID: 114335536210354906}
   m_Layer: 5
-  m_Name: WestLock
+  m_Name: WestLockY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,5 +91,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -25.484715, y: 18.021961}
-  m_SizeDelta: {x: 1920, y: 760}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
