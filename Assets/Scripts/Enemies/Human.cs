@@ -15,7 +15,7 @@ public class Human : Enemy
     {
         base.Start();
         Debug.Log( "사람 나타남" );
-        hpDB = new int[ 6 ] { 50, 60, 100, 115, 170, 195 };
+        hpDB = new int[ 6 ] { 31, 37, 64, 72, 106, 119 };
         atkDB = new int[ 6 ] { 2, 2, 4, 5, 7, 9 };
         defDB = new int[ 6 ] { 1, 1, 3, 4, 6, 7 };
 

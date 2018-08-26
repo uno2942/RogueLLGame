@@ -26,6 +26,8 @@ public class PlayerAction {
      * @todo 중독/기절 보정이 뭔가요.
      */
     public void Attack( Enemy enemy ) {
+
+        
         int tempindex;
         player.weapon.Attack( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
 
@@ -74,6 +76,7 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
+        gameManager.EndPlayerTurn( Unit.Action.Items );
     }
     /**
      * \see InventoryItem::UseItem
@@ -122,6 +125,7 @@ public class PlayerAction {
         if( player.InventoryList.AddItem( label ) == true ) {
             messageMaker.MakeItemMessage( MessageMaker.UnitAction.PickItem, label );
             player.InventoryList.IdentifyAllTheInventoryItem();
+            gameManager.EndPlayerTurn( Unit.Action.Items );
         }
     }
     /**
@@ -136,7 +140,7 @@ public class PlayerAction {
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
             player.InventoryList.itemManager.ItemIdentify( label );
             player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn( Unit.Action.Default );
+            
         }
         DumpItem( index );
     }
@@ -158,6 +162,7 @@ public class PlayerAction {
                 GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
             }
         }
+        gameManager.EndPlayerTurn( Unit.Action.Items );
     }
     /**
 * \see InventoryItem::UnequipCommand
@@ -177,6 +182,7 @@ public class PlayerAction {
                 GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
             }
         }
+        gameManager.EndPlayerTurn( Unit.Action.Items );
     }
 
     /**

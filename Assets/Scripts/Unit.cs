@@ -6,7 +6,7 @@ using UnityEngine;
  */
 public class Unit : MonoBehaviour {
 
-    public enum Action { Default, Move, Rest, Attack, Hitted}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
+    public enum Action { Default, Move, Rest, Attack, Hitted, Items}; /** 유닛이 이동 중인지(플레이어 한정), 공격 하고 있는지, 공격 당하고 있는지의 정보를 담음 */
     
     protected int attack;
     protected int defense;
@@ -58,7 +58,7 @@ public class Unit : MonoBehaviour {
     /**
      * @todo I need to check whether this code is legable. 
      */
-    private void Awake()
+    protected virtual void Awake()
     {
         gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
         bufflist = new List<Buff>();
@@ -142,7 +142,10 @@ public class Unit : MonoBehaviour {
     }
 
     public Buff FindBuff(Buff buff ) {
-        return bufflist?.Find( x => x.GetType() == buff.GetType() );
+        if( buff != null )
+            return bufflist?.Find( x => x.GetType() == buff.GetType() );
+        else
+            return null;
     }
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
