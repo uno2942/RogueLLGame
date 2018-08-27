@@ -32,6 +32,10 @@ TagManager:
   - SouthLockY
   - NorthLockY
   - Ground
+  - EastLockB
+  - NorthLockB
+  - WestLockB
+  - SouthLockB
   layers:
   - Default
   - TransparentFX

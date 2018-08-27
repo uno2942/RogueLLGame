@@ -260,6 +260,11 @@ public class BoardManager : MonoBehaviour {
         yield return null;
         Debug.Log( SceneManager.GetActiveScene() );
         parser.GenMapObject( map[ whichFloor ], ref CurrentMapOfFloor );
+        gameCamera.transform.position = new Vector3( 0, 0, -10 );
+        minimapCamera.transform.position = new Vector3( 0, 0, (float)26.6 );
+        playerobejct.transform.position = new Vector3( (float)0.1, -2, 1 );
+        xPos = 0;
+        yPos = 0;
     }
 
 }

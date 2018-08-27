@@ -40,6 +40,14 @@ public class MapGenerator {
     public GameObject WestLockPrefabY;
     public GameObject SouthLockPrefabY;
     public GameObject NorthLockPrefabY;
+    private GameObject EastDoorPrefabB;
+    private GameObject WestDoorPrefabB;
+    private GameObject NorthDoorPrefabB;
+    private GameObject SouthDoorPrefabB;
+    public GameObject EastLockPrefabB;
+    public GameObject WestLockPrefabB;
+    public GameObject SouthLockPrefabB;
+    public GameObject NorthLockPrefabB;
     private GameObject minimapTilePrefab;
 
     public List<ItemManager.ItemCategory> cEquip; //common이 가능한 장비들 목록
@@ -119,7 +127,14 @@ public class MapGenerator {
         WestLockPrefabY = (GameObject) Resources.Load( "Maps/WestLockY" );
         NorthLockPrefabY = (GameObject) Resources.Load( "Maps/NorthLockY" );
         SouthLockPrefabY = (GameObject) Resources.Load( "Maps/SouthLockY" );
-
+        EastDoorPrefabB = (GameObject) Resources.Load( "Maps/EastDoorB" );
+        WestDoorPrefabB = (GameObject) Resources.Load( "Maps/WestDoorB" );
+        NorthDoorPrefabB = (GameObject) Resources.Load( "Maps/NorthDoorB" );
+        SouthDoorPrefabB = (GameObject) Resources.Load( "Maps/SouthDoorB" );
+        EastLockPrefabB = (GameObject) Resources.Load( "Maps/EastLockB" );
+        WestLockPrefabB = (GameObject) Resources.Load( "Maps/WestLockB" );
+        NorthLockPrefabB = (GameObject) Resources.Load( "Maps/NorthLockB" );
+        SouthLockPrefabB = (GameObject) Resources.Load( "Maps/SouthLockB" );
 
         Maps = new List<List<MapTile>>();
 
@@ -243,21 +258,27 @@ public class MapGenerator {
                 switch( floor ) {
                 case 1:
                     tile.AddEnemy( BoardManager.EnemyType.BoundedCrazy );
+                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 2:
                     tile.AddEnemy( BoardManager.EnemyType.Gunner );
+                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 3:
                     tile.AddEnemy( BoardManager.EnemyType.Nurse );
+                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 4:
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );
+                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 5:
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );//환자들 만들어야 해.
+                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 6:
                     tile.AddEnemy( BoardManager.EnemyType.HospitalDirector );
+                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 }
                 break;
@@ -608,19 +629,43 @@ public class MapGenerator {
         GameObject gObject;
         foreach(MapTile maptile in floor) {
             foreach( MapTile _maptile in floor ) {
-                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y) {
-                    (gObject = GameObject.Instantiate( EastDoorPrefab, new Vector2(0, 0), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag="EastDoor";
+                if( _maptile.x == maptile.x + 1 && _maptile.y == maptile.y ) {
+
+                    //문만들기
+                    ( gObject = GameObject.Instantiate( EastDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "EastDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
-                    if(_maptile.roomType == BoardManager.RoomType.LockedRoom) {
+                    // 보스방인 경우 반대편에 문생성, 잠금쇠생성
+                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                        ( gObject = GameObject.Instantiate( WestDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "WestDoor";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                        ( gObject = GameObject.Instantiate( WestLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "WestLockB";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    }
+
+                    //자물쇠만들기
+                    if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
                         ( gObject = GameObject.Instantiate( EastLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLockW";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
-                    }   else if( _maptile.roomType == BoardManager.RoomType.DrugRoom ) {
+                    } else if( _maptile.roomType == BoardManager.RoomType.DrugRoom ) {
                         ( gObject = GameObject.Instantiate( EastLockPrefabY, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLockY";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
-                } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y) {
+
+
+
+                    } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y) {
                     ( gObject = GameObject.Instantiate( WestDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "WestDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
+
+                    // 보스방인 경우 반대편에 문생성, 잠금쇠생성
+                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                        ( gObject = GameObject.Instantiate( EastDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "EastDoor";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                        ( gObject = GameObject.Instantiate( EastLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLockB";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    }
+
+
                     if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
                         ( gObject = GameObject.Instantiate( WestLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "WestLockW";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
@@ -631,6 +676,15 @@ public class MapGenerator {
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1) {
                     (gObject = GameObject.Instantiate( NorthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag = "NorthDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
+                    
+                    // 보스방인 경우 반대편에 문생성, 잠금쇠생성
+                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                        ( gObject = GameObject.Instantiate( SouthDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "SouthDoor";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                        ( gObject = GameObject.Instantiate( SouthLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "SouthLockB";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    }
+
                     if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
                         ( gObject = GameObject.Instantiate( NorthLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "NorthLockW";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
@@ -641,6 +695,14 @@ public class MapGenerator {
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1) {
                     ( gObject = GameObject.Instantiate( SouthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "SouthDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
+                    // 보스방인 경우 반대편에 문생성, 잠금쇠생성
+                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                        ( gObject = GameObject.Instantiate( NorthDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "NorthDoor";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                        ( gObject = GameObject.Instantiate( NorthLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "NorthLockB";
+                        gObject.transform.localPosition = new Vector2( 0, 0 );
+                    }
+
                     if( _maptile.roomType == BoardManager.RoomType.LockedRoom ) {
                         ( gObject = GameObject.Instantiate( SouthLockPrefabW, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "SouthLockW";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
