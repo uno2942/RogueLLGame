@@ -15,7 +15,7 @@ public class MedicalBox : NPC {
 			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Burn ) ) ) );
 			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Poison ) ) ) );
 			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Bleed ) ) ) );
-			player.ChangeHp (100 - player.Hp);
+			player.ChangeHp (player.MaxHp - player.Hp);
 			usuability = 0;
 		}
 	}
