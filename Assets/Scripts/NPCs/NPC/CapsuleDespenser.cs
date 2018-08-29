@@ -70,17 +70,15 @@ public class CapsuleDespenser : NPC {
 
     public void GiveCapsule()
     {
+        ItemManager itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
         Array values = Enum.GetValues( typeof( ItemManager.ItemCategory ) );
         ItemManager.ItemCategory randomBar = (ItemManager.ItemCategory) values.GetValue( UnityEngine.Random.Range( 0, values.Length ) );
 
         while( ItemManager.CategoryToType( randomBar ) != ItemManager.ItemType.Capsule || randomBar == ItemManager.ItemCategory.CureAll ) {
             randomBar = (ItemManager.ItemCategory) values.GetValue( UnityEngine.Random.Range( 0, values.Length ) );
         }
-
-        //ItemManager.Label label = ItemManager.Label.CaffeinCapsule1;
-        ItemManager.Label label = ItemManager.CategoryToLabel( randomBar, boardmanager.WhichFloor );
-
-        player.InventoryList.AddItem( label );
+                               
+        itemManager.InstantiateItem(randomBar, boardmanager.NowPos());
     }
 
     public void Boom()
