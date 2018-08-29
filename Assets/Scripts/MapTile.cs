@@ -13,6 +13,18 @@ public class MapTile {
     public List<BoardManager.EnemyType> enemyList;
     public List<ItemManager.ItemCategory> itemList;
     public GameObject gObject;
+
+    public MapTile(MapTile tile)
+    {
+        x = tile.x;
+        y = tile.y;
+        roomType = tile.roomType;
+        NPCList = tile.NPCList;
+        enemyList = tile.enemyList;
+        itemList = tile.itemList;
+        tile.gObject = tile.gObject;
+    }
+
     public MapTile(int _x, int _y, BoardManager.RoomType _roomType) {
         x = _x;
         y = _y;

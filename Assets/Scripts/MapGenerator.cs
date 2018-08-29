@@ -155,7 +155,13 @@ public class MapGenerator {
         }
 
         for( i = 0; i < 6; i++ ) {
-            mapTiles.Add( Maps[ UnityEngine.Random.Range( 0, 10 ) ] );
+            List<MapTile> floor = new List<MapTile>();
+            List<MapTile> floormap = Maps[UnityEngine.Random.Range(0, 9)];
+            foreach (MapTile tile in floormap)
+            {
+                floor.Add(new MapTile(tile));
+            }
+            mapTiles.Add(floor);
             mapTiles[ i ] = Generate( ShuffleList( mapTiles[ i ] ), i + 1 );
         }
     }
