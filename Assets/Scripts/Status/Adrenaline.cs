@@ -13,7 +13,7 @@ public class Adrenaline : Buff {
         count--;
     }
     public override int passiveBuffAtk() {
-        return -7;
+        return 0;
     }
     public override int passiveBuffDef() {
         return 0;
