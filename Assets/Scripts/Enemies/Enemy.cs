@@ -30,7 +30,7 @@ public class Enemy : Unit
     //환각시 층 정보 접근 필요
     protected BoardManager boardManager;
     //환각시 변경 공방량
-    private readonly int[] delAD = new int[ 6 ] {1, 1, 3, 4, 7, 9};
+    protected readonly int[] delAD = new int[ 6 ] {1, 1, 3, 4, 7, 9};
 
     public EnemyAction EnemyAction
     {
@@ -91,13 +91,7 @@ public class Enemy : Unit
      */
     public virtual void ChangeStatus(bool isHallucinated)
     {
-        if( isHallucinated ) {
-            ChangeAttack( delAD[ boardManager.WhichFloor ] );
-            ChangeDefense( delAD[ boardManager.WhichFloor ] );
-        } else {
-            ChangeAttack( - delAD[ boardManager.WhichFloor ] );
-            ChangeDefense( - delAD[ boardManager.WhichFloor ] );
-        }
+        
     }
 
     public override int FinalAttackPower() {
