@@ -180,7 +180,7 @@ public class Player : Unit {
      * @todo 기획서가 뭔가 이상하니 물어봅시다.
      */
     public override int FinalDefensePower() {
-        int defensetemp = (int) Unit.GaussianDistribution( weapon.AttackPowerMin, weapon.AttackPowerMax );
+        int defensetemp = (int) Unit.GaussianDistribution( armor.DefensivePowerMin, armor.DefensivePowerMax );
         Debug.Log( defensetemp );
         foreach( Buff buff in Bufflist ) {
             defensetemp += buff.passiveBuffDef();

@@ -165,10 +165,10 @@ public class Unit : MonoBehaviour {
         return defensetemp;
     }
 
-    /** 유닛의 방어력+유닛의 상태 이상을 기반으로 유닛의 방어력을 반환 */
+    /** 유닛의 방어력+유닛의 상태 이상을 기반으로 유닛의 방어력을 반환  : 현재 사용되지 아니함*/
     public float FinalMagnification(Action action) {
         float magnification = 1;
-
+        //현재 사용되지 아니함
         foreach( Buff buff in Bufflist ) {
             magnification *= buff.BuffAction(action);
         }

@@ -15,6 +15,14 @@ public class Armor : Equip{
         }
     }
 
+    public int DefensivePowerMax
+    {
+        get
+        {
+            return defensivePowerMax;
+        }
+    }
+
     public virtual void SetMaxDefbyRank( ItemManager.Rank rank ) {
         switch( rank ) {
         case ItemManager.Rank.Common: defensivePowerMax = defensivePowerMin * 2 - 1; break;

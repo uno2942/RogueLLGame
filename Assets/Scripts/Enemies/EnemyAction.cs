@@ -36,9 +36,10 @@ public class EnemyAction
             }
 
             if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Adrenaline ) ) ) ) {
-                temp *= 1.5f;
+                temp *= 1.2f;
             }
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Morfin ) ) ) ) {
+            if (player.Bufflist.Exists(x => x.GetType().Equals(typeof(Morfin))))
+            {
                 temp *= 0.5f;
             }
             if( temp <= 1.0f )

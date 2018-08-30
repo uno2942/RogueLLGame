@@ -10,7 +10,7 @@ public class Weapon : Equip {
     {
         get
         {
-            return (int) Unit.GaussianDistribution( attackPowerMin, attackPowerMax );
+            return attackPowerMin;
         }
     }
     public int AttackPowerMax
