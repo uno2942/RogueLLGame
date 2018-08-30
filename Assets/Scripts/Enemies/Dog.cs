@@ -40,7 +40,16 @@ public class Dog : Enemy
      */
     public override void ChangeStatus(bool isHallucinated)
     {
-        base.ChangeStatus( isHallucinated );
+        if( isHallucinated ) {
+            attack = delAD[level] + atkDB[level];
+            defense = delAD[level] + defDB[level];
+
+        } else {
+            attack = atkDB[level];
+            defense = defDB[level];
+        }
+
+
         if( isHallucinated ) {
             debuffPercent = hDebuffDB[ level ];
         } else {

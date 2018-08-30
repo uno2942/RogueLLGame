@@ -5,16 +5,15 @@ using UnityEngine;
 public class BoundedCrazy : Boss {
 
     public int turn;
-    private int delA;
-    private int delD;
+    
 
     protected override void Start()
     {
         base.Start();
         Debug.Log("구속된 미치광이가 나타났습니다. 마주하고 있자니 정신이 이상해지는 듯 합니다.");
         level = 0;
-        attack = 2; //shld be decided by level and setting file
-        defense = 0;
+        defaultA = attack = 2; //shld be decided by level and setting file
+        defaultD = defense = 0;
         maxhp = 180;
         hp = maxhp;
         debuffPercent = 0.0f;
@@ -23,6 +22,7 @@ public class BoundedCrazy : Boss {
         debuff = null;
         turn = 0;
         delA = 9;
+        delD = 0;
     }
 
 
@@ -33,12 +33,5 @@ public class BoundedCrazy : Boss {
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void ChangeStatus( bool isHallucinated ) {
-        if( isHallucinated ) {
-            ChangeAttack( delA );            
-        } else {
-            ChangeAttack( -delA );
-        }
-    }
-
+    
 }
