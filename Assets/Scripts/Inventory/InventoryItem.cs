@@ -196,16 +196,20 @@ public class InventoryItem : MonoBehaviour {
                 
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
-        player.UseItem( index );
+        if (false == player.InventoryList.CheckItem(ItemManager.ItemCategory.Water))
+        {
+            messageMaker.MakeItemMessage(MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[index], false);
+            player.ChangeMp(-20);
 
-        if( false == player.InventoryList.CheckItem( ItemManager.ItemCategory.Water ) ) {
-            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ], false );
-            player.ChangeMp( -20 );
-            
-        } else {
-            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ], false );
-            player.UseItem( ItemManager.Label.Water );
-                    }
+        }
+        else
+        {
+            messageMaker.MakeItemMessage(MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[index], true);
+            player.DumpItem(ItemManager.Label.Water);
+        }
+
+        player.UseItem( index );
+             
             
 
     }
