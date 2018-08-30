@@ -142,6 +142,11 @@ public class Player : Unit {
         playerAction.DumpItem( index );
     }
 
+    public void DumpItem(ItemManager.Label label)
+    {
+        playerAction.DumpItem(inventoryList.Getindex(label));
+    }
+
     public void UseItem( int index ) {
         playerAction.UseItem( index );
     }
