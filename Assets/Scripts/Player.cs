@@ -230,4 +230,45 @@ public class Player : Unit {
         base.AddBuff( _buff );
         messageMaker.MakeBuffMessage( _buff );
     }
+
+    public override void DeleteBuff(Buff _buff)
+    {
+        Buff buff = bufflist.Find(x => x.GetType().Equals(_buff.GetType()));
+        if (!Equals(buff, null))
+        {
+            GameObject buffPanel = GameObject.Find("BuffPanel");
+
+            if (_buff is Adrenaline)
+                 Destroy(buffPanel.transform.Find("Adrenaline(Clone)").gameObject);                         
+            else if (_buff is Bleed)
+                Destroy(buffPanel.transform.Find("Bleed(Clone)").gameObject);
+            else if (_buff is Burn)
+                Destroy(buffPanel.transform.Find("Burn(Clone)").gameObject);
+            else if (_buff is Caffeine)
+                Destroy(buffPanel.transform.Find("Caffeine(Clone)").gameObject);
+            else if (_buff is Defenseless)
+                Destroy(buffPanel.transform.Find("Defenseless(Clone)").gameObject);
+            else if (_buff is Full)
+                Destroy(buffPanel.transform.Find("Full(Clone)").gameObject);
+            else if (_buff is Giddiness)
+                Destroy(buffPanel.transform.Find("Giddiness(Clone)").gameObject);
+            else if (_buff is Hunger)
+                Destroy(buffPanel.transform.Find("Hunger(Clone)").gameObject);
+            else if (_buff is Morfin)
+                Destroy(buffPanel.transform.Find("Morfin(Clone)").gameObject);
+            else if (_buff is Poison)
+                Destroy(buffPanel.transform.Find("Poison(Clone)").gameObject);
+            else if (_buff is Relieved)
+                Destroy(buffPanel.transform.Find("Relieved(Clone)").gameObject);
+            else if (_buff is Renewal)
+                Destroy(buffPanel.transform.Find("Renewal(Clone)").gameObject);
+            else if (_buff is Starve)
+                Destroy(buffPanel.transform.Find("Starve(Clone)").gameObject);
+            else if (_buff is Stunned)
+                Destroy(buffPanel.transform.Find("Stunned(Clone)").gameObject);
+        }
+        base.DeleteBuff(_buff);
+     }
+
+
 }
