@@ -1016,6 +1016,8 @@ MonoBehaviour:
     type: 2}
   boundedCrazyPrefab: {fileID: 1991947680573352, guid: bb731c0f788d6cb4a98ff1e7c92e1d1d,
     type: 2}
+  gunnerPrefab: {fileID: 1266958200657114, guid: ba83a61f0ba4a8d4cb0e46a2a435a4ee,
+    type: 2}
   npcPrefab:
   - {fileID: 1722809347248306, guid: 9bc69e928c0399444b54845e5ebffe4b, type: 2}
   - {fileID: 1764135839014080, guid: 1b3901b420868254a9c0f4c82836ef2d, type: 2}
@@ -1041,17 +1043,6 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 822175067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b340379d85a17942a850f08e26b74ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &855868185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 855868182}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b340379d85a17942a850f08e26b74ee, type: 3}

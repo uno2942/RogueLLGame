@@ -22,6 +22,7 @@ public class Gunner : Boss {
         debuffPercent = 0.0f;
         enemyAction = new GunnerAction( this );
         debuff = new Stunned(1);
+        player = GameObject.Find("Player").GetComponent<Player>();
         atkBuffTurn = 0;
         atkBuffOn = false;
         delA = 1;
@@ -42,8 +43,16 @@ public class Gunner : Boss {
         }
     }
 
-    /** \ incomplete: shld access at room
-     * 
-     */
-     
+    private void OnDestroy()
+    {
+        ItemManager itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+        Vector3 tnowPos = transform.position;
+        Vector2 nowPos;
+        nowPos.x = tnowPos.x;
+        nowPos.y = tnowPos.y;
+        itemManager.InstantiateItem(ItemManager.ItemCategory.AutoHandgun, nowPos);
+      
+
+    }
+
 }

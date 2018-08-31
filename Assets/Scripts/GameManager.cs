@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour {
     public GameObject dogPrefab;
     public GameObject humanPrefab;
     public GameObject boundedCrazyPrefab;
+    public GameObject gunnerPrefab;
 
     public GameObject[] npcPrefab;
 
@@ -350,6 +351,7 @@ public class GameManager : MonoBehaviour {
             }                        
         }
         currentSituation = true;
+        maptile.enemyList.Clear();
                 
     }
 
@@ -423,6 +425,7 @@ public class GameManager : MonoBehaviour {
         case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
         case BoardManager.EnemyType.BoundedCrazy: Instantiate( boundedCrazyPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.EnemyType.Gunner: Instantiate(gunnerPrefab, location, Quaternion.identity, GameObject.Find("NEIUI").transform); break;
 
         default: break;
         }
