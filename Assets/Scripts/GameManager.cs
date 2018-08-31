@@ -350,6 +350,7 @@ public class GameManager : MonoBehaviour {
             }                        
         }
         currentSituation = true;
+        maptile.enemyList.Clear();
                 
     }
 
