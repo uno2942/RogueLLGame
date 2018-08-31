@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222199821557620126}
   - component: {fileID: 114978159186391736}
   - component: {fileID: 114043102897232948}
-  - component: {fileID: 114618640792879388}
+  - component: {fileID: 114638052826059046}
   m_Layer: 0
   m_Name: GunnerPrefab
   m_TagString: Enemy
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114618640792879388}
+      - m_Target: {fileID: 114638052826059046}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114618640792879388
+--- !u!114 &114638052826059046
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,10 +185,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1266958200657114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8accd6315f865b747b07cb9e2189661d, type: 3}
+  m_Script: {fileID: 11500000, guid: 43d3170cef9adcd458c33c833744eaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turn: 0
+  atkBuffTurn: 0
+  atkBuffOn: 0
 --- !u!114 &114712347372018898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -256,7 +257,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b0fa5d023a9697c41b916ebca95bbbf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6da1ca7c67c6dd44ab63bddbdbb3575c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
