@@ -24,6 +24,7 @@ public class GunnerAction : EnemyAction {
             int tmpAtk = b.Attack;
             b.ChangeAttack( 10 - b.Attack );
             b.ChangeAttack( tmpAtk - b.Attack );
+            
         }
 
 
@@ -63,6 +64,7 @@ public class GunnerAction : EnemyAction {
             if( temp >= 10 ) {
                 player.AddBuff( enemyItself.Debuff() );
             }
+
             return true;
         }
 
