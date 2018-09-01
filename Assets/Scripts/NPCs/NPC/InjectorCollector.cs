@@ -53,14 +53,18 @@ public class InjectorCollector : NPC {
                 player.PlayerAction.PickItem( ItemManager.Label.Can );
                 player.PlayerAction.PickItem( ItemManager.Label.Water );
                 player.PlayerAction.PickItem( ItemManager.Label.Water );*/
+                //아이템 포지션 설정.
                 Vector2 nowPos = new Vector2( boardmanager.XPos * BoardManager.horizontalMovement, boardmanager.YPos * BoardManager.verticalMovement );
+                Vector2 [] GenPos = new Vector2 [6];
+                for ( var i = 0; i < 6; i++ )
+                    GenPos [i] = new Vector2 (-5 + 2*i, 0);
 
-                itemmanager.InstantiateItem( randomBar1, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
-                itemmanager.InstantiateItem( randomBar2, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
-                itemmanager.InstantiateItem( ItemManager.ItemCategory.Can , gamemanager.MonsterGenLocation[ 3 ] + nowPos );
-                itemmanager.InstantiateItem( ItemManager.ItemCategory.Can, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
-                itemmanager.InstantiateItem( ItemManager.ItemCategory.Water, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
-                itemmanager.InstantiateItem( ItemManager.ItemCategory.Water, gamemanager.MonsterGenLocation[ 3 ] + nowPos );
+                itemmanager.InstantiateItem( randomBar1, GenPos[ 0 ] + nowPos);
+                itemmanager.InstantiateItem( randomBar2, GenPos[ 1 ] + nowPos);
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Can , GenPos[ 2 ] + nowPos);
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Can, GenPos[ 3 ] + nowPos);
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Water, GenPos[ 4 ] + nowPos);
+                itemmanager.InstantiateItem( ItemManager.ItemCategory.Water, GenPos[ 5 ] + nowPos);
 
 
                 usuability = 0;

@@ -10,7 +10,7 @@ using System.Linq;
 public class BoardManager : MonoBehaviour {
 
     public static int verticalMovement = 10; /**< The vertical length of a board in the game. */
-    public static float horizontalMovement = 17.7792f;/**< The vertical length of a board in the game. */
+    public static float horizontalMovement = 17.7792f;/**< The horizontal length of a board in the game. */
 
 
     public enum Direction { Right = 0, UpSide = 1, Left = 2, DownSide = 3 };  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
