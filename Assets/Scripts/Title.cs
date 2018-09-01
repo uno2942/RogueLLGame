@@ -15,7 +15,10 @@ public class Title : MonoBehaviour {
     }
 
     public void StartButton() {
-        SceneManager.LoadScene( "intro" );
+        Debug.Log("씬 수:" + SceneManager.sceneCount);
+        SceneManager.LoadScene("intro");
+        Debug.Log("씬 수:" + SceneManager.sceneCount);
+        StartCoroutine(frameDelay());
     }
 
     public void HowToButton() {
@@ -50,5 +53,10 @@ public class Title : MonoBehaviour {
             yield return null;
         }
         overlay.transform.localScale = new Vector3( 1, 1, 1 );
+    }
+
+    private IEnumerator frameDelay()
+    {
+        yield return null;
     }
 }
