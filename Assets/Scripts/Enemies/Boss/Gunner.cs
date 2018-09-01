@@ -7,9 +7,7 @@ public class Gunner : Boss {
 
     public int atkBuffTurn;
     public bool atkBuffOn;
-    private int delA;
-    private int delD;
-
+    
     protected override void Start()
     {
         base.Start();
