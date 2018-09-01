@@ -58,7 +58,7 @@ public class Inventory {
         weapons = new Weapon[ 12 ];
         armors = new Armor[ 12 ];
         InventoryTransform = GameObject.Find( "InventoryPanel" ).GetComponent<RectTransform>();
-        inventoryItemPrefab = (GameObject) UnityEditor.AssetDatabase.LoadAssetAtPath( "Assets/Prefabs/InventoryItem.prefab", typeof( GameObject ) );
+        inventoryItemPrefab = Resources.Load("InventoryItem") as GameObject; 
         labelList = new ItemManager.Label [size];
         inventoryObject = new GameObject [size];
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
