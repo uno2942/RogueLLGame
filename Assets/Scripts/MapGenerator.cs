@@ -141,11 +141,20 @@ public class MapGenerator {
         int i;
         for( i = 0; i < 10; i++ ) {
             Maps.Add( new List<MapTile>() );
-            var mapData = File.ReadAllLines( Application.dataPath + @"\Resources\" + "Map" + i + ".txt" );
-            foreach( string str in mapData ) {
+            String fileName = "Map" + i;
+            TextAsset mapFile = Resources.Load(fileName) as TextAsset;
+            string mapText = mapFile.text;
+            string [] mapData = mapText.Split('\n');
+            
+            
+
+            //var mapData = File.ReadAllLines( Application.dataPath + @"\Resources\" + "Map" + i + ".txt" );
+            //var mapData = File.ReadAllLines(Application.dataPath + @"\" + "Map" + i + ".txt");
+            foreach ( string str in mapData ) {
                 var temp = str.Split( '\t' );
                 if( temp[ 0 ] == "Coordinate" )
                     continue;
+                
                 Maps[ i ].Add( new MapTile( int.Parse( temp[ 0 ] ), int.Parse( temp[ 1 ] ), ConvertLetterToMapType( temp[ 2 ] ) ) );
                 if( Math.Abs( int.Parse( temp[ 0 ] ) ) > HMost )
                     HMost = Math.Abs( int.Parse( temp[ 0 ] ) );
@@ -168,14 +177,23 @@ public class MapGenerator {
 
     private BoardManager.RoomType ConvertLetterToMapType( string str ) {
         switch( str ) {
+        case "N\r":
         case "N": return BoardManager.RoomType.NormalRoom;
+        case "H\r":
         case "H": return BoardManager.RoomType.Hall;
+        case "B\r":
         case "B": return BoardManager.RoomType.BossRoom;
+        case "D\r":
         case "D": return BoardManager.RoomType.DrugRoom;
+        case "L\r":
         case "L": return BoardManager.RoomType.LockedRoom;
+        case "R\r":
         case "R": return BoardManager.RoomType.RestRoom;
+        case "Q\r":
         case "Q": return BoardManager.RoomType.Equipment;
+        case "P\r":
         case "P": return BoardManager.RoomType.PlayerStart;
+        case "E\r":
         case "E": return BoardManager.RoomType.End;
         }
         return BoardManager.RoomType.Empty;
