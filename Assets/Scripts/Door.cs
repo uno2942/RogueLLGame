@@ -20,9 +20,24 @@ public class Door : MonoBehaviour {
     private GameManager gameManager;
     //@}
     private bool isOpened;
+    private bool isAvailable;
     /**
  * \brief Check whether the door is opend.
  */
+    
+    public bool IsAvailable
+    {
+        get
+        {
+            return isAvailable;
+        }
+
+        set
+        {
+            isAvailable = value;
+        }
+    }
+
     public bool IsOpened
     {
         get

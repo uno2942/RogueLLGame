@@ -668,10 +668,12 @@ public class MapGenerator {
                     //문만들기
                     ( gObject = GameObject.Instantiate( EastDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "EastDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
+                    gObject.SetActive (false);
                     // 보스방인 경우 반대편에 문생성, 잠금쇠생성
                     if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
                         ( gObject = GameObject.Instantiate( WestDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "WestDoor";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
+                        gObject.SetActive (false);
                         ( gObject = GameObject.Instantiate( WestLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "WestLockB";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
@@ -690,11 +692,13 @@ public class MapGenerator {
                     } else if( _maptile.x == maptile.x - 1 && _maptile.y == maptile.y) {
                     ( gObject = GameObject.Instantiate( WestDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "WestDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
+                    gObject.SetActive (false);
 
                     // 보스방인 경우 반대편에 문생성, 잠금쇠생성
-                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                    if ( maptile.roomType == BoardManager.RoomType.BossRoom ) {
                         ( gObject = GameObject.Instantiate( EastDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "EastDoor";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
+                        gObject.SetActive (false);
                         ( gObject = GameObject.Instantiate( EastLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "EastLockB";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
@@ -710,11 +714,13 @@ public class MapGenerator {
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y + 1) {
                     (gObject = GameObject.Instantiate( NorthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() )).tag = "NorthDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
-                    
+                    gObject.SetActive (false);
+
                     // 보스방인 경우 반대편에 문생성, 잠금쇠생성
-                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                    if ( maptile.roomType == BoardManager.RoomType.BossRoom ) {
                         ( gObject = GameObject.Instantiate( SouthDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "SouthDoor";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
+                        gObject.SetActive (false);
                         ( gObject = GameObject.Instantiate( SouthLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "SouthLockB";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }
@@ -729,10 +735,12 @@ public class MapGenerator {
                 } else if( _maptile.x == maptile.x && _maptile.y == maptile.y - 1) {
                     ( gObject = GameObject.Instantiate( SouthDoorPrefab, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "SouthDoor";
                     gObject.transform.localPosition = new Vector2( 0, 0 );
+                    gObject.SetActive (false);
                     // 보스방인 경우 반대편에 문생성, 잠금쇠생성
-                    if( maptile.roomType == BoardManager.RoomType.BossRoom ) {
+                    if ( maptile.roomType == BoardManager.RoomType.BossRoom ) {
                         ( gObject = GameObject.Instantiate( NorthDoorPrefabB, new Vector2( 0, 0 ), Quaternion.identity, maptile.gObject.GetComponent<RectTransform>() ) ).tag = "NorthDoor";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
+                        gObject.SetActive (false);
                         ( gObject = GameObject.Instantiate( NorthLockPrefabB, new Vector2( 0, 0 ), Quaternion.identity, gObject.transform ) ).tag = "NorthLockB";
                         gObject.transform.localPosition = new Vector2( 0, 0 );
                     }

@@ -10,7 +10,7 @@ using System.Linq;
 public class BoardManager : MonoBehaviour {
 
     public static int verticalMovement = 10; /**< The vertical length of a board in the game. */
-    public static float horizontalMovement = 17.7792f;/**< The vertical length of a board in the game. */
+    public static float horizontalMovement = 17.7792f;/**< The horizontal length of a board in the game. */
 
 
     public enum Direction { Right = 0, UpSide = 1, Left = 2, DownSide = 3 };  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
@@ -40,6 +40,7 @@ public class BoardManager : MonoBehaviour {
     public Dictionary<MapGenerator.Coord, MapTile> CurrentMapOfFloor;
     private List<List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
     private MapGenerator parser; /**< 맵 파서이다. */
+    private MapTile currenttile; /**< 플레이어가 현재 있는 맵 타일 */
 
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int yPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
@@ -98,6 +99,20 @@ public class BoardManager : MonoBehaviour {
 
         parser.GenMapObject( map[ 0 ], ref CurrentMapOfFloor );
         mapGened = true;
+        floor = map [0];
+
+        //시작할 때, 플레이어 초기 위치에 있는 문들을 enable 시킴.
+        currenttile =
+            (from tile in floor
+            where tile.x == 0 && tile.y == 0
+            select tile).First<MapTile>();
+
+        var curtransform = currenttile.gObject.transform;
+        for ( var i = 0; i < curtransform.childCount; i++ )
+        {
+            curtransform.GetChild (i).gameObject.SetActive (true);
+        }
+
         /*
                 Random.InitState( (int) System.DateTime.Now.Ticks );
 
@@ -193,6 +208,12 @@ public class BoardManager : MonoBehaviour {
      */
     public void MoveNextRoom( Direction direction ) {
         //if(map is valid)
+
+        //맵을 이동할때 현재 있던 방의 문을 disable 시킴.
+        var curtransform = currenttile.gObject.transform;
+        for(var i = 0; i < curtransform.childCount; i++)
+            curtransform.GetChild(i).gameObject.SetActive (false);
+
         {
             switch( direction ) {
             case Direction.Right:
@@ -221,6 +242,16 @@ public class BoardManager : MonoBehaviour {
                 break;
             }
 
+            currenttile =
+                (from tile in floor
+                 where tile.x == xPos && tile.y == yPos
+                 select tile).First<MapTile> ();
+
+            curtransform = currenttile.gObject.transform;
+            for ( var i = 0; i < curtransform.childCount; i++ )
+            {
+                curtransform.GetChild (i).gameObject.SetActive (true);
+            }
         }
     }
 
@@ -260,6 +291,7 @@ public class BoardManager : MonoBehaviour {
         yield return null;
         Debug.Log( SceneManager.GetActiveScene() );
         parser.GenMapObject( map[ whichFloor ], ref CurrentMapOfFloor );
+        floor = map [whichFloor];
         gameCamera.transform.position = new Vector3( 0, 0, -10 );
         minimapCamera.transform.position = new Vector3( 0, 0, (float)26.6 );
         playerobejct.transform.position = new Vector3( (float)0.1, -2, 1 );
