@@ -277,7 +277,15 @@ public class MapGenerator {
         int lSpecific = 0;
         foreach( MapTile tile in map ) {
             p++;
-            switch( tile.roomType ) {
+
+            // 임시 코드임. 원인 찾으면 해결바람.
+            //for debug
+
+            tile.enemyList.Clear();
+            tile.NPCList.Clear();
+            tile.itemList.Clear();
+
+            switch ( tile.roomType ) {
             case BoardManager.RoomType.BossRoom:
                 switch( floor ) {
                 case 1:
@@ -431,6 +439,8 @@ public class MapGenerator {
                 break;
             default: break;
             }
+            if (tile.enemyList.Count > 3)
+                Debug.Log("4층 이하에서 이거뜨면 버그룸임");
         }
 
         return map;

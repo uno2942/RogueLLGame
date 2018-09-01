@@ -22,7 +22,7 @@ public class MapTile {
         NPCList = tile.NPCList;
         enemyList = tile.enemyList;
         itemList = tile.itemList;
-        tile.gObject = tile.gObject;
+        gObject = tile.gObject;
     }
 
     public MapTile(int _x, int _y, BoardManager.RoomType _roomType) {
