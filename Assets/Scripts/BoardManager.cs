@@ -292,6 +292,18 @@ public class BoardManager : MonoBehaviour {
         Debug.Log( SceneManager.GetActiveScene() );
         parser.GenMapObject( map[ whichFloor ], ref CurrentMapOfFloor );
         floor = map [whichFloor];
+
+        currenttile =
+            (from tile in floor
+             where tile.x == 0 && tile.y == 0
+             select tile).First<MapTile> ();
+
+        var curtransform = currenttile.gObject.transform;
+        for ( var i = 0; i < curtransform.childCount; i++ )
+        {
+            curtransform.GetChild (i).gameObject.SetActive (true);
+        }
+
         gameCamera.transform.position = new Vector3( 0, 0, -10 );
         minimapCamera.transform.position = new Vector3( 0, 0, (float)26.6 );
         playerobejct.transform.position = new Vector3( (float)0.1, -2, 1 );
