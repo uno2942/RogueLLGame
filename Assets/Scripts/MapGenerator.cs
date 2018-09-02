@@ -99,7 +99,10 @@ public class MapGenerator {
             return base.GetHashCode();
         }
     }
-    public void parse( ref List<List<MapTile>> mapTiles ) {
+
+
+
+    public void parse( ref Dictionary<int, List<MapTile>> mapTiles ) {
         VMost = HMost = 0;
         object[] obj = Resources.LoadAll( "Map" );
 
@@ -178,7 +181,7 @@ public class MapGenerator {
             {
                 floor.Add(new MapTile(tile));
             }
-            mapTiles.Add(floor);
+            mapTiles[ i ] = floor;
             mapTiles[ i ] = Generate( ShuffleList( mapTiles[ i ] ), i + 1 );
         }
     }
@@ -209,7 +212,6 @@ public class MapGenerator {
 
     public void GenMapObject( List<MapTile> floor, ref Dictionary<Coord, MapTile> CurrentMapOfFloor ) {
         MapCanvasRectTransform = GameObject.Find( "MapCanvas" ).GetComponent<RectTransform>();
-        CurrentMapOfFloor = new Dictionary<Coord, MapTile>();
         foreach( MapTile tile in floor ) {
             GameObject tileobj = new GameObject();
             Vector2 position = new Vector2( 17.7792f * tile.x, 10f * tile.y );
@@ -298,27 +300,21 @@ public class MapGenerator {
                 switch( floor ) {
                 case 1:
                     tile.AddEnemy( BoardManager.EnemyType.BoundedCrazy );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 2:
                     tile.AddEnemy( BoardManager.EnemyType.Gunner );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 3:
                     tile.AddEnemy( BoardManager.EnemyType.Nurse );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 4:
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 5:
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );//환자들 만들어야 해.
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 6:
                     tile.AddEnemy( BoardManager.EnemyType.HospitalDirector );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 }
                 break;

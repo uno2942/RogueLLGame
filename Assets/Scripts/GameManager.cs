@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 /**
  * \brief 게임 전반(턴, 몬스터 등)을 관리하는 코드
  */
@@ -222,8 +223,12 @@ public class GameManager : MonoBehaviour {
         }
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
-        if( IsDead() ) {
-            Destroy( player.gameObject );
+        if( IsDead() )
+        {
+
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
+            SceneManager.LoadScene ("gameover");
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
             Debug.Log( "포닉스 불닭행" );
         };
         if ( _action == Unit.Action.Move )
@@ -250,6 +255,10 @@ public class GameManager : MonoBehaviour {
             enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
             if(IsDead()) {
                 messageMaker.MakeDeathMessage( enemyObject.GetComponent<Enemy>(), player );
+
+                Debug.Log ("씬 수:" + SceneManager.sceneCount);
+                SceneManager.LoadScene ("gameover");
+                Debug.Log ("씬 수:" + SceneManager.sceneCount);
             }
         }
         enemyAttackTurn = false;
@@ -280,12 +289,15 @@ public class GameManager : MonoBehaviour {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
-            itemManager.DropItem( boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ] );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
-        if( IsDead() ) {
-            Destroy( player.gameObject );
+        if( IsDead() )
+        {
+
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
+            SceneManager.LoadScene ("gameover");
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
             Debug.Log( "포닉스 불닭행" );
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
@@ -317,11 +329,38 @@ public class GameManager : MonoBehaviour {
      * It generates monsters on the board with fixed number of monsters given by parameter.
      * \see Door::OnMouseUpAsButton
      */
+     public void GenerateMonstersAndItems(int x, int y)
+    {
+        Vector2 nowPos = new Vector2 (boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement);
+        MapTile maptile = boardManager.CurrentMapOfFloor [new MapGenerator.Coord (x, y)];
+        Debug.Log ("적 수: " + maptile.enemyList.Count + ", 아이템 수: " + maptile.itemList.Count);
+        if ( maptile.enemyList.Count == 0 || maptile.itemList.Count == 0 ) {
+            GenerateItems (x, y);
+            GenerateMonsters (x, y);
+        }
+        else
+            switch ( maptile.enemyList.Count + maptile.itemList.Count )
+            {
+                case 0: return;
+                case 2://일반 적 사람 한명 + 링겔액인 경우.
+                    InstantiateMonster (maptile.enemyList [0], monsterGenLocation [1] + nowPos);
+                    itemManager.InstantiateItem (maptile.itemList [0], monsterGenLocation [2] + nowPos);
+                    break;
+                case 3://적 2기 + 노란 키카드인 경우.
+                    InstantiateMonster (maptile.enemyList [0], monsterGenLocation [3] + nowPos);
+                    itemManager.InstantiateItem (maptile.itemList [0], monsterGenLocation [4] + nowPos);
+                    itemManager.InstantiateItem (maptile.itemList [1], monsterGenLocation [5] + nowPos);
+                    break;
+                default: return;
+            }
+    }
+
     public void GenerateMonsters(int x, int y)
     {
         Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
         MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
         Debug.Log( "적 수: " + maptile.enemyList.Count );
+        Debug.Log (maptile.enemyList [0]);
         switch(  maptile.enemyList.Count) {
         case 0: return;
         case 1:

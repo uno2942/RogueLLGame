@@ -64,6 +64,29 @@ public class Player : Unit {
     /**
      * 플레이어의 상태를 초기화하고, MpBar와 HpBar를 초기화한다. 그 후 action, weapon, armor를 초기화한다.
      */
+
+    public void PlayerReset()
+    {
+        weaponindex = -1;
+        armorindex = -1;
+        attack = 2;
+        defense = 1;
+        maxhp = 150;
+        hp = maxhp;
+        mp = maxmp;
+        hungry = 50;
+        hungryPrevious = 50;
+        inventoryList = new Inventory ();
+        inventoryList.Initialize ();
+        (hpBar = GameObject.Find ("healthbar").GetComponent<Image> ()).fillAmount = ((float) hp) / maxhp;
+        (mpBar = GameObject.Find ("mpbar").GetComponent<Image> ()).fillAmount = ((float) mp) / maxmp;
+        playerAction = new PlayerAction ();
+        weapon = new DefaultWeapon ();
+        armor = new DefaultArmor ();
+        buffPanelTransform = GameObject.Find ("BuffPanel").transform;
+        messageMaker = GameObject.Find ("Logger").GetComponent<MessageMaker> ();
+
+    }
     void Start() {
         weaponindex = -1;
         armorindex = -1;

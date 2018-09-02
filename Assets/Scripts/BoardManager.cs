@@ -35,10 +35,11 @@ public class BoardManager : MonoBehaviour {
     public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
     public Camera minimapCamera;
     public Player playerobejct;
+    public GameManager gameManager;
 
     private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
     public Dictionary<MapGenerator.Coord, MapTile> CurrentMapOfFloor;
-    private List<List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
+    private Dictionary<int, List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
     private MapGenerator parser; /**< 맵 파서이다. */
     private MapTile currenttile; /**< 플레이어가 현재 있는 맵 타일 */
 
@@ -85,8 +86,9 @@ public class BoardManager : MonoBehaviour {
      * \brief 사용자의 위치를 초기화한 후, 맵 파일을 파싱한 후 맵을 생성한다.
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
-    void Start() {
 
+    void Start() {
+        
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
@@ -94,9 +96,10 @@ public class BoardManager : MonoBehaviour {
 
         parser = new MapGenerator();
         floor = new List<MapTile>();
-        map = new List<List<MapTile>>();
+        map = new Dictionary<int, List<MapTile>>();
         parser.parse( ref map );
 
+        CurrentMapOfFloor = new Dictionary<MapGenerator.Coord, MapTile> ();
         parser.GenMapObject( map[ 0 ], ref CurrentMapOfFloor );
         mapGened = true;
         floor = map [0];
@@ -241,7 +244,7 @@ public class BoardManager : MonoBehaviour {
                 yPos--;
                 break;
             }
-
+            
             currenttile =
                 (from tile in floor
                  where tile.x == xPos && tile.y == yPos
@@ -272,19 +275,13 @@ public class BoardManager : MonoBehaviour {
     }
 
     public void MoveNextFloor() {
-        //먼저 날리
         whichFloor++;
         Debug.Log( "hi" );
         Debug.Log( "씬 수:" + SceneManager.sceneCount );
         SceneManager.LoadScene( "next" );
         Debug.Log( "씬 수:" + SceneManager.sceneCount );
         CurrentMapOfFloor.Clear();
-
         StartCoroutine( frameDelay() );
-
-        
-        
-        
     }
       
     private IEnumerator frameDelay() {
@@ -292,6 +289,18 @@ public class BoardManager : MonoBehaviour {
         Debug.Log( SceneManager.GetActiveScene() );
         parser.GenMapObject( map[ whichFloor ], ref CurrentMapOfFloor );
         floor = map [whichFloor];
+
+        currenttile =
+            (from tile in floor
+             where tile.x == 0 && tile.y == 0
+             select tile).First<MapTile> ();
+
+        var curtransform = currenttile.gObject.transform;
+        for ( var i = 0; i < curtransform.childCount; i++ )
+        {
+            curtransform.GetChild (i).gameObject.SetActive (true);
+        }
+
         gameCamera.transform.position = new Vector3( 0, 0, -10 );
         minimapCamera.transform.position = new Vector3( 0, 0, (float)26.6 );
         playerobejct.transform.position = new Vector3( (float)0.1, -2, 1 );
