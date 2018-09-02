@@ -99,6 +99,9 @@ public class MapGenerator {
             return base.GetHashCode();
         }
     }
+
+
+
     public void parse( ref Dictionary<int, List<MapTile>> mapTiles ) {
         VMost = HMost = 0;
         object[] obj = Resources.LoadAll( "Map" );

@@ -227,6 +227,23 @@ public class ItemManager : MonoBehaviour {
         InitializePrefabsRandomly( capsulePrefabs, capsuleSprite );
     }
 
+    public void ItemReset()
+    {
+        InitializeEquipRank ();
+        InitLabelDic (labelDic);
+        foreach ( Label i in System.Enum.GetValues (typeof (Label)) )
+        {
+            if ( LabelToType (i) == ItemType.Capsule )
+                IsIdentified.Add (i, false);
+            else
+                IsIdentified.Add (i, true);
+        }
+        IsIdentified [Label.Empty] = false;
+
+        InitializePrefabsRandomly (capsulePrefabs, capsuleSprite);
+
+    }
+
     private void InitializeEquipRank() {
         /*
         cEquip.Add( Label.AutoHandgun );

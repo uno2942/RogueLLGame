@@ -241,6 +241,12 @@ public class Inventory {
         }
         return -1;
     }
+
+    public void ClearInven()
+    {
+        for ( var i = 0; i < 12; i++ )
+            labelList [i] = ItemManager.Label.Empty;
+    }
     /**
      * 인벤토리에 있는 모든 아이템의 감정 상태를 확인하고, 감정 되어 있을 경우, 인벤토리 아이템 밑의 줄에 아이템 이름을 띄운다.
      */

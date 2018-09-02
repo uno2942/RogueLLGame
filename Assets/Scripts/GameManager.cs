@@ -223,8 +223,12 @@ public class GameManager : MonoBehaviour {
         }
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
-        if( IsDead() ) {
-            Destroy( player.gameObject );
+        if( IsDead() )
+        {
+
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
+            SceneManager.LoadScene ("gameover");
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
             Debug.Log( "포닉스 불닭행" );
         };
         if ( _action == Unit.Action.Move )
@@ -285,12 +289,15 @@ public class GameManager : MonoBehaviour {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
-            itemManager.DropItem( boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ] );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
-        if( IsDead() ) {
-            Destroy( player.gameObject );
+        if( IsDead() )
+        {
+
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
+            SceneManager.LoadScene ("gameover");
+            Debug.Log ("씬 수:" + SceneManager.sceneCount);
             Debug.Log( "포닉스 불닭행" );
         };
         player.InventoryList.IdentifyAllTheInventoryItem();

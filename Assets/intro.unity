@@ -2320,6 +2320,7 @@ MonoBehaviour:
   gameCamera: {fileID: 885999476}
   minimapCamera: {fileID: 773617793}
   playerobejct: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!4 &2084880430
 Transform:
   m_ObjectHideFlags: 0
