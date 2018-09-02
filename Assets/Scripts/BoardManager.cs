@@ -87,40 +87,6 @@ public class BoardManager : MonoBehaviour {
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
 
-    public void BoardReset()
-    {
-
-        playerobejct = GameObject.Find ("Player").GetComponent<Player> ();
-
-        CurrentMapOfFloor.Clear ();
-        xPos = yPos = 0;
-        whichFloor = 0;
-        floor.Clear ();
-        map.Clear ();
-        parser.parse (ref map);
-
-        parser.GenMapObject (map [0], ref CurrentMapOfFloor);
-        mapGened = true;
-        floor = map [0];
-
-        //시작할 때, 플레이어 초기 위치에 있는 문들을 enable 시킴.
-        currenttile =
-            (from tile in floor
-             where tile.x == 0 && tile.y == 0
-             select tile).First<MapTile> ();
-
-        var curtransform = currenttile.gObject.transform;
-        for ( var i = 0; i < curtransform.childCount; i++ )
-        {
-            curtransform.GetChild (i).gameObject.SetActive (true);
-        }
-
-        gameCamera.transform.position = new Vector3 (0, 0, -10);
-        minimapCamera.transform.position = new Vector3 (0, 0, (float) 26.6);
-        playerobejct.transform.position = new Vector3 ((float) 0.1, -2, 1);
-
-    }
-
     void Start() {
         
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();

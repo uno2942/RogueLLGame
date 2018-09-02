@@ -301,27 +301,21 @@ public class MapGenerator {
                 switch( floor ) {
                 case 1:
                     tile.AddEnemy( BoardManager.EnemyType.BoundedCrazy );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 2:
                     tile.AddEnemy( BoardManager.EnemyType.Gunner );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 3:
                     tile.AddEnemy( BoardManager.EnemyType.Nurse );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 4:
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 5:
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );//환자들 만들어야 해.
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 case 6:
                     tile.AddEnemy( BoardManager.EnemyType.HospitalDirector );
-                    tile.AddItem( ItemManager.ItemCategory.BlackCard );
                     break;
                 }
                 break;
