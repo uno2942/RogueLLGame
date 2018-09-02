@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
                                 * 이전 턴에서의 몬스터 수를 저장한다. 이는 플레이어가 몬스터를 잡은 직후를 체크하기 위함이다.
                                 * 예를 들어 현재 몬스터의 수가 0이고, 이전 몬스터의 수가 0이 아니면 이는 플레이어가 몬스터를 전부 잡은 것을 의미한다.
                                 */
+    private BoardManager.EnemyType [] enemies;/**< 원래 있었던 몬스터들의 종류를 저장한다. 이는 몬스터가 아이템을 드롭시키게 하기 위함이다.*/
     private bool currentSituation;
     public bool CurrentSituation
     {
@@ -285,7 +286,6 @@ public class GameManager : MonoBehaviour {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
-            itemManager.DropItem( boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ] );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
