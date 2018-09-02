@@ -360,6 +360,7 @@ public class GameManager : MonoBehaviour {
         Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
         MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
         Debug.Log( "적 수: " + maptile.enemyList.Count );
+        Debug.Log (maptile.enemyList [0]);
         switch(  maptile.enemyList.Count) {
         case 0: return;
         case 1:

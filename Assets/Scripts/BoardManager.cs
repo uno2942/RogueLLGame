@@ -99,6 +99,7 @@ public class BoardManager : MonoBehaviour {
         map = new Dictionary<int, List<MapTile>>();
         parser.parse( ref map );
 
+        CurrentMapOfFloor = new Dictionary<MapGenerator.Coord, MapTile> ();
         parser.GenMapObject( map[ 0 ], ref CurrentMapOfFloor );
         mapGened = true;
         floor = map [0];
@@ -274,7 +275,6 @@ public class BoardManager : MonoBehaviour {
     }
 
     public void MoveNextFloor() {
-        //먼저 날리
         whichFloor++;
         Debug.Log( "hi" );
         Debug.Log( "씬 수:" + SceneManager.sceneCount );

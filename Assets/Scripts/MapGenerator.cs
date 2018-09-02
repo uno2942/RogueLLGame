@@ -212,7 +212,6 @@ public class MapGenerator {
 
     public void GenMapObject( List<MapTile> floor, ref Dictionary<Coord, MapTile> CurrentMapOfFloor ) {
         MapCanvasRectTransform = GameObject.Find( "MapCanvas" ).GetComponent<RectTransform>();
-        CurrentMapOfFloor = new Dictionary<Coord, MapTile>();
         foreach( MapTile tile in floor ) {
             GameObject tileobj = new GameObject();
             Vector2 position = new Vector2( 17.7792f * tile.x, 10f * tile.y );
