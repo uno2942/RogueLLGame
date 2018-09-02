@@ -374,7 +374,6 @@ public class ItemManager : MonoBehaviour {
     }
     /** 아이템을 position 에 놓는다.
      */
-    
     public void DropItem(MapTile maptile) {
         //foreach( ItemCategory gObject in maptile.itemList ) {
 

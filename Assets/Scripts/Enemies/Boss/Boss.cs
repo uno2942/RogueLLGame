@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,16 +23,4 @@ public class Boss : Enemy {
         }
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log ("검정키 줍니다");
-        ItemManager itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
-        
-        Vector3 tnowPos = transform.position;
-        Vector2 nowPos;
-        nowPos.x = tnowPos.x;
-        nowPos.y = tnowPos.y;
-
-        itemManager.InstantiateItem (ItemManager.ItemCategory.BlackCard, nowPos);
-    }
 }
