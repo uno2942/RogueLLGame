@@ -99,7 +99,7 @@ public class MapGenerator {
             return base.GetHashCode();
         }
     }
-    public void parse( ref List<List<MapTile>> mapTiles ) {
+    public void parse( ref Dictionary<int, List<MapTile>> mapTiles ) {
         VMost = HMost = 0;
         object[] obj = Resources.LoadAll( "Map" );
 
@@ -178,7 +178,7 @@ public class MapGenerator {
             {
                 floor.Add(new MapTile(tile));
             }
-            mapTiles.Add(floor);
+            mapTiles[ i ] = floor;
             mapTiles[ i ] = Generate( ShuffleList( mapTiles[ i ] ), i + 1 );
         }
     }

@@ -5,6 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour {
+
+    public GameManager gamemanager;
+    public BoardManager boardmanager;
+    //public 
+
     public void Start()
     {
     }
