@@ -279,12 +279,7 @@ public class BoardManager : MonoBehaviour {
         SceneManager.LoadScene( "next" );
         Debug.Log( "씬 수:" + SceneManager.sceneCount );
         CurrentMapOfFloor.Clear();
-
         StartCoroutine( frameDelay() );
-
-        
-        
-        
     }
       
     private IEnumerator frameDelay() {
