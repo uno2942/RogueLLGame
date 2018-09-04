@@ -96,6 +96,7 @@ public class PlayerAction {
                     }*/
                 if( gObject.GetComponent<ItemPrefab>().label == player.InventoryList.LabelList[ index ] ) {
                     gObject.GetComponent<ItemECS>().isUse = true;
+                    player.InventoryList.itemManager.ItemIdentify( label );
                     break;
                 }
             }

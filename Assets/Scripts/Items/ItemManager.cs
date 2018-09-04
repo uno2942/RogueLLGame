@@ -384,6 +384,7 @@ public class ItemManager : MonoBehaviour {
     //IsIdentified 함수 input parameter를 다양화 해야하는가.
     public void ItemIdentify( Label label ) {
         IsIdentified[ label ] = true;
+        GameObject.Find( "Player" ).GetComponent<Player>().InventoryList.IdentifyAllTheInventoryItem();
     }
     
     public bool GetItemIdentificationInfo(Label label) {

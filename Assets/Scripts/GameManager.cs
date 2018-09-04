@@ -212,15 +212,21 @@ public class GameManager : MonoBehaviour {
         }
         player.SyncHungry();
 
+        List<Buff> buffToDelete = new List<Buff>();
 
         foreach( Buff buff in player.Bufflist ) {
+            Debug.Log( buff );
             buff.BuffWorkTo( player, _action );
             if( buff.Count == 0 )
-                player.DeleteBuff( buff );
+                buffToDelete.Add( buff );
             if( IsDead() ) {
                 messageMaker.MakeDeathMessage( buff );
             }
         }
+
+        foreach( Buff buffToDel in buffToDelete )
+            player.DeleteBuff( buffToDel );
+
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
         if( IsDead() )
@@ -360,7 +366,6 @@ public class GameManager : MonoBehaviour {
         Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
         MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
         Debug.Log( "적 수: " + maptile.enemyList.Count );
-        Debug.Log (maptile.enemyList [0]);
         switch(  maptile.enemyList.Count) {
         case 0: return;
         case 1:

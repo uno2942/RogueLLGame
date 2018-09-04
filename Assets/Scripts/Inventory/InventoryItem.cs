@@ -6,7 +6,7 @@ using UnityEngine;
  */
 public class InventoryItem : MonoBehaviour {
 
-    private int index;
+    private int index = -1;
     public bool InjecCommuni;
     public bool MedicineCommuni;
     private MessageMaker messageMaker;

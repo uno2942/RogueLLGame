@@ -229,6 +229,8 @@ public class Inventory {
     /** 인텍스에 해당하는 아이템의 라벨을 가져오는 함수
      */
     public ItemManager.Label GetLabel( int index ) {
+        if( index < 0 )
+            return ItemManager.Label.Empty;
         return LabelList[ index ];
     }
 
@@ -253,10 +255,10 @@ public class Inventory {
     public void IdentifyAllTheInventoryItem() {
         for( int i = 0; i < size; i++ ) {
             if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = itemManager.LabelToItem( labelList[ i ] ).Name + "x" + numberOfSameItems[ i ];
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = itemManager.LabelToItem( labelList[ i ] ).Name + "\n" + numberOfSameItems[ i ] + "개";
             else if( labelList[ i ] != ItemManager.Label.Empty )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???" + "x" + numberOfSameItems[ i ];
-                }
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???" +"\n" + numberOfSameItems[ i ] + "개";
+        }
     }
 }
 
