@@ -148,29 +148,29 @@ public class MessageMaker : MonoBehaviour {
     {
         string name = "";
 
-        if( label == ItemManager.Label.AutoHandgun ) name = "자동권총을";
-        else if( label == ItemManager.Label.BlackKnife ) name = "검은 식칼을";
+        if( label == ItemManager.Label.AutoHandgun ) name = "자동권총 'F'를";
+        else if( label == ItemManager.Label.BlackKnife ) name = "전투식 키보드를";
         else if( label == ItemManager.Label.Club ) name = "각목을";
         else if( label == ItemManager.Label.Hammer ) name = "망치를";
         else if( label == ItemManager.Label.Lighter ) name = "라이터를";
-        else if( label == ItemManager.Label.Mess ) name = "매스를";
-        else if( label == ItemManager.Label.Nuckle ) name = "너클을";
-        else if( label == ItemManager.Label.SharpDagger ) name = "단검을";
+        else if( label == ItemManager.Label.Mess ) name = "스마트폰을";
+        else if( label == ItemManager.Label.Nuckle ) name = "라텍스 장갑을";
+        else if( label == ItemManager.Label.SharpDagger ) name = "팩트리어트 미사일을";
         else if( label == ItemManager.Label.Shock ) name = "제세동기를";
-        else if( label == ItemManager.Label.InjectorWeapon ) name = "주사기를"; //미구현
+        else if( label == ItemManager.Label.InjectorWeapon ) name = "피펫을"; //미구현
 
-        else if( label == ItemManager.Label.BloodJacket ) name = "피 묻은 가죽 재킷을";
-        else if( label == ItemManager.Label.CleanDoctorCloth ) name = "깔끔한 의사 가운을";
-        else if( label == ItemManager.Label.DamagedDoctorCloth ) name = "해진 의사 가운을";
+        else if( label == ItemManager.Label.BloodJacket ) name = "대학원생의 조끼을";
+        else if( label == ItemManager.Label.CleanDoctorCloth ) name = "깔끔한 실험복을";
+        else if( label == ItemManager.Label.DamagedDoctorCloth ) name = "낡은 실험복을";
         else if( label == ItemManager.Label.FullPlated ) name = "판금 갑옷을";
         else if( label == ItemManager.Label.Padding ) name = "두꺼운 패딩을";
-        else if( label == ItemManager.Label.Patient ) name = "환자복을";
+        else if( label == ItemManager.Label.Patient ) name = "야구잠바을";
         else if( label == ItemManager.Label.Tshirts ) name = "티셔츠를";
 
-        else if( label == ItemManager.Label.MorfinDrug ) name = "모르핀을";
-        else if( label == ItemManager.Label.AdrenalineDrug ) name = "아드레날린을";
-        else if( label == ItemManager.Label.RingerSolution ) name = "링겔액을";
-        else if( label == ItemManager.Label.Can ) name = "통조림을";
+        else if( label == ItemManager.Label.MorfinDrug ) name = "곰국을";
+        else if( label == ItemManager.Label.AdrenalineDrug ) name = "에너지 드링크를";
+        else if( label == ItemManager.Label.RingerSolution ) name = "갈배 사이다를";
+        else if( label == ItemManager.Label.Can ) name = "'L' 샌드위치를";
         else if( label == ItemManager.Label.Water ) name = "물을";
         else if( label == ItemManager.Label.Bandage ) name = "붕대를";
         else if( label == ItemManager.Label.Medicine ) name = "약품을";
@@ -185,7 +185,7 @@ public class MessageMaker : MonoBehaviour {
         else if( label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3 ) name = "독약을";
         else if( label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3 ) name = "소금을";
         else if( label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3 ) name = "수프를";
-        else if( label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3 ) name = "비타민 알약을";
+        else if( label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3 ) name = "발포 비타민을";
         else if( label == ItemManager.Label.Painkiller1 ) name = "진통제를";
         else {
             Debug.Log( "이름이 정의되지 않은 아이템이 있습니다." );

@@ -17,7 +17,7 @@ public class ExpendableDialogBox : DialogBox {
     private void UseCommand() {
         inventoryItem.UseCommand();
     }
-    private void CancelCommand() {
+    private new void CancelCommand() {
         inventoryItem.CancelCommand();
     }
 }

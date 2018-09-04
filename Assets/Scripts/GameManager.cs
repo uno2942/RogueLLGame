@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 /**
  * \brief 게임 전반(턴, 몬스터 등)을 관리하는 코드
  */
@@ -223,8 +224,7 @@ public class GameManager : MonoBehaviour {
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
         if( IsDead() ) {
-            Destroy( player.gameObject );
-            Debug.Log( "포닉스 불닭행" );
+            KillPlayer();
         };
         if ( _action == Unit.Action.Move )
         {
@@ -285,8 +285,7 @@ public class GameManager : MonoBehaviour {
         }
         prevMonsterNum = enemyNum;
         if( IsDead() ) {
-            Destroy( player.gameObject );
-            Debug.Log( "포닉스 불닭행" );
+            KillPlayer();
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
         enemyCheckTurn = false;
@@ -525,5 +524,20 @@ public class GameManager : MonoBehaviour {
         else if(enemy is Rat)
             boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ].enemyList.Remove( BoardManager.EnemyType.Rat );
         Destroy( enemy.gameObject );
+    }
+
+    public void KillPlayer() {
+        Destroy( player.gameObject );
+        SceneManager.LoadScene( "playerDie" );
+        Destroy( GameObject.Find( "GameManager" ) );
+        Destroy( GameObject.Find( "ItemManager" ) );
+        Destroy( GameObject.Find( "BoardManager" ) );
+        Destroy( GameObject.Find( "PlayerUI" ) );
+        Destroy( GameObject.Find( "InventoryUI" ) );
+        Destroy( GameObject.Find( "MinimapCamera" ) );
+        Destroy( GameObject.Find( "NEIUI" ) );
+        Destroy( GameObject.Find( "Main Camera" ) );
+        Destroy( GameObject.Find( "EventSystem" ) );
+        Debug.Log( "포닉스 불닭행" );
     }
 }
