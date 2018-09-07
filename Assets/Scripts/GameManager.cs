@@ -570,4 +570,20 @@ public class GameManager : MonoBehaviour {
             boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ].enemyList.Remove( BoardManager.EnemyType.Rat );
         Destroy( enemy.gameObject );
     }
+
+    public void KillPlayer() {
+        Destroy( player.gameObject );
+        SceneManager.LoadScene( "playerDie" );
+        Destroy( GameObject.Find( "GameManager" ) );
+        Destroy( GameObject.Find( "ItemManager" ) );
+        Destroy( GameObject.Find( "BoardManager" ) );
+        Destroy( GameObject.Find( "PlayerUI" ) );
+        Destroy( GameObject.Find( "InventoryUI" ) );
+        Destroy( GameObject.Find( "MinimapCamera" ) );
+        Destroy( GameObject.Find( "NEIUI" ) );
+        Destroy( GameObject.Find( "Main Camera" ) );
+        Destroy( GameObject.Find( "EventSystem" ) );
+        Debug.Log( "포닉스 불닭행" );
+    }
+
 }
