@@ -21,7 +21,7 @@ public class WeaponArmorDialogBox : DialogBox {
         else
             inventoryItem.EquipCommand();
     }
-    private void CancelCommand() {
+    private new void CancelCommand() {
         inventoryItem.CancelCommand();
     }
 }

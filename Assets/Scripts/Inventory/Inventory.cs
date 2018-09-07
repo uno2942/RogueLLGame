@@ -229,8 +229,6 @@ public class Inventory {
     /** 인텍스에 해당하는 아이템의 라벨을 가져오는 함수
      */
     public ItemManager.Label GetLabel( int index ) {
-        if( index < 0 )
-            return ItemManager.Label.Empty;
         return LabelList[ index ];
     }
 
@@ -243,22 +241,16 @@ public class Inventory {
         }
         return -1;
     }
-
-    public void ClearInven()
-    {
-        for ( var i = 0; i < 12; i++ )
-            labelList [i] = ItemManager.Label.Empty;
-    }
     /**
      * 인벤토리에 있는 모든 아이템의 감정 상태를 확인하고, 감정 되어 있을 경우, 인벤토리 아이템 밑의 줄에 아이템 이름을 띄운다.
      */
     public void IdentifyAllTheInventoryItem() {
         for( int i = 0; i < size; i++ ) {
             if( itemManager.GetItemIdentificationInfo( labelList[ i ] ) )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = itemManager.LabelToItem( labelList[ i ] ).Name + "\n" + numberOfSameItems[ i ] + "개";
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = ItemManager.NameOfItem( ItemManager.LabelToCategory( labelList[ i ] ) ) + "x" + numberOfSameItems[ i ];
             else if( labelList[ i ] != ItemManager.Label.Empty )
-                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???" +"\n" + numberOfSameItems[ i ] + "개";
-        }
+                inventoryObject[ i ].GetComponentInChildren<UnityEngine.UI.Text>().text = "???" + "x" + numberOfSameItems[ i ];
+                }
     }
 }
 

@@ -31,19 +31,17 @@ public class ItemManager : MonoBehaviour {
     public enum ItemCategory {
         Empty, AutoHandgun, BlackKnife, Club, Hammer, InjectorWeapon, Lighter, Mess, Nuckle, SharpDagger, Shock,
         BloodJacket, CleanDoctorCloth, DamagedDoctorCloth, FullPlated, Padding, Patient, Tshirts,
-        CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, Painkiller, PoisonCapsule, Salt,  Soup, VitaminTablet,
+        CaffeinCapsule, CureAll, Hallucinogen, LiquidFlameMedicine, Painkiller, PoisonCapsule, Salt, Soup, VitaminTablet,
         MorfinDrug, AdrenalineDrug, RingerSolution, Can, Water, Bandage, Medicine, WhiteCard, BlackCard, YellowCard
     };
     /**
      * 아이템을 종류에 따라 크게 묶는 열거형이다.
      */
-    public enum ItemType
-    {
+    public enum ItemType {
         Empty, Weapon, Armor, Expenables, Capsule, Injector, Card
     };
 
-    public static ItemType LabelToType(Label lab)
-    {
+    public static ItemType LabelToType( Label lab ) {
         if( lab == Label.Empty ) return ItemType.Empty;
         else if( lab == Label.AutoHandgun || lab == Label.BlackKnife || lab == Label.Club || lab == Label.Hammer || lab == Label.InjectorWeapon || lab == Label.Lighter || lab == Label.Mess || lab == Label.Nuckle || lab == Label.SharpDagger || lab == Label.Shock ) return ItemType.Weapon;
         else if( lab == Label.BloodJacket || lab == Label.CleanDoctorCloth || lab == Label.DamagedDoctorCloth || lab == Label.FullPlated || lab == Label.Padding || lab == Label.Patient || lab == Label.Tshirts ) return ItemType.Armor;
@@ -53,8 +51,7 @@ public class ItemManager : MonoBehaviour {
         else return ItemType.Capsule;
     }
 
-    public static ItemType CategoryToType(ItemCategory category)
-    {
+    public static ItemType CategoryToType( ItemCategory category ) {
         switch( category ) {
         case ItemCategory.Empty: return ItemType.Empty;
         case ItemCategory.AutoHandgun:
@@ -106,23 +103,23 @@ public class ItemManager : MonoBehaviour {
     public static ItemCategory LabelToCategory( Label label ) {
         if( label == Label.Empty ) return ItemCategory.Empty;
         else if( label == Label.AutoHandgun ) return ItemCategory.AutoHandgun;
-        else if (label == Label.BlackKnife) return ItemCategory.BlackKnife;
-        else if (label == Label.Club) return ItemCategory.Club;
-        else if (label == Label.Hammer) return ItemCategory.Hammer;
+        else if( label == Label.BlackKnife ) return ItemCategory.BlackKnife;
+        else if( label == Label.Club ) return ItemCategory.Club;
+        else if( label == Label.Hammer ) return ItemCategory.Hammer;
         else if( label == Label.InjectorWeapon ) return ItemCategory.InjectorWeapon;
-        else if (label == Label.Lighter) return ItemCategory.Lighter;
-        else if (label == Label.Mess) return ItemCategory.Mess;
-        else if (label == Label.Nuckle) return ItemCategory.Nuckle;
-        else if (label == Label.SharpDagger) return ItemCategory.SharpDagger;
-        else if (label == Label.Shock) return ItemCategory.Shock;
-        else if ( label == Label.BloodJacket) return ItemCategory.BloodJacket;
-        else if (label == Label.CleanDoctorCloth) return ItemCategory.CleanDoctorCloth;
-        else if (label == Label.DamagedDoctorCloth) return ItemCategory.DamagedDoctorCloth;
-        else if (label == Label.FullPlated) return ItemCategory.FullPlated;
-        else if (label == Label.Padding) return ItemCategory.Padding;
-        else if (label == Label.Patient) return ItemCategory.Patient;
-        else if (label == Label.Tshirts) return ItemCategory.Tshirts;
-        else if ( label == Label.MorfinDrug) return ItemCategory.MorfinDrug;
+        else if( label == Label.Lighter ) return ItemCategory.Lighter;
+        else if( label == Label.Mess ) return ItemCategory.Mess;
+        else if( label == Label.Nuckle ) return ItemCategory.Nuckle;
+        else if( label == Label.SharpDagger ) return ItemCategory.SharpDagger;
+        else if( label == Label.Shock ) return ItemCategory.Shock;
+        else if( label == Label.BloodJacket ) return ItemCategory.BloodJacket;
+        else if( label == Label.CleanDoctorCloth ) return ItemCategory.CleanDoctorCloth;
+        else if( label == Label.DamagedDoctorCloth ) return ItemCategory.DamagedDoctorCloth;
+        else if( label == Label.FullPlated ) return ItemCategory.FullPlated;
+        else if( label == Label.Padding ) return ItemCategory.Padding;
+        else if( label == Label.Patient ) return ItemCategory.Patient;
+        else if( label == Label.Tshirts ) return ItemCategory.Tshirts;
+        else if( label == Label.MorfinDrug ) return ItemCategory.MorfinDrug;
         else if( label == Label.AdrenalineDrug ) return ItemCategory.AdrenalineDrug;
         else if( label == Label.RingerSolution ) return ItemCategory.RingerSolution;
         else if( label == Label.Can ) return ItemCategory.Can;
@@ -146,9 +143,8 @@ public class ItemManager : MonoBehaviour {
 
     }
 
-    public static Label CategoryToLabel(ItemCategory category, int floor)
-    {
-        return (Label)Enum.Parse(typeof(Label), category.ToString() + ((2 + floor) / 2).ToString());
+    public static Label CategoryToLabel( ItemCategory category, int floor ) {
+        return (Label) Enum.Parse( typeof( Label ), category.ToString() + ( ( 2 + floor ) / 2 ).ToString() );
     }
 
 
@@ -197,7 +193,7 @@ public class ItemManager : MonoBehaviour {
 
         InitializeEquipRank();
 
-        
+
 
 
 
@@ -215,8 +211,8 @@ public class ItemManager : MonoBehaviour {
         boardmanager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>() as BoardManager;
         gamemanager = GameObject.Find( "GameManager" ).GetComponent<GameManager>() as GameManager;
 
-        InitLabelDic(labelDic);
-        foreach(Label i in System.Enum.GetValues( typeof( Label ) ) ) {
+        InitLabelDic( labelDic );
+        foreach( Label i in System.Enum.GetValues( typeof( Label ) ) ) {
             if( LabelToType( i ) == ItemType.Capsule )
                 IsIdentified.Add( i, false );
             else
@@ -335,11 +331,11 @@ public class ItemManager : MonoBehaviour {
 
     /** 라벨에 해당하는 아이템을 반환한다.
      */
-    public Item LabelToItem(Label label) {
+    public Item LabelToItem( Label label ) {
         return labelDic[ label ];
     }
 
-    private void InitLabelDic( Dictionary<Label, Item> labelDic) {
+    private void InitLabelDic( Dictionary<Label, Item> labelDic ) {
 
         labelDic[ Label.AutoHandgun ] = new AutoHandgun();
         labelDic[ Label.BlackKnife ] = new BlackKnife();
@@ -380,23 +376,23 @@ public class ItemManager : MonoBehaviour {
         labelDic[ Label.VitaminTablet1 ] = labelDic[ Label.VitaminTablet2 ] = labelDic[ Label.VitaminTablet3 ] = new VitaminTablet();
     }
 
-    
+
     //IsIdentified 함수 input parameter를 다양화 해야하는가.
     public void ItemIdentify( Label label ) {
         IsIdentified[ label ] = true;
         GameObject.Find( "Player" ).GetComponent<Player>().InventoryList.IdentifyAllTheInventoryItem();
     }
-    
-    public bool GetItemIdentificationInfo(Label label) {
+
+    public bool GetItemIdentificationInfo( Label label ) {
         return IsIdentified[ label ];
     }
     /** 아이템을 position 에 놓는다.
      */
-    public void DropItem(MapTile maptile) {
+    public void DropItem( MapTile maptile ) {
         //foreach( ItemCategory gObject in maptile.itemList ) {
 
         Vector2 nowPos = new Vector2( boardmanager.XPos * BoardManager.horizontalMovement, boardmanager.YPos * BoardManager.verticalMovement );
-            
+
         Debug.Log( maptile.itemList.Count );
         switch( maptile.itemList.Count ) {
         case 0: return;
@@ -421,8 +417,7 @@ public class ItemManager : MonoBehaviour {
     /**
      * It returns sprite about the label.
      */
-    public Sprite LabelToSprite(Label label)
-    {
+    public Sprite LabelToSprite( Label label ) {
         if( label == Label.AutoHandgun ) {
             return weaponPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.BlackKnife ) {
@@ -443,9 +438,7 @@ public class ItemManager : MonoBehaviour {
             return weaponPrefabs[ 8 ].GetComponent<Image>().sprite;
         } else if( label == Label.InjectorWeapon ) {
             return weaponPrefabs[ 9 ].GetComponent<Image>().sprite;
-        } 
-        
-        else if( label == Label.CleanDoctorCloth ) {
+        } else if( label == Label.CleanDoctorCloth ) {
             return armorPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.DamagedDoctorCloth ) {
             return armorPrefabs[ 1 ].GetComponent<Image>().sprite;
@@ -457,19 +450,15 @@ public class ItemManager : MonoBehaviour {
             return armorPrefabs[ 4 ].GetComponent<Image>().sprite;
         } else if( label == Label.Tshirts ) {
             return armorPrefabs[ 5 ].GetComponent<Image>().sprite;
-        } 
-        
-        else if( label == Label.Bandage ) {
-            return expendablesPrefabs[0].GetComponent<Image>().sprite;
+        } else if( label == Label.Bandage ) {
+            return expendablesPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.Can ) {
             return expendablesPrefabs[ 1 ].GetComponent<Image>().sprite;
         } else if( label == Label.Medicine ) {
             return expendablesPrefabs[ 2 ].GetComponent<Image>().sprite;
         } else if( label == Label.Water ) {
             return expendablesPrefabs[ 3 ].GetComponent<Image>().sprite;
-        } 
-        
-        else if( label == Label.CaffeinCapsule1 ) {
+        } else if( label == Label.CaffeinCapsule1 ) {
             return capsulePrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.CureAll1 ) {
             return capsulePrefabs[ 1 ].GetComponent<Image>().sprite;
@@ -487,17 +476,13 @@ public class ItemManager : MonoBehaviour {
             return capsulePrefabs[ 7 ].GetComponent<Image>().sprite;
         } else if( label == Label.Soup1 ) {
             return capsulePrefabs[ 8 ].GetComponent<Image>().sprite;
-        }
-
-        else if( label == Label.AdrenalineDrug ) {
+        } else if( label == Label.AdrenalineDrug ) {
             return injectorPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.MorfinDrug ) {
             return injectorPrefabs[ 1 ].GetComponent<Image>().sprite;
         } else if( label == Label.RingerSolution ) {
             return injectorPrefabs[ 2 ].GetComponent<Image>().sprite;
-        }
-        
-        else if( label == Label.BlackCard ) {
+        } else if( label == Label.BlackCard ) {
             return cardPrefabs[ 0 ].GetComponent<Image>().sprite;
         } else if( label == Label.WhiteCard ) {
             return cardPrefabs[ 1 ].GetComponent<Image>().sprite;
@@ -539,7 +524,7 @@ public class ItemManager : MonoBehaviour {
                 }
             }
     }
-    static void Swap(ref float a, ref float b) {
+    static void Swap( ref float a, ref float b ) {
         float temp = a;
         a = b;
         b = temp;
@@ -549,8 +534,8 @@ public class ItemManager : MonoBehaviour {
         a = b;
         b = temp;
     }
-    
-   
+
+
 
 
 
@@ -601,9 +586,90 @@ public class ItemManager : MonoBehaviour {
 
         default: break;
         }
-        
+
     }
 
+    public static string DescriptionOfItem( ItemCategory itemCategory ) {
+        switch( itemCategory ) {
+        case ItemCategory.Lighter: return "라이터의 자체 공격력은 모든 무기를 통틀어 가장 약하지만, 적에게 잠깐 동안 불을 붙여 추가 피해를 줄 수 있습니다.";
+        case ItemCategory.Nuckle: return "잘 늘어나는 장갑입니다. 끼고 있는 동안 엄청난 속도로 적을 공격할 수 있습니다.";
+        case ItemCategory.InjectorWeapon: return "많은 이의 손을 거친 것 같은 피펫입니다. 적을 중독시킬 수 있습니다.";
+        case ItemCategory.SharpDagger: return "말은 칼보다 무서운 법입니다. 이따금 적에게 치명적인 피해를 줄 수 있습니다.";
+        case ItemCategory.Mess: return "누군가의 스마트폰입니다. 잠금이 걸려 있어 내용을 볼 수 없습니다.";
+        case ItemCategory.Hammer: return "두꺼운 일반물리 서적입니다. 강력하지만 허기가 증가합니다.";
+        case ItemCategory.Club: return "뾰족하게 깎은 각목입니다. 상당한 피해를 주지만 공격할 때마다 각목이 뭉툭해질 가능성이 있습니다.";
+        case ItemCategory.Shock: return "휴대용 제세동기입니다. 강력한 전류를 흘려보내 적에게 큰 피해를 줌과 동시에 기절시킵니다. 보스는 기절에 면역이며 사용 횟수에 제한이 있습니다.";
+        case ItemCategory.BlackKnife: return "누군가가 마구 두드린 흔적이 보이는 청축 키보드입니다. 이 키보드를 들고 있는 동안 키보드 워리어의 기운을 받아 제정신이 아닌 상태가 되지만, 매우 강력한 힘을 끌어낼 수 있습니다.";
+        case ItemCategory.AutoHandgun: return "한 교수가 수많은 학생들을 '죽이는' 데에 사용했다 알려진 권총입니다. 보기만 해도 으스스합니다.";
+        case ItemCategory.BloodJacket: return "가벼운 조끼입니다. 제정신이 아닌 상태에서는 조끼가 더 두껍게 느껴집니다.";
+        case ItemCategory.Tshirts: return "통풍이 잘 되는 티셔츠로, 방어 성능은 거의 없습니다. 가볍기 때문에 배고픔을 느끼는 빈도가 줄어들 것입니다.";
+        case ItemCategory.Patient: return "대학교에서 흔히 볼 수 있는 야구잠바입니다. 샌드위치를 먹을 때 더 많은 체력을 회복합니다.";
+        case ItemCategory.DamagedDoctorCloth: return "이 실험복은 꽤 오래되었지만, 여전히 괜찮은 방어력을 제공합니다.";
+        case ItemCategory.Padding: return "기숙사의 냉방이 너무 과하다 생각한 사람이 입던 패딩입니다. 공격을 효과적으로 막아 주지만, 많이 공격당하면 망가져서 사용할 수 없게 될 것입니다.";
+        case ItemCategory.CleanDoctorCloth: return "눈부실 정도로 하얀 실험복입니다. 정신력을 유지하는 데에 도움이 됩니다.";
+        case ItemCategory.FullPlated: return "도대체 이 장소에 왜 있는지 알 수 없는 중세풍 갑옷입니다. 엄청난 방어 성능을 제공하지만 그 무게로 인해 허기가 매우 빠르게 증가합니다.";
+        case ItemCategory.CureAll: return "최근에 개발된 약으로, 하나만 먹으면 모든 병이 낫는다 알려져 있습니다. 먹으면 체력과 정신력을 모두 회복하고 각종 나쁜 상태에서 벗어납니다. 체력이 가득 찬 상태라면 최대 체력을 늘려줍니다.";
+        case ItemCategory.Hallucinogen: return "이 환각제를 섭취하면 즉시 강렬한 환각에 빠집니다. 이미 환각을 경험중이라면 정신력을 조금 잃습니다. 적에게 환각제를 탄 물을 던져 혼란을 줄 수 있습니다.";
+        case ItemCategory.LiquidFlameMedicine: return "엄청난 농도의 캡사이신이 들어 있는 알약입니다. 먹는 순간 자신과 방 안의 모든 적이 화염에 휩싸이게 됩니다. 적에게 매운 알약을 탄 물을 던지면 그 적만 불태울 수 있습니다.";
+        case ItemCategory.CaffeinCapsule: return "각성 효과를 지닌 알약입니다. 먹으면 즉시 정신력ZSAzsa을 회복하고 일정 시간동안 신체 능력이 강화되지만, 그 대가로 지속적으로 정신력을 잃습니다.";
+        case ItemCategory.VitaminTablet: return "물에 닿으면 거품이 많이 나고 새콤달콤한 맛을 내는 비타민입니다. 이유는 모르겠지만 캡슐에 들어 있습니다. 체력과 정신력을 조금씩 회복하지만 공격성이 잠깐동안 감소합니다. 적에게 발포 비타민을 탄 물을 던져 대상의 공격성을 낮출 수 있습니다.";
+        case ItemCategory.Soup: return "따뜻한 물에 풀어서 바로 먹을 수 있는 알약형 수프입니다. 체력과 정신력을 회복하며 허기를 조금 달래줄 것입니다.";
+        case ItemCategory.Painkiller: return "강렬한 통증을 잊을 수 있게 해 주는 알약입니다. 체력을 조금 회복하며, 부상이 심하다면 더 많은 체력을 회복합니다. 또한 환각에서 벗어나게 해줍니다.";
+        case ItemCategory.PoisonCapsule: return "치명적이지는 않지만 생명체에게 악영향을 주는 독약입니다. 섭취하면 중독 상태에 빠집니다. 적에게 독약을 탄 물을 던져 중독시킬 수 있습니다.";
+        case ItemCategory.Salt: return "이 괴상한 알약(?)에는 소금이 가득 들어있습니다. 정신력에 악영향을 주며 환각 상태라면 더욱 그 효과가 강해집니다. 적에게 소금물을 던져 방어를 무력화할 수 있습니다.";
+        case ItemCategory.MorfinDrug: return "따뜻한 곰국이 들어 있는 병입니다. 마시면 정신력을 회복하며, 받는 피해가 줄어들지만 공격력이 감소합니다. 뒤집은 상태로 먹지 마세요!";
+        case ItemCategory.AdrenalineDrug: return "시험기간에 많이 마시는 에너지 드링크입니다. 마시면 정신력을 약간 잃으며, 잠깐동안 엄청난 피해를 줄 수 있습니다.";
+        case ItemCategory.RingerSolution: return "숙취 해소에 좋은 갈배 사이다입니다. 마시면 정신력을 조금 회복하며, 체력을 지속적으로 회복시킵니다.";
+        case ItemCategory.Can: return "'L' 버거보다 맛이 없습니다. 체력을 약간 회복하며 허기를 달래 줍니다.";
+        case ItemCategory.Water: return "페트병에 든 물입니다. 마시면 정신력을 약간 회복하며, 몸에 뿌려 불을 끌 수도 있습니다.";
+        case ItemCategory.Medicine: return "해독 작용을 하는 시럽이 든 작은 병입니다.";
+        case ItemCategory.Bandage: return "튼튼한 붕대입니다. 상처에 감아서 출혈을 막을 수 있습니다.";
+        case ItemCategory.WhiteCard: return "가장자리가 빛나는 하얀 키 카드입니다. 잠겨 있는 문을 열 수 있습니다.";
+        case ItemCategory.BlackCard: return "가장자리가 빛나는 검은 키 카드입니다. 다음 층으로 가는 문을 열 수 있습니다.";
+        case ItemCategory.YellowCard: return "가장자리가 빛나는 노란 키 카드입니다. 약품 창고나 비품실의 문을 열 수 있습니다.";
+        default: return null;
+        }
+    }
 
-    //@}
+    public static string NameOfItem( ItemCategory itemCategory ) {
+        switch( itemCategory ) {
+        case ItemCategory.Lighter: return "라이터";
+        case ItemCategory.Nuckle: return "라텍스 장갑";
+        case ItemCategory.InjectorWeapon: return "피펫";
+        case ItemCategory.SharpDagger: return "팩트리어트 미사일";
+        case ItemCategory.Mess: return "스마트폰";
+        case ItemCategory.Hammer: return "'ㅗ' 일불만리 책";
+        case ItemCategory.Club: return "각목";
+        case ItemCategory.Shock: return "제세동기";
+        case ItemCategory.BlackKnife: return "전투식 키보드";
+        case ItemCategory.AutoHandgun: return "자동권총 'F'";
+        case ItemCategory.BloodJacket: return "대학원생의 조끼";
+        case ItemCategory.Tshirts: return "티셔츠";
+        case ItemCategory.Patient: return "야구잠바";
+        case ItemCategory.DamagedDoctorCloth: return "낡은 실험복";
+        case ItemCategory.Padding: return "두꺼운 패딩";
+        case ItemCategory.CleanDoctorCloth: return "깔끔한 실험복";
+        case ItemCategory.FullPlated: return "판금 갑옷";
+        case ItemCategory.CureAll: return "만병통치약";
+        case ItemCategory.Hallucinogen: return "환각제";
+        case ItemCategory.LiquidFlameMedicine: return "매운 알약";
+        case ItemCategory.CaffeinCapsule: return "카페인 알약";
+        case ItemCategory.VitaminTablet: return "발포 비타민";
+        case ItemCategory.Soup: return "수프";
+        case ItemCategory.Painkiller: return "진통제";
+        case ItemCategory.PoisonCapsule: return "독약";
+        case ItemCategory.Salt: return "소금";
+        case ItemCategory.MorfinDrug: return "곰국";
+        case ItemCategory.AdrenalineDrug: return "에너지 드링크";
+        case ItemCategory.RingerSolution: return "갈배 사이다";
+        case ItemCategory.Can: return "'S' 샌드위치";
+        case ItemCategory.Water: return "물";
+        case ItemCategory.Medicine: return "약품";
+        case ItemCategory.Bandage: return "붕대";
+        case ItemCategory.WhiteCard: return "하얀 키 카드";
+        case ItemCategory.BlackCard: return "검은 키 카드";
+        case ItemCategory.YellowCard: return "노란 키 카드";
+        default: return null;
+        }
+    }
 }
