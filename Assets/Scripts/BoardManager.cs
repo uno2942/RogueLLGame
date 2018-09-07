@@ -281,6 +281,24 @@ public class BoardManager : MonoBehaviour {
         SceneManager.LoadScene( "next" );
         Debug.Log( "씬 수:" + SceneManager.sceneCount );
         CurrentMapOfFloor.Clear();
+        /*안주운 아이템, npc, 카드키 제거*/
+        GameObject neiui = GameObject.Find( "NEIUI" );
+        int neiNum = neiui.transform.childCount;
+        
+        for(int i = 0; i < neiNum; i++ ) {
+            if( ! neiui.transform.GetChild(i).CompareTag("ItemPickedUp")) { // 주운 item이 pickedup이 아니라면
+                Destroy( neiui.transform.GetChild( i ).gameObject );
+                }
+        }
+        
+        while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.WhiteCard ) ) {
+            playerobejct.DumpItem( ItemManager.Label.WhiteCard );
+        }
+        while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.YellowCard ) ) {
+            playerobejct.DumpItem( ItemManager.Label.YellowCard );
+        }
+
+
         StartCoroutine( frameDelay() );
     }
       
