@@ -10,7 +10,7 @@ public class Nuckle : Weapon {
         SetMaxAtkbyRank( rank );
     }
 
-    public override void Attack( Enemy enemy ) {
+    public override void GiveImpactToEnemy( Enemy enemy ) {
         
     }
 }

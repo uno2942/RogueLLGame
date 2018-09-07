@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour {
     private bool playerTurn;
     private bool enemyAttackTurn;
     private bool enemyCheckTurn;
-
-
+    public bool ThrowFlag = false;
+    public GameObject ThrowObject;
+    public int ThrowIndex;
+    private ItemManager.Label throwLabel;
     private Unit.Action action;
     private int currentTurn; /**< It contains number of passed turns from the beginning of the game. */
     
@@ -504,17 +506,22 @@ public class GameManager : MonoBehaviour {
     /**
     * @todo 던지는 상황에 대한 구현 필요
      */
-    public void Throw(ItemManager.Label label) {
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        for( int i = 0; i < enemyList.Length; i++ ) {
-            ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
-        }
+    public void Throw(ItemManager.Label label, int index) {
+        ThrowFlag = true;
+        throwLabel = label;
+        ThrowIndex = index;
     }
 
-    private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
-        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isUse=true;
-        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isThrow=true;
-        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().enemies.Add(enemy);
+    public void ThrowToEnemy(Enemy enemy) {
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowFlag = false;
+        player.GetInventoryList().isDialogBoxOn = false;
+        Destroy( ThrowObject );
+        player.InventoryList.itemManager.ItemIdentify( throwLabel );
+        player.InventoryList.IdentifyAllTheInventoryItem();
+        GameObject.Find( System.Enum.GetName( typeof( ItemManager.Label ), throwLabel ) + "(Clone)" ).GetComponent<ItemECS>().isUse = true;
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), throwLabel ) + "(Clone)" ).GetComponent<ItemECS>().isThrow=true;
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), throwLabel ) + "(Clone)" ).GetComponent<ItemECS>().enemies.Add(enemy);
+        player.DumpItem( ThrowIndex );
     }
     /**
      * 매 턴에서 상태 이상 체크 시 플레이어의 허기 지수를 올리는 함수입니다.
@@ -525,6 +532,12 @@ public class GameManager : MonoBehaviour {
             times *= 2;
         if( Equals( player.weapon?.GetType(), typeof( FullPlated ) ) )
             times *= 5;
+        if(player.armor is Tshirts) {
+            int dice = Random.Range( 0, 5 );
+            if(dice!=0 )
+                player.ChangeHungry( 1 * times );
+            return;
+        }
         player.ChangeHungry( 1 * times );
     }
     /**

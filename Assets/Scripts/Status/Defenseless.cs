@@ -11,12 +11,12 @@ public class Defenseless : Buff {
     public override void BuffWorkTo( Unit unit, Unit.Action action ) {
     }
 
-    public override int passiveBuffAtk() {
+    public override int IntermdeiateBuffAtk() {
         return 0;
     }
 
-    public override int passiveBuffDef() {
-        return -1000;
+    public override int IntermdeiateBuffDef() {
+        return 0;
     }
 
     public override float BuffAction( Unit.Action action ) {

@@ -197,6 +197,8 @@ public class InventoryItem : MonoBehaviour {
             player.UnequipItem( index );
         }
         player.DumpItem( index );
+        player.GetInventoryList().isDialogBoxOn = false;
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowFlag = false;
     }
 
     /**
@@ -207,6 +209,7 @@ public class InventoryItem : MonoBehaviour {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
         messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowFlag = false;
         player.UseItem( index );
         }
     //물뿌릴대 부르는 함수
@@ -235,7 +238,7 @@ public class InventoryItem : MonoBehaviour {
             messageMaker.MakeItemMessage(MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[index], true);
             player.DumpItem(ItemManager.Label.Water);
         }
-
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowFlag = false;
         player.UseItem( index );
              
             
@@ -250,9 +253,9 @@ public class InventoryItem : MonoBehaviour {
         player.GetInventoryList().isDialogBoxOn = false;
 
         Buff adTemp = new Adrenaline( 1 );
-        Buff ad = player.Bufflist.Find( x => x.GetType().Equals( adTemp.GetType() ) );
+        Buff ad = player.FindBuff(adTemp);
         Buff moTemp = new Morfin( 1 );
-        Buff mo = player.Bufflist.Find( x => x.GetType().Equals( moTemp.GetType() ) );
+        Buff mo = player.FindBuff(moTemp);
 
         if( (ItemManager.LabelToCategory(player.InventoryList.LabelList[ index ]) == ItemManager.ItemCategory.AdrenalineDrug  &&  mo != null )
             || ( ItemManager.LabelToCategory( player.InventoryList.LabelList[ index ] ) == ItemManager.ItemCategory.MorfinDrug && ad != null ) ) {
@@ -292,9 +295,8 @@ public class InventoryItem : MonoBehaviour {
 * \see player::ThrowCommand
 */
     public void ThrowCommand() {
-        Destroy( gObject );
-        player.GetInventoryList().isDialogBoxOn = false;
         player.ThrowItem( index );
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowObject = gObject;
     }
     /**
 * 플레이어가 선택 상자에서 취소하는 명령을 선택하였을 때 실행되는 함수
@@ -303,5 +305,6 @@ public class InventoryItem : MonoBehaviour {
     public void CancelCommand() {
         Destroy( gObject );
         player.GetInventoryList().isDialogBoxOn = false;
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowFlag = false;
     }
 }

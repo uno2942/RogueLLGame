@@ -13,11 +13,11 @@ public class Relieved : Buff {
     public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         count--;
     }
-    public override int passiveBuffAtk() {
-        return 0;
+    public override int IntermdeiateBuffAtk() {
+        return -3;
     }
 
-    public override int passiveBuffDef() {
+    public override int IntermdeiateBuffDef() {
         return 0;
     }
 

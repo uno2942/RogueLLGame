@@ -14,9 +14,8 @@ public class AutoHandgun : Weapon{
         rank = ItemManager.Rank.Legendary;
     }
 
-    public override void Attack(Enemy enemy)
+    public override void GiveImpactToEnemy( Enemy enemy)
     {
-        
         count--;
     }
 

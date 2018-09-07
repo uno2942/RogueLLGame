@@ -21,4 +21,9 @@ public class BlackKnife : Weapon {
     public override void Check( Player player ) {
         if( player.Mp > 59 ) { player.ChangeMp( -( player.Mp - 59 ) ); }
     }
+
+    public override void GiveImpactToPlayer( Player player ) {
+        if( player.FindBuff( new Hallucinated( 1 ) ) == null )
+            player.AddBuff( new Hallucinated( 100000 ) );
+    }
 }

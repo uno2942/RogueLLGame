@@ -11,23 +11,7 @@ public class Club : Weapon
         rank = ItemManager.Rank.Common;
         SetMaxAtkbyRank(rank);
     }
-
-    public override void Attack( Enemy enemy ) {
-        float f = Random.Range( 0, 100 );
-        switch( rank ) {
-        case ItemManager.Rank.Common:
-            if( f < 25 )
-                attackPowerMin--;
-            break;
-        case ItemManager.Rank.Rare:
-            if( f < 20 )
-                attackPowerMin--;
-            break;
-        case ItemManager.Rank.Legendary:
-            if( f < 15 )
-                attackPowerMin--;
-            break;
-        default: return;
-        }
+    public void DecreaseAttackMin() {
+        attackPowerMin --;
     }
 }

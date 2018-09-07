@@ -27,6 +27,10 @@ public class EnemyAction
             return false;
         else {
             float temp = ( enemyItself.FinalAttackPower() - player.FinalDefensePower() );
+            if( player.FindBuff( new Poison( 1 ) ) != null )
+                temp++;
+            if( player.FindBuff( new Stunned( 3 ) ) != null )
+                temp += 3;
 
             if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) ) {
                 temp += 1.0f;
@@ -49,6 +53,10 @@ public class EnemyAction
         float i = Random.value;
             if( i < enemyItself.DebuffPercent() ) {
                 player.AddBuff( enemyItself.Debuff() );
+            }
+            if(player.armor is Padding) {
+                Padding padding = player.armor as Padding;
+                padding.OnAttacked();
             }
             return true;
         }

@@ -13,11 +13,11 @@ public class Full : Buff {
         player.ChangeHp( 2 );
     }
    
-    public override int passiveBuffAtk() {
+    public override int IntermdeiateBuffAtk() {
         return 0;
     }
     
-    public override int passiveBuffDef() {
+    public override int IntermdeiateBuffDef() {
         return 0;
     }
     

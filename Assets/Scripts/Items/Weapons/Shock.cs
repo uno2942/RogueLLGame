@@ -13,13 +13,8 @@ public class Shock : Weapon {
         attackPowerMax = 41;
         rank = ItemManager.Rank.Legendary;
     }
-
-    public override void SetMaxAtkbyRank( ItemManager.Rank rank ) {
-        
-    }
-
-    public override void Attack(Enemy enemy)
-    {
+    
+    public override void GiveImpactToEnemy( Enemy enemy ) {
         count--;
         enemy.AddBuff( new Stunned( 5 ) );
     }

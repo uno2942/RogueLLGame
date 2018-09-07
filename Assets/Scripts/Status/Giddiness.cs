@@ -11,11 +11,11 @@ public class Giddiness : Buff {
     public override void BuffWorkTo( Unit unit, Unit.Action action ) {
     }
 
-    public override int passiveBuffAtk() {
-        return -1000;
+    public override int IntermdeiateBuffAtk() {
+        return 0;
     }
 
-    public override int passiveBuffDef() {
+    public override int IntermdeiateBuffDef() {
         return 0;
     }
 
