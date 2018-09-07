@@ -39,8 +39,12 @@ public class Weapon : Equip {
         {
 
     }
-    public virtual void Attack(Enemy enemy )  //적을 공격할 때 발동하는 효과
+    public virtual void GiveImpactToEnemy( Enemy enemy )  //적을 공격할 때 발동하는 효과
         {
+
+    }
+
+    public virtual void GiveImpactToPlayer(Player player ) {
 
     }
 

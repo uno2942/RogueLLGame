@@ -14,11 +14,11 @@ public class Poison : Buff {
         unit.ChangeHp( -1 );
         count--;
     }
-    public override int passiveBuffAtk() {
+    public override int IntermdeiateBuffAtk() {
         return 0;
     }
 
-    public override int passiveBuffDef() {
+    public override int IntermdeiateBuffDef() {
         return 0;
     }
 

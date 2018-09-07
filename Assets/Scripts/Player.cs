@@ -198,9 +198,8 @@ public class Player : Unit {
     /** 플레이어의 공격력+플레이어가 가진 무기+플레이어의 상태 이상을 기반으로 플레이어의 공격력을 반환 */
     public override int FinalAttackPower() {
         int attacktemp = (int) Unit.GaussianDistribution( weapon.AttackPowerMin, weapon.AttackPowerMax );
-        Debug.Log( attacktemp );
         foreach( Buff buff in Bufflist ) {
-            attacktemp += buff.passiveBuffAtk();
+            attacktemp += buff.IntermdeiateBuffAtk();
         }
         return attacktemp;
     }
@@ -209,9 +208,9 @@ public class Player : Unit {
      */
     public override int FinalDefensePower() {
         int defensetemp = (int) Unit.GaussianDistribution( armor.DefensivePowerMin, armor.DefensivePowerMax );
-        Debug.Log( defensetemp );
+
         foreach( Buff buff in Bufflist ) {
-            defensetemp += buff.passiveBuffDef();
+            defensetemp += buff.IntermdeiateBuffDef();
         }
         return defensetemp;
     }

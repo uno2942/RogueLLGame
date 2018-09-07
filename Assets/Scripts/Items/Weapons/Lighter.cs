@@ -11,7 +11,7 @@ public class Lighter : Weapon {
         SetMaxAtkbyRank( rank );
     }
 
-    public override void Attack(Enemy enemy)
+    public override void GiveImpactToEnemy( Enemy enemy)
     {
         switch( rank ) {
         case ItemManager.Rank.Common: enemy.AddBuff( new Burn( 3 ) ); break;

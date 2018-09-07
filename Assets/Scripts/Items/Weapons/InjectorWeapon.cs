@@ -11,7 +11,7 @@ public class InjectorWeapon : Weapon {
         SetMaxAtkbyRank( rank );
     }
 
-    public override void Attack( Enemy enemy ) {
+    public override void GiveImpactToEnemy( Enemy enemy ) {
         switch( rank ) {
         case ItemManager.Rank.Common: enemy.AddBuff( new Poison( 4 ) ); break;
         case ItemManager.Rank.Rare: enemy.AddBuff( new Poison( 5 ) ); break;

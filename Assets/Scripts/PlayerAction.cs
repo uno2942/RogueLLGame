@@ -11,15 +11,11 @@ public class PlayerAction {
     private ItemManager itemManager;
     private GameManager gameManager;
     private MessageMaker messageMaker;
-    private BoardManager boardmanager;
-    public bool bossCommuni;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
         messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
-        boardmanager = GameObject.Find ("BoardManager").GetComponent<BoardManager> ();
-        bossCommuni = false;
     }
 
 
@@ -31,91 +27,75 @@ public class PlayerAction {
      */
     public void Attack( Enemy enemy ) {
 
-        if ( enemy is HospitalDirector )
-        {
-            player.ChangeMp (-10);
+        
+        int tempindex;
+        player.weapon.GiveImpactToEnemy( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+        player.weapon.GiveImpactToPlayer( player );//공격했을 때의 효과를 나에게 전달(데미지를 주지 않음).
 
-            int tempindex;
-            player.weapon.Attack (enemy); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+        float temp = ( player.FinalAttackPower() - enemy.FinalDefensePower() );
 
-            float temp = (player.FinalAttackPower () - enemy.FinalDefensePower ());
-
-            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Adrenaline))) )
-            {
-                temp *= 1.6f;
-            }
-            if ( temp <= 1.0f )
-                temp = 1;
-            if ( player.FinalAttackPower () <= 0 )
-                temp = 0;
-
-            int stop = 0;
-            if ( player.isHallucinated )
-                stop = 6;
-            else
-                stop = 12;
-
-            if ( temp >= stop )
-                enemy.ChangeHp (-stop);
-            else
-                enemy.ChangeHp (-temp);
-            messageMaker.MakeAttackMessage (player, MessageMaker.UnitAction.Attack, enemy, (int) temp);
-
-            if ( enemy.Hp <= 0 )
-            {
-                messageMaker.MakeDeathMessage (player, enemy);
-                gameManager.KillEnemy (enemy);
-            }
-
-            if ( player.weapon.IsDestroyed () == true )
-            {
-                tempindex = player.weaponindex;
-                UnequipItem (tempindex);
-                DumpItem (tempindex);
-            }
-
-            Debug.Log ("공격 끝");
-            gameManager.EndPlayerTurn (Unit.Action.Attack);
+        if( !( enemy is Boss ) )
+            if( enemy.FindBuff( new Stunned( 1 ) ) != null ) 
+                temp += 3;
+        if( player.FindBuff( new Adrenaline( 1 ) ) != null )  {
+            temp *= 1.6f;
         }
-        else
-        {
-            int tempindex;
-            player.weapon.Attack (enemy); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+        else if( player.FindBuff( new Morfin( 1 ) ) != null )
+            temp *= 0.5f;
 
-            float temp = (player.FinalAttackPower () - enemy.FinalDefensePower ());
-
-            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Adrenaline))) )
-            {
-                temp *= 1.6f;
-            }
-            if ( temp <= 1.0f )
-                temp = 1;
-            if ( player.FinalAttackPower () <= 0 )
-                temp = 0;
-            enemy.ChangeHp (-temp);
-            messageMaker.MakeAttackMessage (player, MessageMaker.UnitAction.Attack, enemy, (int) temp);
-
-            if ( enemy.Hp <= 0 )
-            {
-                messageMaker.MakeDeathMessage (player, enemy);
-                gameManager.KillEnemy (enemy);
-            }
-            /*
-            if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
-                temp += 1;
-            }
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
-            */
-            if ( player.weapon.IsDestroyed () == true )
-            {
-                tempindex = player.weaponindex;
-                UnequipItem (tempindex);
-                DumpItem (tempindex);
-            }
-
-            Debug.Log ("공격 끝");
-            gameManager.EndPlayerTurn (Unit.Action.Attack);
+        if(player.weapon is SharpDagger) {
+            int dice = Random.Range( 0, 10 );
+            if( dice == 0 )
+                temp *= 3f;
         }
+
+        if( temp <= 1.0f )
+            temp = 1;
+
+        if ( player.FinalAttackPower () <= 0 )
+            temp = 0;
+
+        enemy.ChangeHp( -temp );
+        messageMaker.MakeAttackMessage(player, MessageMaker.UnitAction.Attack, enemy, (int)temp);
+
+        if (enemy.Hp <= 0)
+        {
+            messageMaker.MakeDeathMessage(player, enemy);
+            gameManager.KillEnemy(enemy);
+        }
+        /*
+        if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
+            temp += 1;
+        }
+        if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
+        */
+        if( player.weapon is Club ) {
+            Club club = player.weapon as Club;
+            float f = Random.Range( 0, 100 );
+            switch( player.weapon.rank ) {
+            case ItemManager.Rank.Common:
+                if( f < 25 )
+                    club.DecreaseAttackMin();
+                break;
+            case ItemManager.Rank.Rare:
+                if( f < 20 )
+                    club.DecreaseAttackMin();
+                break;
+            case ItemManager.Rank.Legendary:
+                if( f < 15 )
+                    club.DecreaseAttackMin();
+                break;
+            }
+        }
+
+            if( player.weapon.IsDestroyed() == true ) {
+            tempindex = player.weaponindex;
+            UnequipItem( tempindex );
+            DumpItem( tempindex );
+        }
+
+        Debug.Log( "공격 끝" );
+        gameManager.EndPlayerTurn(Unit.Action.Attack);
     }
     /**
     * 현재 위치정보를 기반으로 항을 변경한다
@@ -139,8 +119,6 @@ public class PlayerAction {
     public void UseItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label));
-            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)");
             
             foreach(GameObject gObject in GameObject.FindGameObjectsWithTag("ItemPickedUp"))
             {/*
@@ -150,6 +128,8 @@ public class PlayerAction {
                     }*/
                 if( gObject.GetComponent<ItemPrefab>().label == player.InventoryList.LabelList[ index ] ) {
                     gObject.GetComponent<ItemECS>().isUse = true;
+                    if( player.armor is Tshirts && label == ItemManager.Label.Can )
+                        player.ChangeHp( 10 );
                     player.InventoryList.itemManager.ItemIdentify( label );
                     break;
                 }
@@ -190,14 +170,11 @@ public class PlayerAction {
     public void ThrowAwayItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            gameManager.Throw( label );
+            gameManager.Throw( label, index );
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
-            player.InventoryList.itemManager.ItemIdentify( label );
-            player.InventoryList.IdentifyAllTheInventoryItem();
             
         }
-        DumpItem( index );
     }
     /**
 * \see InventoryItem::EquipCommand
@@ -252,11 +229,7 @@ public class PlayerAction {
         itemManager.LabelToItem( label );
     }
 
-    public void Rest()
-    {
-        if ( bossCommuni )
-            player.ChangeMp (6);
-
+    public void Rest() {
         player.ChangeHp( 1 );
         gameManager.EndPlayerTurn( Unit.Action.Rest );
     }

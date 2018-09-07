@@ -10,10 +10,8 @@ public class Hammer : Weapon {
         rank = ItemManager.Rank.Common;
         SetMaxAtkbyRank( rank );
     }
-
-    public override void Attack( Enemy enemy)
-    {
-        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
-        player.ChangeHungry(-1);
+    
+    public override void GiveImpactToPlayer( Player player ) {
+        player.ChangeHungry( 1 );
     }
 }

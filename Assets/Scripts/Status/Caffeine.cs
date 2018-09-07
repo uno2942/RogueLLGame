@@ -13,10 +13,10 @@ public class Caffeine : Buff {
         player.ChangeMp(-1.2f);
         count--;
     }
-    public override int passiveBuffAtk() {
+    public override int IntermdeiateBuffAtk() {
         return 7;
     }
-    public override int passiveBuffDef() {
+    public override int IntermdeiateBuffDef() {
         return 2;
     }
     public override float BuffAction( Unit.Action action ) {

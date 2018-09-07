@@ -14,7 +14,7 @@ public class Padding : Armor
         count = 20;
     }
     
-    void onAttack() {
+    public void OnAttacked() {
         count--;
     }
 

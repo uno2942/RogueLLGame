@@ -9,7 +9,7 @@ public class HospitalDirector : Boss {
     protected override void Start()
     {
         Debug.Log("최종보스 정신병원 원장 등장");
-        player.PlayerAction.bossCommuni = true;
+        //player.PlayerAction.bossCommuni = true;
         level = 1;
         defaultA = 6; //shld be decided by level and setting file
         defaultD = 6;

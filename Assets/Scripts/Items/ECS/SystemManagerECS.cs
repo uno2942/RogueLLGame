@@ -115,13 +115,15 @@ public class StatSystem : ComponentSystem {
                         if(e.item.isThrow==false)
                         {
                             for( int i = 0; i < e.statECS.stats.Length; i++ ) {
-                                if( e.statECS.isThrown[ i ] == false ) { 
-                                   if( e.statECS.negate[ i ] == true ) {
-                                   if( !CheckCondition( player, e.statECS.condition[ i ] ) )
-                                        addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
-                                } else
-                                    if( CheckCondition( player, e.statECS.condition[ i ] ) )
-                                    addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                if( e.statECS.isThrown[ i ] == false ) {
+                                    if( e.statECS.negate[ i ] == true ) {
+                                        if( !CheckCondition( player, e.statECS.condition[ i ] ) )
+                                            addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                    }
+                                    else {
+                                        if( CheckCondition( player, e.statECS.condition[ i ] ) )
+                                            addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                    }
                                 }
                             }
                         }
@@ -132,10 +134,12 @@ public class StatSystem : ComponentSystem {
                                     foreach(var enemy in e.item.enemies) {
                                         if( e.statECS.negate[ i ] == true ) {
                                             if( !CheckCondition( player, e.statECS.condition[ i ] ) )
-                                                addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
-                                        } else
+                                                addStat( enemy, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                        } 
+                                        else {
                                             if( CheckCondition( player, e.statECS.condition[ i ] ) )
-                                            addStat( player, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                                addStat( enemy, e.statECS.stats[ i ], e.statECS.deltas[ i ] );
+                                        }
                                     }
                         }
                     }
@@ -363,9 +367,11 @@ public class BuffSystem : ComponentSystem {
                                     if( e.buffECS.negate[ i ] == true ) {
                                         if( !CheckCondition( player, e.buffECS.conditions[ i ] ) )
                                             addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
-                                    } else
-                                    if( CheckCondition( player, e.buffECS.conditions[ i ] ) )
-                                        addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                    } 
+                                    else {
+                                        if( CheckCondition( player, e.buffECS.conditions[ i ] ) )
+                                            addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                    }
                                 }
                             }
                             
@@ -375,12 +381,15 @@ public class BuffSystem : ComponentSystem {
                              for(int i=0; i<e.buffECS.buff.Length; i++)
                                 if(e.buffECS.isThrown[i]==true)
                                     foreach(var enemy in e.item.enemies) {
-                                        if( e.buffECS.negate[ i ] == true )
+                                        if( e.buffECS.negate[ i ] == true ) {
                                             if( !CheckCondition( player, e.buffECS.conditions[ i ] ) ) {
-                                                addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
-                                            } else
+                                                addBuff( enemy, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                            }
+                                        }
+                                        else {
                                             if( CheckCondition( player, e.buffECS.conditions[ i ] ) )
-                                                addBuff( player, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                                addBuff( enemy, e.buffECS.buff[ i ], e.buffECS.count[ i ] );
+                                        }
                                     }
                         }
                     }

@@ -32,12 +32,12 @@ public abstract class Buff {
     /**
     * 이 함수는 공격력에 추가되는 값을 반환합니다.(ex. 5를 반환할 경우 유닛의 공격력을 5 더합니다.)
     */
-    public abstract int passiveBuffAtk();
+    public abstract int IntermdeiateBuffAtk();
 
     /**
      * 이 함수는 방어력에 추가되는 값을 반환합니다.(ex. 5를 반환할 경우 유닛의 방어력을 5 더합니다.)
      */
-    public abstract int passiveBuffDef();
+    public abstract int IntermdeiateBuffDef();
 
     /**
      * @todo [2018.07.19 변경] Unit.Action action을 받아서 action이 이동 중, 공격 중, 맞는 중에 따라 효과를 다르게 할 예정

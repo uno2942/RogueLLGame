@@ -76,6 +76,7 @@ public class Enemy : Unit
     public int Level { get { return level; } }
 
     public void OnClick() {
+
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
         GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
         foreach(var bossObject in bossList )
@@ -85,13 +86,27 @@ public class Enemy : Unit
                 bossObject.GetComponent<Boss> ().ChangeStatus (player.isHallucinated);
             }
         }
-        foreach( var enemyObject in enemyList ) {
-            if( player.isHallucinated ) {
-                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+        foreach ( var enemyObject in enemyList ) {
+            if ( player.isHallucinated ) {
+                enemyObject.GetComponent<Enemy> ().ChangeStatus (player.isHallucinated);
             }
         }
-        player.PlayerAction.Attack( this );
-        Debug.Log( "플레이어 공격" );
+
+        if( gameManager.ThrowFlag == false ) {
+                        
+            if( player.weapon is Nuckle ) {
+                switch( player.weapon.rank ) {
+                case ItemManager.Rank.Common: player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); break;
+                case ItemManager.Rank.Rare: player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); break;
+                case ItemManager.Rank.Legendary: player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); break;
+                }
+            } else
+                player.PlayerAction.Attack( this );
+            Debug.Log( "플레이어 공격" );
+        } else {
+            gameManager.ThrowToEnemy( this );
+            gameManager.ThrowFlag = false;
+        }
     }
 
 
@@ -111,8 +126,11 @@ public class Enemy : Unit
         int attackTemp = (int) GaussianDistribution( min, max );
                 
         foreach( Buff buff in Bufflist ) {
-            attackTemp += buff.passiveBuffAtk();
+            attackTemp += buff.IntermdeiateBuffAtk();
         }
+        if( !( this is Boss ) )
+            if( attackTemp > 1 )
+                attackTemp = 1;
         return attackTemp;
     }
 
@@ -127,8 +145,11 @@ public class Enemy : Unit
         int defenseTemp = (int) GaussianDistribution( min, max );
 
         foreach( Buff buff in Bufflist ) {
-            defenseTemp += buff.passiveBuffDef();
+            defenseTemp += buff.IntermdeiateBuffDef();
         }
+        if( FindBuff( new Defenseless( 1 ) ) != null )
+            defenseTemp = 0;
+
         return defenseTemp;
     }
 

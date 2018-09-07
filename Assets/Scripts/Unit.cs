@@ -151,7 +151,7 @@ public class Unit : MonoBehaviour {
     public virtual int FinalAttackPower() {
         int attacktemp = attack;
         foreach( Buff buff in Bufflist ) {
-            attacktemp += buff.passiveBuffAtk();
+            attacktemp += buff.IntermdeiateBuffAtk();
         }
         return attacktemp;
     }
@@ -160,7 +160,7 @@ public class Unit : MonoBehaviour {
     public virtual int FinalDefensePower() {
         int defensetemp = defense;
         foreach( Buff buff in Bufflist ) {
-            defensetemp += buff.passiveBuffDef();
+            defensetemp += buff.IntermdeiateBuffAtk();
         }
         return defensetemp;
     }
