@@ -290,6 +290,13 @@ public class BoardManager : MonoBehaviour {
                 Destroy( neiui.transform.GetChild( i ).gameObject );
                 }
         }
+        
+        while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.WhiteCard ) ) {
+            playerobejct.DumpItem( ItemManager.Label.WhiteCard );
+        }
+        while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.YellowCard ) ) {
+            playerobejct.DumpItem( ItemManager.Label.YellowCard );
+        }
 
 
         StartCoroutine( frameDelay() );
