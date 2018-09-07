@@ -9,7 +9,7 @@ public class Nurse : Boss {
     protected override void Start()
     {
         Debug.Log("간호사 등장");
-
+        base.Start ();
         level = 1;
         defaultA = 6; //shld be decided by level and setting file
         defaultD = 1;

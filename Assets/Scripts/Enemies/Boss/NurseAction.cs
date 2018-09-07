@@ -15,13 +15,19 @@ public class NurseAction : EnemyAction {
      */
     public override void Other()
     {
-        if (enemyItself.Hp < 100 && healCalled == false)
+        /*if (enemyItself.Hp < 100 && healCalled == false)
         {
             enemyItself.ChangeHp(enemyItself.MaxHp - enemyItself.Hp);
             player.ChangeMp(player.MaxMp - player.Mp);
             healCalled = true;
+        }*/
+        Nurse b = enemyItself as Nurse;
+        if ( b.Hp < 100 && healCalled == false )
+        {
+            b.ChangeHp (enemyItself.MaxHp - enemyItself.Hp);
+            player.ChangeMp (player.MaxMp - player.Mp);
+            healCalled = true;
         }
-        
     }
 
     /** \override for give buffs: 
