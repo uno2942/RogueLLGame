@@ -133,7 +133,7 @@ public class ItemManager : MonoBehaviour {
         else if( label == Label.CureAll1 || label == Label.CureAll2 || label == Label.CureAll3 ) return ItemCategory.CureAll;
         else if( label == Label.Hallucinogen1 || label == Label.Hallucinogen2 || label == Label.Hallucinogen3 ) return ItemCategory.Hallucinogen;
         else if( label == Label.LiquidFlameMedicine1 || label == Label.LiquidFlameMedicine2 || label == Label.LiquidFlameMedicine3 ) return ItemCategory.LiquidFlameMedicine;
-        else if( label == Label.Painkiller1 || label == Label.Painkiller2 || label == Label.Painkiller3 ) return ItemCategory.PoisonCapsule;
+        else if( label == Label.Painkiller1 || label == Label.Painkiller2 || label == Label.Painkiller3 ) return ItemCategory.Painkiller;
         else if( label == Label.PoisonCapsule1 || label == Label.PoisonCapsule2 || label == Label.PoisonCapsule3 ) return ItemCategory.PoisonCapsule;
         else if( label == Label.Salt1 || label == Label.Salt2 || label == Label.Salt3 ) return ItemCategory.Salt;
         else if( label == Label.Soup1 || label == Label.Soup2 || label == Label.Soup3 ) return ItemCategory.Soup;
