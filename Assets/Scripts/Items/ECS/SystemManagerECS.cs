@@ -136,6 +136,46 @@ public class StatSystem : ComponentSystem {
                                     }
                         }
                     }
+
+                    if( player.Hungry < 60 ) {
+                        if( player.HungryPrevious >= 160 ) {
+                            player.DeleteBuff( new Hunger() );
+                            player.isHungry = false;
+                            player.AddBuff( new Full( -1 ) );
+                            player.isFull = true;
+                        } else if( player.HungryPrevious >= 60 ) {
+                            player.AddBuff( new Full( -1 ) );
+                            player.isFull = true;
+                        }
+                    } else if( player.Hungry < 160 ) {
+                        if( player.HungryPrevious < 60 ) {
+                            player.DeleteBuff( new Full( -1 ) );
+                            player.isFull = false;
+                        } else if( player.HungryPrevious >= 210 ) {
+                            player.DeleteBuff( new Starve() );
+                            player.isStarved = false;
+                        } else if( player.HungryPrevious >= 160 ) {
+                            player.DeleteBuff( new Hunger() );
+                            player.isHungry = false;
+                        }
+                    } else if( player.Hungry < 210 ) {
+                        if( player.HungryPrevious < 160 ) {
+                            player.AddBuff( new Hunger() );
+                            player.isHungry = true;
+                        } else if( player.HungryPrevious >= 210 ) {
+                            player.DeleteBuff( new Starve() );
+                            player.isStarved = false;
+                            player.AddBuff( new Hunger() );
+                            player.isHungry = true;
+                        }
+                    } else if( player.HungryPrevious < 210 ) {
+                        player.DeleteBuff( new Hunger() );
+                        player.isHungry = false;
+                        player.AddBuff( new Starve() );
+                        player.isStarved = true;
+                    }
+                    player.SyncHungry();
+
                     e.statECS.isUsed = true;
                 }
             }

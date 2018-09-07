@@ -620,7 +620,7 @@ public class ItemManager : MonoBehaviour {
         case ItemCategory.MorfinDrug: return "따뜻한 곰국이 들어 있는 병입니다. 마시면 정신력을 회복하며, 받는 피해가 줄어들지만 공격력이 감소합니다. 뒤집은 상태로 먹지 마세요!";
         case ItemCategory.AdrenalineDrug: return "시험기간에 많이 마시는 에너지 드링크입니다. 마시면 정신력을 약간 잃으며, 잠깐동안 엄청난 피해를 줄 수 있습니다.";
         case ItemCategory.RingerSolution: return "숙취 해소에 좋은 갈배 사이다입니다. 마시면 정신력을 조금 회복하며, 체력을 지속적으로 회복시킵니다.";
-        case ItemCategory.Can: return "'L' 버거보다 맛이 없습니다. 체력을 약간 회복하며 허기를 달래 줍니다.";
+        case ItemCategory.Can: return "''L'' 버거보다 맛이 없습니다. 체력을 약간 회복하며 허기를 달래 줍니다.";
         case ItemCategory.Water: return "페트병에 든 물입니다. 마시면 정신력을 약간 회복하며, 몸에 뿌려 불을 끌 수도 있습니다.";
         case ItemCategory.Medicine: return "해독 작용을 하는 시럽이 든 작은 병입니다.";
         case ItemCategory.Bandage: return "튼튼한 붕대입니다. 상처에 감아서 출혈을 막을 수 있습니다.";

@@ -99,6 +99,10 @@ public class InventoryItem : MonoBehaviour {
                     WeaponArmorDialogBox W = dBox as WeaponArmorDialogBox;
                     ChangeButtonText( W );
 
+                    foreach( UnityEngine.UI.Text text in dBox.GetComponentsInChildren<UnityEngine.UI.Text>()) {
+                        if( text.gameObject.name == "Description" )
+                            text.text = ItemManager.DescriptionOfItem( ItemManager.LabelToCategory( player.InventoryList.GetLabel( index ) ) );
+                    }
                     player.GetInventoryList().isDialogBoxOn = true;
                     break;
                 }
@@ -106,10 +110,18 @@ public class InventoryItem : MonoBehaviour {
                     if( player.InventoryList.GetLabel( index ) != ItemManager.Label.Water ) {
                         dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<ExpendableDialogBox>();
                         dBox.inventoryItem = this;
+                        foreach( UnityEngine.UI.Text text in dBox.GetComponentsInChildren<UnityEngine.UI.Text>() ) {
+                            if( text.gameObject.name == "Description" )
+                                text.text = ItemManager.DescriptionOfItem( ItemManager.LabelToCategory( player.InventoryList.GetLabel( index ) ) );
+                        }
                         player.GetInventoryList().isDialogBoxOn = true;
                     } else {
                         dBox = ( gObject = Instantiate( dialogBox[ 5 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<WaterDialogBox>();
                         dBox.inventoryItem = this;
+                        foreach( UnityEngine.UI.Text text in dBox.GetComponentsInChildren<UnityEngine.UI.Text>() ) {
+                            if( text.gameObject.name == "Description" )
+                                text.text = ItemManager.DescriptionOfItem( ItemManager.LabelToCategory( player.InventoryList.GetLabel( index ) ) );
+                        }
                         player.GetInventoryList().isDialogBoxOn = true;
                     }
                     break;
@@ -117,18 +129,34 @@ public class InventoryItem : MonoBehaviour {
             case ItemManager.ItemType.Capsule: {
                     dBox = ( gObject = Instantiate( dialogBox[ 2 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
                     dBox.inventoryItem = this;
+                    foreach( UnityEngine.UI.Text text in dBox.GetComponentsInChildren<UnityEngine.UI.Text>() ) {
+                        if( text.gameObject.name == "Description" ) {
+                            if( GameObject.Find( "ItemManager" ).GetComponent<ItemManager>().GetItemIdentificationInfo( player.InventoryList.GetLabel( index ) ) )
+                                text.text = ItemManager.DescriptionOfItem( ItemManager.LabelToCategory( player.InventoryList.GetLabel( index ) ) );
+                            else
+                                text.text = "뭘까요.";
+                        }
+                    }
                     player.GetInventoryList().isDialogBoxOn = true;
                     break;
                 }
             case ItemManager.ItemType.Injector: {
                     dBox = ( gObject = Instantiate( dialogBox[ 3 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<InjectorDialogBox>();
                     dBox.inventoryItem = this;
+                    foreach( UnityEngine.UI.Text text in dBox.GetComponentsInChildren<UnityEngine.UI.Text>() ) {
+                        if( text.gameObject.name == "Description" )
+                            text.text = ItemManager.DescriptionOfItem( ItemManager.LabelToCategory( player.InventoryList.GetLabel( index ) ) );
+                    }
                     player.GetInventoryList().isDialogBoxOn = true;
                     break;  
                 }
 
             case ItemManager.ItemType.Card: {
-                    /*dBox = ( gObject = Instantiate( dialogBox[ 4 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
+              /*      foreach( UnityEngine.UI.Text text in dBox.GetComponentsInChildren<UnityEngine.UI.Text>() ) {
+                        if( text.gameObject.name == "Description" )
+                            text.text = ItemManager.DescriptionOfItem( ItemManager.LabelToCategory( player.InventoryList.GetLabel( index ) ) );
+                    }
+                    dBox = ( gObject = Instantiate( dialogBox[ 4 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CapsuleDialogBox>();
                     dBox.inventoryItem = this;
                     player.GetInventoryList().isDialogBoxOn = true;*/
                     break;
