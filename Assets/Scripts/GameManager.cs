@@ -331,11 +331,13 @@ public class GameManager : MonoBehaviour {
         Vector2 nowPos = new Vector2 (boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement);
         MapTile maptile = boardManager.CurrentMapOfFloor [new MapGenerator.Coord (x, y)];
         Debug.Log ("적 수: " + maptile.enemyList.Count + ", 아이템 수: " + maptile.itemList.Count);
-        if ( maptile.enemyList.Count == 0 || maptile.itemList.Count == 0 ) {
+        if ( maptile.enemyList.Count == 0 || maptile.itemList.Count == 0 )
+        {
             GenerateItems (x, y);
             GenerateMonsters (x, y);
         }
         else
+        {
             switch ( maptile.enemyList.Count + maptile.itemList.Count )
             {
                 case 0: return;
@@ -350,6 +352,10 @@ public class GameManager : MonoBehaviour {
                     break;
                 default: return;
             }
+
+            maptile.enemyList.Clear ();
+            maptile.itemList.Clear ();
+        }
     }
 
     public void GenerateMonsters(int x, int y)

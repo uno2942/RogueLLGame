@@ -1,7 +1,7 @@
 ﻿Coordinate		Kind
+-4	-1	B
 -4	1	L
 -4	0	H
--4	-1	B
 -3	0	H
 -2	2	N
 -2	1	N

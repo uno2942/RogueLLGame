@@ -19,9 +19,9 @@ public class MapTile {
         x = tile.x;
         y = tile.y;
         roomType = tile.roomType;
-        NPCList = tile.NPCList;
-        enemyList = tile.enemyList;
-        itemList = tile.itemList;
+        NPCList = new List<BoardManager.NPCType>(tile.NPCList);
+        enemyList = new List<BoardManager.EnemyType>(tile.enemyList);
+        itemList = new List<ItemManager.ItemCategory>(tile.itemList);
         gObject = tile.gObject;
     }
 
