@@ -176,13 +176,12 @@ public class MapGenerator {
 
         for( i = 0; i < 6; i++ ) {
             List<MapTile> floor = new List<MapTile>();
-            List<MapTile> floormap = Maps[UnityEngine.Random.Range(0, 9)];
-            foreach (MapTile tile in floormap)
+            foreach (MapTile tile in Maps [UnityEngine.Random.Range (0, 9)])
             {
                 floor.Add(new MapTile(tile));
             }
             mapTiles[ i ] = floor;
-            mapTiles[ i ] = Generate( ShuffleList( mapTiles[ i ] ), i + 1 );
+            mapTiles[ i ] = Generate ( ShuffleList(mapTiles[ i ]) , i + 1 );
         }
     }
 
@@ -215,7 +214,7 @@ public class MapGenerator {
         foreach( MapTile tile in floor ) {
             GameObject tileobj = new GameObject();
             Vector2 position = new Vector2( 17.7792f * tile.x, 10f * tile.y );
-            CurrentMapOfFloor.Add( new Coord( tile.x, tile.y ), tile );
+            CurrentMapOfFloor.Add( new Coord( tile.x, tile.y ), new MapTile(tile) );
             switch( tile.roomType ) {
             case BoardManager.RoomType.BossRoom:
                 tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity, MapCanvasRectTransform );
