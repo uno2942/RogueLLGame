@@ -27,6 +27,13 @@ public class InjectorCollector : NPC {
             if (boardmanager.WhichFloor == 5) {
                 player.InventoryList.AddItem(ItemManager.Label.BlackKnife);//전설주사기로 바꿔.
                 usuability = 0;
+
+                player.InventoryList.InjecCommuni = false;
+
+                CantTalkBox dBox = ( gObject = Instantiate( dialogBox[ 1 ], new Vector2( 0 + GameObject.Find( "PlayerUI" ).transform.position.x, 2 + GameObject.Find( "PlayerUI" ).transform.position.y ), Quaternion.identity, GameObject.Find( "PlayerUI" ).transform ) ).GetComponent<CantTalkBox>();
+                dBox.npc = this;
+                dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "감사합니다. 여기 제가 가지고 있던 비상식량과 알약을 가져가세요.";
+                player.GetInventoryList().isDialogBoxOn = false; //다이얼로그 끝난 정보 저장
             }
             else
             {
@@ -92,7 +99,7 @@ public class InjectorCollector : NPC {
         {
             CantTalkBox dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
             dBox.npc = this;
-            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "아아... 훨씬 기분이 좋군요. 감사합니다.";
+            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "훨씬 기분이 좋군요. 감사합니다.";
         }
         else //주사 주기 전
         {
@@ -102,7 +109,7 @@ public class InjectorCollector : NPC {
             player.InventoryList.InjecCommuni = true; // 이제부터 아이템창은 다이얼로그박스와 상호작용합니다.
             player.GetInventoryList().isDialogBoxOn = true;
             dBox.npc = this;
-            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "주사기... 주사기가 필요해. 혹시 가진 것 없습니까?";
+            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "으으... 목이 마릅니다. 음료수 없나요?";
             //건네주기 로 버튼 변경
         }
     }
