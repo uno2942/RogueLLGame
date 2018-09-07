@@ -49,16 +49,17 @@ public class MessageMaker : MonoBehaviour {
     private string Name(Unit subject)
     {
         string name = "강원기";
-        if (subject is Player) name = "당신";
-        else if (subject is Rat) name = "쥐";
-        else if (subject is Dog) name = "개";
-        else if (subject is Human) name = "사람";
-        else if (subject is BoundedCrazy) name = "구속된 미치광이";
-        else if (subject is Gunner) name = "외팔의 명사수";
-        else if (subject is Nurse) name = "노련한 간호사";
-        else if (subject is AngryDog) name = "분노의 맹견";
+        if ( subject is Player ) name = "당신";
+        else if ( subject is Rat ) name = "오리";
+        else if ( subject is Dog ) name = "넙죽이";
+        else if ( subject is Human ) name = "대학생";
+        else if ( subject is BoundedCrazy ) name = "연구참여 학생";
+        else if ( subject is Gunner ) name = "애꾸눈 교수";
+        else if ( subject is Nurse ) name = "포닥포닥";
+        else if ( subject is AngryDog ) name = "분노의 맹견";
+        else if ( subject is GPOSClub ) name = "'P'대 힘내라 동아리";
         // else if (subject.ToString() == "") name = "환자";
-        else if (subject is HospitalDirector) name = "정신병원 원장";
+        else if ( subject is HospitalDirector ) name = "그레이트 올드 넙죽이";
         else name = "프로그래머의 실수로 이름이 지정되지 않은 무엇인가";
 
         return name;
@@ -69,15 +70,16 @@ public class MessageMaker : MonoBehaviour {
         string name = "강원기";
         Debug.Log(subject.ToString());
         if (subject is Player) name = "당신은";
-        else if ( subject is Rat ) name = "쥐가";
-        else if ( subject is Dog ) name = "개가";
-        else if ( subject is Human ) name = "사람이";
-        else if ( subject is BoundedCrazy ) name = "구속된 미치광이가";
-        else if ( subject is Gunner ) name = "외팔의 명사수가";
-        else if ( subject is Nurse ) name = "노련한 간호사가";
+        else if ( subject is Rat ) name = "오리가";
+        else if ( subject is Dog ) name = "넙죽이가";
+        else if ( subject is Human ) name = "대학생이";
+        else if ( subject is BoundedCrazy ) name = "연구참여 학생이";
+        else if ( subject is Gunner ) name = "애꾸눈 교수가";
+        else if ( subject is Nurse ) name = "포닥포닥이";
         else if ( subject is AngryDog ) name = "분노의 맹견이";
+        else if ( subject is GPOSClub ) name = "'P'대 힘내라 동아리가";
         // else if (subject.ToString() == "") name = "환자가";
-        else if ( subject is HospitalDirector ) name = "정신병원 원장이";
+        else if ( subject is HospitalDirector ) name = "그레이트 올드 넙죽이가";
         else name = "프로그래머의 실수로 이름이 지정되지 않은 무엇인가가";
 
         return name;
@@ -86,16 +88,17 @@ public class MessageMaker : MonoBehaviour {
     private string ObjName(Unit target)
     {
         string name = "강원기";
-        if (target is Player) name = "당신을";
-        else if (target is Rat) name = "쥐를";
-        else if (target is Dog) name = "개를";
-        else if (target is Human) name = "사람을";
-        else if (target is BoundedCrazy) name = "구속된 미치광이를";
-        else if (target is Gunner) name = "외팔의 명사수를";
-        else if (target is Nurse) name = "노련한 간호사를";
-        else if (target is AngryDog) name = "분노의 맹견을";
+        if ( target is Player ) name = "당신을";
+        else if ( target is Rat ) name = "오리를";
+        else if ( target is Dog ) name = "넙죽이를";
+        else if ( target is Human ) name = "대학생을";
+        else if ( target is BoundedCrazy ) name = "연구참여 학생을";
+        else if ( target is Gunner ) name = "애꾸눈 교수를";
+        else if ( target is Nurse ) name = "포닥포닥을";
+        else if ( target is AngryDog ) name = "분노의 맹견을";
+        else if ( target is GPOSClub ) name = "'P'대 힘내라 동아리를";
         // else if (Subject.ToString() == "") name = "환자가";
-        else if (target is HospitalDirector) name = "정신병원 원장을";
+        else if ( target is HospitalDirector ) name = "그레이트 올드 넙죽이를";
         else name = "프로그래머의 실수로 이름이 지정되지 않은 무엇인가를";
 
         return name;

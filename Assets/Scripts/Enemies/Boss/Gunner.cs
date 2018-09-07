@@ -11,11 +11,11 @@ public class Gunner : Boss {
     protected override void Start()
     {
         base.Start();
-        Debug.Log("거너 등장");
+        Debug.Log("교수님 등장");
         level = 1;
         attack = 2; //shld be decided by level and setting file
         defense = 2;
-        maxhp = 160;
+        maxhp = 300;
         hp = maxhp;
         debuffPercent = 0.0f;
         enemyAction = new GunnerAction( this );
@@ -30,15 +30,11 @@ public class Gunner : Boss {
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void ChangeStatus(bool isHallucinated)
+
+    private void OnMouseUpAsButton()
     {
-        if( isHallucinated ) {
-            ChangeAttack( delA );
-            ChangeDefense( delD );
-        } else {
-            ChangeAttack( -delA );
-            ChangeDefense( -delD );
-        }
+        player.PlayerAction.Attack (this);
+        Debug.Log ("플레이어 공격");
     }
 
     protected override void OnDestroy()

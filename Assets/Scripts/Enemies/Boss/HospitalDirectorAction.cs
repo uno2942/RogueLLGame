@@ -14,16 +14,6 @@ public class HospitalDirectorAction : EnemyAction {
 
     public override void Other()
     {
-        /* 
-        if(false) // player did attack
-        {
-            player.ChangeMp(-10);
-        }
-        if (false) // player did rest
-        {
-            player.ChangeMp(4);
-        }
-        */
     }
 
     /** \override to limit max damage

@@ -38,17 +38,9 @@ public class AngryDogAction : EnemyAction {
                 temp = 1;
 
             //triple attack: shld check player's hallucinated 
-            player.ChangeHp( -temp );
-            enemyItself.ChangeHp( temp / 3 );
-            player.ChangeHp( -(int) temp );
-            enemyItself.ChangeHp( (int) temp / 3 );
-            //if(player.isHallucinated == true)
-            player.ChangeHp( -temp );
-            enemyItself.ChangeHp( temp / 3 );
-
-
-            if( player.Hp <= 0 )
-                GameObject.Destroy( player );
+            player.ChangeHp( -(int)temp );
+            enemyItself.ChangeHp( (int)temp / 3 );
+            
             return true;
         }
     }

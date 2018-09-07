@@ -310,7 +310,11 @@ public class MapGenerator {
                     tile.AddEnemy( BoardManager.EnemyType.AngryDog );
                     break;
                 case 5:
-                    tile.AddEnemy( BoardManager.EnemyType.AngryDog );//환자들 만들어야 해.
+                    tile.AddEnemy (BoardManager.EnemyType.GPOSClub);
+                    tile.AddEnemy (BoardManager.EnemyType.GPOSClub);
+                    tile.AddEnemy (BoardManager.EnemyType.GPOSClub);
+                    tile.AddEnemy (BoardManager.EnemyType.GPOSClub);
+                    tile.AddEnemy (BoardManager.EnemyType.GPOSClub);
                     break;
                 case 6:
                     tile.AddEnemy( BoardManager.EnemyType.HospitalDirector );

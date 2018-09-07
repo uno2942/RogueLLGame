@@ -53,6 +53,10 @@ public class GameManager : MonoBehaviour {
     public GameObject humanPrefab;
     public GameObject boundedCrazyPrefab;
     public GameObject gunnerPrefab;
+    public GameObject nurseprefab;
+    public GameObject angrydogprefab;
+    public GameObject gposclubprefab;
+    public GameObject principalprefab;
 
     public GameObject[] npcPrefab;
 
@@ -142,11 +146,14 @@ public class GameManager : MonoBehaviour {
         DecreaseMpByTurn();
         //1층 보스시 추가감소
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        foreach( var enemyObject in enemyList ) {
-            if( enemyObject.GetComponent<Enemy>() is BoundedCrazy ) {
-                player.ChangeMp((float)-1.2);
-            }
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+
+        foreach( var bossObject in bossList )
+        {
+            var boss = bossObject.GetComponent<Boss> ();
+            boss.EnemyAction.Other ();
         }
+        
         bool tmpHallucinated = player.isHallucinated;
         if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
@@ -160,6 +167,10 @@ public class GameManager : MonoBehaviour {
             player.isHallucinated = false;
         }
         if(tmpHallucinated != player.isHallucinated ) {
+            foreach( var bossObject in bossList )
+            {
+                bossObject.GetComponent<Boss> ().ChangeStatus (player.isHallucinated);
+            }
             foreach( var enemyObject in enemyList ) {//환각에 따른 몹 상태변화
                 enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
             }
@@ -255,8 +266,29 @@ public class GameManager : MonoBehaviour {
     */
     private void EnemyTurn() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
-        foreach( var enemyObject in enemyList ) {
-            enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        foreach(var bossObject in bossList)
+        {
+            if ( bossObject.GetComponent<Boss> () is AngryDog )
+            {
+                var enemy = bossObject.GetComponent<Boss> ();
+                enemy.EnemyAction.Attack ();
+                enemy.EnemyAction.Attack ();
+                if ( player.isHallucinated )
+                    enemy.EnemyAction.Attack ();
+            }
+            else
+                bossObject.GetComponent<Boss> ().EnemyAction.Attack ();
+            if ( IsDead () )
+            {
+                messageMaker.MakeDeathMessage (bossObject.GetComponent<Boss> (), player);
+                KillPlayer ();
+            }
+        }
+        foreach( var enemyObject in enemyList )
+        {
+            enemyObject.GetComponent<Enemy> ().EnemyAction.Attack ();
+
             if(IsDead()) {
                 messageMaker.MakeDeathMessage( enemyObject.GetComponent<Enemy>(), player );
                 KillPlayer();
@@ -274,10 +306,24 @@ public class GameManager : MonoBehaviour {
     */
     public void CheckEnemyStatus() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        Boss bossTemp;
         Enemy enemyTemp;
         int enemyNum = 0;
+        int bossNum = 0;
 
-        foreach( GameObject gObject in enemyList ) {
+        foreach ( GameObject gObject in bossList )
+        {
+            bossTemp = gObject.GetComponent<Boss> ();
+            foreach ( Buff buff in bossTemp.Bufflist )
+            {
+                buff.BuffWorkTo (bossTemp, Unit.Action.Default);
+                if ( buff.Count == 0 )
+                    bossTemp.DeleteBuff (buff);
+            }
+        }
+
+        foreach ( GameObject gObject in enemyList ) {
             enemyTemp = gObject.GetComponent<Enemy>();
             foreach( Buff buff in enemyTemp.Bufflist ) {
                 buff.BuffWorkTo( enemyTemp, Unit.Action.Default );
@@ -377,6 +423,14 @@ public class GameManager : MonoBehaviour {
             InstantiateMonster( maptile.enemyList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
             InstantiateMonster( maptile.enemyList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
             break;
+        case 5:
+            Vector2 [] GenPos = new Vector2 [6];
+            for ( var i = 0; i < 6; i++ )
+            {
+                GenPos [i] = new Vector2 (-5 + 2 * i, 0);
+                InstantiateMonster (maptile.enemyList [i], GenPos [i] + nowPos);
+            }
+            break;
         default:
             if( maptile.enemyList.Count < 0 ) {
                 Debug.Log( "방에 적 수 음수인거 실화냐" );
@@ -462,13 +516,16 @@ public class GameManager : MonoBehaviour {
 
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){
-        case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
-        case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
-        case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
-        case BoardManager.EnemyType.BoundedCrazy: Instantiate( boundedCrazyPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
-        case BoardManager.EnemyType.Gunner: Instantiate(gunnerPrefab, location, Quaternion.identity, GameObject.Find("NEIUI").transform); break;
-
-        default: break;
+            case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.BoundedCrazy: Instantiate( boundedCrazyPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.Gunner: Instantiate(gunnerPrefab, location, Quaternion.identity, GameObject.Find("NEIUI").transform); break;
+            case BoardManager.EnemyType.Nurse: Instantiate(nurseprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            case BoardManager.EnemyType.AngryDog: Instantiate (angrydogprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            case BoardManager.EnemyType.GPOSClub: Instantiate (gposclubprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            case BoardManager.EnemyType.HospitalDirector: Instantiate (principalprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            default: break;
         }
     }
     private void InstantiateNPC( BoardManager.NPCType nType, Vector2 location ) {
@@ -506,6 +563,11 @@ public class GameManager : MonoBehaviour {
      */
     public void Throw(ItemManager.Label label) {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        for(int i = 0; i < bossList.Length;i++ )
+        {
+            ThrowToEnemy (bossList [i].GetComponent<Enemy> (), label);
+        }
         for( int i = 0; i < enemyList.Length; i++ ) {
             ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
         }

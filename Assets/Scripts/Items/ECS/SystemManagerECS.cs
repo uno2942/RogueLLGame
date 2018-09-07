@@ -101,7 +101,10 @@ public class StatSystem : ComponentSystem {
     }
 
     protected override void OnUpdate() {
-        Player player = SceneManager.GetActiveScene().name == "intro" ? GameObject.Find( "Player" ).GetComponent<Player>():null;
+        Player player;
+        if ( SceneManager.GetActiveScene ().name == "intro" || SceneManager.GetActiveScene ().name == "next" ) player = GameObject.Find ("Player").GetComponent<Player> ();
+        else player = null;
+             
 
         foreach( var e in GetEntities<group>() ) {
             if( e.item.isUse ) {
@@ -343,9 +346,11 @@ public class BuffSystem : ComponentSystem {
     }
 
     protected override void OnUpdate() {
-        Player player = SceneManager.GetActiveScene().name == "intro" ? GameObject.Find( "Player" ).GetComponent<Player>() : null;
+        Player player;
+        if ( SceneManager.GetActiveScene ().name == "intro" || SceneManager.GetActiveScene ().name == "next" ) player = GameObject.Find ("Player").GetComponent<Player> ();
+        else player = null;
 
-        foreach( var e in GetEntities<group>() ) {
+        foreach ( var e in GetEntities<group>() ) {
             if( e.item.isUse ) {
                 if( e.buffECS.isUsed ) {
                     Component.Destroy( e.buffECS );

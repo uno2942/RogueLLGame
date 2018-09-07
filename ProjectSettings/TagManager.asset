@@ -36,6 +36,7 @@ TagManager:
   - NorthLockB
   - WestLockB
   - SouthLockB
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -4,38 +4,35 @@ using UnityEngine;
 
 public class Nurse : Boss {
 
-    private void Start()
+    public int atkBuffTurn;
+    public bool atkBuffOn;
+    protected override void Start()
     {
         Debug.Log("간호사 등장");
+        base.Start ();
         level = 1;
-        attack = 11; //shld be decided by level and setting file
-        defense = 2;
-        maxhp = 230;
+        defaultA = 6; //shld be decided by level and setting file
+        defaultD = 1;
+        maxhp = 450;
         hp = maxhp;
         debuffPercent = 0.0f;
-        enemyAction = new NurseAction(this);
-        debuff = null;
+        enemyAction = new NurseAction (this);
+        debuff = new Bleed (3);
+        player = GameObject.Find ("Player").GetComponent<Player> ();
+        atkBuffTurn = 0;
+        atkBuffOn = false;
+        delA = 4;
+        delD = 1;
     }
 
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void ChangeStatus(bool isHallucinated)
+
+    private void OnMouseUpAsButton()
     {
-        //read setting file and change
-        if (isHallucinated == true)
-        {
-            attack = 16;
-            defense = 2;
-
-        }
-        else
-        {
-            attack = 11;
-            defense = 2;
-        }
+        player.PlayerAction.Attack (this);
+        Debug.Log ("플레이어 공격");
     }
-
-    
 
 }
