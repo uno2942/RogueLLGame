@@ -21,7 +21,7 @@ public class MedicineMaster : NPC {
         dBox.npc = this;
         MessageMaker messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
         GameObject.Find( "ItemManager" ).GetComponent<ItemManager>().ItemIdentify( pill );
-        dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "오, 그 알약은" + messageMaker.Name(pill) +  "이라네.";
+        dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "이 알약은" + messageMaker.Name(pill) +  "입니다.";
     }
 
     public override void OnClicked() {
@@ -33,7 +33,7 @@ public class MedicineMaster : NPC {
             player.InventoryList.MedicineCommuni = true; // 이제부터 아이템창은 다이얼로그박스와 상호작용합니다.
             player.GetInventoryList().isDialogBoxOn = true;
             dBox.npc = this;
-            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "안녕하신가. 알약을 보여주면 뭔지 알려주겠네.";
+            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "알약 성분의 분석이 가능한 분석기가 있습니다.";
         }
         else 
         {
@@ -41,7 +41,7 @@ public class MedicineMaster : NPC {
             player.GetInventoryList().isDialogBoxOn = true;
             dBox = (gObject = Instantiate(dialogBox[1], new Vector2(0 + GameObject.Find("PlayerUI").transform.position.x, 2 + GameObject.Find("PlayerUI").transform.position.y), Quaternion.identity, GameObject.Find("PlayerUI").transform)).GetComponent<CantTalkBox>();
             dBox.npc = this;
-            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "더 이상은 알려줄 수 없으니 가 보시게나.";
+            dBox.GetComponentInChildren<UnityEngine.UI.Text>().text = "분석기의 전원이 꺼져 있습니다.";
         }
     }
 }

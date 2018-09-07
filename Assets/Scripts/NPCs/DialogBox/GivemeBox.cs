@@ -56,7 +56,7 @@ public class GivemeBox : MonoBehaviour {
     public void UseCommand() {
         
         if(injector == ItemManager.Label.Empty) { //아이템 안들어감
-            this.GetComponentInChildren<UnityEngine.UI.Text>().text = "장난하지 마시고... 주사기 없습니까?";
+            this.GetComponentInChildren<UnityEngine.UI.Text>().text = "음료수.... 음료수를 주세요!";
         } else { //아이템 들어감
             Debug.Log(injector.ToString() + "를 주었다.");
             npc.player.DumpItem( npc.player.InventoryList.Getindex( injector ) ); // 아이템 버리고

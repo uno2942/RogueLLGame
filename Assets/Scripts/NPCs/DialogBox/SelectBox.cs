@@ -31,7 +31,7 @@ public class SelectBox : MonoBehaviour
     public  void UseCommand()
     {
         if( pill == ItemManager.Label.Empty ) { //아이템 안들어감
-            this.GetComponentInChildren<UnityEngine.UI.Text>().text = "허허, 알약을 보여줘야 분석할 수 있다네. 알약을 하나 보여주게나.";
+            this.GetComponentInChildren<UnityEngine.UI.Text>().text = "알약을 넣어야 작동할 것 같습니다.";
         } else { //아이템 들어감
             Debug.Log( pill.ToString() + "를 보여주었다." );
             npc.player.InventoryList.itemManager.ItemIdentify( pill ); // 아이템 감정하고
