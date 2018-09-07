@@ -644,7 +644,12 @@ public class MapGenerator {
     {
         
         Array values = Enum.GetValues(typeof(BoardManager.NPCType));
-        return (BoardManager.NPCType)values.GetValue(UnityEngine.Random.Range(1, values.Length));
+        BoardManager.NPCType npc = (BoardManager.NPCType) values.GetValue( UnityEngine.Random.Range( 1, values.Length ) );
+        while(npc != BoardManager.NPCType.CapsuleDespenser ) {
+            npc = (BoardManager.NPCType) values.GetValue( UnityEngine.Random.Range( 1, values.Length ) );
+        }
+
+        return npc;
     }
 
     private List<E> ShuffleList<E>(List<E> inputList)
