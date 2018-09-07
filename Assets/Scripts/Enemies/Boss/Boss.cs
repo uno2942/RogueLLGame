@@ -22,7 +22,7 @@ public class Boss : Enemy {
             defense = defaultD;
         }
     }
-
+    
     protected virtual void OnDestroy() {
 
         ItemManager itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();

@@ -29,7 +29,7 @@ public class BoardManager : MonoBehaviour {
                                                                                                                     이를 기반으로 NPC 게임 오브젝트를 게임에
                                                                                                                     뿌린다.
                                                                                                                     */
-    public enum EnemyType { Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse };
+    public enum EnemyType { Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse, GPOSClub };
 
     public GameObject doorPrefab;
     public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
@@ -42,6 +42,14 @@ public class BoardManager : MonoBehaviour {
     private Dictionary<int, List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
     private MapGenerator parser; /**< 맵 파서이다. */
     private MapTile currenttile; /**< 플레이어가 현재 있는 맵 타일 */
+
+    public MapTile CurrentTile
+    {
+        get
+        {
+            return currenttile;
+        }
+    }
 
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int yPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */

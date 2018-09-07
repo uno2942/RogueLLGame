@@ -1018,6 +1018,14 @@ MonoBehaviour:
     type: 2}
   gunnerPrefab: {fileID: 1266958200657114, guid: ba83a61f0ba4a8d4cb0e46a2a435a4ee,
     type: 2}
+  nurseprefab: {fileID: 1237766867383460, guid: 74cd1ef3d79cc9f499918067d1ea3827,
+    type: 2}
+  angrydogprefab: {fileID: 1046518689482098, guid: a35c5dce1cec4f24981d41a349583242,
+    type: 2}
+  gposclubprefab: {fileID: 1224993403255594, guid: 7f38bf36ea308d64ab8ce9f78c8972d2,
+    type: 2}
+  principalprefab: {fileID: 1417294011709788, guid: 6e4b69943114e5041b217b14a32a21f9,
+    type: 2}
   npcPrefab:
   - {fileID: 1722809347248306, guid: 9bc69e928c0399444b54845e5ebffe4b, type: 2}
   - {fileID: 1764135839014080, guid: 1b3901b420868254a9c0f4c82836ef2d, type: 2}
@@ -1718,7 +1726,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1447004968}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 

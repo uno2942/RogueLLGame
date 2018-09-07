@@ -77,6 +77,14 @@ public class Enemy : Unit
 
     public void OnClick() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        foreach(var bossObject in bossList )
+        {
+            if ( player.isHallucinated )
+            {
+                bossObject.GetComponent<Boss> ().ChangeStatus (player.isHallucinated);
+            }
+        }
         foreach( var enemyObject in enemyList ) {
             if( player.isHallucinated ) {
                 enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );

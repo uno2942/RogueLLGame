@@ -25,12 +25,7 @@ public class BoundedCrazy : Boss {
         delD = 0;
     }
 
-
-    private void OnMouseUpAsButton() {
-        player.PlayerAction.Attack( this );
-        Debug.Log( "플레이어 공격" );
-    }
-
+    
     /** \change enemy's Status by level and isHallucinated
      */
     

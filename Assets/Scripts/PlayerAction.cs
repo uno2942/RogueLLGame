@@ -11,11 +11,15 @@ public class PlayerAction {
     private ItemManager itemManager;
     private GameManager gameManager;
     private MessageMaker messageMaker;
+    private BoardManager boardmanager;
+    public bool bossCommuni;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
         messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
+        boardmanager = GameObject.Find ("BoardManager").GetComponent<BoardManager> ();
+        bossCommuni = false;
     }
 
 
@@ -27,41 +31,91 @@ public class PlayerAction {
      */
     public void Attack( Enemy enemy ) {
 
-        
-        int tempindex;
-        player.weapon.Attack( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
-
-        float temp = ( player.FinalAttackPower() - enemy.FinalDefensePower() );
-
-        if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Adrenaline ) ) ) ) {
-            temp *= 1.6f;
-        }
-        if( temp <= 1.0f )
-            temp = 1;
-        if ( player.FinalAttackPower () <= 0 )
-            temp = 0;
-        enemy.ChangeHp( -temp );
-        messageMaker.MakeAttackMessage(player, MessageMaker.UnitAction.Attack, enemy, (int)temp);
-
-        if (enemy.Hp <= 0)
+        if ( enemy is HospitalDirector )
         {
-            messageMaker.MakeDeathMessage(player, enemy);
-            gameManager.KillEnemy(enemy);
-        }
-        /*
-        if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
-            temp += 1;
-        }
-        if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
-        */
-        if( player.weapon.IsDestroyed() == true ) {
-            tempindex = player.weaponindex;
-            UnequipItem( tempindex );
-            DumpItem( tempindex );
-        }
+            player.ChangeMp (-10);
 
-        Debug.Log( "공격 끝" );
-        gameManager.EndPlayerTurn(Unit.Action.Attack);
+            int tempindex;
+            player.weapon.Attack (enemy); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+
+            float temp = (player.FinalAttackPower () - enemy.FinalDefensePower ());
+
+            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Adrenaline))) )
+            {
+                temp *= 1.6f;
+            }
+            if ( temp <= 1.0f )
+                temp = 1;
+            if ( player.FinalAttackPower () <= 0 )
+                temp = 0;
+
+            int stop = 0;
+            if ( player.isHallucinated )
+                stop = 6;
+            else
+                stop = 12;
+
+            if ( temp >= stop )
+                enemy.ChangeHp (-stop);
+            else
+                enemy.ChangeHp (-temp);
+            messageMaker.MakeAttackMessage (player, MessageMaker.UnitAction.Attack, enemy, (int) temp);
+
+            if ( enemy.Hp <= 0 )
+            {
+                messageMaker.MakeDeathMessage (player, enemy);
+                gameManager.KillEnemy (enemy);
+            }
+
+            if ( player.weapon.IsDestroyed () == true )
+            {
+                tempindex = player.weaponindex;
+                UnequipItem (tempindex);
+                DumpItem (tempindex);
+            }
+
+            Debug.Log ("공격 끝");
+            gameManager.EndPlayerTurn (Unit.Action.Attack);
+        }
+        else
+        {
+            int tempindex;
+            player.weapon.Attack (enemy); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+
+            float temp = (player.FinalAttackPower () - enemy.FinalDefensePower ());
+
+            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Adrenaline))) )
+            {
+                temp *= 1.6f;
+            }
+            if ( temp <= 1.0f )
+                temp = 1;
+            if ( player.FinalAttackPower () <= 0 )
+                temp = 0;
+            enemy.ChangeHp (-temp);
+            messageMaker.MakeAttackMessage (player, MessageMaker.UnitAction.Attack, enemy, (int) temp);
+
+            if ( enemy.Hp <= 0 )
+            {
+                messageMaker.MakeDeathMessage (player, enemy);
+                gameManager.KillEnemy (enemy);
+            }
+            /*
+            if (player.Bufflist.Exists( x => x.GetType().Equals( typeof(Poison) ) )) {
+                temp += 1;
+            }
+            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
+            */
+            if ( player.weapon.IsDestroyed () == true )
+            {
+                tempindex = player.weaponindex;
+                UnequipItem (tempindex);
+                DumpItem (tempindex);
+            }
+
+            Debug.Log ("공격 끝");
+            gameManager.EndPlayerTurn (Unit.Action.Attack);
+        }
     }
     /**
     * 현재 위치정보를 기반으로 항을 변경한다
@@ -198,7 +252,11 @@ public class PlayerAction {
         itemManager.LabelToItem( label );
     }
 
-    public void Rest() {
+    public void Rest()
+    {
+        if ( bossCommuni )
+            player.ChangeMp (6);
+
         player.ChangeHp( 1 );
         gameManager.EndPlayerTurn( Unit.Action.Rest );
     }

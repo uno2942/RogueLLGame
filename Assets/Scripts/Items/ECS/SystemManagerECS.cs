@@ -101,7 +101,7 @@ public class StatSystem : ComponentSystem {
     }
 
     protected override void OnUpdate() {
-        Player player = SceneManager.GetActiveScene().name == "intro" ? GameObject.Find( "Player" ).GetComponent<Player>():null;
+        Player player = SceneManager.GetActiveScene().name == "intro" ? GameObject.Find( "Player" ).GetComponent<Player>() : SceneManager.GetActiveScene().name=="next" ? GameObject.Find("Player").GetComponent<Player>() : null;
 
         foreach( var e in GetEntities<group>() ) {
             if( e.item.isUse ) {
