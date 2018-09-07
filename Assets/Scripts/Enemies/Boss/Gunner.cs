@@ -41,16 +41,15 @@ public class Gunner : Boss {
         }
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         ItemManager itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
         Vector3 tnowPos = transform.position;
         Vector2 nowPos;
         nowPos.x = tnowPos.x;
         nowPos.y = tnowPos.y;
         itemManager.InstantiateItem(ItemManager.ItemCategory.AutoHandgun, nowPos);
-      
-
     }
 
 }

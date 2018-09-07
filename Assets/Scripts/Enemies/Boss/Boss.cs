@@ -23,4 +23,15 @@ public class Boss : Enemy {
         }
     }
 
+    protected virtual void OnDestroy() {
+
+        ItemManager itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
+        Vector3 tnowPos = transform.position;
+        Vector2 nowPos;
+        nowPos.x = tnowPos.x;
+        nowPos.y = tnowPos.y;
+
+        itemManager.InstantiateItem( ItemManager.ItemCategory.BlackCard, nowPos );
+        
+    }
 }

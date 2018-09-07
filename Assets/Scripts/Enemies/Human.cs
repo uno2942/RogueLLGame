@@ -49,7 +49,7 @@ public class Human : Enemy
         }
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         int per;
         if(player.InventoryList.CheckItem(ItemManager.Label.AdrenalineDrug) || player.InventoryList.CheckItem(ItemManager.Label.MorfinDrug)) //약이 있는경우
