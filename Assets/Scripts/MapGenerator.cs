@@ -53,6 +53,9 @@ public class MapGenerator {
     public GameObject SouthLockPrefabB;
     public GameObject NorthLockPrefabB;
     private GameObject minimapTilePrefab;
+    private GameObject bossMinimapTilePrefab;
+    private GameObject pillMinimapTilePrefab;
+    private GameObject equipMinimapTilePrefab;
 
     public List<ItemManager.ItemCategory> cEquip; //common이 가능한 장비들 목록
     public List<ItemManager.ItemCategory> rEquip; //rare가 가능한 장비들 목록
@@ -130,6 +133,9 @@ public class MapGenerator {
         NorthDoorBossPrefab = (GameObject) Resources.Load ("Maps/NorthDoorBoss");
         SouthDoorBossPrefab = (GameObject) Resources.Load ("Maps/SouthDoorBoss");
         minimapTilePrefab = (GameObject) Resources.Load( "Maps/MinimapTile" );
+        bossMinimapTilePrefab = (GameObject) Resources.Load( "Maps/BossMinimapTile" );
+        pillMinimapTilePrefab = (GameObject) Resources.Load( "Maps/PillMinimapTile" );
+        equipMinimapTilePrefab = (GameObject) Resources.Load( "Maps/EquipMinimapTile" );
         EastLockPrefabW = (GameObject) Resources.Load( "Maps/EastLockW" );
         WestLockPrefabW = (GameObject) Resources.Load( "Maps/WestLockW" );
         NorthLockPrefabW = (GameObject) Resources.Load( "Maps/NorthLockW" );
@@ -220,38 +226,53 @@ public class MapGenerator {
             case BoardManager.RoomType.BossRoom:
                 tileobj = GameObject.Instantiate( BossPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "BossRoom";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( bossMinimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.NormalRoom:
                 tileobj = GameObject.Instantiate( NormalRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "NormalRoom";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( minimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.Hall:
                 tileobj = GameObject.Instantiate( HallPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "Hall";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( minimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.DrugRoom:
                 tileobj = GameObject.Instantiate( DrugRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "DrugRoom";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( pillMinimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.LockedRoom:
                 tileobj = GameObject.Instantiate( LockedRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "LockedRoom";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( minimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.RestRoom:
                 tileobj = GameObject.Instantiate( RestRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "RestRoom";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( minimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.Equipment:
                 tileobj = GameObject.Instantiate( EquipRoomPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "Equipment";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( equipMinimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             case BoardManager.RoomType.PlayerStart:
                 tileobj = GameObject.Instantiate( PStartPrefab, position, Quaternion.identity, MapCanvasRectTransform );
                 tileobj.tag = "PlayerStart";
+                tile.gObject = tileobj;
+                GameObject.Instantiate( minimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
                 break;
             }
-            tile.gObject = tileobj;
-            GameObject.Instantiate( minimapTilePrefab, new Vector3( tile.x * 0.5f, tile.y * 0.5f, 60 ), Quaternion.identity );
+            
 
         }
 
@@ -290,11 +311,11 @@ public class MapGenerator {
 
             // 임시 코드임. 원인 찾으면 해결바람.
             //for debug
-
+            
             tile.enemyList.Clear();
             tile.NPCList.Clear();
             tile.itemList.Clear();
-
+            
             switch ( tile.roomType ) {
             case BoardManager.RoomType.BossRoom:
                 switch( floor ) {
@@ -645,7 +666,7 @@ public class MapGenerator {
         
         Array values = Enum.GetValues(typeof(BoardManager.NPCType));
         BoardManager.NPCType npc = (BoardManager.NPCType) values.GetValue( UnityEngine.Random.Range( 1, values.Length ) );
-        while(npc != BoardManager.NPCType.CapsuleDespenser ) {
+        while(npc == BoardManager.NPCType.CapsuleDespenser ) {
             npc = (BoardManager.NPCType) values.GetValue( UnityEngine.Random.Range( 1, values.Length ) );
         }
 
