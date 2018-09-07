@@ -229,6 +229,8 @@ public class Inventory {
     /** 인텍스에 해당하는 아이템의 라벨을 가져오는 함수
      */
     public ItemManager.Label GetLabel( int index ) {
+        if( index < 0 )
+            return ItemManager.Label.Empty;
         return LabelList[ index ];
     }
 

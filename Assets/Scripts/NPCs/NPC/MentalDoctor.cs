@@ -12,7 +12,7 @@ public class MentalDoctor : NPC {
 
 	public override void talk (Player player){
 		if (usuability == 100) {
-			player.DeleteBuff (player.Bufflist.Find (x => x.GetType ().Equals (typeof(Hallucinated)))); 
+			player.DeleteBuff ( new Hallucinated(1)); 
 			player.ChangeMp (100 - player.Mp);
 			usuability = 0;
 		}

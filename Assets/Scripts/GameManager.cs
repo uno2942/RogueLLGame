@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour {
         if( IsDead() ) {
             Buff B = new Starve();
             messageMaker.MakeDeathMessage( B );
+            KillPlayer();
             return;
         }
         if( player.Hungry < 60 ) {
@@ -221,6 +222,7 @@ public class GameManager : MonoBehaviour {
                 buffToDelete.Add( buff );
             if( IsDead() ) {
                 messageMaker.MakeDeathMessage( buff );
+                KillPlayer();
             }
         }
 
@@ -231,11 +233,7 @@ public class GameManager : MonoBehaviour {
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
         if( IsDead() )
         {
-
-            Debug.Log ("씬 수:" + SceneManager.sceneCount);
-            SceneManager.LoadScene ("gameover");
-            Debug.Log ("씬 수:" + SceneManager.sceneCount);
-            Debug.Log( "포닉스 불닭행" );
+            KillPlayer();
         };
         if ( _action == Unit.Action.Move )
         {
@@ -261,10 +259,7 @@ public class GameManager : MonoBehaviour {
             enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
             if(IsDead()) {
                 messageMaker.MakeDeathMessage( enemyObject.GetComponent<Enemy>(), player );
-
-                Debug.Log ("씬 수:" + SceneManager.sceneCount);
-                SceneManager.LoadScene ("gameover");
-                Debug.Log ("씬 수:" + SceneManager.sceneCount);
+                KillPlayer();
             }
         }
         enemyAttackTurn = false;
@@ -300,11 +295,7 @@ public class GameManager : MonoBehaviour {
         prevMonsterNum = enemyNum;
         if( IsDead() )
         {
-
-            Debug.Log ("씬 수:" + SceneManager.sceneCount);
-            SceneManager.LoadScene ("gameover");
-            Debug.Log ("씬 수:" + SceneManager.sceneCount);
-            Debug.Log( "포닉스 불닭행" );
+            KillPlayer();
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
         enemyCheckTurn = false;

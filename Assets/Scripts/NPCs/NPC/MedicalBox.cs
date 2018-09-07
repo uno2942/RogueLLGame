@@ -12,9 +12,9 @@ public class MedicalBox : NPC {
 
     public override void talk (Player player){
 		if (usuability == 100) {
-			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Burn ) ) ) );
-			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Poison ) ) ) );
-			player.DeleteBuff( player.Bufflist.Find( x => x.GetType().Equals( typeof( Bleed ) ) ) );
+			player.DeleteBuff( new Burn(1) );
+			player.DeleteBuff( new Poison(1) );
+			player.DeleteBuff( new Bleed(1) );
 			player.ChangeHp (player.MaxHp - player.Hp);
 			usuability = 0;
 		}
