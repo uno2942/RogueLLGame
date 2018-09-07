@@ -9,8 +9,8 @@ public class AngryDog : Boss {
         base.Start();
         Debug.Log("분노의 맹견 등장");
         level = 1;
-        defaultA = 4; //shld be decided by level and setting file
-        defaultD = 1;
+        defaultA = attack = 4; //shld be decided by level and setting file
+        defaultD = defense = 1;
         maxhp = 550;
         hp = maxhp;
         debuffPercent = 0.0f;

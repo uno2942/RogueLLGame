@@ -9,10 +9,11 @@ public class HospitalDirector : Boss {
     protected override void Start()
     {
         Debug.Log("최종보스 정신병원 원장 등장");
+        base.Start ();
         //player.PlayerAction.bossCommuni = true;
         level = 1;
-        defaultA = 6; //shld be decided by level and setting file
-        defaultD = 6;
+        defaultA = attack = 6; //shld be decided by level and setting file
+        defaultD = defense = 6;
         maxhp = 300;
         hp = maxhp;
         debuffPercent = 0.0f;

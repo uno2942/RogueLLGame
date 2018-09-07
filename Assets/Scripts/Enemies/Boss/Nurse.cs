@@ -11,8 +11,8 @@ public class Nurse : Boss {
         Debug.Log("간호사 등장");
         base.Start ();
         level = 1;
-        defaultA = 6; //shld be decided by level and setting file
-        defaultD = 1;
+        defaultA = attack = 6; //shld be decided by level and setting file
+        defaultD = defense = 1;
         maxhp = 450;
         hp = maxhp;
         debuffPercent = 0.0f;

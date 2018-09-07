@@ -1009,6 +1009,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8798b2517e2d8d4fa06456f5f07d8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ThrowFlag: 0
+  ThrowObject: {fileID: 0}
+  ThrowIndex: 0
   playerObject: {fileID: 486828227}
   ratPrefab: {fileID: 1497746923105172, guid: b045db4b825e697469b3ec17aa64a063, type: 2}
   dogPrefab: {fileID: 1294049849326864, guid: d35df83762ab4fe4b886c6688825bd44, type: 2}
@@ -1726,7 +1729,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1447004968}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
