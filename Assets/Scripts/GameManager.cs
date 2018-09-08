@@ -635,9 +635,9 @@ public class GameManager : MonoBehaviour {
             case 5: player.ChangeMp( 0.8f ); break;
             }
         }
-        if( Equals( player.weapon?.GetType(), typeof( BloodJacket ) ) )
+        if( Equals( player.armor?.GetType(), typeof( BloodJacket ) ) )
             player.ChangeMp( -0.8f );
-        else if( Equals( player.weapon?.GetType(), typeof( CleanDoctorCloth ) ) )
+        else if( Equals( player.armor?.GetType(), typeof( CleanDoctorCloth ) ) )
             player.ChangeMp( 1 );
     }
 

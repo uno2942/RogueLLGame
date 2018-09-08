@@ -212,7 +212,12 @@ public class Player : Unit {
         foreach( Buff buff in Bufflist ) {
             defensetemp += buff.IntermdeiateBuffDef();
         }
-        return defensetemp;
+        if( armor.IsDestroyed() == true ) {
+            int tempindex = armorindex;
+            UnequipItem( tempindex );
+            DumpItem( tempindex );
+        }
+            return defensetemp;
     }
 
     

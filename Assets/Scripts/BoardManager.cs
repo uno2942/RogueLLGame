@@ -36,6 +36,8 @@ public class BoardManager : MonoBehaviour {
     public Camera minimapCamera;
     public Player playerobejct;
     public GameManager gameManager;
+    public GameObject currentPosionOnMinimap;
+    public GameObject currentPosionOnMinimapPrefab;
 
     private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
     public Dictionary<MapGenerator.Coord, MapTile> CurrentMapOfFloor;
@@ -96,7 +98,8 @@ public class BoardManager : MonoBehaviour {
      */
 
     void Start() {
-        
+
+        currentPosionOnMinimap = Instantiate( currentPosionOnMinimapPrefab, new Vector3(0, 0, 60), Quaternion.identity);
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
@@ -230,24 +233,28 @@ public class BoardManager : MonoBehaviour {
             case Direction.Right:
                 gameCamera.transform.position += new Vector3( horizontalMovement, 0, 0 );
                 minimapCamera.transform.position += new Vector3( 0.5f, 0, 0 );
+                currentPosionOnMinimap.transform.position += new Vector3( 0.5f, 0, 0 );
                 playerobejct.transform.position += new Vector3( horizontalMovement, 0, 0 );
                 xPos++;
                 break;
             case Direction.Left:
                 gameCamera.transform.position -= new Vector3( horizontalMovement, 0, 0 );
                 minimapCamera.transform.position -= new Vector3( 0.5f, 0, 0 );
+                currentPosionOnMinimap.transform.position -= new Vector3( 0.5f, 0, 0 );
                 playerobejct.transform.position -= new Vector3( horizontalMovement, 0, 0 );
                 xPos--;
                 break;
             case Direction.UpSide:
                 gameCamera.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 minimapCamera.transform.position += new Vector3( 0, 0.5f, 0 );
+                currentPosionOnMinimap.transform.position += new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 yPos++;
                 break;
             case Direction.DownSide:
                 gameCamera.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 minimapCamera.transform.position -= new Vector3( 0, 0.5f, 0 );
+                currentPosionOnMinimap.transform.position -= new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 yPos--;
                 break;
@@ -305,6 +312,7 @@ public class BoardManager : MonoBehaviour {
         while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.YellowCard ) ) {
             playerobejct.DumpItem( ItemManager.Label.YellowCard );
         }
+        currentPosionOnMinimap.transform.position = new Vector3( 0, 0, 60 );
 
 
         StartCoroutine( frameDelay() );

@@ -11,11 +11,13 @@ public class PlayerAction {
     private ItemManager itemManager;
     private GameManager gameManager;
     private MessageMaker messageMaker;
+    private Sprite Empty;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
         messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
+        Empty = GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite;
     }
 
 
@@ -207,11 +209,11 @@ public class PlayerAction {
             if( weaponorarmor is Weapon ) {
                 player.weapon = new DefaultWeapon();
                 player.weaponindex = -1;
-                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
+                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = Empty;
             } else {
                 player.armor = new DefaultArmor();
                 player.armorindex = -1;
-                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = null;
+                GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite = Empty;
             }
         }
         gameManager.EndPlayerTurn( Unit.Action.Items );

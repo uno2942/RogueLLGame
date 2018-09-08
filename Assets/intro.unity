@@ -1657,8 +1657,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 16, y: 270}
-  m_SizeDelta: {x: 800, y: 130}
+  m_AnchoredPosition: {x: 30, y: 165}
+  m_SizeDelta: {x: 800, y: 250}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1447004970
 MonoBehaviour:
@@ -2329,6 +2329,9 @@ MonoBehaviour:
   minimapCamera: {fileID: 773617793}
   playerobejct: {fileID: 0}
   gameManager: {fileID: 0}
+  currentPosionOnMinimap: {fileID: 0}
+  currentPosionOnMinimapPrefab: {fileID: 1866032980370608, guid: 81a301d4eae56214f987f453d52c324e,
+    type: 2}
 --- !u!4 &2084880430
 Transform:
   m_ObjectHideFlags: 0
