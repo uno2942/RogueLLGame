@@ -128,9 +128,10 @@ public class Enemy : Unit
         foreach( Buff buff in Bufflist ) {
             attackTemp += buff.IntermdeiateBuffAtk();
         }
-        if( !( this is Boss ) )
-            if( attackTemp > 1 )
-                attackTemp = 1;
+        /*        if( !( this is Boss ) )
+                    if( attackTemp > 1 )
+                        attackTemp = 1;
+                        */
         return attackTemp;
     }
 
