@@ -8,17 +8,27 @@ public class AutoHandgun : Weapon{
     public AutoHandgun()
     {
         name = this.GetType().ToString();
-
         count = 17;
-        attackPower = 25;
-        rank = "common";
+        attackPowerMin = 16;
+        attackPowerMin = 65;
+        rank = ItemManager.Rank.Legendary;
     }
 
-    public override void Attack(Enemy enemy)
+    public override void GiveImpactToEnemy( Enemy enemy)
     {
-        if (count == 17) {
-            //안대요..
-        }
-        else { count++; }
+        count--;
+    }
+
+    public override void SetMaxAtkbyRank( ItemManager.Rank rank ) {
+        
+    }
+
+
+    public override bool IsDestroyed() {
+        Debug.Log( "count is " );
+        Debug.Log( count );
+        if( count == 0 )
+            return true;
+        return base.IsDestroyed();
     }
 }

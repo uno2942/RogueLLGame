@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 /** \brief The Manager class to controll whole gameboard.
@@ -9,7 +10,7 @@ using System.Linq;
 public class BoardManager : MonoBehaviour {
 
     public static int verticalMovement = 10; /**< The vertical length of a board in the game. */
-    public static int horizontalMovement = 14;/**< The vertical length of a board in the game. */
+    public static float horizontalMovement = 17.7792f;/**< The horizontal length of a board in the game. */
 
 
     public enum Direction { Right = 0, UpSide = 1, Left = 2, DownSide = 3 };  /**< \brief 플레이어가 움직이는 방향에 대한 열거형 
@@ -28,21 +29,35 @@ public class BoardManager : MonoBehaviour {
                                                                                                                     이를 기반으로 NPC 게임 오브젝트를 게임에
                                                                                                                     뿌린다.
                                                                                                                     */
-    public enum EnemyType { Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse };
+    public enum EnemyType { Empty, Dog, Rat, Human, AngryDog, BoundedCrazy, Gunner, HospitalDirector, Nurse, GPOSClub };
 
     public GameObject doorPrefab;
     public Camera gameCamera; /**< 플레이어가 이동할 때마다 플레이어를 비추는 카메라를 이동시켜야하기 때문에 필요한 카메라 변수 */
     public Camera minimapCamera;
     public Player playerobejct;
+    public GameManager gameManager;
+    public GameObject currentPosionOnMinimap;
+    public GameObject currentPosionOnMinimapPrefab;
 
     private List<MapTile> floor; /**< 한 층의 맵을 저장하기 위한 리스트 */ //get 한정으로 할지 고민
     public Dictionary<MapGenerator.Coord, MapTile> CurrentMapOfFloor;
-    private List<List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
+    private Dictionary<int, List<MapTile>> map; /**< 다수의 floor를 저장하기 위한 리스트 */
     private MapGenerator parser; /**< 맵 파서이다. */
+    private MapTile currenttile; /**< 플레이어가 현재 있는 맵 타일 */
+
+    public MapTile CurrentTile
+    {
+        get
+        {
+            return currenttile;
+        }
+    }
 
     private int xPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int yPos; /**< 플레이어의 위치를 저장한다.(한 보드를 이동할 때마다 +-1을 한다.) */
     private int whichFloor;
+
+    private bool mapGened;
 
     public Vector2 NowPos() {
         return new Vector2( xPos * horizontalMovement, yPos * verticalMovement );
@@ -81,8 +96,10 @@ public class BoardManager : MonoBehaviour {
      * \brief 사용자의 위치를 초기화한 후, 맵 파일을 파싱한 후 맵을 생성한다.
      * @todo We need make map parsing and door implementation and remove codes in this function. 
      */
+
     void Start() {
 
+        currentPosionOnMinimap = Instantiate( currentPosionOnMinimapPrefab, new Vector3(0, 0, 60), Quaternion.identity);
         playerobejct = GameObject.Find( "Player" ).GetComponent<Player>();
 
         xPos = yPos = 0;
@@ -90,10 +107,25 @@ public class BoardManager : MonoBehaviour {
 
         parser = new MapGenerator();
         floor = new List<MapTile>();
-        map = new List<List<MapTile>>();
+        map = new Dictionary<int, List<MapTile>>();
         parser.parse( ref map );
 
+        CurrentMapOfFloor = new Dictionary<MapGenerator.Coord, MapTile> ();
         parser.GenMapObject( map[ 0 ], ref CurrentMapOfFloor );
+        mapGened = true;
+        floor = map [0];
+
+        //시작할 때, 플레이어 초기 위치에 있는 문들을 enable 시킴.
+        currenttile =
+            (from tile in floor
+            where tile.x == 0 && tile.y == 0
+            select tile).First<MapTile>();
+
+        var curtransform = currenttile.gObject.transform;
+        for ( var i = 0; i < curtransform.childCount; i++ )
+        {
+            curtransform.GetChild (i).gameObject.SetActive (true);
+        }
 
         /*
                 Random.InitState( (int) System.DateTime.Now.Ticks );
@@ -183,41 +215,61 @@ public class BoardManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        
     }
     /**
      * 플레이어가 문을 클릭했을 때 문 프리팹이 이 함수를 콜한다. 이 함수는 플레이어와 카메라를 이동시킨다.
      */
     public void MoveNextRoom( Direction direction ) {
         //if(map is valid)
+
+        //맵을 이동할때 현재 있던 방의 문을 disable 시킴.
+        var curtransform = currenttile.gObject.transform;
+        for(var i = 0; i < curtransform.childCount; i++)
+            curtransform.GetChild(i).gameObject.SetActive (false);
+
         {
             switch( direction ) {
             case Direction.Right:
-                gameCamera.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
+                gameCamera.transform.position += new Vector3( horizontalMovement, 0, 0 );
                 minimapCamera.transform.position += new Vector3( 0.5f, 0, 0 );
-                playerobejct.transform.position += new Vector3Int( horizontalMovement, 0, 0 );
+                currentPosionOnMinimap.transform.position += new Vector3( 0.5f, 0, 0 );
+                playerobejct.transform.position += new Vector3( horizontalMovement, 0, 0 );
                 xPos++;
                 break;
             case Direction.Left:
-                gameCamera.transform.position -= new Vector3Int( horizontalMovement, 0, 0 );
+                gameCamera.transform.position -= new Vector3( horizontalMovement, 0, 0 );
                 minimapCamera.transform.position -= new Vector3( 0.5f, 0, 0 );
-                playerobejct.transform.position -= new Vector3Int( horizontalMovement, 0, 0 );
+                currentPosionOnMinimap.transform.position -= new Vector3( 0.5f, 0, 0 );
+                playerobejct.transform.position -= new Vector3( horizontalMovement, 0, 0 );
                 xPos--;
                 break;
             case Direction.UpSide:
                 gameCamera.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 minimapCamera.transform.position += new Vector3( 0, 0.5f, 0 );
+                currentPosionOnMinimap.transform.position += new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position += new Vector3Int( 0, verticalMovement, 0 );
                 yPos++;
                 break;
             case Direction.DownSide:
                 gameCamera.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 minimapCamera.transform.position -= new Vector3( 0, 0.5f, 0 );
+                currentPosionOnMinimap.transform.position -= new Vector3( 0, 0.5f, 0 );
                 playerobejct.transform.position -= new Vector3Int( 0, verticalMovement, 0 );
                 yPos--;
                 break;
             }
+            
+            currenttile =
+                (from tile in floor
+                 where tile.x == xPos && tile.y == yPos
+                 select tile).First<MapTile> ();
 
+            curtransform = currenttile.gObject.transform;
+            for ( var i = 0; i < curtransform.childCount; i++ )
+            {
+                curtransform.GetChild (i).gameObject.SetActive (true);
+            }
         }
     }
 
@@ -236,4 +288,58 @@ public class BoardManager : MonoBehaviour {
             return -1;
         }
     }
+
+    public void MoveNextFloor() {
+        whichFloor++;
+        Debug.Log( "hi" );
+        Debug.Log( "씬 수:" + SceneManager.sceneCount );
+        SceneManager.LoadScene( "next" );
+        Debug.Log( "씬 수:" + SceneManager.sceneCount );
+        CurrentMapOfFloor.Clear();
+        /*안주운 아이템, npc, 카드키 제거*/
+        GameObject neiui = GameObject.Find( "NEIUI" );
+        int neiNum = neiui.transform.childCount;
+        
+        for(int i = 0; i < neiNum; i++ ) {
+            if( ! neiui.transform.GetChild(i).CompareTag("ItemPickedUp")) { // 주운 item이 pickedup이 아니라면
+                Destroy( neiui.transform.GetChild( i ).gameObject );
+                }
+        }
+        
+        while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.WhiteCard ) ) {
+            playerobejct.DumpItem( ItemManager.Label.WhiteCard );
+        }
+        while( playerobejct.InventoryList.CheckItem( ItemManager.ItemCategory.YellowCard ) ) {
+            playerobejct.DumpItem( ItemManager.Label.YellowCard );
+        }
+        currentPosionOnMinimap.transform.position = new Vector3( 0, 0, 60 );
+
+
+        StartCoroutine( frameDelay() );
+    }
+      
+    private IEnumerator frameDelay() {
+        yield return null;
+        Debug.Log( SceneManager.GetActiveScene() );
+        parser.GenMapObject( map[ whichFloor ], ref CurrentMapOfFloor );
+        floor = map [whichFloor];
+
+        currenttile =
+            (from tile in floor
+             where tile.x == 0 && tile.y == 0
+             select tile).First<MapTile> ();
+
+        var curtransform = currenttile.gObject.transform;
+        for ( var i = 0; i < curtransform.childCount; i++ )
+        {
+            curtransform.GetChild (i).gameObject.SetActive (true);
+        }
+
+        gameCamera.transform.position = new Vector3( 0, 0, -10 );
+        minimapCamera.transform.position = new Vector3( 0, 0, (float)26.6 );
+        playerobejct.transform.position = new Vector3( (float)0.1, -2, 1 );
+        xPos = 0;
+        yPos = 0;
+    }
+
 }

@@ -10,6 +10,11 @@ using UnityEngine.UI;
 
 public class Enemy : Unit
 {
+    protected override void Awake() {
+        base.Awake();
+        boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
+    }
+
 
     /** 
 * \brief The enemy's level.
@@ -21,6 +26,12 @@ public class Enemy : Unit
     * Which action does Enemy do?
     */
     protected EnemyAction enemyAction;
+
+    //환각시 층 정보 접근 필요
+    protected BoardManager boardManager;
+    //환각시 변경 공방량
+    protected readonly int[] delAD = new int[ 6 ] {1, 1, 3, 4, 7, 9};
+
     public EnemyAction EnemyAction
     {
         get
@@ -35,6 +46,7 @@ public class Enemy : Unit
     protected float debuffPercent;
 
     protected virtual void Start() {
+        
         Image[] images = GetComponentsInChildren<Image>();
         foreach( Image image in images ) {
             if( image.name == "health" ) {
@@ -63,25 +75,88 @@ public class Enemy : Unit
 
     public int Level { get { return level; } }
 
-    protected void OnMouseUpAsButton() {
-        player.PlayerAction.Attack( this );
-        Debug.Log( "플레이어 공격" );
+    public void OnClick() {
+
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        foreach(var bossObject in bossList )
+        {
+            if ( player.isHallucinated )
+            {
+                bossObject.GetComponent<Boss> ().ChangeStatus (player.isHallucinated);
+            }
+        }
+        foreach ( var enemyObject in enemyList ) {
+            if ( player.isHallucinated ) {
+                enemyObject.GetComponent<Enemy> ().ChangeStatus (player.isHallucinated);
+            }
+        }
+
+        if( gameManager.ThrowFlag == false ) {
+                        
+            if( player.weapon is Nuckle ) {
+                switch( player.weapon.rank ) {
+                case ItemManager.Rank.Common: player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); break;
+                case ItemManager.Rank.Rare: player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); break;
+                case ItemManager.Rank.Legendary: player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); player.PlayerAction.Attack( this ); break;
+                }
+            } else
+                player.PlayerAction.Attack( this );
+            Debug.Log( "플레이어 공격" );
+        } else {
+            gameManager.ThrowToEnemy( this );
+            gameManager.ThrowFlag = false;
+        }
     }
 
 
     /** \change enemy's Status by isHallucinated
      */
-    public virtual void changeStatus(bool isHallucinated)
+    public virtual void ChangeStatus(bool isHallucinated)
     {
-
+        
     }
+
+    public override int FinalAttackPower() {
+        int min = attack;
+        int max = attack * 2; ;
+        if(this is Boss ) {
+            max += attack;
+        }
+        int attackTemp = (int) GaussianDistribution( min, max );
+                
+        foreach( Buff buff in Bufflist ) {
+            attackTemp += buff.IntermdeiateBuffAtk();
+        }
+        /*        if( !( this is Boss ) )
+                    if( attackTemp > 1 )
+                        attackTemp = 1;
+                        */
+        return attackTemp;
+    }
+
+    /** 유닛의 공격력+유닛의 상태 이상을 기반으로 유닛의 공격력을 반환 */
+    public override int FinalDefensePower() {
+        int min = defense;
+        int max = defense * 2; ;
+        if( this is Boss ) {
+            max += attack;
+        }
+
+        int defenseTemp = (int) GaussianDistribution( min, max );
+
+        foreach( Buff buff in Bufflist ) {
+            defenseTemp += buff.IntermdeiateBuffDef();
+        }
+        if( FindBuff( new Defenseless( 1 ) ) != null )
+            defenseTemp = 0;
+
+        return defenseTemp;
+    }
+
 
 
     /** \Works when enemy dies, and drop item :case by case.
     */
-    public virtual void dropItem()
-    {
-
-    }
 
 }

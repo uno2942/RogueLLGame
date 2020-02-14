@@ -56,3 +56,5 @@ jsconfig.json
 *.log
 
 # End of https://www.gitignore.io/api/code
+Assets/intro.unity.orig.meta
+Assets/Scripts/Items/Flask.meta

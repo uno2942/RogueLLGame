@@ -20,9 +20,24 @@ public class Door : MonoBehaviour {
     private GameManager gameManager;
     //@}
     private bool isOpened;
+    private bool isAvailable;
     /**
  * \brief Check whether the door is opend.
  */
+    
+    public bool IsAvailable
+    {
+        get
+        {
+            return isAvailable;
+        }
+
+        set
+        {
+            isAvailable = value;
+        }
+    }
+
     public bool IsOpened
     {
         get
@@ -73,17 +88,51 @@ public class Door : MonoBehaviour {
     private void OnMouseUpAsButton() {
         Debug.Log( isOpened + " " + gameManager.CurrentSituation );
         if( isOpened && !gameManager.CurrentSituation ) {
-            switch( tag ) {
-            case "EastDoor": direction = BoardManager.Direction.Right; break;
-            case "WestDoor": direction = BoardManager.Direction.Left; break;
-            case "NorthDoor": direction = BoardManager.Direction.UpSide; break;
-            case "SouthDoor": direction = BoardManager.Direction.DownSide; break;
-            default: break;
-            }
+            if( GetComponentsInChildren<UnityEngine.UI.Image>().Length == 1 ) {
+                switch( tag ) {
+                case "EastDoor": direction = BoardManager.Direction.Right; break;
+                case "WestDoor": direction = BoardManager.Direction.Left; break;
+                case "NorthDoor": direction = BoardManager.Direction.UpSide; break;
+                case "SouthDoor": direction = BoardManager.Direction.DownSide; break;
+                default: break;
+                }
 
-            boardManager.MoveNextRoom( direction );
-            gameManager.EndPlayerTurn( Unit.Action.Move);
-            gameManager.GenerateMonsters(boardManager.XPos, boardManager.YPos);
+                boardManager.MoveNextRoom( direction );
+                gameManager.EndPlayerTurn( Unit.Action.Move );
+                gameManager.GenerateMonstersAndItems (boardManager.XPos, boardManager.YPos);
+                gameManager.GenerateNPCs( boardManager.XPos, boardManager.YPos );
+
+
+            } else {
+                Player player = GameObject.Find( "Player" ).GetComponent<Player>();
+                if( transform.GetChild( 0 ) == null ) {
+                    Debug.Log( "문짝에서 자물쇠 오브젝트를 못찾았대 ㅋ" );
+                    return;
+                }
+
+                if( transform.GetChild( 0 ).tag == "NorthLockW"
+                    || transform.GetChild( 0 ).tag == "SouthLockW"
+                    || transform.GetChild( 0 ).tag == "EastLockW"
+                    || transform.GetChild( 0 ).tag == "WestLockW")  //문짝의 lock이 하얀경우
+                {
+                    if( player.InventoryList.CheckItem( ItemManager.Label.WhiteCard ) ) {
+                        player.UseItem( player.InventoryList.Getindex( ItemManager.Label.WhiteCard ) );
+                        Destroy( GetComponentsInChildren<UnityEngine.UI.Image>()[ 1 ].gameObject );
+                    } else {
+                        MessageMaker messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
+                        messageMaker.MakeCannotMessage( ItemManager.Label.WhiteCard );
+                    }
+                } else {
+                    if( player.InventoryList.CheckItem( ItemManager.Label.YellowCard ) ) {
+                        player.UseItem( player.InventoryList.Getindex( ItemManager.Label.YellowCard ) );
+                        Destroy( GetComponentsInChildren<UnityEngine.UI.Image>()[ 1 ].gameObject );
+                    } else {
+                        MessageMaker messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
+                        messageMaker.MakeCannotMessage( ItemManager.Label.YellowCard );
+                    }
+                }               
+
+            }
         }
     }
 

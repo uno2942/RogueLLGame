@@ -7,25 +7,34 @@ using UnityEngine;
 public class Rat : Enemy
 {
     
-    
-
+    private int[] hpDB;
+    private int[] atkDB;
+    private int[] defDB;
+    private float[] debuffDB;
+    private float[] hDebuffDB;
     /** 
      * There is a debug code.
      * incomplete:: shld be read settings file
      */
     protected override void Start()
     {
+        base.Start();
         Debug.Log("쥐 나타남");
-        level = 1;
-        attack = 1; //shld be decided by level and setting file
-        defense = 0;
-        maxhp = 3;
+        hpDB = new int[ 6 ] { 5, 6, 12, 15, 26, 33 };
+        atkDB = new int[ 6 ] { 1, 1, 1, 1, 3, 3 };
+        defDB = new int[ 6 ] { 0, 0, 0, 0, 1, 1 };
+        debuffDB = new float[ 6 ] { 0.0f, 0.0f, 0.1f, 0.1f, 0.4f, 0.4f };
+        hDebuffDB = new float[ 6 ] { 0.25f, 0.25f, 0.45f, 0.45f, 0.9f, 0.9f };
+
+        level = boardManager.WhichFloor;
+        attack = atkDB[level]; //shld be decided by level and setting file
+        defense = defDB[level];
+        maxhp = hpDB[level];
         hp = maxhp;
-        debuffPercent = 0.0f;
+        debuffPercent = debuffDB[ level ];
         enemyAction = new EnemyAction(this);
         debuff = new Poison(2);
         player = GameObject.Find( "Player" ).GetComponent<Player>();
-        base.Start();
     }
     /** 
  * There is a debug code.
@@ -34,22 +43,23 @@ public class Rat : Enemy
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void changeStatus(bool isHallucinated)
+    public override void ChangeStatus(bool isHallucinated)
     {
-        //read setting file and change
-        if (isHallucinated == true)
+        if (isHallucinated)
         {
-            attack = 2;
-            defense = 0;
-            debuffPercent = 0.25f;
-            debuff = new Poison(3);
+            attack = delAD[level] + atkDB[level];
+            defense = delAD[level] + defDB[level];
+
         }
         else
         {
-            attack = 1;
-            defense = 0;
-            debuffPercent = 0.0f;
-            debuff = new Poison(2);
+            attack = atkDB[level];
+            defense = defDB[level];
+        }
+        if (isHallucinated) {
+            debuffPercent = hDebuffDB[ level ];
+        } else {
+            debuffPercent = debuffDB[ level ];
         }
     }
 

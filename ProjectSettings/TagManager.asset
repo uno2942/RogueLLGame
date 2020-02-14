@@ -21,6 +21,22 @@ TagManager:
   - WestDoor
   - NorthDoor
   - SouthDoor
+  - GivemeBoxImage
+  - SelectBoxImage
+  - EastLockW
+  - WestLockW
+  - SouthLockW
+  - NorthLockW
+  - EastLockY
+  - WestLockY
+  - SouthLockY
+  - NorthLockY
+  - Ground
+  - EastLockB
+  - NorthLockB
+  - WestLockB
+  - SouthLockB
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -55,6 +71,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: MinimapLayer
+    uniqueID: 1150303051
+    locked: 0
+  - name: MapAndDoorLayer
+    uniqueID: 3537100495
+    locked: 0
+  - name: NPCLayer
+    uniqueID: 829694101
+    locked: 0
+  - name: EnemyLayer
+    uniqueID: 4092152317
+    locked: 0
+  - name: ItemLayer
+    uniqueID: 1744380277
+    locked: 0
+  - name: PlayerUILayer
+    uniqueID: 3468361563
+    locked: 0
+  - name: InventoryUILayer
+    uniqueID: 4272091467
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

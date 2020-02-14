@@ -7,7 +7,11 @@ public class Club : Weapon
     public Club()
     {
         name = this.GetType().ToString();
-        attackPower = 9;
-        rank = "common";
+        attackPowerMin = 10;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank(rank);
+    }
+    public void DecreaseAttackMin() {
+        attackPowerMin --;
     }
 }

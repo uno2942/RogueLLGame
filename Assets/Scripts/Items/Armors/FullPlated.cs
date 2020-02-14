@@ -6,10 +6,15 @@ public class FullPlated : Armor {
     public FullPlated()
     {
         name = this.GetType().ToString();
-        defensivePower = 20;
-        rank = "legendary";
+        defensivePowerMin = 12;
+        rank = ItemManager.Rank.Legendary;
+        defensivePowerMax = 45;
+        
     }
 
+    public override void SetMaxDefbyRank( ItemManager.Rank rank ) {
+        
+    }
 
     public override void Check(Player player)
     {

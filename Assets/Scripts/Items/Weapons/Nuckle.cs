@@ -5,7 +5,12 @@ using UnityEngine;
 public class Nuckle : Weapon {
     public Nuckle() {
         name = this.GetType().ToString();
-        attackPower = 3;
-        rank = "common";
+        attackPowerMin = 4;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank( rank );
+    }
+
+    public override void GiveImpactToEnemy( Enemy enemy ) {
+        
     }
 }

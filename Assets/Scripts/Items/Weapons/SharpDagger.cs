@@ -6,7 +6,8 @@ public class SharpDagger : Weapon {
     public SharpDagger()
     {
         name = this.GetType().ToString();
-        attackPower = 11;
-        rank = "rare";
+        attackPowerMin = 6;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank( rank );
     }
 }

@@ -13,10 +13,10 @@ public class Stunned : Buff {
     public override void BuffWorkTo( Unit unit, Unit.Action action ) {
         count--;
     }
-    public override int passiveBuffAtk() {
+    public override int IntermdeiateBuffAtk() {
         return 0;
     }
-    public override int passiveBuffDef() {
+    public override int IntermdeiateBuffDef() {
         return 0;
     }
     public override float BuffAction( Unit.Action action ) {

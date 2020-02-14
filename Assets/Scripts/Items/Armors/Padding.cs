@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class Padding : Armor
 {
+    int count;
     public Padding()
     {
         name = this.GetType().ToString();
-        defensivePower = 9;
-        rank = "rare";
+        defensivePowerMin = 6;
+        rank = ItemManager.Rank.Common;
+        SetMaxDefbyRank( rank );
+        count = 20;
+    }
+    
+    public void OnAttacked() {
+        count--;
     }
 
+    public override bool IsDestroyed() {
+        if( count == 0 )
+            return true;
+        return false;
+    }
 }

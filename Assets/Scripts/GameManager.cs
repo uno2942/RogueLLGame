@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 /**
  * \brief 게임 전반(턴, 몬스터 등)을 관리하는 코드
  */
@@ -9,8 +10,10 @@ public class GameManager : MonoBehaviour {
     private bool playerTurn;
     private bool enemyAttackTurn;
     private bool enemyCheckTurn;
-
-
+    public bool ThrowFlag = false;
+    public GameObject ThrowObject;
+    public int ThrowIndex;
+    private ItemManager.Label throwLabel;
     private Unit.Action action;
     private int currentTurn; /**< It contains number of passed turns from the beginning of the game. */
     
@@ -40,6 +43,8 @@ public class GameManager : MonoBehaviour {
     private Player player;
     private BoardManager boardManager;
     private ItemManager itemManager;
+    private MessageMaker messageMaker;
+
     //@}
     /**
      * This variables are tentatively implemented.
@@ -48,6 +53,15 @@ public class GameManager : MonoBehaviour {
     public GameObject ratPrefab;
     public GameObject dogPrefab;
     public GameObject humanPrefab;
+    public GameObject boundedCrazyPrefab;
+    public GameObject gunnerPrefab;
+    public GameObject nurseprefab;
+    public GameObject angrydogprefab;
+    public GameObject gposclubprefab;
+    public GameObject principalprefab;
+
+    public GameObject[] npcPrefab;
+
     private Vector2[] monsterGenLocation;
     //@}
 
@@ -75,12 +89,13 @@ public class GameManager : MonoBehaviour {
         monsterGenLocation [1] = new Vector2 (-2, 2);
         monsterGenLocation [2] = new Vector2 (2, 2);
         monsterGenLocation [3] = new Vector2 (-3, 2);
-        monsterGenLocation [4] = new Vector2 (0, 2);
-        monsterGenLocation [5] = new Vector2 (3, 2);
+        monsterGenLocation [4] = new Vector2 (3, 2);
+        monsterGenLocation [5] = new Vector2 (0, 2);
         currentTurn = 0;
         currentSituation = false;
         boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
         itemManager = GameObject.Find ("ItemManager").GetComponent<ItemManager> ();
+        messageMaker = GameObject.Find( "Logger" ).GetComponent<MessageMaker>();
     }
 
     // Update is called once per frame
@@ -131,52 +146,118 @@ public class GameManager : MonoBehaviour {
     private void CheckPlayerStatus( Unit.Action _action ) {
         //정신력 체크
         DecreaseMpByTurn();
+        //1층 보스시 추가감소
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+
+        foreach( var bossObject in bossList )
+        {
+            var boss = bossObject.GetComponent<Boss> ();
+            boss.EnemyAction.Other ();
+        }
+        
+        bool tmpHallucinated = player.isHallucinated;
         if( player.Mp <= 30 && !player.isHallucinated ) {
             player.SetMpZero();
-            player.Bufflist.Add( new Hallucinated( -1 ) );
+            player.AddBuff( new Hallucinated( -1 ) );
             player.isHallucinated = true;
         }
 
         if( player.isHallucinated && player.Mp >= 60 ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ) );
+            player.DeleteBuff(new Hallucinated (1) );
             player.SetMpBy100();
             player.isHallucinated = false;
         }
-        //상태이상 체크
-        IncreaseHungryByTurn();
-        if( player.Hungry >= 100 && !player.isHungry ) {
-            player.Bufflist.Add( new Hunger() );
-            player.isHungry = true;
-        }
-        if( player.Hungry >= 130 && !player.isStarved && player.isHungry ) {
-            player.Bufflist.Add( new Starve() );
-            player.isStarved = true;
-        } else if( player.Hungry < 130 && player.isStarved ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Starve ) ) ) );
-            player.isStarved = false;
-        }
-        if( player.Hungry < 100 && player.isHungry ) {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hunger ) ) ) );
-            player.isHungry = false;
-        }
-        if( player.Hungry < 50 ) {
-            player.Bufflist.Add( new Full( -1 ) );
-        } else {
-            player.Bufflist.Remove( player.Bufflist.Find( x => x.GetType().Equals( typeof( Full ) ) ) );
+        if(tmpHallucinated != player.isHallucinated ) {
+            foreach( var bossObject in bossList )
+            {
+                bossObject.GetComponent<Boss> ().ChangeStatus (player.isHallucinated);
+            }
+            foreach( var enemyObject in enemyList ) {//환각에 따른 몹 상태변화
+                enemyObject.GetComponent<Enemy>().ChangeStatus( player.isHallucinated );
+            }
         }
 
+
+        //상태이상 체크
+        IncreaseHungryByTurn();
+        if( IsDead() ) {
+            Buff B = new Starve();
+            messageMaker.MakeDeathMessage( B );
+            KillPlayer();
+            return;
+        }
+        if( player.Hungry < 60 ) {
+            if( player.HungryPrevious >= 160 ) {
+                player.DeleteBuff( new Hunger() );
+                player.isHungry = false;
+                player.AddBuff( new Full( -1 ) );
+                player.isFull = true;
+            } else if( player.HungryPrevious >= 60 ) {
+                player.AddBuff( new Full( -1 ) );
+                player.isFull = true;
+            }
+        } else if( player.Hungry < 160 ) {
+            if( player.HungryPrevious < 60 ) {
+                player.DeleteBuff( new Full( -1 ) );
+                player.isFull = false;
+            } else if( player.HungryPrevious >= 210 ) {
+                player.DeleteBuff( new Starve() );
+                player.isStarved = false;
+            } else if( player.HungryPrevious >= 160 ) {
+                player.DeleteBuff( new Hunger() );
+                player.isHungry = false;
+            }
+        } else if( player.Hungry < 210 ) {
+            if( player.HungryPrevious < 160 ) {
+                player.AddBuff( new Hunger() );
+                player.isHungry = true;
+            } else if( player.HungryPrevious >= 210 ) {
+                player.DeleteBuff( new Starve() );
+                player.isStarved = false;
+                player.AddBuff( new Hunger() );
+                player.isHungry = true;
+            }
+        } else if( player.HungryPrevious < 210 ) {
+            player.DeleteBuff( new Hunger() );
+            player.isHungry = false;
+            player.AddBuff( new Starve() );
+            player.isStarved = true;
+        }
+        player.SyncHungry();
+
+        List<Buff> buffToDelete = new List<Buff>();
+
         foreach( Buff buff in player.Bufflist ) {
+            Debug.Log( buff );
             buff.BuffWorkTo( player, _action );
             if( buff.Count == 0 )
-                player.Bufflist.Remove( buff );
+                buffToDelete.Add( buff );
+            if( IsDead() ) {
+                messageMaker.MakeDeathMessage( buff );
+                KillPlayer();
+            }
         }
+
+        foreach( Buff buffToDel in buffToDelete )
+            player.DeleteBuff( buffToDel );
+
         Debug.Log( player.Hp.ToString() + " " + player.Mp.ToString() + " " + player.Hungry );
         Debug.Log( "ATK : " + player.Attack + ", DEF : " + player.Defense );
-        if( IsDead() ) {
-            Destroy( player.gameObject );
-            Debug.Log( "포닉스 불닭행" );
+        if( IsDead() )
+        {
+            KillPlayer();
         };
-        enemyAttackTurn = true;
+        if ( _action == Unit.Action.Move )
+        {
+            playerTurn = true;
+            return;
+        }
+        else
+        {
+            enemyAttackTurn = true;
+            return;
+        }
     }
     /**
     * 적들이 플레이어를 공격하는 함수이다.
@@ -187,9 +268,34 @@ public class GameManager : MonoBehaviour {
     */
     private void EnemyTurn() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        foreach(var bossObject in bossList)
+        {
+            if ( bossObject.GetComponent<Boss> () is AngryDog )
+            {
+                var enemy = bossObject.GetComponent<Boss> ();
+                enemy.EnemyAction.Attack ();
+                enemy.EnemyAction.Attack ();
+                if ( player.isHallucinated )
+                    enemy.EnemyAction.Attack ();
+            }
+            else
+                bossObject.GetComponent<Boss> ().EnemyAction.Attack ();
+            if ( IsDead () )
+            {
+                messageMaker.MakeDeathMessage (bossObject.GetComponent<Boss> (), player);
+                KillPlayer ();
+            }
+        }
         foreach( var enemyObject in enemyList )
-            enemyObject.GetComponent<Enemy>().EnemyAction.Attack();
+        {
+            enemyObject.GetComponent<Enemy> ().EnemyAction.Attack ();
 
+            if(IsDead()) {
+                messageMaker.MakeDeathMessage( enemyObject.GetComponent<Enemy>(), player );
+                KillPlayer();
+            }
+        }
         enemyAttackTurn = false;
         enemyCheckTurn = true;
     }
@@ -202,29 +308,42 @@ public class GameManager : MonoBehaviour {
     */
     public void CheckEnemyStatus() {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        Boss bossTemp;
         Enemy enemyTemp;
         int enemyNum = 0;
+        int bossNum = 0;
 
-        foreach( GameObject gObject in enemyList ) {
+        foreach ( GameObject gObject in bossList )
+        {
+            bossTemp = gObject.GetComponent<Boss> ();
+            foreach ( Buff buff in bossTemp.Bufflist )
+            {
+                buff.BuffWorkTo (bossTemp, Unit.Action.Default);
+                if ( buff.Count == 0 )
+                    bossTemp.DeleteBuff (buff);
+            }
+        }
+
+        foreach ( GameObject gObject in enemyList ) {
             enemyTemp = gObject.GetComponent<Enemy>();
             foreach( Buff buff in enemyTemp.Bufflist ) {
                 buff.BuffWorkTo( enemyTemp, Unit.Action.Default );
                 if( buff.Count == 0 )
-                    enemyTemp.Bufflist.Remove( buff );
+                    enemyTemp.DeleteBuff( buff );
             }
         }
         enemyNum = enemyList.Length;
-        if( enemyNum == 0 && prevMonsterNum != 0 ) {
+        if( enemyNum == 0 ) {
             //            if( Equals( enemyList[ 0 ].GetComponent<Enemy>().GetType(), typeof( BoundedCrazy ) ) ) 
             //                itemManager.DropCard( boardManager.NowPos() );
             //            else
-            itemManager.DropItem( boardManager.NowPos() );
             currentSituation = false;
         }
         prevMonsterNum = enemyNum;
-        if( IsDead() ) {
-            Destroy( player.gameObject );
-            Debug.Log( "포닉스 불닭행" );
+        if( IsDead() )
+        {
+            KillPlayer();
         };
         player.InventoryList.IdentifyAllTheInventoryItem();
         enemyCheckTurn = false;
@@ -241,7 +360,7 @@ public class GameManager : MonoBehaviour {
             player.stunned = player.Bufflist.Find( x => x.GetType().Equals( typeof( Stunned ) ) ) as Stunned;
         } else if( player.isStunned == false ) {
             player.isStunned = false;
-            player.Bufflist.Remove( player.stunned );
+            player.DeleteBuff( player.stunned );
         }
     }
     /**
@@ -255,11 +374,43 @@ public class GameManager : MonoBehaviour {
      * It generates monsters on the board with fixed number of monsters given by parameter.
      * \see Door::OnMouseUpAsButton
      */
+     public void GenerateMonstersAndItems(int x, int y)
+    {
+        Vector2 nowPos = new Vector2 (boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement);
+        MapTile maptile = boardManager.CurrentMapOfFloor [new MapGenerator.Coord (x, y)];
+        Debug.Log ("적 수: " + maptile.enemyList.Count + ", 아이템 수: " + maptile.itemList.Count);
+        if ( maptile.enemyList.Count == 0 || maptile.itemList.Count == 0 )
+        {
+            GenerateItems (x, y);
+            GenerateMonsters (x, y);
+        }
+        else
+        {
+            switch ( maptile.enemyList.Count + maptile.itemList.Count )
+            {
+                case 0: return;
+                case 2://일반 적 사람 한명 + 링겔액인 경우.
+                    InstantiateMonster (maptile.enemyList [0], monsterGenLocation [1] + nowPos);
+                    itemManager.InstantiateItem (maptile.itemList [0], monsterGenLocation [2] + nowPos);
+                    break;
+                case 3://적 2기 + 노란 키카드인 경우.
+                    InstantiateMonster (maptile.enemyList [0], monsterGenLocation [3] + nowPos);
+                    itemManager.InstantiateItem (maptile.itemList [0], monsterGenLocation [4] + nowPos);
+                    itemManager.InstantiateItem (maptile.itemList [1], monsterGenLocation [5] + nowPos);
+                    break;
+                default: return;
+            }
+
+            maptile.enemyList.Clear ();
+            maptile.itemList.Clear ();
+        }
+    }
+
     public void GenerateMonsters(int x, int y)
     {
         Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
         MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
-        Debug.Log( maptile.enemyList.Count );
+        Debug.Log( "적 수: " + maptile.enemyList.Count );
         switch(  maptile.enemyList.Count) {
         case 0: return;
         case 1:
@@ -274,26 +425,131 @@ public class GameManager : MonoBehaviour {
             InstantiateMonster( maptile.enemyList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
             InstantiateMonster( maptile.enemyList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
             break;
-        default: break;
+        case 5:
+            Vector2 [] GenPos = new Vector2 [6];
+            for ( var i = 0; i < 6; i++ )
+            {
+                GenPos [i] = new Vector2 (-5 + 2 * i, 0);
+                InstantiateMonster (maptile.enemyList [i], GenPos [i] + nowPos);
+            }
+            break;
+        default:
+            if( maptile.enemyList.Count < 0 ) {
+                Debug.Log( "방에 적 수 음수인거 실화냐" );
+                break;
+            } else if( maptile.enemyList.Count < 5 ) {
+                for( var e = 0; e < maptile.enemyList.Count; e++ ) {
+                    InstantiateMonster( maptile.enemyList[ e ], monsterGenLocation[ e ] );
+                }
+                break;
+            } else {
+                Debug.Log( "Too Much Monster to Generate" );
+                break;
+            }                        
         }
         currentSituation = true;
+        maptile.enemyList.Clear();
+                
     }
+
+
+    public void GenerateItems(int x, int y ) {
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+        MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
+        Debug.Log( "아이템 개수: " + maptile.itemList.Count );
+        switch( maptile.itemList.Count ) {
+        case 0: return;
+        case 1:
+            itemManager.InstantiateItem( maptile.itemList[0], monsterGenLocation[ 0 ] + nowPos );
+            break;
+        case 2:
+            itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 1 ] + nowPos );
+            itemManager.InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 2 ] + nowPos );
+            break;
+        case 3:
+            itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 3 ] + nowPos );
+            itemManager.InstantiateItem( maptile.itemList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
+            itemManager.InstantiateItem( maptile.itemList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
+            break;
+        default:
+            if( maptile.itemList.Count < 0 ) {
+                Debug.Log( "방에 아이템 음수개 실화냐" );
+                break;
+            } else {
+                for( var e = 0; e < maptile.itemList.Count; e++ ) {
+                    if( e < 5 )
+                        itemManager.InstantiateItem( maptile.itemList[ e ], monsterGenLocation[ e ] + nowPos);
+                    else
+                        itemManager.InstantiateItem( maptile.itemList[ 0 ], monsterGenLocation[ 0 ] + nowPos);
+                }
+                break;
+            }
+        }
+
+        maptile.itemList.Clear();
+        
+    }
+
+    public void GenerateNPCs( int x, int y ) {
+        Vector2 nowPos = new Vector2( boardManager.XPos * BoardManager.horizontalMovement, boardManager.YPos * BoardManager.verticalMovement );
+        MapTile maptile = boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( x, y ) ];
+        Debug.Log( "NPC 수: " + maptile.NPCList.Count );
+        switch( maptile.NPCList.Count ) {
+        case 0: return;
+        case 1:
+            InstantiateNPC( maptile.NPCList[ 0 ], monsterGenLocation[ 0 ] + nowPos );
+            break;
+        case 2:
+            InstantiateNPC( maptile.NPCList[ 0 ], monsterGenLocation[ 1 ] + nowPos );
+            InstantiateNPC( maptile.NPCList[ 1 ], monsterGenLocation[ 2 ] + nowPos );
+            break;
+        case 3:
+            InstantiateNPC( maptile.NPCList[ 0 ], monsterGenLocation[ 3 ] + nowPos );
+            InstantiateNPC( maptile.NPCList[ 1 ], monsterGenLocation[ 4 ] + nowPos );
+            InstantiateNPC( maptile.NPCList[ 2 ], monsterGenLocation[ 5 ] + nowPos );
+            break;
+        default: break;
+        }
+
+        maptile.NPCList.Clear();
+
+    }
+
+
     private void InstantiateMonster(BoardManager.EnemyType eType, Vector2 location ) {
         switch(eType){
-        case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity ); break;
-        case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity ); break;
-        case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity ); break;
+            case BoardManager.EnemyType.Dog: Instantiate( dogPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.Human: Instantiate( humanPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.Rat: Instantiate( ratPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.BoundedCrazy: Instantiate( boundedCrazyPrefab, location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+            case BoardManager.EnemyType.Gunner: Instantiate(gunnerPrefab, location, Quaternion.identity, GameObject.Find("NEIUI").transform); break;
+            case BoardManager.EnemyType.Nurse: Instantiate(nurseprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            case BoardManager.EnemyType.AngryDog: Instantiate (angrydogprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            case BoardManager.EnemyType.GPOSClub: Instantiate (gposclubprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            case BoardManager.EnemyType.HospitalDirector: Instantiate (principalprefab, location, Quaternion.identity, GameObject.Find ("NEIUI").transform); break;
+            default: break;
+        }
+    }
+    private void InstantiateNPC( BoardManager.NPCType nType, Vector2 location ) {
+        switch( nType ) {
+        case BoardManager.NPCType.CapsuleDespenser: Instantiate( npcPrefab[ 0 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.InjectorCollector: Instantiate( npcPrefab[ 1 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MedicalBox: Instantiate( npcPrefab[ 2 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MedicineMaster: Instantiate( npcPrefab[ 3 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        case BoardManager.NPCType.MentalDoctor  : Instantiate( npcPrefab[ 4 ], location, Quaternion.identity, GameObject.Find( "NEIUI" ).transform ); break;
+        
+
         default: break;
         }
     }
-    
+
 
     /**
      * 플레이어가 사망하였는 확인한다.
      * \return true일 경우 플레이어가 사망한 것이다.
      */
     private bool IsDead() {
-        if( player.Hp <= 0 || player.Hungry >= 100 )
+        if( player.Hp <= 0 || player.Hungry >= 250 )
             return true;
         else
             return false;
@@ -307,17 +563,35 @@ public class GameManager : MonoBehaviour {
     /**
     * @todo 던지는 상황에 대한 구현 필요
      */
+/*
     public void Throw(ItemManager.Label label) {
         GameObject[] enemyList = GameObject.FindGameObjectsWithTag( "Enemy" );
+        GameObject [] bossList = GameObject.FindGameObjectsWithTag ("Boss");
+        for(int i = 0; i < bossList.Length;i++ )
+        {
+            ThrowToEnemy (bossList [i].GetComponent<Enemy> (), label);
+        }
         for( int i = 0; i < enemyList.Length; i++ ) {
             ThrowToEnemy( enemyList[ i ].GetComponent<Enemy>(), label );
-        }
+        }*/
+
+    public void Throw(ItemManager.Label label, int index) {
+        ThrowFlag = true;
+        throwLabel = label;
+        ThrowIndex = index;
+
     }
 
-    private void ThrowToEnemy(Enemy enemy, ItemManager.Label label) {
-        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isUse=true;
-        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().isThrow=true;
-        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), label)).GetComponent<ItemECS>().enemies.Add(enemy);
+    public void ThrowToEnemy(Enemy enemy) {
+        GameObject.Find( "GameManager" ).GetComponent<GameManager>().ThrowFlag = false;
+        player.GetInventoryList().isDialogBoxOn = false;
+        Destroy( ThrowObject );
+        player.InventoryList.itemManager.ItemIdentify( throwLabel );
+        player.InventoryList.IdentifyAllTheInventoryItem();
+        GameObject.Find( System.Enum.GetName( typeof( ItemManager.Label ), throwLabel ) + "(Clone)" ).GetComponent<ItemECS>().isUse = true;
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), throwLabel ) + "(Clone)" ).GetComponent<ItemECS>().isThrow=true;
+        GameObject.Find(System.Enum.GetName(typeof(ItemManager.Label), throwLabel ) + "(Clone)" ).GetComponent<ItemECS>().enemies.Add(enemy);
+        player.DumpItem( ThrowIndex );
     }
     /**
      * 매 턴에서 상태 이상 체크 시 플레이어의 허기 지수를 올리는 함수입니다.
@@ -326,8 +600,14 @@ public class GameManager : MonoBehaviour {
         int times=1;
         if( player.isFull )
             times *= 2;
-        if( Equals( player.weapon.GetType(), typeof( FullPlated ) ) )
+        if( Equals( player.weapon?.GetType(), typeof( FullPlated ) ) )
             times *= 5;
+        if(player.armor is Tshirts) {
+            int dice = Random.Range( 0, 5 );
+            if(dice!=0 )
+                player.ChangeHungry( 1 * times );
+            return;
+        }
         player.ChangeHungry( 1 * times );
     }
     /**
@@ -355,9 +635,9 @@ public class GameManager : MonoBehaviour {
             case 5: player.ChangeMp( 0.8f ); break;
             }
         }
-        if( Equals( player.weapon.GetType(), typeof( BloodJacket ) ) )
+        if( Equals( player.armor?.GetType(), typeof( BloodJacket ) ) )
             player.ChangeMp( -0.8f );
-        else if( Equals( player.weapon.GetType(), typeof( CleanDoctorCloth ) ) )
+        else if( Equals( player.armor?.GetType(), typeof( CleanDoctorCloth ) ) )
             player.ChangeMp( 1 );
     }
 
@@ -370,4 +650,20 @@ public class GameManager : MonoBehaviour {
             boardManager.CurrentMapOfFloor[ new MapGenerator.Coord( boardManager.XPos, boardManager.YPos ) ].enemyList.Remove( BoardManager.EnemyType.Rat );
         Destroy( enemy.gameObject );
     }
+
+    public void KillPlayer() {
+        Destroy( player.gameObject );
+        SceneManager.LoadScene( "playerDie" );
+        Destroy( GameObject.Find( "GameManager" ) );
+        Destroy( GameObject.Find( "ItemManager" ) );
+        Destroy( GameObject.Find( "BoardManager" ) );
+        Destroy( GameObject.Find( "PlayerUI" ) );
+        Destroy( GameObject.Find( "InventoryUI" ) );
+        Destroy( GameObject.Find( "MinimapCamera" ) );
+        Destroy( GameObject.Find( "NEIUI" ) );
+        Destroy( GameObject.Find( "Main Camera" ) );
+        Destroy( GameObject.Find( "EventSystem" ) );
+        Debug.Log( "포닉스 불닭행" );
+    }
+
 }

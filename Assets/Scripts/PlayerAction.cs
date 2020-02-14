@@ -11,11 +11,13 @@ public class PlayerAction {
     private ItemManager itemManager;
     private GameManager gameManager;
     private MessageMaker messageMaker;
+    private Sprite Empty;
     public PlayerAction() {
         player = GameObject.Find( "Player" ).GetComponent<Player>();
         itemManager = GameObject.Find( "ItemManager" ).GetComponent<ItemManager>();
         gameManager= GameObject.Find( "GameManager" ).GetComponent<GameManager>();
         messageMaker = GameObject.Find("Logger").GetComponent<MessageMaker>();
+        Empty = GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite;
     }
 
 
@@ -26,15 +28,35 @@ public class PlayerAction {
      * @todo 중독/기절 보정이 뭔가요.
      */
     public void Attack( Enemy enemy ) {
-        player.weapon.Attack( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+
+        
+        int tempindex;
+        player.weapon.GiveImpactToEnemy( enemy ); //공격했을 때의 효과를 적에게 전달(데미지를 주지 않음).
+        player.weapon.GiveImpactToPlayer( player );//공격했을 때의 효과를 나에게 전달(데미지를 주지 않음).
 
         float temp = ( player.FinalAttackPower() - enemy.FinalDefensePower() );
 
-        if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Adrenaline ) ) ) ) {
-            temp *= 1.5f;
+        if( !( enemy is Boss ) )
+            if( enemy.FindBuff( new Stunned( 1 ) ) != null ) 
+                temp += 3;
+        if( player.FindBuff( new Adrenaline( 1 ) ) != null )  {
+            temp *= 1.6f;
         }
+        else if( player.FindBuff( new Morfin( 1 ) ) != null )
+            temp *= 0.5f;
+
+        if(player.weapon is SharpDagger) {
+            int dice = Random.Range( 0, 10 );
+            if( dice == 0 )
+                temp *= 3f;
+        }
+
         if( temp <= 1.0f )
             temp = 1;
+
+        if ( player.FinalAttackPower () <= 0 )
+            temp = 0;
+
         enemy.ChangeHp( -temp );
         messageMaker.MakeAttackMessage(player, MessageMaker.UnitAction.Attack, enemy, (int)temp);
 
@@ -49,6 +71,31 @@ public class PlayerAction {
         }
         if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) )
         */
+        if( player.weapon is Club ) {
+            Club club = player.weapon as Club;
+            float f = Random.Range( 0, 100 );
+            switch( player.weapon.rank ) {
+            case ItemManager.Rank.Common:
+                if( f < 25 )
+                    club.DecreaseAttackMin();
+                break;
+            case ItemManager.Rank.Rare:
+                if( f < 20 )
+                    club.DecreaseAttackMin();
+                break;
+            case ItemManager.Rank.Legendary:
+                if( f < 15 )
+                    club.DecreaseAttackMin();
+                break;
+            }
+        }
+
+            if( player.weapon.IsDestroyed() == true ) {
+            tempindex = player.weaponindex;
+            UnequipItem( tempindex );
+            DumpItem( tempindex );
+        }
+
         Debug.Log( "공격 끝" );
         gameManager.EndPlayerTurn(Unit.Action.Attack);
     }
@@ -65,7 +112,7 @@ public class PlayerAction {
     */
     public void DumpItem( int index ) {
         player.InventoryList.DeleteItem( index );
-        gameManager.EndPlayerTurn(Unit.Action.Default);
+        gameManager.EndPlayerTurn( Unit.Action.Items );
     }
     /**
      * \see InventoryItem::UseItem
@@ -74,25 +121,48 @@ public class PlayerAction {
     public void UseItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label));
-            Debug.Log(System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)");
             
             foreach(GameObject gObject in GameObject.FindGameObjectsWithTag("ItemPickedUp"))
-            {
+            {/*
                 if(gObject.name==System.Enum.GetName(typeof(ItemManager.Label), label)+"(Clone)")
                     {gObject.GetComponent<ItemECS>().isUse=true;
                     break;
-                    }
+                    }*/
+                if( gObject.GetComponent<ItemPrefab>().label == player.InventoryList.LabelList[ index ] ) {
+                    gObject.GetComponent<ItemECS>().isUse = true;
+                    if( player.armor is Tshirts && label == ItemManager.Label.Can )
+                        player.ChangeHp( 10 );
+                    player.InventoryList.itemManager.ItemIdentify( label );
+                    break;
+                }
             }
+                            
+            
             DumpItem( index );
-            gameManager.EndPlayerTurn( Unit.Action.Default );
         }
     }
 
-    public void PickItem( ItemManager.Label label) {
+    public void SpreadWater(int index ) {
+        ItemManager.Label label = player.InventoryList.GetLabel( index );
+        if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
+
+            foreach( GameObject gObject in GameObject.FindGameObjectsWithTag( "ItemPickedUp" ) ) {
+                if( gObject.name == System.Enum.GetName( typeof( ItemManager.Label ), label ) + "(Clone)" ) {
+                    GameObject.Destroy( gObject );
+                    player.DeleteBuff( new Burn( 1 ) );
+                    break;
+                }
+            }
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.UseItem, player.InventoryList.LabelList[ index ] );
+            DumpItem( index );
+        }
+    }
+
+    public void PickItem( ItemManager.Label label ) {
         if( player.InventoryList.AddItem( label ) == true ) {
-            
+            messageMaker.MakeItemMessage( MessageMaker.UnitAction.PickItem, label );
             player.InventoryList.IdentifyAllTheInventoryItem();
+            gameManager.EndPlayerTurn( Unit.Action.Items );
         }
     }
     /**
@@ -102,14 +172,11 @@ public class PlayerAction {
     public void ThrowAwayItem( int index ) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
-            gameManager.Throw( label );
+            gameManager.Throw( label, index );
 
             //            if( true == inventoryList.itemManager.LabelToItem( label ).GetType().GetMethod( "ThrownTo" ).DeclaringType.Equals( inventoryList.itemManager.LabelToItem( label ) ) ) //ThrowTo가 구현(override) 되어있으면
-            player.InventoryList.itemManager.ItemIdentify( label );
-            player.InventoryList.IdentifyAllTheInventoryItem();
-            gameManager.EndPlayerTurn( Unit.Action.Default );
+            
         }
-        DumpItem( index );
     }
     /**
 * \see InventoryItem::EquipCommand
@@ -120,30 +187,36 @@ public class PlayerAction {
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.weapon = weaponorarmor as Weapon;
-            } else
-                player.armor = weaponorarmor as Armor;
-            //장착되었으니 UI에서 뭔갈 해야함.
-            gameManager.EndPlayerTurn( Unit.Action.Default );
+                player.weapon = player.InventoryList.weapons[ index ];
+                player.weaponindex = index;
+                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
+            } else 
+            { player.armor = player.InventoryList.armors[ index ];
+                player.armorindex = index;
+                GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite = itemManager.LabelToSprite( label );
+            }
         }
+        gameManager.EndPlayerTurn( Unit.Action.Items );
     }
     /**
 * \see InventoryItem::UnequipCommand
 * \see Player::UnequipItem
 */
-    public void UnequipItem( int index, bool GoNextTurn = true ) {
+    public void UnequipItem( int index) {
         ItemManager.Label label = player.InventoryList.GetLabel( index );
         if( player.InventoryList.LabelList[ index ] != ItemManager.Label.Empty ) {
             Item weaponorarmor = player.InventoryList.itemManager.LabelToItem( label );
             if( weaponorarmor is Weapon ) {
-                player.weapon = null;
-            } else
-                player.armor = null;
-            //장착되었으니 UI에서 뭔갈 해야함.
-            if( GoNextTurn ) {
-                gameManager.EndPlayerTurn( Unit.Action.Default );
+                player.weapon = new DefaultWeapon();
+                player.weaponindex = -1;
+                GameObject.Find( "WeaponImage" ).GetComponent<UnityEngine.UI.Image>().sprite = Empty;
+            } else {
+                player.armor = new DefaultArmor();
+                player.armorindex = -1;
+                GameObject.Find( "ArmorImage" ).GetComponent<UnityEngine.UI.Image>().sprite = Empty;
             }
         }
+        gameManager.EndPlayerTurn( Unit.Action.Items );
     }
 
     /**
@@ -167,5 +240,6 @@ public class PlayerAction {
     */
     public void Uncontrolled() {
     }
-    
+
+
 }

@@ -6,13 +6,12 @@ public class Hammer : Weapon {
     public Hammer()
     {
         name = this.GetType().ToString();
-        attackPower = 10;
-        rank = "rare";
+        attackPowerMin = 8;
+        rank = ItemManager.Rank.Common;
+        SetMaxAtkbyRank( rank );
     }
-
-    public override void Attack( Enemy enemy)
-    {
-        Player player = GameObject.Find( "Player" ).GetComponent<Player>();
-        player.ChangeHungry(-1);
+    
+    public override void GiveImpactToPlayer( Player player ) {
+        player.ChangeHungry( 1 );
     }
 }

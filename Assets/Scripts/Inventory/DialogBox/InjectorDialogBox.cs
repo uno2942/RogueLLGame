@@ -11,7 +11,7 @@ public class InjectorDialogBox : DialogBox {
             else if( buttons[ i ].name == "Dump" )
                 buttons[ i ].onClick.AddListener( DumpCommand );
             else
-                buttons[ i ].onClick.AddListener( null );
+                buttons[ i ].onClick.AddListener( CancelCommand );
         }
     }
     private void InjectCommand() {

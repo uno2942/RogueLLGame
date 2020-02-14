@@ -9,19 +9,21 @@ public class BloodJacket : Armor
         Player player = GameObject.Find( "Player" ).GetComponent<Player>();
         name = this.GetType().ToString();
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) ){
-            defensivePower = 16;
+            defensivePowerMin = 9;
         }
         else
-            defensivePower = 2;
-        rank = "legendary";
+            defensivePowerMin = 1;
+        rank = ItemManager.Rank.Common;
+        SetMaxDefbyRank( rank );
     }
 
     public override void Check(Player player)
     {
         if( Equals( player.Bufflist.Find( x => x.GetType().Equals( typeof( Hallucinated ) ) ), null ) ){
-            defensivePower = 16;
+            defensivePowerMin = 9;
         }
         else
-            defensivePower = 2;
+            defensivePowerMin = 1;
+        SetMaxDefbyRank( rank );
     }
 }

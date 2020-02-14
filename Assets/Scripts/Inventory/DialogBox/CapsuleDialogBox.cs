@@ -23,7 +23,7 @@ public class CapsuleDialogBox : DialogBox {
     private void ThrowCommand() {
         inventoryItem.ThrowCommand();
     }
-    private void CancelCommand() {
+    private new void CancelCommand() {
         inventoryItem.CancelCommand();
     }
 }

@@ -13,9 +13,9 @@ public class Burn : Buff {
         count--;
     }
 
-    public override int passiveBuffAtk() { return -2; }
+    public override int IntermdeiateBuffAtk() { return -2; }
 
-    public override int passiveBuffDef() { return -2; }
+    public override int IntermdeiateBuffDef() { return -2; }
 
     public override float BuffAction( Unit.Action action ) { return 1f; }
 }

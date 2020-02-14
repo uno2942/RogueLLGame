@@ -11,7 +11,9 @@ public class BuffECS : MonoBehaviour {
 		IsBleeding,
 		IsBurning,
 		IsCaffeined,
-		isFull,
+        IsDefenseless,
+		IsFull,
+        IsGiddiness,
 		IsHallucinated,
 		IsHungry,
 		IsMorfined,
@@ -27,8 +29,10 @@ public class BuffECS : MonoBehaviour {
 		BLEED,
 		BURN,
 		CAFFEINE,
-		FULL,
-		HALLUCINATED,
+        Defenseless,
+        FULL,
+        Giddiness,
+        HALLUCINATED,
 		HUNGER,
 		MORFIN,
 		POISON,
@@ -36,9 +40,10 @@ public class BuffECS : MonoBehaviour {
 		SLEEP,
 		STARVE,
 		STUNNED,
-		VITAMINTHROWN
+		VITAMINTHROWN,
+        RELIEVED
 	};
-	public bool[] isThrown;
+    public bool[] isThrown;
 	public condition[] conditions;
 	public bool[] negate;
 	public buffList[] buff;

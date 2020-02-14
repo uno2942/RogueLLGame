@@ -49,16 +49,17 @@ public class MessageMaker : MonoBehaviour {
     private string Name(Unit subject)
     {
         string name = "강원기";
-        if (subject is Player) name = "당신";
-        else if (subject is Rat) name = "쥐";
-        else if (subject is Dog) name = "개";
-        else if (subject is Human) name = "사람";
-        else if (subject.ToString() == "BoundedCrazy") name = "구속된 미치광이";
-        else if (subject.ToString() == "Gunner") name = "외팔의 명사수";
-        else if (subject.ToString() == "Nurse") name = "노련한 간호사";
-        else if (subject.ToString() == "AngryDog") name = "분노의 맹견";
+        if ( subject is Player ) name = "당신";
+        else if ( subject is Rat ) name = "오리";
+        else if ( subject is Dog ) name = "넙죽이";
+        else if ( subject is Human ) name = "대학생";
+        else if ( subject is BoundedCrazy ) name = "연구참여 학생";
+        else if ( subject is Gunner ) name = "애꾸눈 교수";
+        else if ( subject is Nurse ) name = "포닥포닥";
+        else if ( subject is AngryDog ) name = "분노의 맹견";
+        else if ( subject is GPOSClub ) name = "'P'대 힘내라 동아리";
         // else if (subject.ToString() == "") name = "환자";
-        else if (subject.ToString() == "HospitalDirector") name = "정신병원 원장";
+        else if ( subject is HospitalDirector ) name = "그레이트 올드 넙죽이";
         else name = "프로그래머의 실수로 이름이 지정되지 않은 무엇인가";
 
         return name;
@@ -69,15 +70,16 @@ public class MessageMaker : MonoBehaviour {
         string name = "강원기";
         Debug.Log(subject.ToString());
         if (subject is Player) name = "당신은";
-        else if (subject is Rat) name = "쥐가";
-        else if (subject.ToString() == "Dog") name = "개가";
-        else if (subject.ToString() == "Human") name = "사람이";
-        else if (subject.ToString() == "BoundedCrazy") name = "구속된 미치광이가";
-        else if (subject.ToString() == "Gunner") name = "외팔의 명사수가";
-        else if (subject.ToString() == "Nurse") name = "노련한 간호사가";
-        else if (subject.ToString() == "AngryDog") name = "분노의 맹견이";
+        else if ( subject is Rat ) name = "오리가";
+        else if ( subject is Dog ) name = "넙죽이가";
+        else if ( subject is Human ) name = "대학생이";
+        else if ( subject is BoundedCrazy ) name = "연구참여 학생이";
+        else if ( subject is Gunner ) name = "애꾸눈 교수가";
+        else if ( subject is Nurse ) name = "포닥포닥이";
+        else if ( subject is AngryDog ) name = "분노의 맹견이";
+        else if ( subject is GPOSClub ) name = "'P'대 힘내라 동아리가";
         // else if (subject.ToString() == "") name = "환자가";
-        else if (subject.ToString() == "HospitalDirector") name = "정신병원 원장이";
+        else if ( subject is HospitalDirector ) name = "그레이트 올드 넙죽이가";
         else name = "프로그래머의 실수로 이름이 지정되지 않은 무엇인가가";
 
         return name;
@@ -86,16 +88,17 @@ public class MessageMaker : MonoBehaviour {
     private string ObjName(Unit target)
     {
         string name = "강원기";
-        if (target is Player) name = "당신을";
-        else if (target is Rat) name = "쥐를";
-        else if (target.ToString() == "Dog") name = "개를";
-        else if (target.ToString() == "Human") name = "사람을";
-        else if (target.ToString() == "BoundedCrazy") name = "구속된 미치광이를";
-        else if (target.ToString() == "Gunner") name = "외팔의 명사수를";
-        else if (target.ToString() == "Nurse") name = "노련한 간호사를";
-        else if (target.ToString() == "AngryDog") name = "분노의 맹견을";
+        if ( target is Player ) name = "당신을";
+        else if ( target is Rat ) name = "오리를";
+        else if ( target is Dog ) name = "넙죽이를";
+        else if ( target is Human ) name = "대학생을";
+        else if ( target is BoundedCrazy ) name = "연구참여 학생을";
+        else if ( target is Gunner ) name = "애꾸눈 교수를";
+        else if ( target is Nurse ) name = "포닥포닥을";
+        else if ( target is AngryDog ) name = "분노의 맹견을";
+        else if ( target is GPOSClub ) name = "'P'대 힘내라 동아리를";
         // else if (Subject.ToString() == "") name = "환자가";
-        else if (target.ToString() == "HospitalDirector") name = "정신병원 원장을";
+        else if ( target is HospitalDirector ) name = "그레이트 올드 넙죽이를";
         else name = "프로그래머의 실수로 이름이 지정되지 않은 무엇인가를";
 
         return name;
@@ -112,6 +115,7 @@ public class MessageMaker : MonoBehaviour {
         else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금과";
         else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프와";
         else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약과";
+        else if( label == ItemManager.Label.Painkiller1) name = "진통제와";
 
         else
         {
@@ -122,21 +126,21 @@ public class MessageMaker : MonoBehaviour {
         return name;
     }
 
-    private string Name(ItemManager.Label label) //캡슐 한정 사용
+    public string Name(ItemManager.Label label) //캡슐 한정 사용
     {
         string name = "";
-        if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약";
-        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약";
-        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제";
-        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약";
-        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약";
-        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금";
-        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프";
-        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약";
+        if( label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3 ) name = "카페인 알약";
+        else if( label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3 ) name = "만병통치약";
+        else if( label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3 ) name = "환각제";
+        else if( label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3 ) name = "매운 알약";
+        else if( label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3 ) name = "독약";
+        else if( label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3 ) name = "소금";
+        else if( label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3 ) name = "수프";
+        else if( label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3 ) name = "비타민 알약";
+        else if( label == ItemManager.Label.Painkiller1 ) name = "진정제";
 
-        else
-        {
-            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+        else {
+            Debug.Log( "이름이 정의되지 않은 아이템이 있습니다." );
             return "Unnamed Item";
         }
 
@@ -146,49 +150,48 @@ public class MessageMaker : MonoBehaviour {
     private string ObjName(ItemManager.Label label)
     {
         string name = "";
-        
-        if (label == ItemManager.Label.AutoHandgun) name = "자동권총을";
-        else if (label == ItemManager.Label.BlackKnife) name = "검은 식칼을";
-        else if (label == ItemManager.Label.Club) name = "각목을";
-        else if (label == ItemManager.Label.Hammer) name = "망치를";
-        else if (label == ItemManager.Label.Lighter) name = "라이터를";
-        else if (label == ItemManager.Label.Mess) name = "매스를";
-        else if (label == ItemManager.Label.Nuckle) name = "너클을";
-        else if (label == ItemManager.Label.SharpDagger) name = "단검을";
-        else if (label == ItemManager.Label.Shock) name = "제세동기를";
-        //else if (label == ItemManager.Label.Injector) name = "주사기를"; //미구현
-        
-        else if (label == ItemManager.Label.BloodJacket) name = "피 묻은 가죽 재킷을";
-        else if (label == ItemManager.Label.CleanDoctorCloth) name = "깔끔한 의사 가운을";
-        else if (label == ItemManager.Label.DamagedDoctorCloth) name = "해진 의사 가운을";
-        else if (label == ItemManager.Label.FullPlated) name = "판금 갑옷을";
-        else if (label == ItemManager.Label.Padding) name = "두꺼운 패딩을";
-        else if (label == ItemManager.Label.Patient) name = "환자복을";
-        else if (label == ItemManager.Label.Tshirts) name = "티셔츠를";
 
-        else if (label == ItemManager.Label.MorfinDrug) name = "모르핀을";
-        else if (label == ItemManager.Label.AdrenalineDrug) name = "아드레날린을";
-        else if (label == ItemManager.Label.RingerSolution) name = "링겔액을";
-        else if (label == ItemManager.Label.Can) name = "통조림을";
-        else if (label == ItemManager.Label.Water) name = "물을";
-        else if (label == ItemManager.Label.Bandage) name = "붕대를";
-        else if (label == ItemManager.Label.Medicine) name = "약품을";
-        else if (label == ItemManager.Label.WhiteCard) name = "하얀 키 카드를";
-        else if (label == ItemManager.Label.BlackCard) name = "검정 키 카드를";
-        else if (label == ItemManager.Label.YellowCard) name = "노란 키 카드를";
+        if( label == ItemManager.Label.AutoHandgun ) name = "자동권총 'F'를";
+        else if( label == ItemManager.Label.BlackKnife ) name = "전투식 키보드를";
+        else if( label == ItemManager.Label.Club ) name = "각목을";
+        else if( label == ItemManager.Label.Hammer ) name = "망치를";
+        else if( label == ItemManager.Label.Lighter ) name = "라이터를";
+        else if( label == ItemManager.Label.Mess ) name = "스마트폰을";
+        else if( label == ItemManager.Label.Nuckle ) name = "라텍스 장갑을";
+        else if( label == ItemManager.Label.SharpDagger ) name = "팩트리어트 미사일을";
+        else if( label == ItemManager.Label.Shock ) name = "제세동기를";
+        else if( label == ItemManager.Label.InjectorWeapon ) name = "피펫을"; //미구현
 
-        else if (label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3) name = "카페인 알약을";
-        else if (label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3) name = "만병통치약을";
-        else if (label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3) name = "환각제를";
-        else if (label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3) name = "매운 알약을";
-        else if (label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3) name = "독약을";
-        else if (label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3) name = "소금을";
-        else if (label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3) name = "수프를";
-        else if (label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3) name = "비타민 알약을";
+        else if( label == ItemManager.Label.BloodJacket ) name = "대학원생의 조끼을";
+        else if( label == ItemManager.Label.CleanDoctorCloth ) name = "깔끔한 실험복을";
+        else if( label == ItemManager.Label.DamagedDoctorCloth ) name = "낡은 실험복을";
+        else if( label == ItemManager.Label.FullPlated ) name = "판금 갑옷을";
+        else if( label == ItemManager.Label.Padding ) name = "두꺼운 패딩을";
+        else if( label == ItemManager.Label.Patient ) name = "야구잠바을";
+        else if( label == ItemManager.Label.Tshirts ) name = "티셔츠를";
 
-        else
-        {
-            Debug.Log("이름이 정의되지 않은 아이템이 있습니다.");
+        else if( label == ItemManager.Label.MorfinDrug ) name = "곰국을";
+        else if( label == ItemManager.Label.AdrenalineDrug ) name = "에너지 드링크를";
+        else if( label == ItemManager.Label.RingerSolution ) name = "갈배 사이다를";
+        else if( label == ItemManager.Label.Can ) name = "'L' 샌드위치를";
+        else if( label == ItemManager.Label.Water ) name = "물을";
+        else if( label == ItemManager.Label.Bandage ) name = "붕대를";
+        else if( label == ItemManager.Label.Medicine ) name = "약품을";
+        else if( label == ItemManager.Label.WhiteCard ) name = "하얀 키 카드를";
+        else if( label == ItemManager.Label.BlackCard ) name = "검정 키 카드를";
+        else if( label == ItemManager.Label.YellowCard ) name = "노란 키 카드를";
+
+        else if( label == ItemManager.Label.CaffeinCapsule1 || label == ItemManager.Label.CaffeinCapsule2 || label == ItemManager.Label.CaffeinCapsule3 ) name = "카페인 알약을";
+        else if( label == ItemManager.Label.CureAll1 || label == ItemManager.Label.CureAll2 || label == ItemManager.Label.CureAll3 ) name = "만병통치약을";
+        else if( label == ItemManager.Label.Hallucinogen1 || label == ItemManager.Label.Hallucinogen2 || label == ItemManager.Label.Hallucinogen3 ) name = "환각제를";
+        else if( label == ItemManager.Label.LiquidFlameMedicine1 || label == ItemManager.Label.LiquidFlameMedicine2 || label == ItemManager.Label.LiquidFlameMedicine3 ) name = "매운 알약을";
+        else if( label == ItemManager.Label.PoisonCapsule1 || label == ItemManager.Label.PoisonCapsule2 || label == ItemManager.Label.PoisonCapsule3 ) name = "독약을";
+        else if( label == ItemManager.Label.Salt1 || label == ItemManager.Label.Salt2 || label == ItemManager.Label.Salt3 ) name = "소금을";
+        else if( label == ItemManager.Label.Soup1 || label == ItemManager.Label.Soup2 || label == ItemManager.Label.Soup3 ) name = "수프를";
+        else if( label == ItemManager.Label.VitaminTablet1 || label == ItemManager.Label.VitaminTablet2 || label == ItemManager.Label.VitaminTablet3 ) name = "발포 비타민을";
+        else if( label == ItemManager.Label.Painkiller1 ) name = "진통제를";
+        else {
+            Debug.Log( "이름이 정의되지 않은 아이템이 있습니다." );
             return "Unnamed Item";
         }
         return name;
@@ -316,9 +319,9 @@ public class MessageMaker : MonoBehaviour {
         string s = "";
         if (deadUnit is Player)
         {
-            s += "< color =#ff0000ff>";
+            s += "<color=#ff0000ff>";
             s += Name(subject);
-            s += " 공격으로 인해 죽었습니다...</color>";
+            s += "의 공격으로 인해 죽었습니다...</color>";
 
             logger.AddLog(s); // 글자색 변경 필요!!!!
         }
@@ -331,7 +334,23 @@ public class MessageMaker : MonoBehaviour {
             logger.AddLog(s);
         }
     }
+    
+    //버프로 인한 사망시 Message
+    public void MakeDeathMessage( Buff buff ) {
+        string s = "";
+        if( buff is Burn )
+            s = "<color=#ff0000ff>당신은 불타 죽었습니다...</color>";
+        else if( buff is Poison )
+            s = "<color=#ff0000ff>당신은 독에 의해 죽었습니다...</color>";
+        else if( buff is Starve )
+            s = "<color=#ff0000ff>당신은 아사했습니다...</color>";
+        else if( buff is Bleed )
+            s = "<color=#ff0000ff>당신은 과다출혈로 인해 사망했습니다...</color>";
+        else
+            s = "<color=#ff0000ff>프로그래머가 당신이 죽은 것은 오류라고 주장하지만, 여튼 당신은 버프로 인해 죽었습니다...</color>";
 
+        logger.AddLog( s );
+    }
 
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
@@ -374,8 +393,10 @@ public class MessageMaker : MonoBehaviour {
         logger.AddLog(s);
     }
 
-    //TakeCapsule시 여러 개를 획득할 때 한정으로 사용하는 오버로딩 함수
-    public void MakeItemMessage(UnitAction action, ItemManager.Label item, int n)
+
+
+        //TakeCapsule시 여러 개를 획득할 때 한정으로 사용하는 오버로딩 함수
+        public void MakeItemMessage(UnitAction action, ItemManager.Label item, int n)
     {
         string s = "";
         if (action != UnitAction.TakeCapsule)
@@ -401,7 +422,7 @@ public class MessageMaker : MonoBehaviour {
     public void MakeItemMessage(UnitAction action, ItemManager.Label item, bool water)
     {
         string s = "";
-        if (action != UnitAction.EatCapsule)
+        if( ItemManager.LabelToType(item) != ItemManager.ItemType.Capsule   )
         {
             Debug.Log("정의되지 않은 방법으로 MakeItemMessage를 호출하였습니다.");
             return;
@@ -419,20 +440,26 @@ public class MessageMaker : MonoBehaviour {
         }
         logger.AddLog(s);
     }
-    
+
+    //EatCapsule시 한정하여 사용하는 오버로딩 함수, 물을 사용했는지를 인자로 받는다
+    public void MakeSpreadMessage() {
+        logger.AddLog("몸에 물을 뿌렸습니다.");
+    }
+
+
     /**
     * 아이템과 관련된 메세지를 출력하는 함수
     * 상황에 따라 3가지 오버로딩
     */
-    public void MakeCannotMessage(UnitAction action)
+    public void MakeCannotMessage(ItemManager.Label label)
     {
         string s = "";
-        if(action == UnitAction.InjectItem)
+        ItemManager.ItemType type = ItemManager.LabelToType( label );
+        if(type == ItemManager.ItemType.Injector)
         {
             s = "지금은 이 주사기를 사용할 수 없습니다.";
         }
-        else if(action == UnitAction.Move )
-        {
+        else if(type == ItemManager.ItemType.Card ) {
             s = "이 문은 잠겨있습니다. 문 옆에 카드 리더기가 있습니다.";
         }
         else
@@ -441,6 +468,35 @@ public class MessageMaker : MonoBehaviour {
             Debug.Log("지정되지 않은 예외 상황에서 MakeCannotMessage를 사용했습니다.");
         }
         logger.AddLog(s);
+    }
+
+    public void MakeBuffMessage( Buff buff )
+    {
+        string s = "";
+        switch(buff) {
+        case Adrenaline ad: s = "당신의 공격성이 극대화됩니다!"; break;
+        case Bleed ad: s = "당신은 피를 흘립니다!"; break;
+        case Burn ad: s = "당신에게 불이 붙었습니다!"; break;
+        case Caffeine ad: s = "당신은 몸이 날렵해짐을 느낍니다."; break;
+        case Defenseless ad: s = "이게 왜 너한테 걸려?"; break;
+        case Full ad: s = "당신은 포만감을 느낍니다."; break;
+        case Giddiness ad: s = "이게 왜 너한테 걸려?"; break;
+        case Hallucinated ad: s = "당신은 환각에 사로잡혔습니다..."; break;
+        case Hunger ad: s = "당신은 배가 고픕니다."; break;
+        case Morfin ad: s = "당신의 감각이 무뎌집니다."; break;
+        case Poison ad: s = "당신은 중독되었습니다!"; break;
+        case Relieved ad: s = "당신의 공격성이 잠잠해집니다."; break;
+        case Renewal ad: s = "당신은 생기를 되찾고 있습니다."; break;
+        case Starve ad: s = "당신은 너무 굶주렸습니다!"; break;
+        case Stunned ad: s = "당신은 기절했습니다!"; break;
+        default: s = "당신이 무슨 상태인지는 개발자도 모릅니다."; break;
+
+        }
+        logger.AddLog( s );
+    }
+
+    public void MakeUnHalluciMessage(  ) {
+        logger.AddLog( "당신은 정신을 차렸습니다." );
     }
 
 }

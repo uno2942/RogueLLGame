@@ -15,50 +15,68 @@ public class NurseAction : EnemyAction {
      */
     public override void Other()
     {
-        if (enemyItself.Hp < 100 && healCalled == false)
+        /*if (enemyItself.Hp < 100 && healCalled == false)
         {
             enemyItself.ChangeHp(enemyItself.MaxHp - enemyItself.Hp);
             player.ChangeMp(player.MaxMp - player.Mp);
             healCalled = true;
+        }*/
+        Nurse b = enemyItself as Nurse;
+        if ( b.Hp < 100 && healCalled == false )
+        {
+            b.ChangeHp (enemyItself.MaxHp - enemyItself.Hp);
+            player.ChangeMp (player.MaxMp - player.Mp);
+            healCalled = true;
         }
-        
     }
 
     /** \override for give buffs: 
      */
     public override bool Attack() {
-        float temp = ( enemyItself.FinalAttackPower() - player.FinalDefensePower() );
+        Nurse b = enemyItself as Nurse;
+        if ( enemyItself.Hp < 100 )
+            b.atkBuffOn = true;
 
-        if( enemyItself.Hp <= 0 )
+        if ( b.atkBuffOn ) b.atkBuffTurn++;
+
+        if ( b.atkBuffTurn == 1 )
+            b.ChangeHp (225 - b.Hp);
+
+
+        if ( enemyItself.Hp <= 0 )
             return false;
-        else {
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Poison ) ) ) ) {
+        else
+        {
+            float temp = (enemyItself.FinalAttackPower () - player.FinalDefensePower ());
+
+            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Poison))) )
+            {
                 temp += 1.0f;
             }
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Stunned ) ) ) ) {
+            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Stunned))) )
+            {
                 temp += 3.0f;
             }
 
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Adrenaline ) ) ) ) {
+            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Adrenaline))) )
+            {
                 temp *= 1.5f;
             }
-            if( player.Bufflist.Exists( x => x.GetType().Equals( typeof( Morfin ) ) ) ) {
+            if ( player.Bufflist.Exists (x => x.GetType ().Equals (typeof (Morfin))) )
+            {
                 temp *= 0.5f;
             }
-            if( temp <= 1.0f )
+            if ( temp <= 1.0f )
                 temp = 1;
-            player.ChangeHp( -temp );
+            player.ChangeHp (-temp);
+            messageMaker.MakeAttackMessage (enemyItself, MessageMaker.UnitAction.Attack, player, (int) temp);
+            
 
-
-            if( temp > 1 ) {
-                //player.Addbuff(new 방깎버프(5))
+            if ( temp >= 4 )
+            {
+                player.AddBuff (enemyItself.Debuff ());
             }
-            if( temp >= 7 ) {
-                player.AddBuff( new Bleed( 3 ) );
-            }
 
-            if( player.Hp <= 0 )
-                GameObject.Destroy( player );
             return true;
         }
     }

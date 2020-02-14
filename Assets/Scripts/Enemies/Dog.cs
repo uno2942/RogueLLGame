@@ -4,45 +4,56 @@ using UnityEngine;
 
 public class Dog : Enemy
 {
-
+    private int[] hpDB;
+    private int[] atkDB;
+    private int[] defDB;
+    private float[] debuffDB;
+    private float[] hDebuffDB;
     /** 
      * There is a debug code.
      * incomplete:: shld be read settings file
      */
     protected override void Start()
     {
-        Debug.Log("개 나타남");
-        level = 1;
-        attack = 6; //shld be decided by level and setting file
-        defense = 1;
-        maxhp = 15;
-        hp = maxhp;
-        debuffPercent = 0.0f;
-        enemyAction = new EnemyAction(this);
-        debuff = new Bleed(3);
-        player = GameObject.Find( "Player" ).GetComponent<Player>();
         base.Start();
+        Debug.Log( "개 나타남" );
+        hpDB = new int[ 6 ] { 19, 22, 41, 47, 72, 81 };
+        atkDB = new int[ 6 ] { 3, 3, 5, 6, 9, 11 };
+        defDB = new int[ 6 ] { 1, 1, 2, 2, 3, 3 };
+        debuffDB = new float[ 6 ] { 0.0f, 0.0f, 0.1f, 0.1f, 0.4f, 0.4f };
+        hDebuffDB = new float[ 6 ] { 0.25f, 0.25f, 0.45f, 0.45f, 0.9f, 0.9f };
+
+        level = boardManager.WhichFloor;
+        attack = atkDB[ level ]; //shld be decided by level and setting file
+        defense = defDB[ level ];
+        maxhp = hpDB[ level ];
+        hp = maxhp;
+        debuffPercent = debuffDB[ level ];
+        enemyAction = new EnemyAction( this );
+        debuff = new Bleed( 3 );
+        player = GameObject.Find( "Player" ).GetComponent<Player>();
+
     }
 
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void changeStatus(bool isHallucinated)
+    public override void ChangeStatus(bool isHallucinated)
     {
-        //read setting file and change
-        if (isHallucinated == true)
-        {
-            attack = 8;
-            defense = 1;
-            debuffPercent = 0.25f;
-            debuff = new Bleed(5);
+        if( isHallucinated ) {
+            attack = delAD[level] + atkDB[level];
+            defense = delAD[level] + defDB[level];
+
+        } else {
+            attack = atkDB[level];
+            defense = defDB[level];
         }
-        else
-        {
-            attack = 1;
-            defense = 0;
-            debuffPercent = 0.0f;
-            debuff = new Bleed(3);
+
+
+        if( isHallucinated ) {
+            debuffPercent = hDebuffDB[ level ];
+        } else {
+            debuffPercent = debuffDB[ level ];
         }
     }
 

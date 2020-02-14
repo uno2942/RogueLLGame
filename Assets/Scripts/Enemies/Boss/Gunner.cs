@@ -4,48 +4,48 @@ using UnityEngine;
 
 public class Gunner : Boss {
 
+
+    public int atkBuffTurn;
+    public bool atkBuffOn;
     
-
-
-    private void Start()
+    protected override void Start()
     {
-        Debug.Log("거너 등장");
+        base.Start();
+        Debug.Log("교수님 등장");
         level = 1;
-        attack = 4; //shld be decided by level and setting file
-        defense = 4;
-        maxhp = 160;
+        attack = 2; //shld be decided by level and setting file
+        defense = 2;
+        maxhp = 300;
         hp = maxhp;
         debuffPercent = 0.0f;
         enemyAction = new GunnerAction( this );
-        debuff = null;
+        debuff = new Stunned(1);
+        player = GameObject.Find("Player").GetComponent<Player>();
+        atkBuffTurn = 0;
+        atkBuffOn = false;
+        delA = 1;
+        delD = 1;
     }
 
 
     /** \change enemy's Status by level and isHallucinated
      */
-    public override void changeStatus(bool isHallucinated)
+
+    private void OnMouseUpAsButton()
     {
-        //read setting file and change
-        if (isHallucinated == true)
-        {
-            attack = 6;
-            defense = 6;
-
-        }
-        else
-        {
-            attack = 4;
-            defense = 4;
-
-        }
+        player.PlayerAction.Attack (this);
+        Debug.Log ("플레이어 공격");
     }
 
-    /** \ incomplete: shld access at room
-     * 
-     */
-
-    public override void dropItem()
+    protected override void OnDestroy()
     {
-        //drop AutoGun
+        base.OnDestroy();
+        ItemManager itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+        Vector3 tnowPos = transform.position;
+        Vector2 nowPos;
+        nowPos.x = tnowPos.x;
+        nowPos.y = tnowPos.y;
+        itemManager.InstantiateItem(ItemManager.ItemCategory.AutoHandgun, nowPos);
     }
+
 }
